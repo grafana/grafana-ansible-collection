@@ -7,7 +7,7 @@ This collection contains modules and plugins to assist in automating managing of
 ### Requirements
 The collection is tested and supported with:
 
-* ansible >= 2.13.1
+* ansible >= 2.10.0
 * python >= 3.10
 
 ## Installing the collection from Ansible Galaxy
