@@ -10,12 +10,12 @@ The collection is tested and supported with:
 * ansible >= 2.10.0
 * python >= 3.10
 
-## Installing the collection from Ansible Galaxy
+## Installing the collection
 
-Before using the Grafana collection, you need to install it with the Ansible Galaxy CLI:
+Before using the Grafana collection, you need to install it using the below commoand:
 
 ```shell
-ansible-galaxy collection install grafana.grafana
+ansible-galaxy collection install git+https://github.com/grafana/ansible-collection.git
 ```
 
 You can also include it in a `requirements.yml` file and install it via ansible-galaxy collection install -r `requirements.yml`, using the format:
