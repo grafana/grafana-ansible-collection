@@ -30,7 +30,7 @@ A specific version of the collection can be installed by using the version keywo
 ```yaml
 ---
 collections:
-  - name: amazon.aws
+  - name: grafana.grafana
     version: 0.0.1
 ```
 ## Using this collection
