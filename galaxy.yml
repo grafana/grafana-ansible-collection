@@ -2,7 +2,7 @@ namespace: grafana
 
 name: grafana
 
-version: 0.0.2
+version: 0.0.5
 
 readme: README.md
 

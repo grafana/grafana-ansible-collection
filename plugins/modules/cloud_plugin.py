@@ -139,7 +139,12 @@ def main():
         module.params['state'])(module)
 
     if not is_error:
-        module.exit_json(changed=has_changed, pluginId=result['pluginId'], pluginName=result['pluginName'], pluginSlug=result['pluginSlug'], current_version=result['version'], latest_version=result['latestVersion'])
+        module.exit_json(changed=has_changed,
+                         pluginId=result['pluginId'],
+                         pluginName=result['pluginName'],
+                         pluginSlug=result['pluginSlug'],
+                         current_version=result['version'],
+                         latest_version=result['latestVersion'])
     else:
         module.fail_json(msg=result)
 

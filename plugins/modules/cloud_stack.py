@@ -17,7 +17,7 @@ options:
     required: true
   stack_slug:
     description:
-      - Subdomain that the Grafana instance will be available at. For example, if you set the slug to <stack_slug>, the instance will be available at https://<stack_slug>.grafana.net
+      - Subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be https://<stack_slug>.grafana.net
     type: str
     required: true
   cloud_api_key:
@@ -33,12 +33,12 @@ options:
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. For example, “https://grafana.yourdoman.io”. 
+      - If you use a custom domain for the instance, you can provide it here. For example, “https://grafana.yourdoman.io”.
     type: str
     default: https://<stack_slug>.grafana.net
   org_slug:
     description:
-      - Name of the organization under which Cloud stack is created. 
+      - Name of the organization under which Cloud stack is created.
     type: str
     required: false
   state:
@@ -177,7 +177,15 @@ def main():
         module.params['state'])(module)
 
     if not is_error:
-        module.exit_json(changed=has_changed, alertmanager_name=result['amInstanceName'], url=result['url'], id=result['id'], cluster_slug=result['clusterName'], orgID=result['orgId'], loki_url=result['hlInstanceUrl'], prometheus_url=result['hmInstancePromUrl'], tempo_url=result['htInstanceUrl'], alertmanager_url=result['amInstanceUrl'])
+        module.exit_json(changed=has_changed,
+                         alertmanager_name=result['amInstanceName'],
+                         url=result['url'], id=result['id'],
+                         cluster_slug=result['clusterName'],
+                         orgID=result['orgId'],
+                         loki_url=result['hlInstanceUrl'],
+                         prometheus_url=result['hmInstancePromUrl'],
+                         tempo_url=result['htInstanceUrl'],
+                         alertmanager_url=result['amInstanceUrl'])
     else:
         module.fail_json(msg=result)
 

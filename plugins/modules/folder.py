@@ -58,7 +58,7 @@ EXAMPLES = '''
 '''
 
 RETURN = r'''
-output: 
+output:
   description: Dict object containing folder information
   returned: On success
   type: dict

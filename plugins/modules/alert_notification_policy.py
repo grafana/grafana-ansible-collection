@@ -40,12 +40,12 @@ options:
     required: true
   groupInterval:
     description:
-      - The waiting time to send a batch of new alerts for that group after the first notification was sent. If empty it will be inherited from the parent policy.
+      - The wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.
     type: str
     default: 5m
   groupWait:
     description:
-      - The waiting time until the initial notification is sent for a new group created by an incoming alert. If empty it will be inherited from the parent policy.
+      - The wait time until the initial notification is sent for a new group created by an incoming alert. Inherited from the parent policy if empty.
     type: str
     default: 30s
   objectMatchers:
@@ -57,7 +57,7 @@ options:
   repeatInterval:
     description:
       - The waiting time to resend an alert after they have successfully been sent.
-    type: str 
+    type: str
     default: 4h
   stack_slug:
     description:
@@ -82,7 +82,7 @@ EXAMPLES = '''
         object_matchers: [["env", "=", "Production"]],
       }
     ]
-    
+
 - name: Set nested Notification policies
   alert_notification_policy:
     routes: [
@@ -106,7 +106,7 @@ EXAMPLES = '''
 '''
 
 RETURN = r'''
-output: 
+output:
   description: Dict object containing Notification tree information
   returned: On success
   type: dict
@@ -120,7 +120,7 @@ output:
       returned: on success
       type: str
     provenance:
-      description: 
+      description:
       returned: on success
       type: str
     receiver:

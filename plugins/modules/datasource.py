@@ -50,7 +50,7 @@ EXAMPLES = '''
 '''
 
 RETURN = r'''
-output: 
+output:
   description: Dict object containing Data source information
   returned: On success
   type: dict
@@ -85,7 +85,8 @@ def present_datasource(module):
     if result.status_code == 200:
         return False, True, result.json()
     elif result.status_code == 409:
-        get_id_url = requests.get('https://' + module.params['stack_slug'] + '.grafana.net/api/datasources/id/' + module.params['datasource']['name'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+        get_id_url = requests.get('https://' + module.params['stack_slug'] + '.grafana.net/api/datasources/id/' + module.params['datasource']['name'],
+                                  headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
         api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/datasources/' + str(get_id_url.json()['id'])
 

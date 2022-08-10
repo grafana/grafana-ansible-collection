@@ -17,7 +17,7 @@ options:
     required: true
   uid:
     description:
-      - Sets the UID of the Contact point. 
+      - Sets the UID of the Contact point.
     type: str
     required: true
   type:
@@ -75,7 +75,7 @@ EXAMPLES = '''
 '''
 
 RETURN = r'''
-output: 
+output:
   description: Dict object containing Contact point information information
   returned: On success
   type: dict
