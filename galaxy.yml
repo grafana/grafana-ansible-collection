@@ -2,7 +2,7 @@ namespace: grafana
 
 name: grafana
 
-version: 0.0.1
+version: 0.0.2
 
 readme: README.md
 
@@ -14,8 +14,6 @@ description: Ansible collection to manage Grafana resources
 
 license:
 - GPL-3.0-or-later
-
-license_file: LICENSE
 
 tags: [grafana, observability, monitoring]
 
