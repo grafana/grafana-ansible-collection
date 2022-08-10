@@ -6,65 +6,23 @@
 grafana.grafana.folder module -- Manage Folders in Grafana
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. Collection note
-
-.. note::
-    This module is part of the `grafana.grafana collection <https://galaxy.ansible.com/grafana/grafana>`_ (version 0.0.5).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
-
-    To install it, use: :code:`ansible-galaxy collection install grafana.grafana`.
-
-    To use it in a playbook, specify: :code:`grafana.grafana.folder`.
-
-.. version_added
-
-.. versionadded:: 0.0.1 of grafana.grafana
+Version Added:: 0.0.1
 
 .. contents::
    :local:
    :depth: 1
 
-.. Deprecated
-
 
 Synopsis
 --------
 
-.. Description
-
 - Create, Update and delete Folders via Ansible.
-
-
-.. Aliases
-
-
-.. Requirements
-
-
-
-
-
-
-.. Options
 
 Parameters
 ----------
 
 
-.. rst-class:: ansible-option-table
-
-.. list-table::
-  :width: 100%
-  :widths: auto
-  :header-rows: 1
-
-  * - Parameter
-    - Comments
-
-  * - .. raw:: html
+.. raw:: html
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cloud_api_key"></div>
