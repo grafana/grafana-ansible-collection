@@ -95,11 +95,11 @@ RETURN = r'''
   prometheus_url:
     description: URl for the Prometheus instance
     returned: always
-    type: url
+    type: str
   tempo_url:
     description: URl for the Tempo instance
     returned: always
-    type: url
+    type: str
   url:
     description: URL of the Grafana Cloud stack
     returned: always
