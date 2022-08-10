@@ -39,19 +39,6 @@
 grafana.grafana.cloud_api_key module -- Manage Grafana Cloud API keys
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-.. Collection note
-
-.. note::
-    This module is part of the `grafana.grafana collection <https://galaxy.ansible.com/grafana/grafana>`_ (version 0.0.5).
-
-    You might already have this collection installed if you are using the ``ansible`` package.
-    It is not included in ``ansible-core``.
-    To check whether it is installed, run :code:`ansible-galaxy collection list`.
-
-    To install it, use: :code:`ansible-galaxy collection install grafana.grafana`.
-
-    To use it in a playbook, specify: :code:`grafana.grafana.cloud_api_key`.
-
 .. version_added
 
 .. versionadded:: 0.0.1 of grafana.grafana
