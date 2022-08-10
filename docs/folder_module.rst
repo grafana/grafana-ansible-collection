@@ -1,4 +1,38 @@
-.. _grafana.grafana.folder_module:
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-entry
+.. role:: ansible-option-default
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.grafana.grafana.folder_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
 
 
 .. Title
@@ -6,23 +40,65 @@
 grafana.grafana.folder module -- Manage Folders in Grafana
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Version Added:: 0.0.1
+.. Collection note
+
+.. note::
+    This module is part of the `grafana.grafana collection <https://galaxy.ansible.com/grafana/grafana>`_ (version 0.0.5).
+
+    You might already have this collection installed if you are using the ``ansible`` package.
+    It is not included in ``ansible-core``.
+    To check whether it is installed, run :code:`ansible-galaxy collection list`.
+
+    To install it, use: :code:`ansible-galaxy collection install grafana.grafana`.
+
+    To use it in a playbook, specify: :code:`grafana.grafana.folder`.
+
+.. version_added
+
+.. versionadded:: 0.0.1 of grafana.grafana
 
 .. contents::
    :local:
    :depth: 1
 
+.. Deprecated
+
 
 Synopsis
 --------
 
+.. Description
+
 - Create, Update and delete Folders via Ansible.
+
+
+.. Aliases
+
+
+.. Requirements
+
+
+
+
+
+
+.. Options
 
 Parameters
 ----------
 
 
-.. raw:: html
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-cloud_api_key"></div>
