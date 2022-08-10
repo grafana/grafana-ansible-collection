@@ -7,20 +7,21 @@ version: 0.0.1
 readme: README.md
 
 authors:
+- Grafana Labs <grafana.com>
 - Ishan Jain <ishan.jain@grafana.com>
 
-description: Ansible collection to manage resources in Grafana
+description: Ansible collection to manage Grafana resources
 
 license:
 - GPL-3.0-or-later
 
 license_file: LICENSE
 
-tags: [grafana, observability, monitoring, prometheus]
+tags: [grafana, observability, monitoring]
 
-repository: https://github.com/grafana/ansible-collection
+repository: https://github.com/grafana/grafana-ansible-collection
 
-issues: https://github.com/grafana/ansible-collection/issues
+issues: https://github.com/grafana/grafana-ansible-collection/issues
 
 build_ignore:
 - .idea
