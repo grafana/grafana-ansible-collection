@@ -36,7 +36,7 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       
       - name: Install requests
-        run: sudo pip install requests
+        run: sudo apt-get install python3-requests
 
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
