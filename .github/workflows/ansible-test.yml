@@ -34,7 +34,10 @@ jobs:
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
-
+      
+      - name: galaxy
+        run: ansible-galaxy collection install grafana.grafana:0.0.7
+      
       - name: test
         run: ansible-doc -t module grafana.grafana.alert_contact_point grafana.grafana.alert_notification_policy grafana.grafana.cloud_api_key grafana.grafana.cloud_plugin grafana.grafana.cloud_stack grafana.grafana.dashboard grafana.grafana.datasource grafana.grafana.folder
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
