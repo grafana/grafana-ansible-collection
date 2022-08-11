@@ -96,7 +96,7 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+import requests as re
 
 __metaclass__ = type
 
@@ -105,7 +105,7 @@ def present_dashboard(module):
 
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/db'
 
-    result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = re.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -119,7 +119,7 @@ def absent_dashboard(module):
 
     api_url = api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = re.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
