@@ -1,6 +1,6 @@
 namespace: grafana
 name: grafana
-version: 0.0.6
+version: 0.0.7
 readme: README.md
 authors:
 - Grafana Labs <grafana.com>
@@ -11,5 +11,3 @@ license:
 tags: [grafana, observability, monitoring]
 repository: https://github.com/grafana/grafana-ansible-collection
 issues: https://github.com/grafana/grafana-ansible-collection/issues
-build_ignore:
-- .idea
