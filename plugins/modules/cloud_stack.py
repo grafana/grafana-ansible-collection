@@ -40,14 +40,13 @@ options:
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. For example, "https://grafana.yourdoman.io".
+      - If you use a custom domain for the instance, you can provide it here. For example, "https://grafana.yourdoman.io". Will be set to https://<stack_slug>.grafana.net if not provided.
     type: str
-    default: https://<stack_slug>.grafana.net
   org_slug:
     description:
       - Name of the organization under which Cloud stack is created.
     type: str
-    required: false
+    required: true
   state:
     description:
       - State for the Grafana CLoud stack.
@@ -167,7 +166,7 @@ def main():
     module_args = dict(
         name=dict(type='str', required=True),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True),
+        cloud_api_key=dict(type='str', required=True, no_log=True),
         region=dict(type='str', required=False, default='us',
                     choices=['us', 'us-azure', 'eu', 'au', 'eu-azure', 'prod-ap-southeast-0', 'prod-gb-south-0',
                              'prod-eu-west-3']),

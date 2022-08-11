@@ -24,7 +24,7 @@ options:
     required: true
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the notification policies will be added
+      - Name of the Grafana Cloud stack to which the data source will be added
     type: str
     required: true
   cloud_api_key:
@@ -129,7 +129,7 @@ def main():
     module_args = dict(
         datasource=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True),
+        cloud_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

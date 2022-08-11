@@ -47,6 +47,11 @@ options:
       - Grafana API Key used to authenticate with Grafana.
     type: str
     required : true
+  stack_slug:
+    description:
+      - Name of the Grafana Cloud stack to which the contact points will be added
+    type: str
+    required: true
   state:
     description:
       - State for the Grafana CLoud stack.
@@ -185,7 +190,7 @@ def main():
         settings=dict(type='dict', required=True),
         DisableResolveMessage=dict(type='bool', required=False, default=False),
         stack_slug=dict(type='str', required=True),
-        grafana_api_key=dict(type='str', required=True),
+        grafana_api_key=dict(type='str', required=True,no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

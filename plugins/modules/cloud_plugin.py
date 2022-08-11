@@ -134,7 +134,7 @@ def main():
         name=dict(type='str', required=True),
         version=dict(type='str', required=False, default='latest'),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True),
+        cloud_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

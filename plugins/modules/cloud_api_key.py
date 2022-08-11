@@ -27,6 +27,7 @@ options:
       - Role to be associated with the CLoud API key.
     type: str
     required: true
+    choices: [Admin, Viewer, Editor, MetricsPublisher]
   org_slug:
     description:
       - Name of the Grafana Cloud organization in which Cloud API key will be created
@@ -113,7 +114,7 @@ def main():
         name=dict(type='str', required=True),
         role=dict(type='str', required=True, choices=['Admin', 'Viewer', 'Editor', 'MetricsPublisher']),
         org_slug=dict(type='str', required=True),
-        existing_cloud_api_key=dict(type='str', required=True),
+        existing_cloud_api_key=dict(type='str', required=True, no_log=True),
         fail_if_already_created=dict(type='bool', required=False, default='True'),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )

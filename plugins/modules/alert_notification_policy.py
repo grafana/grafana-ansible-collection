@@ -22,13 +22,13 @@ options:
       - Continue matching subsequent sibling nodes if set to `True`.
     type: bool
     default: false
-  GroupByStr:
+  groupByStr:
     description:
       - List of string.
       - Group alerts when you receive a notification based on labels. If empty it will be inherited from the parent policy.
     type: list
     default: []
-  MuteTimeIntervals:
+  muteTimeIntervals:
     description:
       - List of string.
       - Add mute timing to policy
@@ -39,7 +39,7 @@ options:
       - Name of the contact point to set as the default receiver
     type: str
     default: grafana-default-email
-  Routes:
+  routes:
     description:
       - List of objects
       - A Route is a node that contains definitions of how to handle alerts.
@@ -57,10 +57,9 @@ options:
     default: 30s
   objectMatchers:
     description:
-      - State for the Grafana CLoud stack.
-    type: str
-    default: present
-    choices: [ present, absent ]
+      - Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet.
+    type: list
+    default: []
   repeatInterval:
     description:
       - The waiting time to resend an alert after they have successfully been sent.
@@ -185,7 +184,7 @@ def main():
                        repeatInterval=dict(type='str', required=False, default='4h'),
                        objectMatchers=dict(type='list', required=False, default=[]),
                        stack_slug=dict(type='str', required=True),
-                       grafana_api_key=dict(type='str', required=True), )
+                       grafana_api_key=dict(type='str', required=True,no_log=True), )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
