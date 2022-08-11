@@ -139,7 +139,7 @@ def present_cloud_stack(module):
     if result.status_code == 200:
         return False, True, result.json()
 
-    elif (result.status_code == 409 and result.json()['message'] == "That url is not available") or (result.status_code == 403 and result.json()['message'] == "Hosted instance limit reached"):
+    elif result.status_code in [409, 403] and result.json()['message'] in ["That url is not available", "Hosted instance limit reached"]:
         api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/instances'
 
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})

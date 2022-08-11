@@ -129,10 +129,6 @@ output:
       description: The waiting time until the initial notification is sent for a new group created by an incoming alert. This is of the parent policy.
       returned: on success
       type: str
-    provenance:
-      description: The method used to create and manage alert notification policy.
-      returned: on success
-      type: str
     receiver:
       description: The name of the default contact point
       returned: state is present and on success
