@@ -1,10 +1,14 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.alert_notification_policy
+module: alert_notification_policy
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -122,7 +126,7 @@ output:
       returned: on success
       type: str
     provenance:
-      description: The method used to create and manage Alert Notification policy.
+      description: The method used to create and manage alert notification policy.
       returned: on success
       type: str
     receiver:

@@ -1,10 +1,14 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.datasource
+module: datasource
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"

@@ -5,6 +5,9 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v0.0.6
+======
+
 v0.0.2
 ======
 
