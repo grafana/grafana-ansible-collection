@@ -1,14 +1,21 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.cloud_plugin
+module: cloud_plugin
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
 short_description: Manage Grafana Cloud Plugins
 description:
   - Create, Update and delete Grafana Cloud stacks using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
@@ -79,7 +86,13 @@ RETURN = r'''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
+__metaclass__ = type
 
 
 def present_cloud_plugin(module):
@@ -121,7 +134,7 @@ def main():
         name=dict(type='str', required=True),
         version=dict(type='str', required=False, default='latest'),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True),
+        cloud_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

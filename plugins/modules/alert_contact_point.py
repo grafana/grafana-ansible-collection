@@ -1,14 +1,21 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.alert_contact_point
+module: alert_contact_point
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
 short_description: Manage Alerting Contact points in Grafana
 description:
   - Create, Update and delete Contact points using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
@@ -40,6 +47,11 @@ options:
       - Grafana API Key used to authenticate with Grafana.
     type: str
     required : true
+  stack_slug:
+    description:
+      - Name of the Grafana Cloud stack to which the contact points will be added
+    type: str
+    required: true
   state:
     description:
       - State for the Grafana CLoud stack.
@@ -103,7 +115,13 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
+__metaclass__ = type
 
 
 def present_alert_contact_point(module):
@@ -172,7 +190,7 @@ def main():
         settings=dict(type='dict', required=True),
         DisableResolveMessage=dict(type='bool', required=False, default=False),
         stack_slug=dict(type='str', required=True),
-        grafana_api_key=dict(type='str', required=True),
+        grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

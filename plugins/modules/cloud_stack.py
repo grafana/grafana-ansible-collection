@@ -1,14 +1,21 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.cloud_stack
+module: cloud_stack
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
 short_description: Manage Grafana Cloud stack
 description:
   - Create and delete Grafana Cloud stacks using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
@@ -33,14 +40,13 @@ options:
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. For example, “https://grafana.yourdoman.io”.
+      - If you use a custom domain for the instance, you can provide it here. Will be set to https://<stack_slug>.grafana.net if not provided.
     type: str
-    default: https://<stack_slug>.grafana.net
   org_slug:
     description:
       - Name of the organization under which Cloud stack is created.
     type: str
-    required: false
+    required: true
   state:
     description:
       - State for the Grafana CLoud stack.
@@ -107,7 +113,13 @@ RETURN = r'''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
+__metaclass__ = type
 
 
 def present_cloud_stack(module):
@@ -127,7 +139,7 @@ def present_cloud_stack(module):
     if result.status_code == 200:
         return False, True, result.json()
 
-    elif (result.status_code == 409 and result.json()['message'] == "That url is not available") or (result.status_code == 403 and result.json()['message'] == "Hosted instance limit reached"):
+    elif result.status_code in [409, 403] and result.json()['message'] in ["That url is not available", "Hosted instance limit reached"]:
         api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/instances'
 
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
@@ -154,7 +166,7 @@ def main():
     module_args = dict(
         name=dict(type='str', required=True),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True),
+        cloud_api_key=dict(type='str', required=True, no_log=True),
         region=dict(type='str', required=False, default='us',
                     choices=['us', 'us-azure', 'eu', 'au', 'eu-azure', 'prod-ap-southeast-0', 'prod-gb-south-0',
                              'prod-eu-west-3']),

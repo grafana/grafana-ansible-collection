@@ -1,43 +1,53 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.alert_notification_policy
+module: alert_notification_policy
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
 short_description: Sets the notification policy tree in Grafana Alerting
 description:
   - Set the notification policy tree using Ansible
+requirements: [ "requests >= 1.0.0" ]
 options:
   Continue:
     description:
       - Continue matching subsequent sibling nodes if set to `True`.
     type: bool
     default: false
-  GroupByStr:
+  groupByStr:
     description:
       - List of string.
       - Group alerts when you receive a notification based on labels. If empty it will be inherited from the parent policy.
     type: list
     default: []
-  MuteTimeIntervals:
+    elements: str
+  muteTimeIntervals:
     description:
       - List of string.
       - Add mute timing to policy
     type: list
     default: []
+    elements: str
   root_policy_receiver:
     description:
       - Name of the contact point to set as the default receiver
     type: str
     default: grafana-default-email
-  Routes:
+  routes:
     description:
       - List of objects
       - A Route is a node that contains definitions of how to handle alerts.
     type: list
     required: true
+    elements: dict
   groupInterval:
     description:
       - The wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.
@@ -50,10 +60,10 @@ options:
     default: 30s
   objectMatchers:
     description:
-      - State for the Grafana CLoud stack.
-    type: str
-    default: present
-    choices: [ present, absent ]
+      - Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet.
+    type: list
+    default: []
+    elements: dict
   repeatInterval:
     description:
       - The waiting time to resend an alert after they have successfully been sent.
@@ -119,10 +129,6 @@ output:
       description: The waiting time until the initial notification is sent for a new group created by an incoming alert. This is of the parent policy.
       returned: on success
       type: str
-    provenance:
-      description:
-      returned: on success
-      type: str
     receiver:
       description: The name of the default contact point
       returned: state is present and on success
@@ -138,7 +144,13 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
+__metaclass__ = type
 
 
 def alert_notification_policy(module):
@@ -163,16 +175,16 @@ def alert_notification_policy(module):
 
 def main():
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
-                       groupByStr=dict(type='list', required=False, default=[]),
-                       muteTimeIntervals=dict(type='list', required=False, default=[]),
+                       groupByStr=dict(type='list', required=False, default=[], elements='str'),
+                       muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),
                        root_policy_receiver=dict(type='str', required=False, default='grafana-default-email'),
-                       routes=dict(type='list', required=True),
+                       routes=dict(type='list', required=True, elements='dict'),
                        groupInterval=dict(type='str', required=False, default='5m'),
                        groupWait=dict(type='str', required=False, default='30s'),
                        repeatInterval=dict(type='str', required=False, default='4h'),
-                       objectMatchers=dict(type='list', required=False, default=[]),
+                       objectMatchers=dict(type='list', required=False, default=[], elements='dict'),
                        stack_slug=dict(type='str', required=True),
-                       grafana_api_key=dict(type='str', required=True), )
+                       grafana_api_key=dict(type='str', required=True, no_log=True), )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 

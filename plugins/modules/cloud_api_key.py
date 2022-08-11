@@ -1,14 +1,21 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2021, Rainer Leber <rainerleber@gmail.com> <rainer.leber@sva.de>
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import (absolute_import, division, print_function)
 
 DOCUMENTATION = '''
 ---
-module: grafana.grafana.cloud_api_key
+module: cloud_api_key
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
 short_description: Manage Grafana Cloud API keys
 description:
   - Create and delete Grafana Cloud API keys using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
@@ -20,6 +27,7 @@ options:
       - Role to be associated with the CLoud API key.
     type: str
     required: true
+    choices: [Admin, Viewer, Editor, MetricsPublisher]
   org_slug:
     description:
       - Name of the Grafana Cloud organization in which Cloud API key will be created
@@ -62,7 +70,13 @@ EXAMPLES = '''
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
+__metaclass__ = type
 
 
 def present_cloud_api_key(module):
@@ -100,7 +114,7 @@ def main():
         name=dict(type='str', required=True),
         role=dict(type='str', required=True, choices=['Admin', 'Viewer', 'Editor', 'MetricsPublisher']),
         org_slug=dict(type='str', required=True),
-        existing_cloud_api_key=dict(type='str', required=True),
+        existing_cloud_api_key=dict(type='str', required=True, no_log=True),
         fail_if_already_created=dict(type='bool', required=False, default='True'),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
