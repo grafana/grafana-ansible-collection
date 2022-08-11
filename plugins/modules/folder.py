@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: folder
+module: grafana.grafana.folder
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -41,7 +41,7 @@ options:
 
 EXAMPLES = '''
 - name: Create/Update a Folder in Grafana
-  folder:
+  grafana.grafana.folder:
     title: folder_name
     uid: folder_name
     overwrite: true
@@ -50,7 +50,7 @@ EXAMPLES = '''
     state: present
 
 - name: Delete a Folder in Grafana
-  folder:
+  grafana.grafana.folder:
     uid: folder_name
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"

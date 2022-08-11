@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: cloud_stack
+module: grafana.grafana.cloud_stack
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -51,7 +51,7 @@ options:
 
 EXAMPLES = '''
 - name: Create a Grafana Cloud stack
-  cloud_stack:
+  grafana.grafana.cloud_stack:
     name: company_name
     slug: company_name
     cloud_api_key: "{{ grafana_cloud_api_key }}"
@@ -60,7 +60,7 @@ EXAMPLES = '''
     state: present
 
 - name: Delete a Grafana Cloud stack
-  cloud_stack:
+  grafana.grafana.cloud_stack:
     name: company_name
     slug: company_name
     cloud_api_key: "{{ grafana_cloud_api_key }}"

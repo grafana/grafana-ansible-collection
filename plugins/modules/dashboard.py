@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: dashboard
+module: grafana.grafana.dashboard
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -35,15 +35,15 @@ options:
 
 EXAMPLES = '''
 - name: Create/Update a dashboard
-  dashboard:
-    datasource: "{{ lookup('file', 'dashboard.json') }}"
+  grafana.grafana.dashboard:
+    datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: present
 
 - name: Delete dashboard
-  dashboard:
-    datasource: "{{ lookup('file', 'dashboard.json') }}"
+  grafana.grafana.dashboard:
+    datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: absent

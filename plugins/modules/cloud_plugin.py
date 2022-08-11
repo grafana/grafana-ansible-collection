@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: cloud_plugin
+module: grafana.grafana.cloud_plugin
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -40,7 +40,7 @@ options:
 
 EXAMPLES = '''
 - name: Create/Update a plugin
-  cloud_plugin:
+  grafana.grafana.cloud_plugin:
     name: grafana-github-datasource
     version: 1.0.14
     stack_slug: "{{ stack_slug }}"
@@ -48,7 +48,7 @@ EXAMPLES = '''
     state: present
 
 - name: Delete a Grafana Cloud stack
-  cloud_plugin:
+  grafana.grafana.cloud_plugin:
     name: grafana-github-datasource
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"

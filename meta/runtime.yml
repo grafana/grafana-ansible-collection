@@ -1,12 +1,2 @@
 ---
-requires_ansible: '>=2.10.0'
-action_groups:
-  grafana:
-  - alert_contact_point
-  - alert_notification_policy
-  - cloud_api_key
-  - cloud_plugin
-  - cloud_stack
-  - dashboard
-  - datasource
-  - folder
+requires_ansible: '>=2.19'

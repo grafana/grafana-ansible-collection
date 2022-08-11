@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: alert_contact_point
+module: grafana.grafana.alert_contact_point
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -50,7 +50,7 @@ options:
 
 EXAMPLES = '''
 - name: Create/Update Alerting contact point
-  alert_contact_point:
+  grafana.grafana.alert_contact_point:
     name: ops-email
     uid: opsemail
     type: email
@@ -62,7 +62,7 @@ EXAMPLES = '''
     state: present
 
 - name: Delete Alerting contact point
-  alert_contact_point:
+  grafana.grafana.alert_contact_point:
     name: ops-email
     uid: opsemail
     type: email

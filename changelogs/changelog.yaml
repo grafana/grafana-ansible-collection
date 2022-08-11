@@ -1,0 +1,31 @@
+ancestor: null
+releases:
+  0.0.1:
+    modules:
+    - description: Manage Alerting Contact points in Grafana
+      name: alert_contact_point
+      namespace: ''
+    - description: Sets the notification policy tree in Grafana Alerting
+      name: alert_notification_policy
+      namespace: ''
+    - description: Manage Grafana Cloud API keys
+      name: cloud_api_key
+      namespace: ''
+    - description: Manage Grafana Cloud Plugins
+      name: cloud_plugin
+      namespace: ''
+    - description: Manage Grafana Cloud stack
+      name: cloud_stack
+      namespace: ''
+    - description: Manage Dashboards in Grafana
+      name: dashboard
+      namespace: ''
+    - description: Manage Data sources in Grafana
+      name: datasource
+      namespace: ''
+    - description: Manage Folders in Grafana
+      name: folder
+      namespace: ''
+    release_date: '2022-08-11'
+  0.0.2:
+    release_date: '2022-08-11'

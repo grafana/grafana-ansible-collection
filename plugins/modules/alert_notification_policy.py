@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: alert_notification_policy
+module: grafana.grafana.alert_notification_policy
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -73,7 +73,7 @@ options:
 
 EXAMPLES = '''
 - name: Set Notification policy tree
-  alert_notification_policy:
+  grafana.grafana.alert_notification_policy:
     stack_slug: "{{ stack_slug }}"
     grafana_api_key: "{{ grafana_api_key }}"
     routes: [
@@ -84,7 +84,7 @@ EXAMPLES = '''
     ]
 
 - name: Set nested Notification policies
-  alert_notification_policy:
+  grafana.grafana.alert_notification_policy:
     routes: [
       {
         receiver: myReceiver,

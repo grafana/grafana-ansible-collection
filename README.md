@@ -2,13 +2,10 @@
 
 This collection contains modules and plugins to assist in automating managing of resources in Grafana with Ansible.
 
-## Installation and Usage
-
-### Requirements
+## Ansible version compatibility
 The collection is tested and supported with:
 
-* ansible >= 2.10.0
-* python >= 3.10
+* ansible >= 2.9
 
 ## Installing the collection
 
@@ -84,6 +81,9 @@ and work on it there.
 ### Testing with `ansible-test`
 
 We use `ansible-test` for sanity.
+
+## Code of Conduct
+This collection follows the Ansible project's [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html). Please read and familiarize yourself with this doc
 
 ## More information
 

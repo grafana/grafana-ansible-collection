@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: cloud_api_key
+module: grafana.grafana.cloud_api_key
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -45,7 +45,7 @@ options:
 
 EXAMPLES = '''
 - name: Create Grafana Cloud API key
-  cloud_api_key:
+  grafana.grafana.cloud_api_key:
     name: key_name
     role: Admin
     org_slug: "{{ org_slug }}"
@@ -54,7 +54,7 @@ EXAMPLES = '''
     state: present
 
 - name: Delete Grafana Cloud API key
-  cloud_api_key:
+  grafana.grafana.cloud_api_key:
     name: key_name
     org_slug: "{{ org_slug }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"

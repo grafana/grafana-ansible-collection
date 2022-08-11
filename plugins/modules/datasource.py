@@ -2,7 +2,7 @@
 
 DOCUMENTATION = '''
 ---
-module: datasource
+module: grafana.grafana.datasource
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
@@ -35,15 +35,15 @@ options:
 
 EXAMPLES = '''
 - name: Create/Update Data sources
-  datasource:
-    datasource: "{{ lookup('file', 'datasource.json') }}"
+  grafana.grafana.datasource:
+    datasource: "{{ lookup('ansible.builtin.file', 'datasource.json') }}"
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: present
 
 - name: Delete Data sources
-  datasource:
-    datasource: "{{ lookup('file', 'datasource.json') }}"
+  grafana.grafana.datasource:
+    datasource: "{{ lookup('ansible.builtin.file', 'datasource.json') }}"
     stack_slug: "{{ stack_slug }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: absent
