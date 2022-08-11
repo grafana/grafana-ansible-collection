@@ -15,6 +15,7 @@ version_added: "0.0.1"
 short_description: Manage Dashboards in Grafana
 description:
   - Create, Update and delete Dashboards using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   dashboard:
     description:
@@ -96,7 +97,8 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests as re
+import requests
+HAS_REQUESTS = True
 
 __metaclass__ = type
 
@@ -105,7 +107,7 @@ def present_dashboard(module):
 
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/db'
 
-    result = re.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -119,7 +121,7 @@ def absent_dashboard(module):
 
     api_url = api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
 
-    result = re.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
