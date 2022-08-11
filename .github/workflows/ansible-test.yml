@@ -36,13 +36,14 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz requests --disable-pip-version-check
 
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --coverage
+        run: ansible-doc -t module grafana.grafana.alert_contact_point grafana.grafana.alert_notification_policy grafana.grafana.cloud_api_key grafana.grafana.cloud_plugin grafana.grafana.cloud_stack grafana.grafana.dashboard grafana.grafana.datasource grafana.grafana.folder
+        # run: ansible-test sanity --docker -v --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Generate coverage report
-        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      # - name: Generate coverage report
+      #   run: ansible-test coverage xml -v --requirements --group-by command --group-by version
+      #   working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: false
+      # - uses: codecov/codecov-action@v3
+      #   with:
+      #     fail_ci_if_error: false
