@@ -33,7 +33,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz requests --disable-pip-version-check
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
