@@ -27,7 +27,7 @@ options:
       - Name of the Grafana Cloud stack to which the dashboard will be added
     type: str
     required: true
-  cloud_api_key:
+  grafana_api_key:
     description:
       - CLoud API Key to authenticate with Grafana Cloud.
     type: str
@@ -45,14 +45,14 @@ EXAMPLES = '''
   grafana.grafana.dashboard:
     datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
-    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
 - name: Delete dashboard
   grafana.grafana.dashboard:
     datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
-    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    grafana_api_key: "{{ grafana_api_key }}"
     state: absent
 '''
 
@@ -111,7 +111,7 @@ def present_dashboard(module):
 
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/db'
 
-    result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -125,7 +125,7 @@ def absent_dashboard(module):
 
     api_url = api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -137,7 +137,7 @@ def main():
     module_args = dict(
         dashboard=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True, no_log=True),
+        grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
 

@@ -28,12 +28,14 @@ options:
       - Group alerts when you receive a notification based on labels. If empty it will be inherited from the parent policy.
     type: list
     default: []
+    elements: str
   muteTimeIntervals:
     description:
       - List of string.
       - Add mute timing to policy
     type: list
     default: []
+    elements: str
   root_policy_receiver:
     description:
       - Name of the contact point to set as the default receiver
@@ -45,6 +47,7 @@ options:
       - A Route is a node that contains definitions of how to handle alerts.
     type: list
     required: true
+    elements: dict
   groupInterval:
     description:
       - The wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.
@@ -60,6 +63,7 @@ options:
       - Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet.
     type: list
     default: []
+    elements: dict
   repeatInterval:
     description:
       - The waiting time to resend an alert after they have successfully been sent.
@@ -175,16 +179,16 @@ def alert_notification_policy(module):
 
 def main():
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
-                       groupByStr=dict(type='list', required=False, default=[]),
-                       muteTimeIntervals=dict(type='list', required=False, default=[]),
+                       groupByStr=dict(type='list', required=False, default=[], elements='str'),
+                       muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),
                        root_policy_receiver=dict(type='str', required=False, default='grafana-default-email'),
-                       routes=dict(type='list', required=True),
+                       routes=dict(type='list', required=True, elements='dict'),
                        groupInterval=dict(type='str', required=False, default='5m'),
                        groupWait=dict(type='str', required=False, default='30s'),
                        repeatInterval=dict(type='str', required=False, default='4h'),
-                       objectMatchers=dict(type='list', required=False, default=[]),
+                       objectMatchers=dict(type='list', required=False, default=[], elements='dict'),
                        stack_slug=dict(type='str', required=True),
-                       grafana_api_key=dict(type='str', required=True,no_log=True), )
+                       grafana_api_key=dict(type='str', required=True, no_log=True), )
 
     module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
 
