@@ -34,6 +34,9 @@ jobs:
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+      
+      - name: Install requests
+        run: pip install requests
 
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
