@@ -120,7 +120,7 @@ output:
       returned: on success
       type: str
     provenance:
-      description:
+      description: The method used to create and manage Alert Notification policy
       returned: on success
       type: str
     receiver:
