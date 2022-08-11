@@ -39,7 +39,7 @@ options:
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. For example, “https://grafana.yourdoman.io”.
+      - If you use a custom domain for the instance, you can provide it here. For example, "https://grafana.yourdoman.io".
     type: str
     default: https://<stack_slug>.grafana.net
   org_slug:
