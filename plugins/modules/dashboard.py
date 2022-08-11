@@ -99,7 +99,6 @@ output:
 from ansible.module_utils.basic import AnsibleModule
 try:
     import requests
-
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False

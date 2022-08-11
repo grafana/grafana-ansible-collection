@@ -15,6 +15,7 @@ version_added: "0.0.1"
 short_description: Sets the notification policy tree in Grafana Alerting
 description:
   - Set the notification policy tree using Ansible
+requirements: [ "requests >= 1.0.0" ]
 options:
   Continue:
     description:
@@ -144,7 +145,11 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
 
 __metaclass__ = type
 

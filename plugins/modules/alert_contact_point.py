@@ -15,6 +15,7 @@ version_added: "0.0.1"
 short_description: Manage Alerting Contact points in Grafana
 description:
   - Create, Update and delete Contact points using Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
@@ -109,7 +110,11 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
 
 __metaclass__ = type
 

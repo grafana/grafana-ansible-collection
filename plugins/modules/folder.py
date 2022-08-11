@@ -15,6 +15,7 @@ version_added: "0.0.1"
 short_description: Manage Folders in Grafana
 description:
   - Create, Update and delete Folders via Ansible.
+requirements: [ "requests >= 1.0.0" ]
 options:
   title:
     description:
@@ -132,7 +133,11 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
 
 __metaclass__ = type
 
