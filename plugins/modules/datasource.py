@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import (absolute_import, division, print_function)
+
 DOCUMENTATION = '''
 ---
 module: grafana.grafana.datasource
@@ -76,6 +78,7 @@ output:
 from ansible.module_utils.basic import AnsibleModule
 import requests
 
+__metaclass__ = type
 
 def present_datasource(module):
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/datasources'

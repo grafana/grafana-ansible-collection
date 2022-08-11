@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import (absolute_import, division, print_function)
+
 DOCUMENTATION = '''
 ---
 module: grafana.grafana.alert_notification_policy
@@ -120,7 +122,7 @@ output:
       returned: on success
       type: str
     provenance:
-      description: The method used to create and manage Alert Notification policy
+      description: The method used to create and manage Alert Notification policy.
       returned: on success
       type: str
     receiver:
@@ -140,6 +142,7 @@ output:
 from ansible.module_utils.basic import AnsibleModule
 import requests
 
+__metaclass__ = type
 
 def alert_notification_policy(module):
     body = {'routes': module.params['routes'], 'Continue': module.params['Continue'],

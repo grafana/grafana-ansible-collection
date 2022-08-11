@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import (absolute_import, division, print_function)
+
 DOCUMENTATION = '''
 ---
 module: grafana.grafana.cloud_plugin
@@ -81,6 +83,7 @@ RETURN = r'''
 from ansible.module_utils.basic import AnsibleModule
 import requests
 
+__metaclass__ = type
 
 def present_cloud_plugin(module):
     body = {
