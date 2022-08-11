@@ -117,6 +117,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_cloud_stack(module):
     if not module.params['url']:
         module.params['url'] = 'https://' + module.params['stack_slug'] + '.grafana.net'

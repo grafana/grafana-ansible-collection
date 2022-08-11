@@ -89,6 +89,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_cloud_plugin(module):
     body = {
         'plugin': module.params['name'],

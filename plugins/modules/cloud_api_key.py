@@ -72,6 +72,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_cloud_api_key(module):
     body = {
         'name': module.params['name'],

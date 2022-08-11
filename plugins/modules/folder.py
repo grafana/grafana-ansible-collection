@@ -136,6 +136,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_folder(module):
     body = {
         'uid': module.params['uid'],

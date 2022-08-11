@@ -84,6 +84,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_datasource(module):
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/datasources'
 

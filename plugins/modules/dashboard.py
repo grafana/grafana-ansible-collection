@@ -100,6 +100,7 @@ import requests
 
 __metaclass__ = type
 
+
 def present_dashboard(module):
 
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/db'

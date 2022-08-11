@@ -148,6 +148,7 @@ import requests
 
 __metaclass__ = type
 
+
 def alert_notification_policy(module):
     body = {'routes': module.params['routes'], 'Continue': module.params['Continue'],
             'groupByStr': module.params['groupByStr'], 'muteTimeIntervals': module.params['muteTimeIntervals'],
