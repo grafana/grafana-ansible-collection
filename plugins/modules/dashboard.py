@@ -97,8 +97,13 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import requests
-HAS_REQUESTS = True
+try:
+    import requests
+
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+
 
 __metaclass__ = type
 
