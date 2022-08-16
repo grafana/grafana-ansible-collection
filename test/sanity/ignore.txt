@@ -1,1 +1,0 @@
-ERROR: Output on stderr from ansible-doc is considered an error.
