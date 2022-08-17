@@ -1,6 +1,6 @@
 # Ansible Collection - grafana.grafana
 
-[![CI](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml)
+[![Ansible Sanity check](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml)
 
 This collection contains modules and plugins to assist in automating managing of resources in Grafana with Ansible.
 
