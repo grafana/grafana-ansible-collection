@@ -34,7 +34,7 @@ A specific version of the collection can be installed by using the version keywo
 ---
 collections:
   - name: grafana.grafana
-    version: 0.0.1
+    version: 1.0.0
 ```
 ## Using this collection
 
