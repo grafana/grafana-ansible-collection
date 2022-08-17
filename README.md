@@ -1,6 +1,12 @@
 # Ansible Collection - grafana.grafana
 
+[![CI](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ansible-test.yml)
+
 This collection contains modules and plugins to assist in automating managing of resources in Grafana with Ansible.
+
+- Ansible collection Documentation: https://grafana.github.io/grafana-ansible-collection/
+- Grafana website: <https://grafana.com>
+- Grafana Cloud website: <https://grafana.com/products/cloud/>
 
 ## Ansible version compatibility
 The collection is tested and supported with:
