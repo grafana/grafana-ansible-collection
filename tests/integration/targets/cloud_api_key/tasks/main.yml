@@ -11,7 +11,7 @@
 - assert:
     that:
       - add_result.changed == true
-      - add_result.output.name == "eatit"
+      - add_result.output.name == "ansible-integration-test"
 
 - name: Re-run previous task
   grafana.grafana.cloud_api_key:
@@ -21,12 +21,12 @@
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
     fail_if_already_created: False
     state: present
-  register: add_result
+  register: update_result
 
 - assert:
     that:
-      - add_result.changed == false
-      - add_result.output == "A Cloud API key with the same name already exists"
+      - update_result.changed == false
+      - update_result.output == "A Cloud API key with the same name already exists"
 
 - name: Delete Grafana Cloud API key
   grafana.grafana.cloud_api_key:
