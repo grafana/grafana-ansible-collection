@@ -10,42 +10,42 @@ env:
 
 jobs:
 
-  sanity:
-    name: Sanity (Ⓐ${{ matrix.ansible }})
-    strategy:
-      matrix:
-        ansible:
-          - stable-2.10
-          - stable-2.11
-          - stable-2.12
-          - devel
-    runs-on: ubuntu-latest
-    steps:
+  # sanity:
+  #   name: Sanity (Ⓐ${{ matrix.ansible }})
+  #   strategy:
+  #     matrix:
+  #       ansible:
+  #         - stable-2.10
+  #         - stable-2.11
+  #         - stable-2.12
+  #         - devel
+  #   runs-on: ubuntu-latest
+  #   steps:
 
-      - name: Check out code
-        uses: actions/checkout@v3
-        with:
-          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v3
+  #       with:
+  #         python-version: '3.9'
 
-      - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+  #     - name: Install ansible-base (${{ matrix.ansible }})
+  #       run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --coverage
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  #     - name: Run sanity tests
+  #       run: ansible-test sanity --docker -v --color --coverage
+  #       working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Generate coverage report
-        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  #     - name: Generate coverage report
+  #       run: ansible-test coverage xml -v --requirements --group-by command --group-by version
+  #       working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: false
+  #     - uses: codecov/codecov-action@v3
+  #       with:
+  #         fail_ci_if_error: false
   
   integration:
     runs-on: ubuntu-latest
@@ -81,12 +81,26 @@ jobs:
             python: '3.10'
             
     steps:
-      - name: >-
-          Perform integration testing against
-          Ansible version ${{ matrix.ansible }}
-          under Python ${{ matrix.python }}
-        uses: ansible-community/ansible-test-gh-action@release/v1
-        with:
-          ansible-core-version: ${{ matrix.ansible }}
-          target-python-version: ${{ matrix.python }}
-          testing-type: integration
+      - name: create integration_config
+        working-directory: tests/integrations
+        run: |
+          cat <<EOF > integration_config.sample.yml
+          ---
+          stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
+          org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
+          grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
+          grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
+          EOF
+      - name: list
+        working-directory: tests/integrations
+        run: ls   
+      
+      # - name: >-
+      #     Perform integration testing against
+      #     Ansible version ${{ matrix.ansible }}
+      #     under Python ${{ matrix.python }}
+      #   uses: ansible-community/ansible-test-gh-action@release/v1
+      #   with:
+      #     ansible-core-version: ${{ matrix.ansible }}
+      #     target-python-version: ${{ matrix.python }}
+      #     testing-type: integration
