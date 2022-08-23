@@ -46,3 +46,47 @@ jobs:
       - uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: false
+  
+  integration:
+    runs-on: ubuntu-latest
+    name: I (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+    strategy:
+      fail-fast: false
+      matrix:
+        ansible:
+          - stable-2.9
+          - stable-2.10 
+          - stable-2.11
+          - stable-2.12
+          - stable-2.13
+          - devel
+        # - milestone
+        python:
+          - '2.6'
+          - '2.7'
+          - '3.5'
+          - '3.6'
+          - '3.7'
+          - '3.8'
+          - '3.9'
+          - '3.10'
+        exclude:
+          - ansible: stable-2.9
+            python: '3.9'
+          - ansible: stable-2.9
+            python: '3.10'
+          - ansible: stable-2.10
+            python: '3.10'
+          - ansible: stable-2.11
+            python: '3.10'
+            
+    steps:
+      - name: >-
+          Perform integration testing against
+          Ansible version ${{ matrix.ansible }}
+          under Python ${{ matrix.python }}
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          ansible-core-version: ${{ matrix.ansible }}
+          target-python-version: ${{ matrix.python }}
+          testing-type: integration
