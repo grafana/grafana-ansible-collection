@@ -50,4 +50,4 @@
 - assert:
     that:
       - result_absent.changed == true
-      - result_absent.message == "Dashboard Production Overview deleted"
+      - result_absent.output.message == "Dashboard Production Overview deleted"
