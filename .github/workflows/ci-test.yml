@@ -1,44 +1,63 @@
-name: Full Integration Test
+name: CI Tests
 on:
+  push:
+  pull_request:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: '0 6 * * *'
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
 jobs:
 
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - stable-2.10
+          - stable-2.11
+          - stable-2.12
+          - devel
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+      
+      - name: Run sanity tests
+        run: ansible-test sanity --docker -v --color --coverage
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Generate coverage report
+        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: false
+  
   integration:
     runs-on: ubuntu-latest
-    name: ${{ matrix.ansible }}-py${{ matrix.python }})
+    name: Integration ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
       fail-fast: false
       max-parallel: 1
       matrix:
         ansible:
-          - stable-2.9
-          - stable-2.10 
-          - stable-2.11
-          - stable-2.12
           - stable-2.13
-          # - devel
-        # - milestone
         python:
-          - '2.7'
-          - '3.5'
-          - '3.6'
-          - '3.7'
-          - '3.8'
           - '3.9'
-        exclude:
-          - ansible: stable-2.9
-            python: '3.9'
-          - ansible: stable-2.9
-            python: '3.10'
-          - ansible: stable-2.10
-            python: '3.10'
-          - ansible: stable-2.11
-            python: '3.10'
             
     steps:
       - name: Check out code
