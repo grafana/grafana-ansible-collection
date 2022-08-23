@@ -22,5 +22,5 @@
 
 - assert:
     that:
-      - "result.changed == true"
-      - "result.output.status == success"
+      - result.changed == true
+      - result.output.status == "success"
