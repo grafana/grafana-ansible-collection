@@ -1,5 +1,5 @@
 - name: Create/Update a dashboard
-  vars:
+  grafana.grafana.dashboard:
     dashboard: {
       "id": null,
       "uid": "cLV5GDCkz",
@@ -29,8 +29,6 @@
       "version": 0,
       "links": []
     }
-  grafana.grafana.dashboard:
-    dashboard: "{{ dashboard }}"
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
