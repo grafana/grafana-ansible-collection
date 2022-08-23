@@ -1,7 +1,7 @@
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: testingansiblecollection
-    stack_slug: testingansiblecollection
+    name: testingansiblestackmodule
+    stack_slug: testingansiblestackmodule
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: present
@@ -9,12 +9,12 @@
 
 - assert:
     that:
-      - create_result.url == "https://testingansiblecollection.grafana.net"
+      - create_result.url == "https://testingansiblestackmodule.grafana.net"
 
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: "{{ stack_name }}"
-    stack_slug: "{{ stack_name }}"
+    name: testingansiblestackmodule
+    stack_slug: testingansiblestackmodule
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: absent
@@ -23,4 +23,4 @@
 - assert:
     that:
       - delete_result.changed == true
-      - delete_result.url == "https://testingansiblecollection.grafana.net"
+      - delete_result.url == "https://testingansiblestackmodule.grafana.net"
