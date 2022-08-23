@@ -26,4 +26,4 @@
 - assert:
     that:
       - delete_result.changed == true
-      - delete_result.output.message == "Folder Ansible Integration test deleted"
+      - delete_result.output.message == "Folde Ansible Integration test deleted"
