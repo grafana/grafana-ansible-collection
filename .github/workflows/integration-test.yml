@@ -1,4 +1,4 @@
-name: Sanity Test
+name: Integration Test
 on:
   push:
   pull_request:
