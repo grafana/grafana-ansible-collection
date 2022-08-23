@@ -81,6 +81,9 @@ jobs:
             python: '3.10'
             
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      
       - name: create integration_config
         working-directory: tests/integrations
         run: |
