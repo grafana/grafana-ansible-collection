@@ -1,7 +1,7 @@
 - name: Set Notification policy tree
   grafana.grafana.alert_notification_policy:
     stack_slug: "{{ stack_name }}"
-    grafana_api_key: "{{ grafana_cloud_api_key }}"
+    grafana_api_key: "{{ grafana_api_key }}"
     routes: [
       {
         receiver: grafana-default-email,
