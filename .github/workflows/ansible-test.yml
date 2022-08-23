@@ -85,7 +85,7 @@ jobs:
         uses: actions/checkout@v3
       
       - name: create integration_config
-        working-directory: tests/integrations
+        working-directory: tests/integration
         run: |
           cat <<EOF > integration_config.sample.yml
           ---
