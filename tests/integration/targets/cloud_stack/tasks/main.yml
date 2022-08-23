@@ -9,7 +9,7 @@
 
 - assert:
     that:
-      - create_result.output.url == "https://ansibleintegration.grafana.net"
+      - create_result.url == "https://ansibleintegration.grafana.net"
 
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
@@ -23,4 +23,4 @@
 - assert:
     that:
       - delete_result.changed == true
-      - delete_result.output.url == "https://ansibleintegration.grafana.net"
+      - delete_result.url == "https://ansibleintegration.grafana.net"
