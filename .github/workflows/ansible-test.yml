@@ -54,21 +54,21 @@ jobs:
       fail-fast: false
       matrix:
         ansible:
-          # - stable-2.9
-          # - stable-2.10 
-          # - stable-2.11
+          - stable-2.9
+          - stable-2.10 
+          - stable-2.11
           - stable-2.12
-          # - stable-2.13
-          # - devel
+          - stable-2.13
+          - devel
         # - milestone
         python:
-          # - '2.7'
-          # - '3.5'
-          # - '3.6'
-          # - '3.7'
-          # - '3.8'
+          - '2.7'
+          - '3.5'
+          - '3.6'
+          - '3.7'
+          - '3.8'
           - '3.9'
-          # - '3.10'
+          - '3.10'
         exclude:
           - ansible: stable-2.9
             python: '3.9'
