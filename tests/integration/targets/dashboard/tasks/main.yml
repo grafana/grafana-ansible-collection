@@ -17,9 +17,6 @@
     state: present
   register: result_present
 
-- debug:
-    var: result_present
-
 - assert:
     that:
       - result_present.changed == true
@@ -43,9 +40,6 @@
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: result_absent
-
-- debug:
-    var: result_absent
 
 - assert:
     that:
