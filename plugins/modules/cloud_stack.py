@@ -58,18 +58,20 @@ options:
 EXAMPLES = '''
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: company_name
-    slug: company_name
+    name: stack_name
+    stack_slug: stack_name
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     region: eu
     url: https://grafana.company_name.com
+    org_slug: org_name
     state: present
 
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: company_name
-    slug: company_name
+    name: stack_name
+    slug: stack_name
     cloud_api_key: "{{ grafana_cloud_api_key }}"
+    org_slug: org_name
     state: absent
 '''
 

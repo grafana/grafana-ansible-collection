@@ -4,6 +4,14 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v1.0.1
+======
+
+Minor Changes
+-------------
+
+- Documentation updates
+
 
 v1.0.0
 ======

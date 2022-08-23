@@ -43,14 +43,14 @@ options:
 EXAMPLES = '''
 - name: Create/Update a dashboard
   grafana.grafana.dashboard:
-    datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
+    dashboard: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
 - name: Delete dashboard
   grafana.grafana.dashboard:
-    datasource: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
+    dashboard: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
     stack_slug: "{{ stack_slug }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
