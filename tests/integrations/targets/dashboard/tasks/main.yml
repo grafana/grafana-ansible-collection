@@ -31,7 +31,7 @@
     }
   grafana.grafana.dashboard:
     dashboard: "{{ dashboard }}"
-    stack_slug: "{{ stack_slug }}"
+    stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: result
