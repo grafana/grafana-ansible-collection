@@ -3,7 +3,7 @@
     dashboard: {
       "dashboard": {
         "uid": test1234,
-        "title": "Production Overview",
+        "title": "Ansible Integration Test",
         "tags": [ "templated" ],
         "timezone": "browser",
         "schemaVersion": 16,
@@ -25,12 +25,12 @@
       - result_present.changed == true
       - result_present.output.status == "success"
 
-- name: delete dashboard
+- name: Delete dashboard
   grafana.grafana.dashboard:
     dashboard: {
       "dashboard": {
         "uid": test1234,
-        "title": "Production Overview",
+        "title": "Ansible Integration Test",
         "tags": [ "templated" ],
         "timezone": "browser",
         "schemaVersion": 16,
@@ -50,4 +50,4 @@
 - assert:
     that:
       - result_absent.changed == true
-      - result_absent.output.message == "Dashboard Production Overview deleted"
+      - result_absent.output.message == "Dashboard Ansible Integration Test deleted"
