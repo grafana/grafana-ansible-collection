@@ -11,9 +11,9 @@
     that:
       - create_result.url == "https://ansiblestack.grafana.net"
 
-- name: Sleep for 90 seconds
+- name: Sleep for 45 seconds
   ansible.builtin.wait_for:
-    timeout: 90
+    timeout: 45
 
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
