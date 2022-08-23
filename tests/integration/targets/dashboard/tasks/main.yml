@@ -23,4 +23,4 @@
 - assert:
     that:
       - "result.changed == true"
-      - "result.msg == 'Dashboard test created'"
+      - "result.output.status == success"

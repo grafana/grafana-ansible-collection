@@ -20,3 +20,7 @@
         stack_slug: ansibletest
         grafana_api_key: eyJrIjoiOElWQmdLd0R5c1FWVVJKd0g3bFNNdm1mak83QjgwSEQiLCJuIjoiQW5zaWJsZS1HaXRodWItQWN0aW9uIiwiaWQiOjF9
         state: present
+      register: result
+    
+    - debug:
+        var: result.output.status
