@@ -20,4 +20,4 @@
 - assert:
     that:
       - create_result.changed == true
-      - create_result.output.message == "Datasource added" or update_result.output.message == "Datasource updated"
+      - create_result.output.message == "Datasource added" or create_result.output.message == "Datasource updated"
