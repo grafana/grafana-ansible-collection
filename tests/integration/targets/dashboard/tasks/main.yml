@@ -1,33 +1,16 @@
 - name: Create/Update a dashboard
   grafana.grafana.dashboard:
     dashboard: {
-      "id": null,
-      "uid": "cLV5GDCkz",
-      "title": "New dashboard",
-      "tags": [],
-      "style": "dark",
-      "timezone": "browser",
-      "editable": true,
-      "graphTooltip": 1,
-      "panels": [],
-      "time": {
-        "from": "now-6h",
-        "to": "now"
+      "dashboard": {
+        "uid": test1234,
+        "title": "Production Overview1",
+        "tags": [ "templated" ],
+        "timezone": "browser",
+        "schemaVersion": 16,
+        "version": 0,
+        "refresh": "25s"
       },
-      "timepicker": {
-        "time_options": [],
-        "refresh_intervals": []
-      },
-      "templating": {
-        "list": []
-      },
-      "annotations": {
-        "list": []
-      },
-      "refresh": "5s",
-      "schemaVersion": 17,
-      "version": 0,
-      "links": []
+      "overwrite": true
     }
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
