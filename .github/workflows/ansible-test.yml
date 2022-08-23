@@ -49,7 +49,7 @@ jobs:
   
   integration:
     runs-on: ubuntu-latest
-    name: I (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+    name: Integration (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
     strategy:
       fail-fast: false
       matrix:
@@ -81,7 +81,9 @@ jobs:
             
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+        with:
+          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       
       - name: create integration_config
         working-directory: tests/integration
@@ -93,12 +95,22 @@ jobs:
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
           EOF
  
-      - name: >-
-          Perform integration testing against
-          Ansible version ${{ matrix.ansible }}
-          under Python ${{ matrix.python }}
-        uses: ansible-community/ansible-test-gh-action@release/v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          ansible-core-version: ${{ matrix.ansible }}
-          target-python-version: ${{ matrix.python }}
-          testing-type: integration
+          python-version: 3.8
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Run integration test
+        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Generate coverage report
+        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: false
