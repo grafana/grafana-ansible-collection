@@ -1,0 +1,27 @@
+- name: Create a Grafana Cloud stack
+  grafana.grafana.cloud_stack:
+    name: "{{ stack_name }}"
+    stack_slug: "{{ stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    org_slug: "{{ org_name }}"
+    state: present
+  register: create_result
+
+- assert:
+    that:
+      - create_result.changed == true
+      - create_result.output.url == "https://ansibleintegration.grafana.net"
+
+- name: Delete a Grafana Cloud stack
+  grafana.grafana.cloud_stack:
+    name: "{{ stack_name }}"
+    stack_slug: "{{ stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    org_slug: "{{ org_name }}"
+    state: absent
+  register: delete_result
+
+- assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.output.url == "https://ansibleintegration.grafana.net"
