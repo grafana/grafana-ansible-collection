@@ -32,7 +32,7 @@
   grafana.grafana.dashboard:
     dashboard: "{{ dashboard }}"
     stack_slug: "{{ stack_name }}"
-    grafana_api_key: "{{ grafana_api_key }}"
+    grafana_api_key: test123
     state: present
   register: result
 
