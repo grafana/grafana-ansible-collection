@@ -86,7 +86,7 @@ jobs:
       - name: create integration_config
         working-directory: tests/integration
         run: |
-          cat <<EOF > integration_config.sample.yml
+          cat <<EOF > integration_config.yml
           ---
           stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
           org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
