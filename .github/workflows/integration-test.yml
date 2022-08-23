@@ -56,7 +56,6 @@ jobs:
           org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
-          resource_name: ${GITHUB_JOB}
           EOF
  
       - name: Set up Python
