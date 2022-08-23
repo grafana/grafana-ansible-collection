@@ -96,7 +96,7 @@ jobs:
           EOF
       - name: list
         working-directory: tests/integrations
-        run: ls   
+        run: cat integration_config.sample.yml 
       
       # - name: >-
       #     Perform integration testing against
