@@ -31,6 +31,7 @@
 - name: Delete Grafana Cloud API key
   grafana.grafana.cloud_api_key:
     name: ansible-integration-test
+    role: Admin
     org_slug: "{{ org_name }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: absent
