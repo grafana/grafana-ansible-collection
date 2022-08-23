@@ -86,7 +86,7 @@ jobs:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       
       - name: create integration_config
-        working-directory: tests/integration
+        working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
         run: |
           cat <<EOF > integration_config.yml
           stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
