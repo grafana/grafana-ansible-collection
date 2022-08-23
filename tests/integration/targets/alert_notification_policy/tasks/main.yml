@@ -12,5 +12,5 @@
 
 - assert:
     that:
-      - add_result.failed == false
-      - add_result.output.provenance == "api"
+      - result.failed == false
+      - result.output.provenance == "api"
