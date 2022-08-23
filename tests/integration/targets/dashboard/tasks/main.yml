@@ -3,7 +3,7 @@
     dashboard: {
       "dashboard": {
         "uid": test1234,
-        "title": "Production Overview1",
+        "title": "Production Overview",
         "tags": [ "templated" ],
         "timezone": "browser",
         "schemaVersion": 16,
@@ -30,7 +30,7 @@
     dashboard: {
       "dashboard": {
         "uid": test1234,
-        "title": "Production Overview1",
+        "title": "Production Overview",
         "tags": [ "templated" ],
         "timezone": "browser",
         "schemaVersion": 16,
