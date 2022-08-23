@@ -1,0 +1,41 @@
+- name: Add a plugin
+  grafana.grafana.cloud_plugin:
+    name: grafana-github-datasource
+    version: 1.0.14
+    stack_slug: "{{ stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    state: present
+  register: add_result
+
+- assert:
+    that:
+      - add_result.changed == true
+      - add_result.pluginName == "GitHub"
+
+- name: update a plugin
+  grafana.grafana.cloud_plugin:
+    name: grafana-github-datasource
+    version: 1.0.15
+    stack_slug: "{{ stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    state: present
+  register: update_result
+
+- assert:
+    that:
+      - update_result.changed == true
+      - update_result.pluginName == "GitHub"
+
+- name: Delete a plugin
+  grafana.grafana.cloud_plugin:
+    name: grafana-github-datasource
+    version: 1.0.15
+    stack_slug: "{{ stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    state: absent
+  register: delete_result
+
+- assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.pluginName == "GitHub"

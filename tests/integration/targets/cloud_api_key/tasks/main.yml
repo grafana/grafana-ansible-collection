@@ -1,0 +1,43 @@
+- name: Create Grafana Cloud API key
+  grafana.grafana.cloud_api_key:
+    name: ansible-integration-test
+    role: Admin
+    org_slug: "{{ org_name }}"
+    existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
+    fail_if_already_created: False
+    state: present
+  register: add_result
+
+- assert:
+    that:
+      - add_result.changed == true
+      - add_result.output.name == "ansible-integration-test"
+
+- name: Re-run previous task
+  grafana.grafana.cloud_api_key:
+    name: ansible-integration-test
+    role: Admin
+    org_slug: "{{ org_name }}"
+    existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
+    fail_if_already_created: False
+    state: present
+  register: update_result
+
+- assert:
+    that:
+      - update_result.changed == false
+      - update_result.output == "A Cloud API key with the same name already exists"
+
+- name: Delete Grafana Cloud API key
+  grafana.grafana.cloud_api_key:
+    name: ansible-integration-test
+    role: Admin
+    org_slug: "{{ org_name }}"
+    existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
+    state: absent
+  register: delete_result
+
+- assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.output == "Cloud API key is deleted"

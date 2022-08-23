@@ -1,0 +1,53 @@
+- name: Create Alerting contact point
+  grafana.grafana.alert_contact_point:
+    name: ops-email
+    uid: opsemail
+    type: email
+    settings: {
+       addresses: "ops@mydomain.com,devs@mydomain.com"
+     }
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: present
+  register: add_result
+
+- assert:
+    that:
+      - add_result.failed == false
+      - add_result.output.provenance == "api"
+
+- name: Update Alerting contact point
+  grafana.grafana.alert_contact_point:
+    name: ops-email
+    uid: opsemail
+    type: email
+    settings: {
+       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
+     }
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: present
+  register: update_result
+
+- assert:
+    that:
+      - update_result.failed == false
+      - update_result.output.provenance == "api"
+
+- name: Delete Alerting contact point
+  grafana.grafana.alert_contact_point:
+    name: ops-email
+    uid: opsemail
+    type: email
+    settings: {
+       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
+     }
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: absent
+  register: delete_result
+
+- assert:
+    that:
+      - delete_result.failed == false
+      - delete_result.output.message == "contactpoint deleted"

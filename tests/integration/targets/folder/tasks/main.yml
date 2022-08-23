@@ -1,0 +1,29 @@
+- name: Create/Update a Folder in Grafana
+  grafana.grafana.folder:
+    title: Ansible Integration test
+    uid: test123
+    overwrite: true
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: present
+  register: create_result
+
+- assert:
+    that:
+      - create_result.changed == true
+      - create_result.output.url == "/dashboards/f/test123/ansible-integration-test"
+
+- name: Delete a folder
+  grafana.grafana.folder:
+    title: Ansible Integration test
+    uid: test123
+    overwrite: true
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: absent
+  register: delete_result
+
+- assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.output.message == "Folder Ansible Integration test deleted"
