@@ -89,6 +89,16 @@ and work on it there.
 
 We use `ansible-test` for sanity.
 
+## Releasing, Versioning and Deprecation
+
+This collection follows [Semantic Versioning](https://semver.org/). More details on versioning can be found [in the Ansible docs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections.html#collection-versions).
+
+We plan to regularly release new minor or bugfix versions once new features or bugfixes have been implemented.
+
+Releasing the current major version happens from the `main` branch.
+
+We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.0.2.
+
 ## Code of Conduct
 This collection follows the Ansible project's [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html). Please read and familiarize yourself with this doc
 
