@@ -2,6 +2,7 @@ name: Full Integration Test
 on:
   schedule:
     - cron: '0 0 * * 0'
+  workflow_dispatch:
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
