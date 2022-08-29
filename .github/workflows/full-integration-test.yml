@@ -17,13 +17,12 @@ jobs:
       max-parallel: 1
       matrix:
         ansible:
-#           - stable-2.9
-#           - stable-2.10 
-#           - stable-2.11
+          - stable-2.9
+          - stable-2.10 
+          - stable-2.11
           - stable-2.12
           - stable-2.13
-          # - devel
-        # - milestone
+          - devel
         python:
           - '2.7'
           - '3.5'
@@ -31,15 +30,15 @@ jobs:
           - '3.7'
           - '3.8'
           - '3.9'
-        exclude:
-          - ansible: stable-2.9
-            python: '3.9'
-          - ansible: stable-2.9
-            python: '3.10'
-          - ansible: stable-2.10
-            python: '3.10'
-          - ansible: stable-2.11
-            python: '3.10'
+        # exclude:
+        #   - ansible: stable-2.9
+        #     python: '3.9'
+        #   - ansible: stable-2.9
+        #     python: '3.10'
+        #   - ansible: stable-2.10
+        #     python: '3.10'
+        #   - ansible: stable-2.11
+        #     python: '3.10'
             
     steps:
       - name: Check out code
