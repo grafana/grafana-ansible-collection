@@ -51,7 +51,7 @@ jobs:
   
   integration:
     runs-on: ubuntu-latest
-    name: Integration ${{ matrix.ansible }}-py${{ matrix.python }})
+    name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
       fail-fast: true
       max-parallel: 1
