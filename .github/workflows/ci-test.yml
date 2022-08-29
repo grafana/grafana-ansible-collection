@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Integration ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 1
       matrix:
         ansible:
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python }}
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
