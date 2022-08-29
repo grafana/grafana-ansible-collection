@@ -11,9 +11,9 @@ jobs:
 
   integration:
     runs-on: ubuntu-latest
-    name: ${{ matrix.ansible }}-py${{ matrix.python }})
+    name: ${{ matrix.ansible }}-py${{ matrix.python }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 1
       matrix:
         ansible:
@@ -22,8 +22,7 @@ jobs:
           - stable-2.11
           - stable-2.12
           - stable-2.13
-          # - devel
-        # - milestone
+          - devel
         python:
           - '2.7'
           - '3.5'
@@ -31,6 +30,7 @@ jobs:
           - '3.7'
           - '3.8'
           - '3.9'
+          - '3.10'
         exclude:
           - ansible: stable-2.9
             python: '3.9'
@@ -60,10 +60,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
-      
-      - name: Install requests
-        run: pip install requests
+          python-version: '3.10'
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check

@@ -32,7 +32,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -40,26 +40,18 @@ jobs:
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-
-      - name: Generate coverage report
-        run: ansible-test coverage xml -v --requirements --group-by command --group-by version
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-
-      - uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: false
   
   integration:
     runs-on: ubuntu-latest
-    name: Integration ${{ matrix.ansible }}-py${{ matrix.python }})
+    name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 1
       matrix:
         ansible:
           - stable-2.13
         python:
-          - '3.9'
+          - '3.10'
             
     steps:
       - name: Check out code
@@ -80,7 +72,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ matrix.python }}
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
