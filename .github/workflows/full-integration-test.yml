@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     name: ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 1
       matrix:
         ansible:
@@ -66,5 +66,5 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Run integration test
-        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
+        run: ansible-test integration -v --color --retry-on-error --requirements --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
