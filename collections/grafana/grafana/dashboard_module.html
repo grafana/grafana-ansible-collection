@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>grafana.grafana.dashboard module – Manage Dashboards in Grafana &mdash; Ansible collections  documentation</title>
+  <title>grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud &mdash; Ansible collections  documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/ansible.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/antsibull-minimal.css" type="text/css" />
@@ -21,7 +21,7 @@
         <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="grafana.grafana.datasource module – Manage Data sources in Grafana" href="datasource_module.html" />
+    <link rel="next" title="grafana.grafana.datasource module – Manage Data sources in Grafana Cloud" href="datasource_module.html" />
     <link rel="prev" title="grafana.grafana.cloud_stack module – Manage Grafana Cloud stack" href="cloud_stack_module.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
 
 
@@ -106,7 +106,7 @@
           <li><a href="../../index.html">Collection Index</a> &raquo;</li>
           <li><a href="../index.html">Collections in the Grafana Namespace</a> &raquo;</li>
           <li><a href="index.html">Grafana.Grafana</a> &raquo;</li>
-      <li>grafana.grafana.dashboard module – Manage Dashboards in Grafana</li>
+      <li>grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -117,11 +117,11 @@
   
            <div itemprop="articleBody">
              
-  <span class="target" id="ansible-collections-grafana-grafana-dashboard-module"></span><section id="grafana-grafana-dashboard-module-manage-dashboards-in-grafana">
-<h1>grafana.grafana.dashboard module – Manage Dashboards in Grafana<a class="headerlink" href="#grafana-grafana-dashboard-module-manage-dashboards-in-grafana" title="Permalink to this heading"></a></h1>
+  <span class="target" id="ansible-collections-grafana-grafana-dashboard-module"></span><section id="grafana-grafana-dashboard-module-manage-dashboards-in-grafana-cloud">
+<h1>grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud<a class="headerlink" href="#grafana-grafana-dashboard-module-manage-dashboards-in-grafana-cloud" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.2).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -166,28 +166,28 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-dashboard"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-parameter-dashboard"><strong>dashboard</strong></p>
 <a class="ansibleOptionLink" href="#parameter-dashboard" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>JSON source code for dashboard</p>
+<td><div class="ansible-option-cell"><p>JSON source code for dashboard.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-grafana_api_key"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-parameter-grafana-api-key"><strong>grafana_api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-grafana_api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>CLoud API Key to authenticate with Grafana Cloud.</p>
+<td><div class="ansible-option-cell"><p>Grafana API Key to authenticate with Grafana Cloud.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-stack_slug"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-parameter-stack-slug"><strong>stack_slug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-stack_slug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Name of the Grafana Cloud stack to which the dashboard will be added</p>
+<td><div class="ansible-option-cell"><p>Name of the Grafana Cloud stack to which the dashboard will be added.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>State for the Grafana CLoud stack.</p>
+<td><div class="ansible-option-cell"><p>State for the Grafana Cloud stack.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
@@ -322,7 +322,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 
 <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cloud_stack_module.html" class="btn btn-neutral float-left" title="grafana.grafana.cloud_stack module – Manage Grafana Cloud stack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="datasource_module.html" class="btn btn-neutral float-right" title="grafana.grafana.datasource module – Manage Data sources in Grafana" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="datasource_module.html" class="btn btn-neutral float-right" title="grafana.grafana.datasource module – Manage Data sources in Grafana Cloud" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

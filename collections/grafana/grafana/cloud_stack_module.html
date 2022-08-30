@@ -21,7 +21,7 @@
         <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="grafana.grafana.dashboard module – Manage Dashboards in Grafana" href="dashboard_module.html" />
+    <link rel="next" title="grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud" href="dashboard_module.html" />
     <link rel="prev" title="grafana.grafana.cloud_plugin module – Manage Grafana Cloud Plugins" href="cloud_plugin_module.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
 
 
@@ -121,7 +121,7 @@
 <h1>grafana.grafana.cloud_stack module – Manage Grafana Cloud stack<a class="headerlink" href="#grafana-grafana-cloud-stack-module-manage-grafana-cloud-stack" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.2).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -166,14 +166,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-cloud_api_key"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-cloud-api-key"><strong>cloud_api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-cloud_api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>CLoud API Key to authenticate with Grafana Cloud.</p>
+<td><div class="ansible-option-cell"><p>Cloud API Key to authenticate with Grafana Cloud.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Name of stack. Conventionally matches the URL of the instance. For example, “&lt;stack_slug&gt;.grafana.net”.</p>
+<td><div class="ansible-option-cell"><p>Sets the name of stack. Conventionally matches the URL of the instance. For example, “&lt;stack_slug&gt;.grafana.net”.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -187,7 +187,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-region"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-region"><strong>region</strong></p>
 <a class="ansibleOptionLink" href="#parameter-region" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Choose a region for your stack.</p>
+<td><div class="ansible-option-cell"><p>Sets the region for the Grafana Cloud stack.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-default-bold">us</span> <span class="ansible-option-default">← (default)</span></p></li>
@@ -205,14 +205,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-stack_slug"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-stack-slug"><strong>stack_slug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-stack_slug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Subdomain of the Grafana instance. For example, if slug is &lt;stack_slug&gt;, the instance URL will be <a class="reference external" href="https:/">https:/</a>/&lt;stack_slug&gt;.grafana.net</p>
+<td><div class="ansible-option-cell"><p>Sets the subdomain of the Grafana instance. For example, if slug is &lt;stack_slug&gt;, the instance URL will be <code class="xref any docutils literal notranslate"><span class="pre">https://&lt;stack_slug&gt;.grafana.net</span></code>.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>State for the Grafana CLoud stack.</p>
+<td><div class="ansible-option-cell"><p>State for the Grafana Cloud stack.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
@@ -224,7 +224,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-url"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-stack-module-parameter-url"><strong>url</strong></p>
 <a class="ansibleOptionLink" href="#parameter-url" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>If you use a custom domain for the instance, you can provide it here. Will be set to <a class="reference external" href="https:/">https:/</a>/&lt;stack_slug&gt;.grafana.net if not provided.</p>
+<td><div class="ansible-option-cell"><p>If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to <code class="xref any docutils literal notranslate"><span class="pre">https://&lt;stack_slug&gt;.grafana.net</span></code>.</p>
 </div></td>
 </tr>
 </tbody>
@@ -358,7 +358,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 
 <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="cloud_plugin_module.html" class="btn btn-neutral float-left" title="grafana.grafana.cloud_plugin module – Manage Grafana Cloud Plugins" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="dashboard_module.html" class="btn btn-neutral float-right" title="grafana.grafana.dashboard module – Manage Dashboards in Grafana" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dashboard_module.html" class="btn btn-neutral float-right" title="grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -22,7 +22,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="grafana.grafana.cloud_plugin module – Manage Grafana Cloud Plugins" href="cloud_plugin_module.html" />
-    <link rel="prev" title="grafana.grafana.alert_notification_policy module – Sets the notification policy tree in Grafana Alerting" href="alert_notification_policy_module.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
+    <link rel="prev" title="grafana.grafana.alert_notification_policy module – Sets the notification policy tree in Alerting on Grafana Cloud" href="alert_notification_policy_module.html" /><!-- extra head elements for Ansible beyond RTD Sphinx Theme -->
 
 
 
@@ -121,7 +121,7 @@
 <h1>grafana.grafana.cloud_api_key module – Manage Grafana Cloud API keys<a class="headerlink" href="#grafana-grafana-cloud-api-key-module-manage-grafana-cloud-api-keys" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.2).</p>
 <p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
 It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
 To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
@@ -165,14 +165,14 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-existing_cloud_api_key"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-existing-cloud-api-key"><strong>existing_cloud_api_key</strong></p>
 <a class="ansibleOptionLink" href="#parameter-existing_cloud_api_key" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>CLoud API Key to authenticate with Grafana Cloud.</p>
+<td><div class="ansible-option-cell"><p>Cloud API Key to authenticate with Grafana Cloud.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-fail_if_already_created"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-fail-if-already-created"><strong>fail_if_already_created</strong></p>
 <a class="ansibleOptionLink" href="#parameter-fail_if_already_created" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>If set to True, the task will fail if the API key with same name already exists in the Organization.</p>
+<td><div class="ansible-option-cell"><p>If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref any docutils literal notranslate"><span class="pre">True</span></code></a>, the task will fail if the API key with same name already exists in the Organization.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-choices-entry">no</span></p></li>
@@ -184,21 +184,21 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-name"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Name of the Grafana Cloud API key.</p>
+<td><div class="ansible-option-cell"><p>Sets the name of the Grafana Cloud API key.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-org_slug"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-org-slug"><strong>org_slug</strong></p>
 <a class="ansibleOptionLink" href="#parameter-org_slug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Name of the Grafana Cloud organization in which Cloud API key will be created</p>
+<td><div class="ansible-option-cell"><p>Name of the Grafana Cloud organization in which Cloud API key will be created.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-role"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-role"><strong>role</strong></p>
 <a class="ansibleOptionLink" href="#parameter-role" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Role to be associated with the CLoud API key.</p>
+<td><div class="ansible-option-cell"><p>Sets the role to be associated with the CLoud API key.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-choices-entry">Admin</span></p></li>
@@ -212,7 +212,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="parameter-state"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-cloud-api-key-module-parameter-state"><strong>state</strong></p>
 <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>State for the Grafana CLoud stack.</p>
+<td><div class="ansible-option-cell"><p>State for the Grafana Cloud stack.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
@@ -263,7 +263,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
           
 
 <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="alert_notification_policy_module.html" class="btn btn-neutral float-left" title="grafana.grafana.alert_notification_policy module – Sets the notification policy tree in Grafana Alerting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="alert_notification_policy_module.html" class="btn btn-neutral float-left" title="grafana.grafana.alert_notification_policy module – Sets the notification policy tree in Alerting on Grafana Cloud" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="cloud_plugin_module.html" class="btn btn-neutral float-right" title="grafana.grafana.cloud_plugin module – Manage Grafana Cloud Plugins" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
