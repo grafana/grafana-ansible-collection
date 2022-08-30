@@ -8,7 +8,7 @@ Grafana.Grafana Release Notes
 v1.0.2
 ======
 
-Minor Changes
+Release Summary
 -------------
 
 - Documentation updates with updated description for modules.
@@ -16,7 +16,7 @@ Minor Changes
 v1.0.1
 ======
 
-Minor Changes
+Release Summary
 -------------
 
 - Documentation updates with updated examples.
@@ -25,16 +25,20 @@ Minor Changes
 v1.0.0
 ======
 
-Minor Changes
+Release Summary
 -------------
 
 - CI and testing improvements.
+
 
 v0.0.7
 ======
 
 Release Summary
 ---------------
+
+- Documentation update for return values in `grafana.grafana.dashboard` module.
+
 
 v0.6.0
 ======
@@ -43,7 +47,6 @@ Minor Changes
 -------------
 
 - Idempotency updates to cloud_api_key and datasource modules
-
 
 
 v0.5.0
