@@ -6,3 +6,5 @@ releases:
     release_date: '2022-08-16'
   1.0.1:
     release_date: '2022-08-23'
+  1.0.2:
+    release_date: '2022-08-30'

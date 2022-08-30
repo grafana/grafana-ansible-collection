@@ -19,33 +19,33 @@ requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
-      - Name of the Grafana Cloud API key.
+      - Sets the name of the Grafana Cloud API key.
     type: str
     required: true
   role:
     description:
-      - Role to be associated with the CLoud API key.
+      - Sets the role to be associated with the CLoud API key.
     type: str
     required: true
     choices: [Admin, Viewer, Editor, MetricsPublisher]
   org_slug:
     description:
-      - Name of the Grafana Cloud organization in which Cloud API key will be created
+      - Name of the Grafana Cloud organization in which Cloud API key will be created.
     type: str
     required: true
   existing_cloud_api_key:
     description:
-      - CLoud API Key to authenticate with Grafana Cloud.
+      - Cloud API Key to authenticate with Grafana Cloud.
     type: str
     required : true
   fail_if_already_created:
     description:
-      - If set to True, the task will fail if the API key with same name already exists in the Organization.
+      - If set to `True`, the task will fail if the API key with same name already exists in the Organization.
     type: bool
     default: True
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     type: str
     default: present
     choices: [ present, absent ]

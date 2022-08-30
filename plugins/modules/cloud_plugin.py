@@ -19,27 +19,27 @@ requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
-      - Name of the plugin, e.g. grafana-github-datasource .
+      - Name of the plugin, e.g. grafana-github-datasource.
     type: str
     required: true
   version:
     description:
-      - Version of the plugin to install. Defaults to latest.
+      - Version of the plugin to install.
     type: str
     default: latest
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the plugin will be added
+      - Name of the Grafana Cloud stack to which the plugin will be added.
     type: str
     required: true
   cloud_api_key:
     description:
-      - CLoud API Key to authenticate with Grafana Cloud.
+      - Cloud API Key to authenticate with Grafana Cloud.
     type: str
     required : true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     type: str
     default: present
     choices: [ present, absent ]

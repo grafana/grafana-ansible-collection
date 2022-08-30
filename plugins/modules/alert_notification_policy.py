@@ -12,9 +12,9 @@ module: alert_notification_policy
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Sets the notification policy tree in Grafana Alerting
+short_description: Sets the notification policy tree in Alerting on Grafana Cloud
 description:
-  - Set the notification policy tree using Ansible
+  - Set the notification policy tree using Ansible.
 requirements: [ "requests >= 1.0.0" ]
 options:
   Continue:
@@ -32,30 +32,30 @@ options:
   muteTimeIntervals:
     description:
       - List of string.
-      - Add mute timing to policy
+      - Sets the mute timing for the notfification policy.
     type: list
     default: []
     elements: str
-  root_policy_receiver:
+  rootPolicyReceiver:
     description:
-      - Name of the contact point to set as the default receiver
+      - Sets the name of the contact point to be set as the default receiver.
     type: str
     default: grafana-default-email
   routes:
     description:
       - List of objects
-      - A Route is a node that contains definitions of how to handle alerts.
+      - Sets the Route that contains definitions of how to handle alerts.
     type: list
     required: true
     elements: dict
   groupInterval:
     description:
-      - The wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.
+      - Sets the wait time to send a batch of new alerts for that group after the first notification was sent. Inherited from the parent policy if empty.
     type: str
     default: 5m
   groupWait:
     description:
-      - The wait time until the initial notification is sent for a new group created by an incoming alert. Inherited from the parent policy if empty.
+      - Sets the wait time until the initial notification is sent for a new group created by an incoming alert. Inherited from the parent policy if empty.
     type: str
     default: 30s
   objectMatchers:
@@ -66,12 +66,12 @@ options:
     elements: dict
   repeatInterval:
     description:
-      - The waiting time to resend an alert after they have successfully been sent.
+      - Sets the waiting time to resend an alert after they have successfully been sent.
     type: str
     default: 4h
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the notification policies will be added
+      - Name of the Grafana Cloud stack to which the notification policies will be added.
     type: str
     required: true
   grafana_api_key:
@@ -156,7 +156,7 @@ __metaclass__ = type
 def alert_notification_policy(module):
     body = {'routes': module.params['routes'], 'Continue': module.params['Continue'],
             'groupByStr': module.params['groupByStr'], 'muteTimeIntervals': module.params['muteTimeIntervals'],
-            'receiver': module.params['root_policy_receiver'], 'group_interval': module.params['groupInterval'],
+            'receiver': module.params['rootPolicyReceiver'], 'group_interval': module.params['groupInterval'],
             'group_wait': module.params['groupWait'], 'object_matchers': module.params['objectMatchers'],
             'repeat_interval': module.params['repeatInterval']}
 
@@ -177,7 +177,7 @@ def main():
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
                        groupByStr=dict(type='list', required=False, default=[], elements='str'),
                        muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),
-                       root_policy_receiver=dict(type='str', required=False, default='grafana-default-email'),
+                       rootPolicyReceiver=dict(type='str', required=False, default='grafana-default-email'),
                        routes=dict(type='list', required=True, elements='dict'),
                        groupInterval=dict(type='str', required=False, default='5m'),
                        groupWait=dict(type='str', required=False, default='30s'),

@@ -19,28 +19,28 @@ requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
-      - Name of stack. Conventionally matches the URL of the instance. For example, "<stack_slug>.grafana.net".
+      - Sets the name of stack. Conventionally matches the URL of the instance. For example, "<stack_slug>.grafana.net".
     type: str
     required: true
   stack_slug:
     description:
-      - Subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be https://<stack_slug>.grafana.net
+      - Sets the subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be `https://<stack_slug>.grafana.net`. 
     type: str
     required: true
   cloud_api_key:
     description:
-      - CLoud API Key to authenticate with Grafana Cloud.
+      - Cloud API Key to authenticate with Grafana Cloud.
     type: str
     required : true
   region:
     description:
-      - Choose a region for your stack.
+      - Sets the region for the Grafana Cloud stack.
     type: str
     default: us
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. Will be set to https://<stack_slug>.grafana.net if not provided.
+      - If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to `https://<stack_slug>.grafana.net`.
     type: str
   org_slug:
     description:
@@ -49,7 +49,7 @@ options:
     required: true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     type: str
     default: present
     choices: [ present, absent ]

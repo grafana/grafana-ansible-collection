@@ -12,29 +12,29 @@ module: dashboard
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Dashboards in Grafana
+short_description: Manage Dashboards in Grafana Cloud
 description:
   - Create, Update and delete Dashboards using Ansible.
 requirements: [ "requests >= 1.0.0" ]
 options:
   dashboard:
     description:
-      - JSON source code for dashboard
+      - JSON source code for dashboard.
     type: dict
     required: true
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the dashboard will be added
+      - Name of the Grafana Cloud stack to which the dashboard will be added.
     type: str
     required: true
   grafana_api_key:
     description:
-      - CLoud API Key to authenticate with Grafana Cloud.
+      - Grafana API Key to authenticate with Grafana Cloud.
     type: str
     required : true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     choices: [ present, absent ]
     default: present
     type: str

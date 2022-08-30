@@ -12,29 +12,29 @@ module: datasource
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Data sources in Grafana
+short_description: Manage Data sources in Grafana Cloud
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]
 options:
   datasource:
     description:
-      - JSON source code for the Data source
+      - JSON source code for the Data source.
     type: dict
     required: true
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the data source will be added
+      - Name of the Grafana Cloud stack to which the data source will be added.
     type: str
     required: true
   grafana_api_key:
     description:
-      - CLoud API Key to authenticate with Grafana Cloud.
+      - Grafana API Key to authenticate with Grafana Cloud.
     type: str
     required : true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     choices: [ present, absent ]
     default: present
     type: str

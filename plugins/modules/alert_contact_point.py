@@ -12,14 +12,14 @@ module: alert_contact_point
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Alerting Contact points in Grafana
+short_description: Manage Alerting Contact points in Grafana Cloud
 description:
   - Create, Update and delete Contact points using Ansible.
 requirements: [ "requests >= 1.0.0" ]
 options:
   name:
     description:
-      - Name of the contact point
+      - Sets the name of the contact point.
     type: str
     required: true
   uid:
@@ -29,17 +29,17 @@ options:
     required: true
   type:
     description:
-      - Contact point type
+      - Sets Contact point type.
     type: str
     required: true
   settings:
     description:
-      - Contact point settings
+      - Sets Contact point settings.
     type: dict
     required: true
-  DisableResolveMessage:
+  disableResolveMessage:
     description:
-      - When set to True, Disables the resolve message [OK] that is sent when alerting state returns to false
+      - When set to True, Disables the resolve message [OK] that is sent when alerting state returns to false.
     type: bool
     default: false
   grafana_api_key:
@@ -49,12 +49,12 @@ options:
     required : true
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the contact points will be added
+      - Name of the Grafana Cloud stack to which the contact points will be added.
     type: str
     required: true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     choices: [ present, absent ]
     type: str
     default: present
@@ -130,7 +130,7 @@ def present_alert_contact_point(module):
         'UID': module.params['uid'],
         'type': module.params['type'],
         'settings': module.params['settings'],
-        'DisableResolveMessage': module.params['DisableResolveMessage']
+        'DisableResolveMessage': module.params['disableResolveMessage']
     }
     api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
 
@@ -188,7 +188,7 @@ def main():
         uid=dict(type='str', required=True),
         type=dict(type='str', required=True),
         settings=dict(type='dict', required=True),
-        DisableResolveMessage=dict(type='bool', required=False, default=False),
+        disableResolveMessage=dict(type='bool', required=False, default=False),
         stack_slug=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])

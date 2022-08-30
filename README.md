@@ -1,9 +1,9 @@
-# Ansible Collection - grafana.grafana
+# Ansible Collection for Grafana Cloud
 
 [![CI Tests](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml)
 [![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
 
-This collection contains modules and plugins to assist in automating managing of resources in Grafana with Ansible.
+This collection (grafana.grafana) contains modules and plugins to assist in automating managing of resources in <b>Grafana Cloud</b> with Ansible.
 
 - [Ansible collection Documentation](https://grafana.github.io/grafana-ansible-collection/)
 - [Grafana website](https://grafana.com)

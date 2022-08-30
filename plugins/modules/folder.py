@@ -12,19 +12,19 @@ module: folder
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Folders in Grafana
+short_description: Manage Folders in Grafana Cloud
 description:
   - Create, Update and delete Folders via Ansible.
 requirements: [ "requests >= 1.0.0" ]
 options:
   title:
     description:
-      - The title of the folder.
+      - Sets the title of the folder.
     type: str
     required: true
   uid:
     description:
-      - unique identifier for your folder.
+      - Sets the UID for your folder.
     type: str
     required: true
   overwrite:
@@ -40,12 +40,12 @@ options:
     required : true
   stack_slug:
     description:
-      - Name of the Grafana Cloud stack to which the folder will be added
+      - Name of the Grafana Cloud stack to which the folder will be added.
     type: str
     required: true
   state:
     description:
-      - State for the Grafana CLoud stack.
+      - State for the Grafana Cloud stack.
     choices: [ present, absent ]
     default: present
     type: str
