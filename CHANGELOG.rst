@@ -9,7 +9,7 @@ v1.0.2
 ======
 
 Release Summary
--------------
+---------------
 
 - Documentation updates with updated description for modules.
 
