@@ -24,7 +24,7 @@ options:
     required: true
   stack_slug:
     description:
-      - Sets the subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be `https://<stack_slug>.grafana.net`. 
+      - Sets the subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be `https://<stack_slug>.grafana.net`.
     type: str
     required: true
   cloud_api_key:

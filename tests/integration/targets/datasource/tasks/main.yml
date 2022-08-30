@@ -1,6 +1,6 @@
 - name: Create/Update a Data Source
   grafana.grafana.datasource:
-    datasource: {
+    dataSource: {
       name: "ansible-integration",
       type: "influxdb",
       url: "https://grafana.github.com/grafana-ansible-collection",

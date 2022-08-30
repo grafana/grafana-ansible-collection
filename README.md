@@ -97,7 +97,7 @@ We plan to regularly release new minor or bugfix versions once new features or b
 
 Releasing the current major version happens from the `main` branch.
 
-We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.0.2.
+We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.0.3.
 
 ## Code of Conduct
 This collection follows the Ansible project's [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html). Please read and familiarize yourself with this doc
