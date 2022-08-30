@@ -17,7 +17,7 @@ v1.0.1
 ======
 
 Release Summary
--------------
+---------------
 
 - Documentation updates with updated examples.
 
@@ -26,7 +26,7 @@ v1.0.0
 ======
 
 Release Summary
--------------
+---------------
 
 - CI and testing improvements.
 
