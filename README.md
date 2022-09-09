@@ -29,7 +29,7 @@ You can also include it in a `requirements.yml` file and install it via ansible-
 collections:
   - name: grafana.grafana
 ```
-A specific version of the collection can be installed by using the version keyword in the requirements.yml file:
+A specific version of the collection can be installed by using the version keyword in the `requirements.yml` file:
 
 ```yaml
 ---
