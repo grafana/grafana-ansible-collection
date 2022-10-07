@@ -10,7 +10,6 @@
 
 - assert:
     that:
-      - add_result.changed == true
       - add_result.output.name == "ansible-integration-test"
 
 - name: Re-run previous task
