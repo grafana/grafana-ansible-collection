@@ -11,6 +11,7 @@
 - assert:
     that:
       - add_result.output.name == "ansible-integration-test"
+  when: add_result.output.name is defined 
 
 - name: Re-run previous task
   grafana.grafana.cloud_api_key:
