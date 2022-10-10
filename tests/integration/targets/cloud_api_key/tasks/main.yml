@@ -4,13 +4,13 @@
     role: Admin
     org_slug: "{{ org_name }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
-    fail_if_already_created: False
+    fail_if_already_created: True
     state: present
   register: add_result
 
 - assert:
     that:
-      - add_result.output.name == "ansible-integration-test" | update_result.output == "A Cloud API key with the same name already exists"
+      - add_result.output.name == "ansible-integration-test"
 
 - name: Re-run previous task
   grafana.grafana.cloud_api_key:
