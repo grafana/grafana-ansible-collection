@@ -10,7 +10,7 @@
 
 - assert:
     that:
-      - add_result.output.name == "ansible-integration-test"
+      - add_result.output.name == "ansible-integration-test" | update_result.output == "A Cloud API key with the same name already exists"
 
 - name: Re-run previous task
   grafana.grafana.cloud_api_key:
