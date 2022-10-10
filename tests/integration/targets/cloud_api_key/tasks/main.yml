@@ -4,7 +4,7 @@
     role: Admin
     org_slug: "{{ org_name }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
-    fail_if_already_created: True
+    fail_if_already_created: False
     state: present
   register: add_result
 
