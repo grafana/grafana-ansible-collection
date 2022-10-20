@@ -16,7 +16,7 @@ short_description: Manage Grafana Cloud Plugins
 description:
   - Create, Update and delete Grafana Cloud stacks using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   name:
@@ -137,7 +137,7 @@ def absent_cloud_plugin(module):
 
 
 def main():
-    
+
     module_args = dict(
         name=dict(type='str', required=True),
         version=dict(type='str', required=False, default='latest'),

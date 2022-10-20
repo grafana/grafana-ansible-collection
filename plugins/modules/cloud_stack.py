@@ -16,7 +16,7 @@ short_description: Manage Grafana Cloud stack
 description:
   - Create and delete Grafana Cloud stacks using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   name:
@@ -176,7 +176,7 @@ def absent_cloud_stack(module):
 
 
 def main():
-    
+
     module_args = dict(
         name=dict(type='str', required=True),
         stack_slug=dict(type='str', required=True),

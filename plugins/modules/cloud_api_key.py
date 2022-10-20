@@ -16,7 +16,7 @@ short_description: Manage Grafana Cloud API keys
 description:
   - Create and delete Grafana Cloud API keys using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   name:
@@ -112,7 +112,7 @@ def absent_cloud_api_key(module):
 
 
 def main():
-    
+
     module_args = dict(
         name=dict(type='str', required=True),
         role=dict(type='str', required=True, choices=['Admin', 'Viewer', 'Editor', 'MetricsPublisher']),

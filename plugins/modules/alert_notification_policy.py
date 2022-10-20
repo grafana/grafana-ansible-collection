@@ -16,8 +16,8 @@ short_description: Sets the notification policy tree in Alerting on Grafana Clou
 description:
   - Set the notification policy tree using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
-  - Does not support C(check_mode). 
+notes:
+  - Does not support C(check_mode).
 options:
   Continue:
     description:
@@ -192,7 +192,7 @@ def alert_notification_policy(module):
 
 
 def main():
-    
+
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
                        groupByStr=dict(type='list', required=False, default=[], elements='str'),
                        muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),

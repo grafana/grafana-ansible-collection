@@ -16,7 +16,7 @@ short_description: Manage Data sources in Grafana Cloud
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   dataSource:
@@ -153,7 +153,7 @@ def absent_datasource(module):
 
 
 def main():
-    
+
     module_args = dict(
         dataSource=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),

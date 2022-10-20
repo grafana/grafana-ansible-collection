@@ -16,7 +16,7 @@ short_description: Manage Folders in Grafana Cloud
 description:
   - Create, Update and delete Folders via Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   title:
@@ -163,9 +163,6 @@ except ImportError:
 
 __metaclass__ = type
 
-if not HAS_REQUESTS:
-    module.fail_json(msg=missing_required_lib('requests'))
-
 def present_folder(module):
     body = {
         'uid': module.params['uid'],
@@ -208,7 +205,7 @@ def absent_folder(module):
 
 
 def main():
-    
+
     module_args = dict(
         title=dict(type='str', required=True),
         uid=dict(type='str', required=True),

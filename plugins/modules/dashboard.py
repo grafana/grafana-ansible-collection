@@ -16,7 +16,7 @@ short_description: Manage Dashboards in Grafana Cloud
 description:
   - Create, Update and delete Dashboards using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: 
+notes:
   - Does not support C(check_mode).
 options:
   dashboard:
@@ -144,7 +144,7 @@ def absent_dashboard(module):
 
 
 def main():
-    
+
     module_args = dict(
         dashboard=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),
