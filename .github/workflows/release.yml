@@ -1,15 +1,15 @@
-name: CI Tests
+name: GitHub Release
 on:
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number to release'
+        required: true
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
 jobs:
-
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
@@ -78,3 +78,26 @@ jobs:
       - name: Run integration test
         run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install PyYaml
+        run: pip install pyyaml
+
+      - name: Validate version is published to Galaxy
+        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana${{ github.event.inputs.version }}.tar.gz
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with: 
+          tag_name: ${{ github.event.inputs.version }}
