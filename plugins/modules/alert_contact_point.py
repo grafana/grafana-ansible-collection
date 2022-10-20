@@ -16,7 +16,8 @@ short_description: Manage Alerting Contact points in Grafana Cloud
 description:
   - Create, Update and delete Contact points using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: Does not support C(check_mode). 
+notes: 
+  - Does not support C(check_mode). 
 options:
   name:
     description:
