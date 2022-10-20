@@ -1,10 +1,50 @@
 ancestor: null
 releases:
+  0.0.1:
+    changes:
+      release_summary: It's a release! First version to publish to Ansible Galaxy.
+  0.0.2:
+    changes:
+      release_summary: Updated input parameters description for all modules
+  0.0.3:
+    changes:
+      release_summary: Documenation update and code cleanup
+  0.0.4:
+    changes:
+      bugfixes:
+      - Fix an issue with `cloud_stack` idempotency
+  0.0.5:
+    changes:
+      release_summary: Documenation update and code cleanup
+  0.0.6:
+    changes:
+      minor_changes:
+      - Idempotency updates to cloud_api_key and datasource modules
   0.0.7:
+    changes:
+      release_summary: Documentation update for return values in `grafana.grafana.dashboard`
+        module
     release_date: '2022-08-11'
   1.0.0:
+    changes:
+      release_summary: CI and testing improvements
     release_date: '2022-08-16'
   1.0.1:
+    changes:
+      release_summary: Documentation updates with updated examples
     release_date: '2022-08-23'
   1.0.2:
+    changes:
+      release_summary: Documentation updates with updated description for modules
     release_date: '2022-08-30'
+  1.0.3:
+    changes:
+      minor_changes:
+      - Add a fail method to modules source code if `requests` library is not present
+      - Fixed markup for arg option in Documenation
+      - Updated Documenation with `notes` to specify if the check_mode feature is
+        supported by modules
+      - removed `supports_check_mode=True` from source code of modules
+    release_date: '2022-10-20'
+  1.0.4:
+    release_date: '2022-10-20'
