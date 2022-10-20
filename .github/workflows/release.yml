@@ -96,7 +96,7 @@ jobs:
         run: pip install pyyaml
 
       - name: Validate version is published to Galaxy
-        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana${{ github.event.inputs.version }}.tar.gz
+        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana-${{ github.event.inputs.version }}.tar.gz
 
       - name: Release
         uses: softprops/action-gh-release@v1
