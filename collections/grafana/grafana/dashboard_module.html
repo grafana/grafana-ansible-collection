@@ -19,6 +19,7 @@
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="grafana.grafana.datasource module – Manage Data sources in Grafana Cloud" href="datasource_module.html" />
@@ -121,23 +122,21 @@
 <h1>grafana.grafana.dashboard module – Manage Dashboards in Grafana Cloud<a class="headerlink" href="#grafana-grafana-dashboard-module-manage-dashboards-in-grafana-cloud" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.2).</p>
-<p>You might already have this collection installed if you are using the <code class="docutils literal notranslate"><span class="pre">ansible</span></code> package.
-It is not included in <code class="docutils literal notranslate"><span class="pre">ansible-core</span></code>.
-To check whether it is installed, run <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">list</span></code>.</p>
-<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">grafana.grafana</span></code>.</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/grafana/grafana">grafana.grafana collection</a> (version 1.0.3).</p>
+<p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">grafana.grafana</span></code>.
+You need further requirements to be able to use this module,
+see <a class="reference internal" href="#ansible-collections-grafana-grafana-dashboard-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
 <p>To use it in a playbook, specify: <code class="code docutils literal notranslate"><span class="pre">grafana.grafana.dashboard</span></code>.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.0.1: </span>of grafana.grafana</p>
-</div>
+<p class="ansible-version-added">New in grafana.grafana 0.0.1</p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#synopsis" id="id1">Synopsis</a></p></li>
 <li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
 <li><p><a class="reference internal" href="#parameters" id="id3">Parameters</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id4">Examples</a></p></li>
-<li><p><a class="reference internal" href="#return-values" id="id5">Return Values</a></p></li>
+<li><p><a class="reference internal" href="#notes" id="id4">Notes</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#return-values" id="id6">Return Values</a></p></li>
 </ul>
 </div>
 <section id="synopsis">
@@ -147,7 +146,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </ul>
 </section>
 <section id="requirements">
-<h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<span id="ansible-collections-grafana-grafana-dashboard-module-requirements"></span><h2><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
 <li><p>requests &gt;= 1.0.0</p></li>
@@ -190,16 +189,25 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <td><div class="ansible-option-cell"><p>State for the Grafana Cloud stack.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><span class="ansible-option-default-bold">present</span> <span class="ansible-option-default">← (default)</span></p></li>
-<li><p><span class="ansible-option-choices-entry">absent</span></p></li>
+<li><p><code class="ansible-option-default-bold docutils literal notranslate"><span class="pre">&quot;present&quot;</span></code> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><code class="ansible-option-choices-entry docutils literal notranslate"><span class="pre">&quot;absent&quot;</span></code></p></li>
 </ul>
 </div></td>
 </tr>
 </tbody>
 </table>
 </section>
+<section id="notes">
+<h2><a class="toc-backref" href="#id4">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code>.</p></li>
+</ul>
+</div>
+</section>
 <section id="examples">
-<h2><a class="toc-backref" href="#id4">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create/Update a dashboard</span><span class="w"></span>
 <span class="w">  </span><span class="nt">grafana.grafana.dashboard</span><span class="p">:</span><span class="w"></span>
 <span class="w">    </span><span class="nt">dashboard</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">lookup</span><span class="o">(</span><span class="s1">&#39;ansible.builtin.file&#39;</span><span class="o">,</span> <span class="s1">&#39;dashboard.json&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="w"></span>
@@ -217,7 +225,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 </div>
 </section>
 <section id="return-values">
-<h2><a class="toc-backref" href="#id5">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
+<h2><a class="toc-backref" href="#id6">Return Values</a><a class="headerlink" href="#return-values" title="Permalink to this heading"></a></h2>
 <p>Common return values are documented <a class="reference external" href="https://docs.ansible.com/ansible/devel/reference_appendices/common_return_values.html#common-return-values" title="(in Ansible vdevel)"><span class="xref std std-ref">here</span></a>, the following are the fields unique to this module:</p>
 <table class="colwidths-auto ansible-option-table docutils align-default" style="width: 100%">
 <thead>
@@ -230,7 +238,7 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="return-output"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output"><strong>output</strong></p>
 <a class="ansibleOptionLink" href="#return-output" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Dict object containing folder information</p>
+<td><div class="ansible-option-cell"><p>Dict object containing folder information.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> On success</p>
 </div></td>
 </tr>
@@ -238,64 +246,72 @@ To check whether it is installed, run <code class="code docutils literal notrans
 <div class="ansibleOptionAnchor" id="return-output/id"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-id"><strong>id</strong></p>
 <a class="ansibleOptionLink" href="#return-output/id" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The ID for the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The ID for the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">17</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/message"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-message"><strong>message</strong></p>
 <a class="ansibleOptionLink" href="#return-output/message" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The message returned after the operation on the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The message returned after the operation on the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is absent and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;Dashboard</span> <span class="pre">Ansible</span> <span class="pre">Integration</span> <span class="pre">Test</span> <span class="pre">deleted&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/slug"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-slug"><strong>slug</strong></p>
 <a class="ansibleOptionLink" href="#return-output/slug" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The slug for the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The slug for the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is present and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;ansible-integration-test&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/status"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-status"><strong>status</strong></p>
 <a class="ansibleOptionLink" href="#return-output/status" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The status of the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The status of the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is present and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;success&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/title"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-title"><strong>title</strong></p>
 <a class="ansibleOptionLink" href="#return-output/title" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is absent and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;Ansible</span> <span class="pre">Integration</span> <span class="pre">Test&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/uid"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-uid"><strong>uid</strong></p>
 <a class="ansibleOptionLink" href="#return-output/uid" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The UID for the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The UID for the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is present and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;test1234&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/url"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-url"><strong>url</strong></p>
 <a class="ansibleOptionLink" href="#return-output/url" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The endpoint for the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The endpoint for the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is present and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">&quot;/d/test1234/ansible-integration-test&quot;</span></code></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="return-output/version"></div><p class="ansible-option-title" id="ansible-collections-grafana-grafana-dashboard-module-return-output-version"><strong>version</strong></p>
 <a class="ansibleOptionLink" href="#return-output/version" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The version of the dashboard</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The version of the dashboard.</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> state is present and on success</p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <code class="ansible-option-sample docutils literal notranslate"><span class="pre">2</span></code></p>
 </div></td>
 </tr>
 </tbody>
