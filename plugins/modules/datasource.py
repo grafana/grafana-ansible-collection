@@ -16,6 +16,8 @@ short_description: Manage Data sources in Grafana Cloud
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes:
+  - Does not support C(check_mode).
 options:
   dataSource:
     description:
@@ -58,7 +60,7 @@ EXAMPLES = '''
 
 RETURN = r'''
 output:
-  description: Dict object containing Data source information
+  description: Dict object containing Data source information.
   returned: On success
   type: dict
   contains:
@@ -66,18 +68,43 @@ output:
       description: The response body content for the data source configuration.
       returned: state is present and on success
       type: dict
+      sample: {
+                "access": "proxy",
+                "basicAuth": false,
+                "basicAuthUser": "",
+                "database": "db-name",
+                "id": 20,
+                "isDefault": false,
+                "jsonData": {},
+                "name": "ansible-integration",
+                "orgId": 1,
+                "readOnly": false,
+                "secureJsonFields": {
+                    "password": true
+                },
+                "type": "influxdb",
+                "typeLogoUrl": "",
+                "uid": "ansibletest",
+                "url": "https://grafana.github.com/grafana-ansible-collection",
+                "user": "user",
+                "version": 1,
+                "withCredentials": false
+            }
     id:
-      description: The ID assigned to the data source
+      description: The ID assigned to the data source.
       returned: on success
       type: int
+      sample: 20
     name:
-      description: The name of the data source defined in the JSON source code
+      description: The name of the data source defined in the JSON source code.
       returned: state is present and on success
       type: str
+      sample: "ansible-integration"
     message:
-      description: The message returned after the operation on the Data source
+      description: The message returned after the operation on the Data source.
       returned: on success
       type: str
+      sample: "Datasource added"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -126,6 +153,7 @@ def absent_datasource(module):
 
 
 def main():
+
     module_args = dict(
         dataSource=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),
@@ -139,9 +167,11 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)

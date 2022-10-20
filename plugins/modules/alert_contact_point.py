@@ -16,6 +16,8 @@ short_description: Manage Alerting Contact points in Grafana Cloud
 description:
   - Create, Update and delete Contact points using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes:
+  - Does not support C(check_mode).
 options:
   name:
     description:
@@ -39,7 +41,7 @@ options:
     required: true
   disableResolveMessage:
     description:
-      - When set to True, Disables the resolve message [OK] that is sent when alerting state returns to false.
+      - When set to C(true), Disables the resolve message [OK] that is sent when alerting state returns to C(false).
     type: bool
     default: false
   grafana_api_key:
@@ -88,30 +90,37 @@ EXAMPLES = '''
 
 RETURN = r'''
 output:
-  description: Dict object containing Contact point information information
+  description: Dict object containing Contact point information information.
   returned: On success
   type: dict
   contains:
     disableResolveMessage:
-      description: When set to True, Disables the resolve message [OK] that is sent when alerting state returns to false
+      description: When set to True, Disables the resolve message [OK] that is sent when alerting state returns to false.
       returned: state is present and on success
       type: bool
+      sample: false
     name:
-      description: The name for the contact point
+      description: The name for the contact point.
       returned: state is present and on success
       type: str
+      sample: ops-email
     settings:
-      description: Contains contact point settings
+      description: Contains contact point settings.
       returned: state is present and on success
       type: dict
+      sample: {
+       addresses: "ops@mydomain.com,devs@mydomain.com"
+      }
     uid:
-      description: The UID for the contact point
+      description: The UID for the contact point.
       returned: state is present and on success
       type: str
+      sample: opsemail
     type:
-      description: The type of contact point
+      description: The type of contact point.
       returned: state is present and on success
       type: str
+      sample: email
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -200,9 +209,11 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)

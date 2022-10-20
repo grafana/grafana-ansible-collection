@@ -16,6 +16,8 @@ short_description: Manage Folders in Grafana Cloud
 description:
   - Create, Update and delete Folders via Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes:
+  - Does not support C(check_mode).
 options:
   title:
     description:
@@ -29,7 +31,7 @@ options:
     required: true
   overwrite:
     description:
-      - Set to false if you dont want to overwrite existing folder with newer version.
+      - Set to C(false) if you dont want to overwrite existing folder with newer version.
     type: bool
     required: false
     default: true
@@ -71,70 +73,85 @@ EXAMPLES = '''
 
 RETURN = r'''
 output:
-  description: Dict object containing folder information
+  description: Dict object containing folder information.
   returned: On success
   type: dict
   contains:
     canAdmin:
-      description: Boolean value specifying if current user can admin in folder
+      description: Boolean value specifying if current user can admin in folder.
       returned: state is present and on success
       type: bool
+      sample: true
     canDelete:
-      description: Boolean value specifying if current user can delete the folder
+      description: Boolean value specifying if current user can delete the folder.
       returned: state is present and on success
       type: bool
+      sample: true
     canEdit:
-      description: Boolean value specifying if current user can edit in folder
+      description: Boolean value specifying if current user can edit in folder.
       returned: state is present and on success
       type: bool
+      sample: true
     canSave:
-      description: Boolean value specifying if current user can save in folder
+      description: Boolean value specifying if current user can save in folder.
       returned: state is present and on success
       type: bool
+      sample: true
     created:
-      description: The date when folder was created
+      description: The date when folder was created.
       returned: state is present and on success
       type: str
+      sample: "2022-10-20T09:31:53Z"
     createdBy:
-      description: The name of the user who created the folder
+      description: The name of the user who created the folder.
       returned: state is present and on success
       type: str
+      sample: "Anonymous"
     hasAcl:
-      description: Boolean value specifying if folder has acl
+      description: Boolean value specifying if folder has acl.
       returned: state is present and on success
       type: bool
+      sample: true
     id:
-      description: The ID for the folder
+      description: The ID for the folder.
       returned: on success
       type: int
+      sample: 18
     title:
-      description: The name of the folder
+      description: The name of the folder.
       returned: on success
       type: str
+      sample: foldername
     uid:
-      description: The UID for the folder
+      description: The UID for the folder.
       returned: state is present and on success
       type: str
+      sample: foldername
     updated:
-      description: The date when the folder was last updated
+      description: The date when the folder was last updated.
       returned: state is present and on success
       type: str
+      sample: "2022-10-20T09:31:53Z"
     updatedBy:
-      description: The name of the user who last updated the folder
+      description: The name of the user who last updated the folder.
       returned: state is present and on success
       type: str
+      sample: "Anonymous"
     url:
-      description: The URl for the folder
+      description: The URl for the folder.
       returned: state is present and on success
       type: str
+      sample: "/dashboards/f/foldername/foldername"
     version:
-      description: The version of the folder
+      description: The version of the folder.
       returned: state is present and on success
       type: int
+      sample: 1
     message:
-      description: The message returned after the operation on the folder
+      description: The message returned after the operation on the folder.
       returned: state is absent and on success
       type: str
+      sample: "Folder foldername deleted"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -189,6 +206,7 @@ def absent_folder(module):
 
 
 def main():
+
     module_args = dict(
         title=dict(type='str', required=True),
         uid=dict(type='str', required=True),
@@ -204,9 +222,11 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)
