@@ -16,6 +16,7 @@ short_description: Manage Grafana Cloud Plugins
 description:
   - Create, Update and delete Grafana Cloud stacks using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes: Does not support C(check_mode). 
 options:
   name:
     description:
@@ -64,25 +65,30 @@ EXAMPLES = '''
 
 RETURN = r'''
   current_version:
-    description: Current version of the plugin
+    description: Current version of the plugin.
     returned: On success
     type: str
+    sample: "1.0.14"
   latest_version:
-    description: Latest version available for the plugin
+    description: Latest version available for the plugin.
     returned: On success
     type: str
+    sample: "1.0.15"
   pluginId:
-    description: Id for the Plugin
+    description: Id for the Plugin.
     returned: On success
     type: int
+    sample: 663
   pluginName:
-    description: Name of the plugin
+    description: Name of the plugin.
     returned: On success
     type: str
+    sample: "GitHub"
   pluginSlug:
-    description: Slug for the Plugin
+    description: Slug for the Plugin.
     returned: On success
     type: str
+    sample: "grafana-github-datasource"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -130,6 +136,9 @@ def absent_cloud_plugin(module):
 
 
 def main():
+    if not HAS_REQUESTS:
+        module.fail_json(msg=missing_required_lib('requests'))
+    
     module_args = dict(
         name=dict(type='str', required=True),
         version=dict(type='str', required=False, default='latest'),
@@ -144,8 +153,7 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
 
     is_error, has_changed, result = choice_map.get(

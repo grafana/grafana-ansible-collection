@@ -16,15 +16,16 @@ short_description: Manage Grafana Cloud stack
 description:
   - Create and delete Grafana Cloud stacks using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes: Does not support C(check_mode). 
 options:
   name:
     description:
-      - Sets the name of stack. Conventionally matches the URL of the instance. For example, "<stack_slug>.grafana.net".
+      - Sets the name of stack. Conventionally matches the URL of the instance. For example, C(stackslug.grafana.net).
     type: str
     required: true
   stack_slug:
     description:
-      - Sets the subdomain of the Grafana instance. For example, if slug is <stack_slug>, the instance URL will be `https://<stack_slug>.grafana.net`.
+      - Sets the subdomain of the Grafana instance. For example, if slug is B(stackslug), the instance URL will be C(https://stackslug.grafana.net).
     type: str
     required: true
   cloud_api_key:
@@ -40,7 +41,7 @@ options:
     choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
-      - If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to `https://<stack_slug>.grafana.net`.
+      - If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to C(https://stackslug.grafana.net).
     type: str
   org_slug:
     description:
@@ -77,41 +78,50 @@ EXAMPLES = '''
 
 RETURN = r'''
   alertmanager_name:
-    description: Name of the alertmanager instance
+    description: Name of the alertmanager instance.
     returned: always
     type: str
+    sample: "stackname-alerts"
   alertmanager_url:
-    description: URL of the alertmanager instance
+    description: URL of the alertmanager instance.
     returned: always
     type: str
+    sample: "https://alertmanager-eu-west-0.grafana.net"
   cluster_slug:
-    description: Slug for the cluster where the Grafana stack is deployed
+    description: Slug for the cluster where the Grafana stack is deployed.
     returned: always
     type: str
+    sample: "prod-eu-west-0"
   id:
-    description: ID of the Grafana Cloud stack
+    description: ID of the Grafana Cloud stack.
     returned: always
     type: int
+    sample: 458182
   loki_url:
-    description: URl for the Loki instance
+    description: URl for the Loki instance.
     returned: always
     type: str
+    sample: "https://logs-prod-eu-west-0.grafana.net"
   orgID:
-    description: ID of the Grafana Cloud organization
+    description: ID of the Grafana Cloud organization.
     returned: always
     type: int
+    sample: 652992
   prometheus_url:
-    description: URl for the Prometheus instance
+    description: URl for the Prometheus instance.
     returned: always
     type: str
+    sample: "https://prometheus-prod-01-eu-west-0.grafana.net"
   tempo_url:
-    description: URl for the Tempo instance
+    description: URl for the Tempo instance.
     returned: always
     type: str
+    sample: "https://tempo-eu-west-0.grafana.net"
   url:
-    description: URL of the Grafana Cloud stack
+    description: URL of the Grafana Cloud stack.
     returned: always
     type: str
+    sample: "https://stackname.grafana.net"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -165,6 +175,9 @@ def absent_cloud_stack(module):
 
 
 def main():
+    if not HAS_REQUESTS:
+        module.fail_json(msg=missing_required_lib('requests'))
+    
     module_args = dict(
         name=dict(type='str', required=True),
         stack_slug=dict(type='str', required=True),
@@ -183,8 +196,7 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
 
     is_error, has_changed, result = choice_map.get(

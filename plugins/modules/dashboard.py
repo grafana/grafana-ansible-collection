@@ -16,6 +16,7 @@ short_description: Manage Dashboards in Grafana Cloud
 description:
   - Create, Update and delete Dashboards using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes: Does not support C(check_mode). 
 options:
   dashboard:
     description:
@@ -58,42 +59,50 @@ EXAMPLES = '''
 
 RETURN = r'''
 output:
-  description: Dict object containing folder information
+  description: Dict object containing folder information.
   returned: On success
   type: dict
   contains:
     id:
-      description: The ID for the dashboard
+      description: The ID for the dashboard.
       returned: on success
       type: int
+      sample: 17
     slug:
-      description: The slug for the dashboard
+      description: The slug for the dashboard.
       returned: state is present and on success
       type: str
+      sample: ansible-integration-test
     status:
-      description: The status of the dashboard
+      description: The status of the dashboard.
       returned: state is present and on success
       type: str
+      sample: success
     uid:
-      description: The UID for the dashboard
+      description: The UID for the dashboard.
       returned: state is present and on success
       type: str
+      sample: "test1234"
     url:
-      description: The endpoint for the dashboard
+      description: The endpoint for the dashboard.
       returned: state is present and on success
       type: str
+      sample: "/d/test1234/ansible-integration-test"
     version:
-      description: The version of the dashboard
+      description: The version of the dashboard.
       returned: state is present and on success
       type: int
+      sample: 2
     message:
-      description: The message returned after the operation on the dashboard
+      description: The message returned after the operation on the dashboard.
       returned: state is absent and on success
       type: str
+      sample: "Dashboard Ansible Integration Test deleted"
     title:
-      description: The name of the dashboard
+      description: The name of the dashboard.
       returned: state is absent and on success
       type: str
+      sample: "Ansible Integration Test"
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -134,6 +143,9 @@ def absent_dashboard(module):
 
 
 def main():
+    if not HAS_REQUESTS:
+        module.fail_json(msg=missing_required_lib('requests'))
+    
     module_args = dict(
         dashboard=dict(type='dict', required=True),
         stack_slug=dict(type='str', required=True),
@@ -147,8 +159,7 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
 
     is_error, has_changed, result = choice_map.get(

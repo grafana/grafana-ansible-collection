@@ -16,10 +16,11 @@ short_description: Sets the notification policy tree in Alerting on Grafana Clou
 description:
   - Set the notification policy tree using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes: Does not support C(check_mode). 
 options:
   Continue:
     description:
-      - Continue matching subsequent sibling nodes if set to `True`.
+      - Continue matching subsequent sibling nodes if set to C(true).
     type: bool
     default: false
   groupByStr:
@@ -117,7 +118,7 @@ EXAMPLES = '''
 
 RETURN = r'''
 output:
-  description: Dict object containing Notification tree information
+  description: Dict object containing Notification tree information.
   returned: On success
   type: dict
   contains:
@@ -125,22 +126,38 @@ output:
       description: The waiting time to send a batch of new alerts for that group after the first notification was sent. This is of the parent policy.
       returned: on success
       type: str
+      sample: "5m"
     group_wait:
       description: The waiting time until the initial notification is sent for a new group created by an incoming alert. This is of the parent policy.
       returned: on success
       type: str
+      smaple: "30s"
     receiver:
-      description: The name of the default contact point
+      description: The name of the default contact point.
       returned: state is present and on success
       type: str
+      sample: "grafana-default-email"
     repeat_interval:
       description: The waiting time to resend an alert after they have successfully been sent. This is of the parent policy
       returned: on success
       type: str
+      sample: "4h"
     routes:
-      description: The entire notification tree returned as a list
+      description: The entire notification tree returned as a list.
       returned: on success
       type: list
+      sample: [
+                {
+                    "object_matchers": [
+                        [
+                            "env",
+                            "=",
+                            "Production"
+                        ]
+                    ],
+                    "receiver": "grafana-default-email"
+                }
+              ]
 '''
 
 from ansible.module_utils.basic import AnsibleModule
@@ -174,6 +191,9 @@ def alert_notification_policy(module):
 
 
 def main():
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
+    
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
                        groupByStr=dict(type='list', required=False, default=[], elements='str'),
                        muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),
@@ -186,7 +206,7 @@ def main():
                        stack_slug=dict(type='str', required=True),
                        grafana_api_key=dict(type='str', required=True, no_log=True), )
 
-    module = AnsibleModule(argument_spec=module_args, supports_check_mode=True)
+    module = AnsibleModule(argument_spec=module_args)
 
     is_error, has_changed, result = alert_notification_policy(module)
 

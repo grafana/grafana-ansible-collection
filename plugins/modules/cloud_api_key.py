@@ -16,6 +16,7 @@ short_description: Manage Grafana Cloud API keys
 description:
   - Create and delete Grafana Cloud API keys using Ansible.
 requirements: [ "requests >= 1.0.0" ]
+notes: Does not support C(check_mode). 
 options:
   name:
     description:
@@ -24,7 +25,7 @@ options:
     required: true
   role:
     description:
-      - Sets the role to be associated with the CLoud API key.
+      - Sets the role to be associated with the Cloud API key.
     type: str
     required: true
     choices: [Admin, Viewer, Editor, MetricsPublisher]
@@ -40,7 +41,7 @@ options:
     required : true
   fail_if_already_created:
     description:
-      - If set to `True`, the task will fail if the API key with same name already exists in the Organization.
+      - If set to C(true), the task will fail if the API key with same name already exists in the Organization.
     type: bool
     default: True
   state:
@@ -110,6 +111,9 @@ def absent_cloud_api_key(module):
 
 
 def main():
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
+    
     module_args = dict(
         name=dict(type='str', required=True),
         role=dict(type='str', required=True, choices=['Admin', 'Viewer', 'Editor', 'MetricsPublisher']),
@@ -125,8 +129,7 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec=module_args
     )
 
     is_error, has_changed, result = choice_map.get(
