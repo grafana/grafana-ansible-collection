@@ -16,7 +16,8 @@ short_description: Manage Data sources in Grafana Cloud
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: Does not support C(check_mode). 
+notes: 
+  - Does not support C(check_mode).
 options:
   dataSource:
     description:

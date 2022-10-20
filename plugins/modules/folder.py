@@ -16,7 +16,8 @@ short_description: Manage Folders in Grafana Cloud
 description:
   - Create, Update and delete Folders via Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: Does not support C(check_mode). 
+notes: 
+  - Does not support C(check_mode).
 options:
   title:
     description:
@@ -130,7 +131,7 @@ output:
       description: The date when the folder was last updated.
       returned: state is present and on success
       type: str
-      sampled: "2022-10-20T09:31:53Z"
+      sample: "2022-10-20T09:31:53Z"
     updatedBy:
       description: The name of the user who last updated the folder.
       returned: state is present and on success

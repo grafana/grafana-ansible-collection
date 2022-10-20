@@ -120,7 +120,7 @@ output:
       description: The type of contact point.
       returned: state is present and on success
       type: str
-      smaple: email
+      sample: email
 '''
 
 from ansible.module_utils.basic import AnsibleModule

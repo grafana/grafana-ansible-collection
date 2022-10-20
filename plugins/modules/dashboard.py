@@ -16,7 +16,8 @@ short_description: Manage Dashboards in Grafana Cloud
 description:
   - Create, Update and delete Dashboards using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: Does not support C(check_mode). 
+notes: 
+  - Does not support C(check_mode).
 options:
   dashboard:
     description:

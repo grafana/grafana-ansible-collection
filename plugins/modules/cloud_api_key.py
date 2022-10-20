@@ -16,7 +16,8 @@ short_description: Manage Grafana Cloud API keys
 description:
   - Create and delete Grafana Cloud API keys using Ansible.
 requirements: [ "requests >= 1.0.0" ]
-notes: Does not support C(check_mode). 
+notes: 
+  - Does not support C(check_mode).
 options:
   name:
     description:
