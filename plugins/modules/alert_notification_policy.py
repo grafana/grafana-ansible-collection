@@ -191,8 +191,6 @@ def alert_notification_policy(module):
 
 
 def main():
-    if not HAS_REQUESTS:
-        module.fail_json("Missing package - `request` ")
     
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
                        groupByStr=dict(type='list', required=False, default=[], elements='str'),
@@ -207,6 +205,9 @@ def main():
                        grafana_api_key=dict(type='str', required=True, no_log=True), )
 
     module = AnsibleModule(argument_spec=module_args)
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = alert_notification_policy(module)
 

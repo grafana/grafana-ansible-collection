@@ -175,8 +175,6 @@ def absent_cloud_stack(module):
 
 
 def main():
-    if not HAS_REQUESTS:
-        module.fail_json(msg=missing_required_lib('requests'))
     
     module_args = dict(
         name=dict(type='str', required=True),
@@ -198,6 +196,9 @@ def main():
     module = AnsibleModule(
         argument_spec=module_args
     )
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)

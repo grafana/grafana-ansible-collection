@@ -191,9 +191,6 @@ def absent_alert_contact_point(module):
 
 
 def main():
-    if not HAS_REQUESTS:
-        module.fail_json("Missing package - `request` ")
-    
     module_args = dict(
         name=dict(type='str', required=True),
         uid=dict(type='str', required=True),
@@ -213,6 +210,9 @@ def main():
     module = AnsibleModule(
         argument_spec=module_args
     )
+
+    if not HAS_REQUESTS:
+        module.fail_json("Missing package - `request` ")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)
