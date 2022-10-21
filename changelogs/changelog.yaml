@@ -2,28 +2,33 @@ ancestor: null
 releases:
   0.0.1:
     changes:
-      release_summary: It's a release! First version to publish to Ansible Galaxy.
+      release_summary: It's a release! First version to publish to Ansible Galaxy
+    release_date: '2022-08-09'
   0.0.2:
     changes:
       release_summary: Updated input parameters description for all modules
+    release_date: '2022-08-10'
   0.0.3:
     changes:
-      release_summary: Documenation update and code cleanup
+      release_summary: Documentation update and code cleanup
+    release_date: '2022-08-10'
   0.0.4:
     changes:
       bugfixes:
       - Fix an issue with `cloud_stack` idempotency
+    release_date: '2022-08-10'
   0.0.5:
     changes:
-      release_summary: Documenation update and code cleanup
+      release_summary: Documentation update and code cleanup
+    release_date: '2022-08-10'
   0.0.6:
     changes:
       minor_changes:
       - Idempotency updates to cloud_api_key and datasource modules
+    release_date: '2022-08-10'
   0.0.7:
     changes:
       release_summary: Documentation update for return values in `grafana.grafana.dashboard`
-        module
     release_date: '2022-08-11'
   1.0.0:
     changes:
