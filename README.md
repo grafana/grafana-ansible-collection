@@ -95,7 +95,8 @@ This collection follows [Semantic Versioning](https://semver.org/). More details
 
 We plan to regularly release new minor or bugfix versions once new features or bugfixes have been implemented.
 
-Releasing the current major version happens from the `main` branch.
+Releasing the current major version on GitHub happens from the `main` branch by the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml)
+Before the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml) is run, Contributors should push the new version on Ansible Galaxy Manually.
 
 We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.0.4.
 
