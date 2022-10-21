@@ -162,7 +162,7 @@ def main():
     )
 
     if not HAS_REQUESTS:
-       module.fail_json(msg=missing_required_lib('requests'))
+        module.fail_json(msg=missing_required_lib('requests'))
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)
