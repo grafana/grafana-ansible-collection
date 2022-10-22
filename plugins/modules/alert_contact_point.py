@@ -158,9 +158,15 @@ def present_alert_contact_point(module):
 
             result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
+            contactPointFound = False
+
             for contact_points in result.json():
                 if contact_points['uid'] == module.params['uid']:
-                    return False, True, contact_points
+                    contactPointFound = True
+            if contactPointFound:
+              return False, True, contact_points
+            else:
+              return True, False, "Contact Point not found"
         else:
             return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
