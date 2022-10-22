@@ -148,8 +148,7 @@ def present_alert_contact_point(module):
     if result.status_code == 202:
         return False, True, result.json()
     elif result.status_code == 500:
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + \
-                  module.params['uid']
+        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + module.params['uid']
 
         result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -164,9 +163,9 @@ def present_alert_contact_point(module):
                 if contact_points['uid'] == module.params['uid']:
                     contactPointFound = True
             if contactPointFound:
-              return False, True, contact_points
+                return False, True, contact_points
             else:
-              return True, False, "Contact Point not found"
+                return True, False, "Contact Point not found"
         else:
             return True, False, {"status": result.status_code, 'response': result.json()['message']}
 

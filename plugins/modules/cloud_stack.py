@@ -162,14 +162,14 @@ def present_cloud_stack(module):
           for stack in result.json()['items']:
               if stack['slug'] == module.params['stack_slug']:
                   return False, False, stack
-          
+
           if stack_found:
             return False, False, stack
           else:
-            return True, False, "Stack is not found under your org" 
+            return True, False, "Stack is not found under your org"
         elif result.json['message'] == "Hosted instance limit reached":
-          return True, False, "Yo have reached Maximum number of Cloud Stacks in your Org." 
-    
+          return True, False, "Yo have reached Maximum number of Cloud Stacks in your Org."
+
     else:
         return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
