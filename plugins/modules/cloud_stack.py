@@ -148,12 +148,12 @@ def present_cloud_stack(module):
     api_url = 'https://grafana.com/api/instances'
 
     result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
-
+    
     if result.status_code == 200:
         return False, True, result.json()
-    stack_found = False
     
     elif result.status_code in [409, 403] and result.json()['message'] in ["That url is not available", "Hosted instance limit reached"]:
+        stack_found = False
         if result.json['message'] == "That url is not available":
             api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/instances'
 
