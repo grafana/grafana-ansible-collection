@@ -159,7 +159,7 @@ def present_alert_contact_point(module):
 
             contactPointFound = False
             contactPointInfo = {}
-            
+
             for contact_points in result.json():
                 if contact_points['uid'] == module.params['uid']:
                     contactPointFound = True
