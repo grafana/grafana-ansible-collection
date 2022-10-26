@@ -158,14 +158,14 @@ def present_cloud_stack(module):
             api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/instances'
 
             result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
-            stack_found = True
-
+            
+            stackInfo = {}
             for stack in result.json()['items']:
                 if stack['slug'] == module.params['stack_slug']:
-                    return False, False, stack
-
+                    stack_found = True
+                    stackInfo = stack
             if stack_found:
-                return False, False, stack
+                return False, False, stackInfo
             else:
                 return True, False, "Stack is not found under your org"
         elif result.json['message'] == "Hosted instance limit reached":
