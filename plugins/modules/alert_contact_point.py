@@ -150,7 +150,7 @@ def present_alert_contact_point(module):
     elif result.status_code == 500:
         sameConfig = False
         contactPointInfo = {}
-        
+
         api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
 
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
