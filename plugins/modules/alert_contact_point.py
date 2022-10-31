@@ -163,9 +163,7 @@ def present_alert_contact_point(module):
                     if (contact_points['name'] == module.params['name'] and contact_points['type'] == module.params['type']
                         and contact_points['setting'] == module.params['settings'] and
                         contact_points['disableResolveMessage'] == module.params['disableResolveMessage']):
-                        return False, False, contact_points
-                else:
-                    return False, True, contact_points
+                          return False, False, contact_points
         else:
             return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
