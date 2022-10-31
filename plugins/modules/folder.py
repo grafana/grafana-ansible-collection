@@ -178,32 +178,31 @@ def present_folder(module):
     elif result.status_code == 412:
         sameConfig = False
         folderInfo = {}
-        
+
         api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders'
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
-        
+
         for folder in result.json():
-          if folder['uid'] == module.params['uid'] and folder['title'] == module.params['title']:
-            sameConfig = True
-            folderInfo = folder
-        
+            if folder['uid'] == module.params['uid'] and folder['title'] == module.params['title']:
+                sameConfig = True
+                folderInfo = folder
+
         if sameConfig:
             return False, False, folderInfo
         else:
-          body = {
-              'uid': module.params['uid'],
-              'title': module.params['title'],
-              'overwrite': module.params['overwrite']
-          }
-          api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders/' + module.params['uid']
+            body = {
+                'uid': module.params['uid'],
+                'title': module.params['title'],
+                'overwrite': module.params['overwrite']
+            }
+            api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders/' + module.params['uid']
 
-          result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+            result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
-          if result.status_code == 200:
-              return False, True, result.json()
-          else:
-              return True, False, {"status": result.status_code, 'response': result.json()['message']}
-
+            if result.status_code == 200:
+                return False, True, result.json()
+            else:
+                return True, False, {"status": result.status_code, 'response': result.json()['message']}
     else:
         return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
