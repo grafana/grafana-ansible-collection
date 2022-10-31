@@ -15,7 +15,7 @@
 - name: update a plugin
   grafana.grafana.cloud_plugin:
     name: grafana-github-datasource
-    version: 1.0.14
+    version: 1.0.15
     stack_slug: "{{ stack_name }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     state: present
