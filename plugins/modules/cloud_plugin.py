@@ -118,7 +118,7 @@ def present_cloud_plugin(module):
         api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params['name']
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
-        if result.json()['pluginSlug'] == module.params['name'] and result.json()['pluginSlug'] == module.params['version']:
+        if result.json()['pluginSlug'] == module.params['name'] and result.json()['version'] == module.params['version']:
             return False, False, result.json()
         else:
             api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params[
