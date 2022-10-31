@@ -16,6 +16,24 @@
       - add_result.failed == false
       - add_result.output.provenance == "api"
 
+- name: Idempotency Check
+  grafana.grafana.alert_contact_point:
+    name: ops-email
+    uid: opsemail
+    type: email
+    settings: {
+       addresses: "ops@mydomain.com,devs@mydomain.com"
+     }
+    stack_slug: "{{ stack_name }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: present
+  register: idempotent_result
+
+- assert:
+    that:
+      - idempotent_result.changed == false
+      - idempotent_result.output.provenance == "api"
+
 - name: Update Alerting contact point
   grafana.grafana.alert_contact_point:
     name: ops-email
