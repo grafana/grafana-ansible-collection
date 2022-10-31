@@ -183,7 +183,7 @@ def alert_notification_policy(module):
 
     if (result.json()['receiver'] == module.params['rootPolicyReceiver'] and result.json()['routes'] == module.params['routes']
        and result.json()['group_wait'] == module.params['groupWait'] and result.json()['group_interval'] == module.params['groupInterval']
-       and result.json()['repeat_interval'] == module.params['repeatInterval']:
+       and result.json()['repeat_interval'] == module.params['repeatInterval']):
         return False, False, result.json()
     else:
         api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/policies'
