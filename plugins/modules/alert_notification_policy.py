@@ -183,17 +183,17 @@ def alert_notification_policy(module):
 
     if (result.json()['receiver'] == module.params['rootPolicyReceiver'] and result.json()['routes'] == module.params['routes']
        and result.json()['group_wait'] == module.params['groupWait'] and result.json()['group_interval'] == module.params['groupInterval']
-       and result.json()['repeat_interval'] == module.params['repeatInterval'] and result.json()['object_matchers'] == module.params['objectMatchers']):
+       and result.json()['repeat_interval'] == module.params['repeatInterval']:
         return False, False, result.json()
     else:
-      api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/policies'
+        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/policies'
 
-      result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
-      if result.status_code == 202:
-          return False, True, result.json()
-      else:
-          return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        if result.status_code == 202:
+            return False, True, result.json()
+        else:
+            return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
 
 def main():
