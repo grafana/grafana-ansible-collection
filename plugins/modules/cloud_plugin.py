@@ -116,8 +116,7 @@ def present_cloud_plugin(module):
         return False, True, result.json()
     elif result.status_code == 409:
         api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params['name']
-        result = requests.get(api_url, json={'version': module.params['version']},
-                              headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
 
         if result.json()['pluginSlug'] == module.params['name'] and result.json()['pluginSlug'] == module.params['version']:
             return False, False, result.json()
