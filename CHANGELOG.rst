@@ -4,6 +4,30 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+
+v1.0.4
+======
+
+Release Summary
+---------------
+
+Bug fixes and idempotency fixes for modules
+
+Major Changes
+-------------
+
+- All modules except dashboard and datasource modules now support idempotency
+
+Minor Changes
+-------------
+
+- All modules use `missing_required_lib`` to compose the message for module.fail_json() when required library is missing from host
+
+Bugfixes
+--------
+
+- Fixed cases where cloud_stack and alert_contact_point modules do not return a tuple when nothing in loop matches
+
 v1.0.3
 ======
 
@@ -45,7 +69,7 @@ v0.0.7
 Release Summary
 ---------------
 
-Documentation update for return values in `grafana.grafana.dashboard` module
+Documentation update for return values in `grafana.grafana.dashboard`
 
 v0.0.6
 ======
@@ -61,7 +85,7 @@ v0.0.5
 Release Summary
 ---------------
 
-Documenation update and code cleanup
+Documentation update and code cleanup
 
 v0.0.4
 ======
@@ -77,7 +101,7 @@ v0.0.3
 Release Summary
 ---------------
 
-Documenation update and code cleanup
+Documentation update and code cleanup
 
 v0.0.2
 ======
@@ -93,4 +117,4 @@ v0.0.1
 Release Summary
 ---------------
 
-It's a release! First version to publish to Ansible Galaxy.
+It's a release! First version to publish to Ansible Galaxy

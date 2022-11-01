@@ -52,4 +52,14 @@ releases:
       - removed `supports_check_mode=True` from source code of modules
     release_date: '2022-10-20'
   1.0.4:
-    release_date: '2022-10-20'
+    changes:
+      bugfixes:
+      - Fixed cases where cloud_stack and alert_contact_point modules do not return
+        a tuple when nothing in loop matches
+      major_changes:
+      - All modules except dashboard and datasource modules now support idempotency
+      minor_changes:
+      - All modules use `missing_required_lib`` to compose the message for module.fail_json()
+        when required library is missing from host
+      release_summary: Bug fixes and idempotency fixes for modules
+    release_date: '2022-11-01'
