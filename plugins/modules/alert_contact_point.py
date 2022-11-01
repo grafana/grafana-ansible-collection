@@ -148,29 +148,39 @@ def present_alert_contact_point(module):
     if result.status_code == 202:
         return False, True, result.json()
     elif result.status_code == 500:
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + module.params['uid']
+        sameConfig = False
+        contactPointInfo = {}
 
-        result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
 
-        if result.status_code == 202:
-            api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
-            result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        for contact_points in result.json():
+            if contact_points['uid'] == module.params['uid']:
+                if (contact_points['name'] == module.params['name'] and contact_points['type'] == module.params['type'] and contact_points['settings']
+                   and contact_points['settings'] == module.params['settings']
+                   and contact_points['disableResolveMessage'] == module.params['disableResolveMessage']):
 
-            contactPointFound = False
-            contactPointInfo = {}
-
-            for contact_points in result.json():
-                if contact_points['uid'] == module.params['uid']:
-                    contactPointFound = True
+                    sameConfig = True
                     contactPointInfo = contact_points
-            if contactPointFound:
-                return False, True, contactPointInfo
-            else:
-                return True, False, "Contact Point not found"
+        if sameConfig:
+            return False, False, contactPointInfo
         else:
-            return True, False, {"status": result.status_code, 'response': result.json()['message']}
+            api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + \
+                      module.params['uid']
 
+            result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+            if result.status_code == 202:
+                api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+
+                result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+                for contact_points in result.json():
+                    if contact_points['uid'] == module.params['uid']:
+                        return False, True, contact_points
+            else:
+                return True, False, {"status": result.status_code, 'response': result.json()['message']}
     else:
         return True, False, {"status": result.status_code, 'response': result.json()['message']}
 

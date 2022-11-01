@@ -10,8 +10,7 @@
 
 - assert:
     that:
-      - create_result.changed == true
-      - create_result.output.url == "/dashboards/f/test123/ansible-integration-test"
+      - create_result.failed == false
 
 - name: Delete a folder
   grafana.grafana.folder:
