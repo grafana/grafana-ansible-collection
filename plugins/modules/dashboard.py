@@ -106,7 +106,7 @@ output:
       sample: "Ansible Integration Test"
 '''
 
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule, missing_required_lib
 try:
     import requests
     HAS_REQUESTS = True
@@ -162,7 +162,7 @@ def main():
     )
 
     if not HAS_REQUESTS:
-        module.fail_json("Missing package - `request` ")
+        module.fail_json(msg=missing_required_lib('requests'))
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)
