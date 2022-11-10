@@ -63,3 +63,9 @@ releases:
         when required library is missing from host
       release_summary: Bug fixes and idempotency fixes for modules
     release_date: '2022-11-01'
+  1.0.5:
+    changes:
+      minor_changes:
+      - Added Note to datasource and dashboard module about not supporting Idempotency
+      release_summary: Add Note to modules which don't support Idempotency
+    release_date: '2022-11-10'
