@@ -1,7 +1,7 @@
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: ansiblestack
-    stack_slug: ansiblestack
+    name: ansiblestacktest
+    stack_slug: ansiblestacktest
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: present
