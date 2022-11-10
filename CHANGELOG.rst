@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v1.0.5
+======
+
+Release Summary
+---------------
+
+Add Note to modules which don't support Idempotency
+
+Minor Changes
+-------------
+
+- Added Note to datasource and dashboard module about not supporting Idempotency
+
 v1.0.4
 ======
 
