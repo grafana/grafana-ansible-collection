@@ -18,6 +18,7 @@ description:
 requirements: [ "requests >= 1.0.0" ]
 notes:
   - Does not support C(check_mode).
+  - Does not support C(Idempotency).
 options:
   dashboard:
     description:
