@@ -1,0 +1,4 @@
+- import_role: 
+    name: grafana.grafana.grafana_agent
+  vars:
+    agent_config_local_path: agent-config.yml
