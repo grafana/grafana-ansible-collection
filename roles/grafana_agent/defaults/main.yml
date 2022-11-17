@@ -1,0 +1,20 @@
+install_unzip: true
+update_package_cache: yes
+agent_version: 0.29.0
+linux_architecture: linux-amd64
+agent_binary_location: /usr/local/bin
+agent_config_location: /etc/grafana
+agent_config_local_path: agent-config.yml
+
+systemd_service_state: restarted
+systemd_config: |
+  [Unit]
+  Description=Grafana Agent
+
+  [Service]
+  User=grafana-agent
+  ExecStart={{ agent_binary_location }}/agent-{{ linux_architecture }} --config.file={{ agent_config_location }}/agent-config.yaml
+  Restart=always
+
+  [Install]
+  WantedBy=multi-user.target

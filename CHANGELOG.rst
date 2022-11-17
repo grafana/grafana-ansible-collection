@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v1.1.0
+======
+
+Release Summary
+---------------
+
+Added Role to deploy Grafana Agent on linux hosts
+
+Major Changes
+-------------
+
+- Added Role for Grafana Agent
+
 v1.0.5
 ======
 
