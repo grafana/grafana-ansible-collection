@@ -59,9 +59,9 @@ jobs:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       
       - name: create Grafana Agent configuration
-        working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
+        working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/roles/grafana_agent/
         run: |
-          cat <<EOF > roles/grafana_agent/agent-config.yml
+          cat <<EOF > agent-config.yml
           logs:
             configs:
               - clients:
