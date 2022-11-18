@@ -40,56 +40,7 @@ jobs:
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-  
-  roles:
-    runs-on: ubuntu-latest
-    name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
-    strategy:
-      fail-fast: true
-      matrix:
-        ansible:
-          - stable-2.13
-        python:
-          - '3.10'
-            
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-        with:
-          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-      
-      - name: create Grafana Agent configuration
-        working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/roles/grafana_agent/
-        run: |
-          cat <<EOF > agent-config.yml
-          logs:
-            configs:
-              - clients:
-                - basic_auth:
-                    password: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
-                    username: 327080
-                  url: https://logs-prod3.grafana.net/loki/api/v1/push
-                name: default
-                positions:
-                  filename: /tmp/positions.yaml
-                scrape_configs:
-                  - job_name: integrations/node_exporter_direct_scrape
-                    static_configs:
-                      - targets:
-                          - localhost
-                        labels:
-                          instance: hostname
-                          __path__: /var/log/*.log
-                          job: integrations/node_exporter
-                target_config:
-                  sync_period: 10s
-          EOF
- 
-      - name: ansible check with ubuntu:latest
-        uses: roles-ansible/check-ansible-ubuntu-latest-action@master
-        with:
-          targets: roles/grafana_agent/"
-  
+
   integration:
     runs-on: ubuntu-latest
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
