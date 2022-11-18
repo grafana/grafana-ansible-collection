@@ -40,7 +40,7 @@ jobs:
       - name: Run sanity tests
         run: ansible-test sanity --docker -v --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-
+  
   integration:
     runs-on: ubuntu-latest
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
