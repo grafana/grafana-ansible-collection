@@ -1,0 +1,59 @@
+- name: Install unzip on Ubuntu/Debian
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+    update_cache: "{{ update_package_cache }}"
+  when: install_unzip | bool and (ansible_distribution == "Ubuntu" or ansible_distribution == "Debian")
+
+- name: Install unzip on Fedora/CentOS
+  ansible.builtin.dnf:
+    name: unzip
+    state: latest
+    update_cache: "{{ update_package_cache }}"
+  when: install_unzip | bool and (ansible_distribution == "Fedora" or ansible_distribution == "CentOS")
+
+- name: Download Grafana Agent binary from GitHub
+  ansible.builtin.get_url:
+    url: "https://github.com/grafana/agent/releases/download/v{{ agent_version }}/agent-{{ linux_architecture }}.zip"
+    dest: "/tmp/agent-linux.zip"
+    mode: '0644'
+
+- name: Unarchive the Grafana Agent binary
+  ansible.builtin.unarchive:
+    src: "/tmp/agent-linux.zip"
+    dest: "{{ agent_binary_location }}"
+    remote_src: yes
+    mode: '0755'
+
+- name: Create directory for Grafana Agent Configuration file
+  ansible.builtin.file:
+    path: "{{ agent_config_location }}"
+    state: directory
+    mode: '0755'
+
+- name: Create configuration file for Grafana Agent
+  ansible.builtin.copy:
+    src: "{{ agent_config_local_path }}"
+    dest: "{{ agent_config_location }}/agent-config.yaml"
+
+- name: Add user 'grafana-agent'
+  ansible.builtin.user:
+    name: grafana-agent
+    create_home: no
+    shell: /bin/false
+
+- name: Create service file for Grafana Agent
+  ansible.builtin.copy:
+    dest: "/etc/systemd/system/grafana-agent.service"
+    content: "{{ systemd_config }}"
+
+- name: Start Grafana Agent service
+  ansible.builtin.systemd:
+    daemon_reload: yes
+    name: grafana-agent
+    enabled: yes
+    state: "{{ systemd_service_state }}"
+
+- name: Checking grafana-agent service status
+  ansible.builtin.shell:
+    cmd: systemctl is-active grafana-agent
