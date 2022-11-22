@@ -54,6 +54,6 @@
     enabled: yes
     state: "{{ systemd_service_state }}"
 
-- name: Checking if grafana-agent service is running
+- name: Checking grafana-agent service status
   ansible.builtin.shell:
     cmd: systemctl is-active grafana-agent
