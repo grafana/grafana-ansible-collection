@@ -11,7 +11,7 @@ env:
   COLLECTION_NAME: grafana
 
 jobs:
-   sanity:
+  sanity:
     runs-on: ubuntu-latest
     name: Sanity (Ⓐ$${{ matrix.ansible_version }})
     timeout-minutes: 30
