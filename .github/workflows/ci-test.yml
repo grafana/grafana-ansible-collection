@@ -11,7 +11,6 @@ env:
   COLLECTION_NAME: grafana
 
 jobs:
-
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
@@ -20,26 +19,45 @@ jobs:
           - stable-2.11
           - stable-2.12
           - stable-2.13
+          - stable-2.14
           - devel
+        # - milestone
     runs-on: ubuntu-latest
     steps:
-
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Perform sanity testing
+        uses: ansible-community/ansible-test-gh-action@release/v1
         with:
-          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          ansible-core-version: ${{ matrix.ansible }}
+          testing-type: sanity
+  
+  # sanity:
+  #   name: Sanity (Ⓐ${{ matrix.ansible }})
+  #   strategy:
+  #     matrix:
+  #       ansible:
+  #         - stable-2.11
+  #         - stable-2.12
+  #         - stable-2.13
+  #         - devel
+  #   runs-on: ubuntu-latest
+  #   steps:
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.10'
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Install ansible-base (${{ matrix.ansible }})
-        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+  #     - name: Set up Python
+  #       uses: actions/setup-python@v3
+  #       with:
+  #         python-version: '3.10'
+
+  #     - name: Install ansible-base (${{ matrix.ansible }})
+  #       run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       
-      - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --coverage
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  #     - name: Run sanity tests
+  #       run: ansible-test sanity --docker -v --color --coverage
+  #       working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
   
   integration:
     runs-on: ubuntu-latest
