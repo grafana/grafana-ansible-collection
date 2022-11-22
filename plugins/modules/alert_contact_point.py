@@ -87,7 +87,7 @@ EXAMPLES = '''
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
 '''
-
+    
 RETURN = r'''
 output:
   description: Dict object containing Contact point information information.
