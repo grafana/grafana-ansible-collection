@@ -15,9 +15,9 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.11
           - stable-2.12
           - stable-2.13
+          - stable-2.14
           - devel
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
       
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --coverage
+        run: ansible-test sanity -v --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
   
   integration:
