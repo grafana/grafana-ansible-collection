@@ -74,4 +74,4 @@ releases:
       major_changes:
       - Added Role for Grafana Agent
       release_summary: Added Role to deploy Grafana Agent on linux hosts
-    release_date: '2022-11-17'
+    release_date: '2022-11-22'
