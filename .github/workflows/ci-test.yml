@@ -13,21 +13,33 @@ env:
 jobs:
 
   sanity:
-    runs-on: ubuntu-latest
-    name: Sanity (Ⓐ$${{ matrix.ansible_version }})
-    timeout-minutes: 30
+    name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
       matrix:
-        python_version: ["3.9"]
-        ansible_version: ["stable-2.13", "stable-2.14", "devel"]
+        ansible:
+          - stable-2.11
+          - stable-2.12
+          - stable-2.13
+          - devel
+    runs-on: ubuntu-latest
     steps:
-      - name: Perform testing
-        uses: ansible-community/ansible-test-gh-action@release/v1
+
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
-          ansible-core-version: ${{ matrix.ansible_version }}
-          origin-python-version: ${{ matrix.python_version }}
-          target-python-version: ${{ matrix.python_version }}
-          testing-type: sanity
+          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.10'
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+      
+      - name: Run sanity tests
+        run: ansible-test sanity --docker -v --color --coverage
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
   
   integration:
     runs-on: ubuntu-latest
