@@ -49,6 +49,6 @@ See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LI
 
 Author Information
 ------------------
-- https://github.com/grafana
-- https://github.com/ishanjainn
+- [Grafana Labs](https://github.com/grafana)
+- [Ishan Jain](https://github.com/ishanjainn)
 
