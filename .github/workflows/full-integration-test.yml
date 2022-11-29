@@ -10,7 +10,7 @@ env:
 jobs:
 
   integration:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: ${{ matrix.ansible }}-py${{ matrix.python }}
     strategy:
       fail-fast: true
