@@ -21,7 +21,7 @@ jobs:
           - stable-2.13
           - stable-2.14
           - devel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
 
       - name: Check out code
@@ -42,7 +42,7 @@ jobs:
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
   
   integration:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
     strategy:
       fail-fast: true
