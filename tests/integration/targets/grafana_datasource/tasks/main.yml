@@ -1,0 +1,16 @@
+---
+
+- block:
+  - include: errors.yml
+  - include: elastic.yml
+  - include: influx.yml
+  - include: postgres.yml
+  - include: cloudwatch.yml
+  - include: thruk.yml
+  - include: loki.yml
+  - include: zabbix.yml
+  - include: redis.yml
+  - include: azure.yml
+  - include: uid.yml
+
+...

@@ -1,0 +1,110 @@
+---
+- name: Create slack notification channel
+  register: result
+  grafana_notification_channel:
+    uid: slack
+    name: slack
+    type: slack
+    slack_url: https://hooks.slack.com/services/xxx/yyy/zzz
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "slack"
+      - result.channel.type == "slack"
+      - result.channel.uid == "slack"
+
+- name: Create slack notification channel
+  register: result
+  grafana_notification_channel:
+    uid: slack
+    name: slack
+    type: slack
+    slack_url: https://hooks.slack.com/services/xxx/yyy/zzz
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "slack"
+      - result.channel.type == "slack"
+      - result.channel.uid == "slack"
+
+- name: Check slack notification channel idempotency
+  register: result
+  grafana_notification_channel:
+    uid: slack
+    name: slack
+    type: slack
+    slack_url: https://hooks.slack.com/services/xxx/yyy/zzz
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+
+- name: Update slack notification channel
+  register: result
+  grafana_notification_channel:
+    uid: slack
+    name: slack
+    type: slack
+    slack_url: https://hooks.slack.com/services/xxx/yyy/fff
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete slack notification channel
+  register: result
+  grafana_notification_channel:
+    state: absent
+    uid: slack
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete slack notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    state: absent
+    uid: slack
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

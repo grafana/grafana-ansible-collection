@@ -1,0 +1,74 @@
+---
+- name: Create discord notification channel
+  register: result
+  grafana_notification_channel:
+    uid: discord
+    name: discord
+    type: discord
+    discord_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - result.changed == True
+      - result.channel.name == "discord"
+      - result.channel.type == "discord"
+      - result.channel.uid == "discord"
+
+- name: Create discord notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: discord
+    name: discord
+    type: discord
+    discord_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - result.changed == False
+      - result.channel.name == "discord"
+      - result.channel.type == "discord"
+      - result.channel.uid == "discord"
+
+- name: Delete discord notification channel
+  register: result
+  grafana_notification_channel:
+    uid: discord
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - result.changed == True
+
+- name: Delete discord notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: discord
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - result.changed == False

@@ -1,0 +1,77 @@
+---
+- name: Create opsgenie notification channel
+  register: result
+  grafana_notification_channel:
+    uid: opsgenie
+    name: opsgenie
+    type: opsgenie
+    opsgenie_url: https://example.org
+    opsgenie_api_key: xxx
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "opsgenie"
+      - result.channel.type == "opsgenie"
+      - result.channel.uid == "opsgenie"
+
+- name: Create opsgenie notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: opsgenie
+    name: opsgenie
+    type: opsgenie
+    opsgenie_url: https://example.org
+    opsgenie_api_key: xxx
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "opsgenie"
+      - result.channel.type == "opsgenie"
+      - result.channel.uid == "opsgenie"
+
+- name: Delete opsgenie notification channel
+  register: result
+  grafana_notification_channel:
+    uid: opsgenie
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - "result.state == 'absent'"
+
+- name: Delete opsgenie notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: opsgenie
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

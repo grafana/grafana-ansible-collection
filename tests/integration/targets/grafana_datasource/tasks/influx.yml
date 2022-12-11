@@ -1,0 +1,88 @@
+- name: Create influxdb datasource
+  register: result
+  grafana_datasource:
+    name: datasource-influxdb
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: influxdb
+    ds_url: https://influx.company.com:8086
+    database: telegraf
+    time_interval: '>10s'
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-influxdb created'"
+
+- name: Check influxdb datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-influxdb
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: influxdb
+    ds_url: https://influx.company.com:8086
+    database: telegraf
+    time_interval: '>10s'
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.basicAuth == false
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == 'telegraf'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.timeInterval == '>10s'
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource-influxdb'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'influxdb'
+    - result.datasource.url == 'https://influx.company.com:8086'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Delete influxdb datasource
+  register: result
+  grafana_datasource:
+    name: datasource-influxdb
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete influxdb datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-influxdb
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed

@@ -1,0 +1,33 @@
+---
+- set_fact:
+    dashboard_uid: "{{ result.uid }}"
+
+- name: Check export grafana dashboard to file
+  grafana_dashboard:
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: export
+    path: /tmp/dashboard.json
+    overwrite: true
+    uid: "{{ dashboard_uid }}"
+  register: result
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.msg == 'Dashboard {{ dashboard_uid }} exported to /tmp/dashboard.json'"
+
+- name: Load /tmp/dashboard.json or fail if missing
+  set_fact:
+    exported_dashboard_lines: "{{ lookup('file', '/tmp/dashboard.json').splitlines() }}"
+
+- name: Assert that exported dashboard contains formatted JSON
+  assert:
+    that:
+      - "exported_dashboard_lines | length >= 2"
+      - "exported_dashboard_lines[0] == '{'"
+      - "exported_dashboard_lines[-1] == '}'"

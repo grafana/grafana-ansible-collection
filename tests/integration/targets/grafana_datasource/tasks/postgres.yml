@@ -1,0 +1,93 @@
+- name: Create postgres datasource
+  register: result
+  grafana_datasource:
+    name: datasource-postgres
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: postgres
+    ds_url: postgres.company.com:5432
+    database: db
+    user: postgres
+    password: iampgroot
+    sslmode: verify-full
+    additional_json_data:
+      timescaledb: true
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-postgres created'"
+
+- name: Check postgres datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-postgres
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: postgres
+    ds_url: postgres.company.com:5432
+    database: db
+    user: postgres
+    password: iampgroot
+    sslmode: verify-full
+    additional_json_data:
+      timescaledb: true
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.basicAuth == false
+    - result.datasource.database == 'db'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.sslmode == 'verify-full'
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert == false
+    - result.datasource.jsonData.timescaledb == true
+    - result.datasource.name == 'datasource-postgres'
+    - result.datasource.orgId == 1
+    - result.datasource.type == 'postgres'
+    - result.datasource.url == 'postgres.company.com:5432'
+    - result.datasource.user == 'postgres'
+    - result.datasource.withCredentials == false
+
+- name: Delete postgres datasource
+  register: result
+  grafana_datasource:
+    name: datasource-postgres
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete postgres datasource
+  register: result
+  grafana_datasource:
+    name: datasource-postgres
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed

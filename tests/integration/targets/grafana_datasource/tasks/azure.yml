@@ -1,0 +1,123 @@
+- name: Create azure datasource
+  register: result
+  grafana_datasource:
+    name: datasource-azure
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    org_id: '1'
+    ds_type: grafana-azure-monitor-datasource
+    ds_url: http://example.com
+    azure_client: client1
+    azure_tenant: tenant1
+    azure_secret: secret1
+    azure_cloud: azuremonitor
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-azure created'"
+    - result.datasource.access == 'proxy'
+    - result.datasource.basicAuth == false
+    - result.datasource.database == ''
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.clientId == 'client1'
+    - result.datasource.jsonData.cloudName == 'azuremonitor'
+    - result.datasource.jsonData.tenantId == 'tenant1'
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert == false
+    - result.datasource.name == 'datasource-azure'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'grafana-azure-monitor-datasource'
+    - result.datasource.url == 'http://example.com'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Check azure datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-azure
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    org_id: '1'
+    ds_type: grafana-azure-monitor-datasource
+    ds_url: http://example.com
+    azure_client: client1
+    azure_tenant: tenant1
+    azure_secret: secret1
+    azure_cloud: azuremonitor
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.access == 'proxy'
+    - result.datasource.basicAuth == false
+    - result.datasource.database == ''
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.clientId == 'client1'
+    - result.datasource.jsonData.cloudName == 'azuremonitor'
+    - result.datasource.jsonData.tenantId == 'tenant1'
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert == false
+    - result.datasource.name == 'datasource-azure'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'grafana-azure-monitor-datasource'
+    - result.datasource.url == 'http://example.com'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Delete azure datasource
+  register: result
+  grafana_datasource:
+    name: datasource-azure
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    org_id: '1'
+    ds_type: grafana-azure-monitor-datasource
+    ds_url: http://example.com
+    azure_client: client1
+    azure_tenant: tenant1
+    azure_secret: secret1
+    azure_cloud: azuremonitor
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-azure deleted.'"
+
+- name: Delete azure datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-azure
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    org_id: '1'
+    ds_type: grafana-azure-monitor-datasource
+    ds_url: http://example.com
+    azure_client: client1
+    azure_tenant: tenant1
+    azure_secret: secret1
+    azure_cloud: azuremonitor
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed

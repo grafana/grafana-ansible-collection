@@ -1,0 +1,74 @@
+---
+- name: Create victorops notification channel
+  register: result
+  grafana_notification_channel:
+    uid: victorops
+    name: victorops
+    type: victorops
+    victorops_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "victorops"
+      - result.channel.type == "victorops"
+      - result.channel.uid == "victorops"
+
+- name: Create victorops notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: victorops
+    name: victorops
+    type: victorops
+    victorops_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "victorops"
+      - result.channel.type == "victorops"
+      - result.channel.uid == "victorops"
+
+- name: Delete victorops notification channel
+  register: result
+  grafana_notification_channel:
+    uid: victorops
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete victorops notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: victorops
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

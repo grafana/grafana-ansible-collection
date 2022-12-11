@@ -1,0 +1,76 @@
+---
+- name: Create kafka notification channel
+  register: result
+  grafana_notification_channel:
+    uid: kafka
+    name: kafka
+    type: kafka
+    kafka_url: https://example.org
+    kafka_topic: test
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "kafka"
+      - result.channel.uid == "kafka"
+      - result.channel.type == "kafka"
+
+- name: Create kafka notification channel (idempotentcy)
+  register: result
+  grafana_notification_channel:
+    uid: kafka
+    name: kafka
+    type: kafka
+    kafka_url: https://example.org
+    kafka_topic: test
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "kafka"
+      - result.channel.uid == "kafka"
+      - result.channel.type == "kafka"
+
+- name: Delete kafka notification channel
+  register: result
+  grafana_notification_channel:
+    uid: kafka
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete kafka notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: kafka
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

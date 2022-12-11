@@ -1,0 +1,74 @@
+---
+- name: Create line notification channel
+  register: result
+  grafana_notification_channel:
+    uid: line
+    name: line
+    type: line
+    line_token: xxx
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.uid == "line"
+      - result.channel.name == "line"
+      - result.channel.type == "line"
+
+- name: Create line notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: line
+    name: line
+    type: line
+    line_token: xxx
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.uid == "line"
+      - result.channel.name == "line"
+      - result.channel.type == "line"
+
+- name: Delete line notification channel
+  register: result
+  grafana_notification_channel:
+    uid: line
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete line notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: line
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

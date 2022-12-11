@@ -1,0 +1,76 @@
+---
+- name: Create pushover notification channel
+  register: result
+  grafana_notification_channel:
+    uid: pushover
+    name: pushover
+    type: pushover
+    pushover_api_token: xxx
+    pushover_user_key: yyy
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "pushover"
+      - result.channel.uid == "pushover"
+      - result.channel.type == "pushover"
+
+- name: Create pushover notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: pushover
+    name: pushover
+    type: pushover
+    pushover_api_token: xxx
+    pushover_user_key: yyy
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "pushover"
+      - result.channel.uid == "pushover"
+      - result.channel.type == "pushover"
+
+- name: Delete pushover notification channel
+  register: result
+  grafana_notification_channel:
+    uid: pushover
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete pushover notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: pushover
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

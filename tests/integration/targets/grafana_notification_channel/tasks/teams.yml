@@ -1,0 +1,74 @@
+---
+- name: Create teams notification channel
+  register: result
+  grafana_notification_channel:
+    uid: teams
+    name: teams
+    type: teams
+    teams_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "teams"
+      - result.channel.uid == "teams"
+      - result.channel.type == "teams"
+
+- name: Create teams notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: teams
+    name: teams
+    type: teams
+    teams_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "teams"
+      - result.channel.uid == "teams"
+      - result.channel.type == "teams"
+
+- name: Delete teams notification channel
+  register: result
+  grafana_notification_channel:
+    uid: teams
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete teams notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: teams
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

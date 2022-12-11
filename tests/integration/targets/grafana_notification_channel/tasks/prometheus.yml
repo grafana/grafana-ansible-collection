@@ -1,0 +1,74 @@
+---
+- name: Create prometheus notification channel
+  register: result
+  grafana_notification_channel:
+    uid: prometheus
+    name: prometheus
+    type: prometheus
+    prometheus_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "prometheus"
+      - result.channel.uid == "prometheus"
+      - result.channel.type == "prometheus-alertmanager"
+
+- name: Create prometheus notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: prometheus
+    name: prometheus
+    type: prometheus
+    prometheus_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "prometheus"
+      - result.channel.uid == "prometheus"
+      - result.channel.type == "prometheus-alertmanager"
+
+- name: Delete prometheus notification channel
+  register: result
+  grafana_notification_channel:
+    uid: prometheus
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete prometheus notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: prometheus
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

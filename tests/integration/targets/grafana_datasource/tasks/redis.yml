@@ -1,0 +1,101 @@
+- name: Create redis datasource
+  register: result
+  grafana_datasource:
+    name: datasource-redis
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: redis-datasource
+    ds_url: https://redis.company.com:6379
+    time_interval: 1m
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.access == 'proxy'
+    - not result.datasource.isDefault
+    - result.datasource.name == 'datasource-redis'
+    - result.datasource.orgId == 1
+    - result.datasource.type == 'redis-datasource'
+    - result.datasource.url == 'https://redis.company.com:6379'
+    - "result.msg == 'Datasource datasource-redis created'"
+
+- name: Check redis-datasource datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-redis
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: redis-datasource
+    ds_url: https://redis.company.com:6379
+    time_interval: 1m
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.access == 'proxy'
+    - not result.datasource.isDefault
+    - result.datasource.name == 'datasource-redis'
+    - result.datasource.orgId == 1
+    - result.datasource.type == 'redis-datasource'
+    - result.datasource.url == 'https://redis.company.com:6379'
+
+- name: update redis-datasource datasource creation
+  register: result
+  grafana_datasource:
+    name: datasource-redis
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: redis-datasource
+    ds_url: https://redisnew.company.com:6379
+    time_interval: 1m
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.access == 'proxy'
+    - not result.datasource.isDefault
+    - result.datasource.name == 'datasource-redis'
+    - result.datasource.orgId == 1
+    - result.datasource.type == 'redis-datasource'
+    - result.datasource.url == 'https://redisnew.company.com:6379'
+
+- name: Delete redis-datasource datasource  
+  register: result
+  grafana_datasource:
+    name: datasource-redis
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete redis-datasource datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-redis
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - not result.changed

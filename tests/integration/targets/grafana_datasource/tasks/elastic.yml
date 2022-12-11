@@ -1,0 +1,313 @@
+---
+- name: Create elasticsearch datasource with legacy elasticsearch format
+  register: result
+  grafana_datasource:
+    name: "datasource/elasticLegacy"
+    uid: "myuid"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.company.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: 56
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == 56
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elasticLegacy'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.company.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - "result.msg == 'Datasource datasource/elasticLegacy created'"
+
+- name: Create elasticsearch datasource with new elsaticsearch version format
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.company.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: "7.10+"
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == "7.10.0"
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elastic'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.company.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - "result.msg == 'Datasource datasource/elastic created'"
+
+- name: Check elasticsearch datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.company.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: "7.10+"
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == '7.10.0'
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elastic'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.company.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+
+- name: update elasticsearch datasource creation
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.example.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: "7.10+"
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == '7.10.0'
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elastic'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.example.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+
+- name: update elasticsearch datasource (ignoring secureJsonData)
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.example.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: "7.10+"
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+    enforce_secure_data: false
+    additional_json_data:
+      nonSecureTest: "nonsecure"
+    additional_secure_json_data:
+      secureTest: "secure"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == '7.10.0'
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elastic'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.example.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - result.datasource.jsonData.nonSecureTest == 'nonsecure'
+
+- name: update elasticsearch datasource (including secureJsonData)
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: elasticsearch
+    ds_url: https://elastic.example.com:9200
+    database: '[logstash_]YYYY.MM.DD'
+    basic_auth_user: grafana
+    basic_auth_password: '******'
+    time_field: '@timestamp'
+    time_interval: 1m
+    interval: Daily
+    es_version: "7.10+"
+    max_concurrent_shard_requests: 42
+    tls_ca_cert: /etc/ssl/certs/ca.pem
+    enforce_secure_data: true
+    additional_json_data:
+      nonSecureTest: "nonsecure"
+    additional_secure_json_data:
+      secureTest: "secure"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.basicAuth
+    - result.datasource.basicAuthUser == 'grafana'
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == '[logstash_]YYYY.MM.DD'
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.esVersion == '7.10.0'
+    - result.datasource.jsonData.interval == 'Daily'
+    - result.datasource.jsonData.maxConcurrentShardRequests == 42
+    - result.datasource.jsonData.timeField == '@timestamp'
+    - not result.datasource.jsonData.tlsAuth
+    - result.datasource.jsonData.tlsAuthWithCACert
+    - result.datasource.name == 'datasource/elastic'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'elasticsearch'
+    - result.datasource.url == 'https://elastic.example.com:9200'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - result.datasource.jsonData.nonSecureTest == 'nonsecure'
+    - result.datasource.secureJsonFields.secureTest == true
+    - result.diff.after.secureJsonData is defined
+
+- name: Delete elasticsearch datasource
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete elasticsearch datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: "datasource/elastic"
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - not result.changed

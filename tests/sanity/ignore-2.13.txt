@@ -1,0 +1,4 @@
+plugins/modules/grafana_dashboard.py validate-modules:invalid-argument-name
+tests/unit/modules/grafana/grafana_plugin/test_grafana_plugin.py pep8:W291
+hacking/check_fragment.sh shebang
+hacking/find_grafana_versions.py shebang

@@ -1,0 +1,82 @@
+- name: Create loki datasource
+  register: result
+  grafana_datasource:
+    name: datasource-loki
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    org_id: '1'
+    ds_type: loki
+    ds_url: https://loki.company.com:3100
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-loki created'"
+
+- name: Check loki datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-loki
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: loki
+    ds_url: https://loki.company.com:3100
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.basicAuth == false
+    - result.datasource.access == 'proxy'
+    - result.datasource.database == ''
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert == false
+    - result.datasource.name == 'datasource-loki'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'loki'
+    - result.datasource.url == 'https://loki.company.com:3100'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Delete loki datasource
+  register: result
+  grafana_datasource:
+    name: datasource-loki
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-loki deleted.'"
+
+- name: Delete loki datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-loki
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed

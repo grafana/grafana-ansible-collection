@@ -1,0 +1,33 @@
+---
+- name: copy dashboard file
+  copy:
+    src: "files/dashboard.json"
+    dest: "/tmp/dashboard.json"
+
+- block:
+  - name: Check import grafana dashboard from file to unknown folder fails
+    grafana_dashboard:
+      grafana_url: "{{ grafana_url }}"
+      grafana_user: "{{ grafana_username }}"
+      grafana_password: "{{ grafana_password }}"
+      state: present
+      commit_message: Updated by ansible
+      path: /tmp/dashboard.json
+      overwrite: true
+      folder: inexistent
+    register: result
+    ignore_errors: true
+
+- debug:
+    var: result
+
+- set_fact:
+    # XXX: Too many quotes of different types to do inline.
+    #      I did not manage to find a good way of having it inline.
+    expected_error: "error : Dashboard folder 'inexistent' does not exist."
+
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.failed == true"
+      - "result.msg == expected_error"

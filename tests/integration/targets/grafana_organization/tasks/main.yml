@@ -1,0 +1,57 @@
+---
+
+- name: Create a Grafana organization
+  community.grafana.grafana_organization:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: orgtest
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.failed == false"
+      - "result.org.name == 'orgtest'"
+
+- name: check idempotency Grafana organization
+  community.grafana.grafana_organization:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: orgtest
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.failed == false"
+      - "result.org.name == 'orgtest'"
+
+- name: Delete a Grafana organization
+  community.grafana.grafana_organization:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: orgtest
+    state: absent
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.failed == false"
+      - "result.msg |length > 0"
+
+- name: check idempotency delete a Grafana organization
+  community.grafana.grafana_organization:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: orgtest
+    state: absent
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.failed == false"
+      - "result.msg == 'No org found, nothing to do'"

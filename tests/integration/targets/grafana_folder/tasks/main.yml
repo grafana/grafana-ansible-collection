@@ -1,0 +1,55 @@
+---
+
+- name: Create a Folder
+  grafana_folder:
+      url: "{{ grafana_url }}"
+      url_username: "{{ grafana_username }}"
+      url_password: "{{ grafana_password }}"
+      title: "grafana_working_group"
+      state: present
+  register: result
+
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.folder.title == 'grafana_working_group'"
+
+- name: Test folder creation idempotency
+  grafana_folder:
+      url: "{{ grafana_url }}"
+      url_username: "{{ grafana_username }}"
+      url_password: "{{ grafana_password }}"
+      title: "grafana_working_group"
+      state: present
+  register: result
+
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.folder.title == 'grafana_working_group'"
+
+- name: Delete a Folder
+  grafana_folder:
+      url: "{{ grafana_url }}"
+      url_username: "{{ grafana_username }}"
+      url_password: "{{ grafana_password }}"
+      title: "grafana_working_group"
+      state: absent
+  register: result
+
+- assert:
+    that:
+      - "result.changed == true"
+
+- name: Test folder deletion idempotency
+  grafana_folder:
+      url: "{{ grafana_url }}"
+      url_username: "{{ grafana_username }}"
+      url_password: "{{ grafana_password }}"
+      title: "grafana_working_group"
+      state: absent
+  register: result
+
+- assert:
+    that:
+      - "result.changed == false"

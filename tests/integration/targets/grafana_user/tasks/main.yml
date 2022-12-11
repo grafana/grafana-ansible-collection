@@ -1,0 +1,237 @@
+---
+- name: Create new admin
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Harley Quinn"
+    email: harley.quinn@gotham.city
+    login: harley
+    password: Wy3ta6ob6M3wHELv58MPfqOe126RTnWpcYfEhyJm
+    is_admin: true
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.failed == false"
+      - "result.user.name == 'Harley Quinn'"
+      - "result.user.email == 'harley.quinn@gotham.city'"
+      - "result.user.isGrafanaAdmin == true"
+
+- name: Check idempotency on admin creation
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Harley Quinn"
+    email: harley.quinn@gotham.city
+    login: harley
+    password: Wy3ta6ob6M3wHELv58MPfqOe126RTnWpcYfEhyJm
+    is_admin: true
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.user.name == 'Harley Quinn'"
+      - "result.user.email == 'harley.quinn@gotham.city'"
+      - "result.user.isGrafanaAdmin == true"
+
+- name: Check user creation with Grafana API
+  uri:
+    url: "{{ grafana_url }}api/users/lookup?loginOrEmail=harley"
+    user: "{{ grafana_username }}"
+    password: "{{ grafana_password }}"
+    force_basic_auth: yes
+    status_code: 200
+    headers:
+      Accept: application/json
+      Content-Type: application/json
+  register: result
+- assert:
+    that:
+      - "result.json.name == 'Harley Quinn'"
+      - "result.json.email == 'harley.quinn@gotham.city'"
+      - "result.json.isGrafanaAdmin == true"
+
+- name: Create a Grafana user without password (expect failure)
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Bruce Wayne"
+    email: batman@gotham.city
+    login: batman
+    state: present
+  register: result
+  ignore_errors: yes
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.failed == true"
+      - "result.msg == 'missing required arguments: password'"
+
+- name: Create a Grafana user
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Bruce Wayne"
+    email: batman@gotham.city
+    login: batman
+    password: robin
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.user.name == 'Bruce Wayne'"
+      - "result.user.email == 'batman@gotham.city'"
+      - "result.user.isGrafanaAdmin == false"
+
+- name: Check idempotency on user creation (password not requiered)
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Bruce Wayne"
+    email: batman@gotham.city
+    login: batman
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.user.name == 'Bruce Wayne'"
+      - "result.user.email == 'batman@gotham.city'"
+      - "result.user.isGrafanaAdmin == false"
+
+- name: Check user creation with Grafana API
+  uri:
+    url: "{{ grafana_url }}api/users/lookup?loginOrEmail=batman"
+    user: "{{ grafana_username }}"
+    password: "{{ grafana_password }}"
+    force_basic_auth: yes
+    status_code: 200
+    headers:
+      Accept: application/json
+      Content-Type: application/json
+  register: result
+- assert:
+    that:
+      - "result.json.name == 'Bruce Wayne'"
+      - "result.json.email == 'batman@gotham.city'"
+      - "result.json.isGrafanaAdmin == false"
+
+- name: Update Grafana user
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "The Dark Knight"
+    email: thedarkknight@gotham.city
+    login: batman
+    password: robin
+    is_admin: true
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.user.name == 'The Dark Knight'"
+      - "result.user.email == 'thedarkknight@gotham.city'"
+      - "result.user.isGrafanaAdmin == true"
+
+- name: Check user update with Grafana API
+  uri:
+    url: "{{ grafana_url }}api/users/lookup?loginOrEmail=batman"
+    user: "{{ grafana_username }}"
+    password: "{{ grafana_password }}"
+    force_basic_auth: yes
+    status_code: 200
+    headers:
+      Accept: application/json
+      Content-Type: application/json
+  register: result
+- assert:
+    that:
+      - "result.json.name == 'The Dark Knight'"
+      - "result.json.email == 'thedarkknight@gotham.city'"
+      - "result.json.isGrafanaAdmin == true"
+
+- name: Delete a Grafana user
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    login: batman
+    state: absent
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.message == 'User deleted'"
+
+- name: Check idempotency on user deletion
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    login: batman
+    state: absent
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.message == 'No user found, nothing to do'"
+
+- name: Check user deletion with Grafana API (expect 404 Not Found)
+  uri:
+    url: "{{ grafana_url }}api/users/lookup?loginOrEmail=batman"
+    user: "{{ grafana_username }}"
+    password: "{{ grafana_password }}"
+    force_basic_auth: yes
+    status_code: 404
+    headers:
+      Accept: application/json
+      Content-Type: application/json
+  register: result
+- assert:
+    that:
+      - "result.json.message | lower == 'user not found'"
+
+- name: Create a Grafana user with character encoding
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Bruce Wayne"
+    email: bruce+wayne@gotham.city
+    login: bruce+wayne@gotham.city
+    password: robin
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == true"
+      - "result.user.name == 'Bruce Wayne'"
+      - "result.user.email == 'bruce+wayne@gotham.city'"
+      - "result.user.isGrafanaAdmin == false"
+
+- name: Check idempotency on user creation (password not requiered)
+  grafana_user:
+    url: "{{ grafana_url }}"
+    url_username: "{{ grafana_username }}"
+    url_password: "{{ grafana_password }}"
+    name: "Bruce Wayne"
+    email: bruce+wayne@gotham.city
+    login: bruce+wayne@gotham.city
+    state: present
+  register: result
+- assert:
+    that:
+      - "result.changed == false"
+      - "result.user.name == 'Bruce Wayne'"
+      - "result.user.email == 'bruce+wayne@gotham.city'"
+      - "result.user.isGrafanaAdmin == false"

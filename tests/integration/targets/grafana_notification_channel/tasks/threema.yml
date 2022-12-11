@@ -1,0 +1,78 @@
+---
+- name: Create threema notification channel
+  register: result
+  grafana_notification_channel:
+    uid: threema
+    name: threema
+    type: threema
+    threema_gateway_id: "*xxxxxxx"
+    threema_recipient_id: yyyyyyyy
+    threema_api_secret: zzz
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "threema"
+      - result.channel.type == "threema"
+      - result.channel.uid == "threema"
+
+- name: Create threema notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: threema
+    name: threema
+    type: threema
+    threema_gateway_id: xxx
+    threema_recepient_id: yyy
+    threema_api_secret: zzz
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "threema"
+      - result.channel.type == "threema"
+      - result.channel.uid == "threema"
+
+- name: Delete threema notification channel
+  register: result
+  grafana_notification_channel:
+    uid: threema
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete threema notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: threema
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

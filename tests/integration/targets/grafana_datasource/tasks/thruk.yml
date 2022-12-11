@@ -1,0 +1,78 @@
+- name: Create thruk datasource
+  register: result
+  grafana_datasource:
+    name: datasource-thruk
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: "1"
+    ds_type: sni-thruk-datasource
+    ds_url: "https://thruk.company.com/sitename/thruk"
+    tls_skip_verify: yes
+    validate_certs: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-thruk created'"
+
+- name: Check thruk datasource creation idempotency
+  register: result
+  grafana_datasource:
+    name: datasource-thruk
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: sni-thruk-datasource
+    ds_url: "https://thruk.company.com/sitename/thruk"
+    tls_skip_verify: yes
+    validate_certs: no
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.basicAuth == false
+    - result.datasource.access == 'proxy'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.jsonData.tlsAuthWithCACert == false
+    - result.datasource.name == 'datasource-thruk'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'sni-thruk-datasource'
+    - result.datasource.url == 'https://thruk.company.com/sitename/thruk'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Delete thruk datasource
+  register: result
+  grafana_datasource:
+    name: datasource-thruk
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete thruk datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-thruk
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - not result.changed

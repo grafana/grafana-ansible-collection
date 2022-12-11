@@ -1,0 +1,76 @@
+---
+- name: Create telegram notification channel
+  register: result
+  grafana_notification_channel:
+    uid: telegram
+    name: telegram
+    type: telegram
+    telegram_bot_token: xxx
+    telegram_chat_id: yyy
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "telegram"
+      - result.channel.type == "telegram"
+      - result.channel.uid == "telegram"
+
+- name: Create telegram notification channel
+  register: result
+  grafana_notification_channel:
+    uid: telegram
+    name: telegram
+    type: telegram
+    telegram_bot_token: xxx
+    telegram_chat_id: yyy
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "telegram"
+      - result.channel.type == "telegram"
+      - result.channel.uid == "telegram"
+
+- name: Delete telegram notification channel
+  register: result
+  grafana_notification_channel:
+    uid: telegram
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete telegram notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: telegram
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

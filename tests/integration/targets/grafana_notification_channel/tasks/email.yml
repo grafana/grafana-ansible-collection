@@ -1,0 +1,79 @@
+---
+- name: Create email notification channel
+  register: result
+  grafana_notification_channel:
+    uid: email
+    name: email
+    type: email
+    email_addresses:
+      - foo@example.org
+      - bar@example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "email"
+      - result.channel.type == "email"
+      - result.channel.uid == "email"
+
+- name: Create email notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: email
+    name: email
+    type: email
+    email_addresses:
+      - foo@example.org
+      - bar@example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "email"
+      - result.channel.type == "email"
+      - result.channel.uid == "email"
+
+- name: Delete discord notification channel
+  register: result
+  grafana_notification_channel:
+    uid: email
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - "result.state == 'absent'"
+
+- name: Delete discord notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: email
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

@@ -1,0 +1,20 @@
+---
+- block:
+  - include: dingding.yml
+  - include: discord.yml
+  - include: email.yml
+  - include: googlechat.yml
+  - include: hipchat.yml
+  - include: kafka.yml
+#  - include: line.yml
+  - include: teams.yml
+  - include: opsgenie.yml
+  - include: pagerduty.yml
+  - include: prometheus.yml
+  - include: pushover.yml
+  - include: sensu.yml
+  - include: slack-and-beyond.yml
+  - include: telegram.yml
+#  - include: threema.yml
+  - include: victorops.yml
+  - include: webhook.yml

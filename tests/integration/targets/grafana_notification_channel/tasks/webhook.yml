@@ -1,0 +1,74 @@
+---
+- name: Create webhook notification channel
+  register: result
+  grafana_notification_channel:
+    uid: webhook
+    name: webhook
+    type: webhook
+    webhook_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "webhook"
+      - result.channel.uid == "webhook"
+      - result.channel.type == "webhook"
+
+- name: Create webhook notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: webhook
+    name: webhook
+    type: webhook
+    webhook_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "webhook"
+      - result.channel.uid == "webhook"
+      - result.channel.type == "webhook"
+
+- name: Delete webhook notification channel
+  register: result
+  grafana_notification_channel:
+    uid: webhook
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete webhook notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: webhook
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

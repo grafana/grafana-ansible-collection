@@ -1,0 +1,253 @@
+- name: Create datasource with uid
+  register: result
+  grafana_datasource:
+    name: datasource-with-uid
+    uid: uid1
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-with-uid created'"
+
+- name: Create datasource without uid
+  register: result
+  grafana_datasource:
+    name: datasource-without-uid
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - "result.msg == 'Datasource datasource-without-uid created'"
+
+- name: Check datasource creation idempotency with uid
+  register: result
+  grafana_datasource:
+    name: datasource-with-uid
+    uid: uid1
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.access == 'proxy'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.name == 'datasource-with-uid'
+    - result.datasource.uid == 'uid1'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'prometheus'
+    - result.datasource.url == 'https://prometheus.company.com:8086'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Check datasource creation idempotency without uid
+  register: result
+  grafana_datasource:
+    name: datasource-without-uid
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - result.datasource.access == 'proxy'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.name == 'datasource-without-uid'
+    - result.datasource.uid
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'prometheus'
+    - result.datasource.url == 'https://prometheus.company.com:8086'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Set uid for datasource with random uid
+  register: result
+  grafana_datasource:
+    name: datasource-without-uid
+    uid: uid3
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.access == 'proxy'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.name == 'datasource-without-uid'
+    - result.datasource.uid == 'uid3'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'prometheus'
+    - result.datasource.url == 'https://prometheus.company.com:8086'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Change uid for datasource
+  register: result
+  grafana_datasource:
+    name: datasource-with-uid
+    uid: uid2
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - result.datasource.access == 'proxy'
+    - result.datasource.isDefault == false
+    - result.datasource.jsonData.tlsAuth == false
+    - result.datasource.name == 'datasource-with-uid'
+    - result.datasource.uid == 'uid2'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'prometheus'
+    - result.datasource.url == 'https://prometheus.company.com:8086'
+    - result.datasource.user == ''
+    - result.datasource.withCredentials == false
+
+- name: Delete datasource-with-uid
+  register: result
+  grafana_datasource:
+    name: datasource-with-uid
+    uid: uid1
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete datasource-without-uid
+  register: result
+  grafana_datasource:
+    name: datasource-without-uid
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete datasource-with-uid (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-with-uid
+    uid: uid1
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: prometheus
+    ds_url: https://prometheus.company.com:8086
+    basic_auth_user: "admin"
+    basic_auth_password: "admin"
+    validate_certs: False
+    is_default: no
+
+    state: absent
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed

@@ -1,0 +1,74 @@
+---
+- name: Create googlechat notification channel
+  register: result
+  grafana_notification_channel:
+    uid: googlechat
+    name: googlechat
+    type: googlechat
+    googlechat_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+      - result.channel.name == "googlechat"
+      - result.channel.uid == "googlechat"
+      - result.channel.type == "googlechat"
+
+- name: Create googlechat notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: googlechat
+    name: googlechat
+    type: googlechat
+    googlechat_url: https://example.org
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"
+      - result.channel.name == "googlechat"
+      - result.channel.uid == "googlechat"
+      - result.channel.type == "googlechat"
+
+- name: Delete googlechat notification channel
+  register: result
+  grafana_notification_channel:
+    uid: googlechat
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == True"
+
+- name: Delete googlechat notification channel (idempotency)
+  register: result
+  grafana_notification_channel:
+    uid: googlechat
+    state: absent
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password}}"
+
+- debug:
+    var: result
+
+- assert:
+    that:
+      - "result.changed == False"

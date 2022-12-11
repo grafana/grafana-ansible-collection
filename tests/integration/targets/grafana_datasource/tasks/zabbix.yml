@@ -1,0 +1,114 @@
+- name: Create zabbix datasource
+  register: result
+  grafana_datasource:
+    name: datasource-zabbix
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: alexanderzobnin-zabbix-datasource
+    ds_url: https://zabbix.company.com
+    zabbix_user: grafana
+    zabbix_password: '******'
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.username == 'grafana'
+    - result.datasource.name == 'datasource-zabbix'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'alexanderzobnin-zabbix-datasource'
+    - result.datasource.url == 'https://zabbix.company.com'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - "result.msg == 'Datasource datasource-zabbix created'"
+
+- name: Create zabbix datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-zabbix
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: alexanderzobnin-zabbix-datasource
+    ds_url: https://zabbix.company.com
+    zabbix_user: grafana
+    zabbix_password: '******'
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - not result.changed
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.username == 'grafana'
+    - result.datasource.name == 'datasource-zabbix'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'alexanderzobnin-zabbix-datasource'
+    - result.datasource.url == 'https://zabbix.company.com'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+
+- name: Update zabbix datasource
+  register: result
+  grafana_datasource:
+    name: datasource-zabbix
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    org_id: '1'
+    ds_type: alexanderzobnin-zabbix-datasource
+    ds_url: https://zabbix.example.com
+    zabbix_user: grafana
+    zabbix_password: '******'
+
+- debug:
+    var: result
+
+- assert:
+    that:
+    - result.changed
+    - not result.datasource.isDefault
+    - result.datasource.jsonData.username == 'grafana'
+    - result.datasource.name == 'datasource-zabbix'
+    - result.datasource.orgId == 1
+    - ('password' not in result.datasource) or (result.datasource.password == '')
+    - result.datasource.type == 'alexanderzobnin-zabbix-datasource'
+    - result.datasource.url == 'https://zabbix.example.com'
+    - result.datasource.user == ''
+    - not result.datasource.withCredentials
+    - "result.msg == 'Datasource datasource-zabbix updated'"
+
+- name: Delete zabbix datasource
+  register: result
+  grafana_datasource:
+    name: datasource-zabbix
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - result.changed
+
+- name: Delete zabbix datasource (idempotency)
+  register: result
+  grafana_datasource:
+    name: datasource-zabbix
+    grafana_url: "{{ grafana_url }}"
+    grafana_user: "{{ grafana_username }}"
+    grafana_password: "{{ grafana_password }}"
+    state: absent
+
+- assert:
+    that:
+    - not result.changed
