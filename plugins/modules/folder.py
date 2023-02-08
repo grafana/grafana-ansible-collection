@@ -114,7 +114,7 @@ output:
       sample: true
     id:
       description: The ID for the folder.
-      returned: on success
+      returned: state is present and on success
       type: int
       sample: 18
     title:
@@ -151,7 +151,7 @@ output:
       description: The message returned after the operation on the folder.
       returned: state is absent and on success
       type: str
-      sample: "Folder foldername deleted"
+      sample: "Folder has been succesfuly deleted"
 '''
 
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
@@ -213,9 +213,9 @@ def absent_folder(module):
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if result.status_code == 200:
-        return False, True, result.json()
+        return False, True, {"status": result.status_code, 'response': "Folder has been succesfuly deleted"}
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return True, False, {"status": result.status_code, 'response': "Error deleting folder"}
 
 
 def main():
