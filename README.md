@@ -98,7 +98,7 @@ We plan to regularly release new minor or bugfix versions once new features or b
 Releasing the current major version on GitHub happens from the `main` branch by the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml)
 Before the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml) is run, Contributors should push the new version on Ansible Galaxy Manually.
 
-We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.1.1.
+We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for Module's documentation in 1.1.2.
 
 ## Code of Conduct
 This collection follows the Ansible project's [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html). Please read and familiarize yourself with this doc
