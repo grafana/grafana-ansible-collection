@@ -11,4 +11,4 @@ license:
 tags: [grafana, observability, monitoring]
 repository: https://github.com/grafana/grafana-ansible-collection
 issues: https://github.com/grafana/grafana-ansible-collection/issues
-documentation: https://grafana.github.io/grafana-ansible-collection/
+documentation: https://docs.ansible.com/ansible/devel/collections/grafana/grafana/index.html
