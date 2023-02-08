@@ -213,9 +213,9 @@ def absent_folder(module):
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if result.status_code == 200:
-        return False, True, result.json()
+        return False, True, {"status": result.status_code, 'response': "Folder has been succesfuly deleted"}
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()}
+        return True, False, {"status": result.status_code, 'response': "Error deleting folder"}
 
 
 def main():
