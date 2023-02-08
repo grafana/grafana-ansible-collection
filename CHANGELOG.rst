@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v1.1.1
+======
+
+Release Summary
+---------------
+
+Updated return description and value for grafana.grafana.folder module
+
+Minor Changes
+-------------
+
+- Updated the return message in grafana.grafana.folder module
+
 v1.1.0
 ======
 
