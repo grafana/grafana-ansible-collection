@@ -24,5 +24,5 @@
 
 - assert:
     that:
-      - delete_result.status == 200
+      - delete_result.output.status == 200
       - delete_result.output.response == "Folder has been succesfuly deleted"
