@@ -1,7 +1,7 @@
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: ansiblecollectionstack
-    stack_slug: ansiblecollectionstack
+    name: "{{ test_stack_name }}"
+    stack_slug: "{{ test_stack_name }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: present
@@ -9,7 +9,7 @@
 
 - assert:
     that:
-      - create_result.url == "https://ansiblecollectionstack.grafana.net"
+      - create_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
 
 - name: Sleep for 30 seconds
   ansible.builtin.wait_for:
@@ -17,8 +17,8 @@
 
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
-    name: ansiblecollectionstack
-    stack_slug: ansiblecollectionstack
+    name: "{{ test_stack_name }}"
+    stack_slug: "{{ test_stack_name }}"
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: absent
@@ -27,4 +27,4 @@
 - assert:
     that:
       - delete_result.changed == true
-      - delete_result.url == "https://ansiblecollectionstack.grafana.net"
+      - delete_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
