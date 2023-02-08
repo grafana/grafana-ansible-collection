@@ -215,7 +215,7 @@ def absent_folder(module):
     if result.status_code == 200:
         return False, True, result.json()
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return True, False, {"status": result.status_code, 'response': result.json()}
 
 
 def main():
