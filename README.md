@@ -105,6 +105,8 @@ This collection follows the Ansible project's [Code of Conduct](https://docs.ans
 
 ## More information
 
+- [Maintainer guidelines](https://docs.ansible.com/ansible/devel/community/maintainers.html)
+- Subscribe to the [news-for-maintainers](https://github.com/ansible-collections/news-for-maintainers) repo and track announcements there. 
 - [Ansible Collection overview](https://github.com/ansible-collections/overview)
 - [Ansible User guide](https://docs.ansible.com/ansible/latest/user_guide/index.html)
 - [Ansible Developer guide](https://docs.ansible.com/ansible/latest/dev_guide/index.html)
