@@ -1,3 +1,4 @@
+---
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
     name: "{{ test_stack_name }}"

@@ -1,17 +1,18 @@
+---
 - name: Create Grafana Cloud API key
   grafana.grafana.cloud_api_key:
     name: ansible-integration-test
     role: Admin
     org_slug: "{{ org_name }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
-    fail_if_already_created: False
+    fail_if_already_created: false
     state: present
   register: add_result
 
 - assert:
     that:
       - add_result.output.name == "ansible-integration-test"
-  when: add_result.output.name is defined 
+  when: add_result.output.name is defined
 
 - name: Re-run previous task
   grafana.grafana.cloud_api_key:
@@ -19,7 +20,7 @@
     role: Admin
     org_slug: "{{ org_name }}"
     existing_cloud_api_key: "{{ grafana_cloud_api_key }}"
-    fail_if_already_created: False
+    fail_if_already_created: false
     state: present
   register: update_result
 

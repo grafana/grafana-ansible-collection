@@ -1,17 +1,17 @@
+---
 - name: Create/Update a Data Source
   grafana.grafana.datasource:
-    dataSource: {
-      name: "ansible-integration",
-      type: "influxdb",
-      url: "https://grafana.github.com/grafana-ansible-collection",
-      user: "user",
+    dataSource:
+      name: ansible-integration
+      type: influxdb
+      url: https://grafana.github.com/grafana-ansible-collection
+      user: user
       secureJsonData:
-        { password: "password" },
-      database: "db-name",
-      id: 123,
-      uid: "ansibletest",
-      access: "proxy"
-    }
+        password: password
+      database: db-name
+      id: 123
+      uid: ansibletest
+      access: proxy
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present

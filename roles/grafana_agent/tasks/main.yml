@@ -1,3 +1,4 @@
+---
 - name: Install unzip on Ubuntu/Debian
   ansible.builtin.apt:
     name: unzip
@@ -22,7 +23,7 @@
   ansible.builtin.unarchive:
     src: "/tmp/agent-linux.zip"
     dest: "{{ agent_binary_location }}"
-    remote_src: yes
+    remote_src: true
     mode: '0755'
 
 - name: Create directory for Grafana Agent Configuration file
@@ -39,7 +40,7 @@
 - name: Add user 'grafana-agent'
   ansible.builtin.user:
     name: grafana-agent
-    create_home: no
+    create_home: false
     shell: /bin/false
 
 - name: Create service file for Grafana Agent
@@ -49,9 +50,9 @@
 
 - name: Start Grafana Agent service
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: grafana-agent
-    enabled: yes
+    enabled: true
     state: "{{ systemd_service_state }}"
 
 - name: Checking grafana-agent service status

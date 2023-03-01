@@ -1,11 +1,11 @@
+---
 - name: Create Alerting contact point
   grafana.grafana.alert_contact_point:
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
+    settings:
+      addresses: ops@mydomain.com,devs@mydomain.com
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
@@ -21,9 +21,8 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
+    settings:
+      addresses: ops@mydomain.com,devs@mydomain.com
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
@@ -39,9 +38,8 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-     }
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
@@ -57,9 +55,8 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-     }
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent

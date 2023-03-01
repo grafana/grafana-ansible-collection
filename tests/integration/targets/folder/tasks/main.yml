@@ -1,3 +1,4 @@
+---
 - name: Create/Update a Folder in Grafana
   grafana.grafana.folder:
     title: Ansible Integration test
@@ -25,4 +26,4 @@
 - assert:
     that:
       - delete_result.output.status == 200
-      - delete_result.output.response == "Folder has been succesfuly deleted"
+      - delete_result.output.response == "Folder has been successfully deleted"

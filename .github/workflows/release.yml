@@ -1,4 +1,7 @@
+---
 name: GitHub Release
+
+# yamllint disable-line rule:truthy
 on:
   workflow_dispatch:
     inputs:
@@ -34,11 +37,11 @@ jobs:
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
-      
+
       - name: Run sanity tests
         run: ansible-test sanity -v --docker --color --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-  
+
   integration:
     runs-on: ubuntu-20.04
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
@@ -50,13 +53,13 @@ jobs:
           - stable-2.13
         python:
           - '3.10'
-            
+
     steps:
       - name: Check out code
         uses: actions/checkout@v2
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-      
+
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
         run: |
@@ -67,7 +70,7 @@ jobs:
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
           test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
           EOF
- 
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -79,7 +82,7 @@ jobs:
       - name: Run integration test
         run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-  
+
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
@@ -101,5 +104,5 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        with: 
+        with:
           tag_name: ${{ github.event.inputs.version }}

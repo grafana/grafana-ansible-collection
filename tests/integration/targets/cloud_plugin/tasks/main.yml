@@ -1,3 +1,4 @@
+---
 - name: Add a plugin
   grafana.grafana.cloud_plugin:
     name: grafana-github-datasource
