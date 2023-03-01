@@ -21,7 +21,7 @@ A description of the variables for this role.
 | agent_version           | no       | 0.29.0               | 0.29.0, 0.28.1, 0.28.0, 0.27.1, 0.27.0                                                                             | Version of the Grafana agent to install|
 | linux_architecture      | no       | linux-amd64          | linux-amd64, linux-arm64, linux-armv6, linux-armv7, linux-ppc64le                                                  | Type of linux architecture of the remote host|
 | agent_binary_location   | no       | /usr/local/bin       |                                                                                                                    | Path where the agent binary will be copied to on the remote host|
-| agent_config_location   | no       | /etc/grafana         |                                                                                                                    | Path where the agent configuration will be copied to on the remote host|
+| agent_config_location   | no       | /etc/`grafana`         |                                                                                                                    | Path where the agent configuration will be copied to on the remote host|
 | agent_config_local_path | yes      | agent-config.yml     |                                                                                                                    | Path to the agent configuration file on local|
 | systemd_service_state   | no       | restarted            | reloaded, restarted, started, stopped                                                                              | Operation performed on the systemd service|
 | systemd_config          | no       |                      |                                                                                                                    | Configuration for grafana-agent systemd service|
@@ -32,7 +32,7 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
-- name: Install Grafana Agent  
+- name: Install Grafana Agent
   hosts: all
 
   tasks:
@@ -51,4 +51,3 @@ Author Information
 ------------------
 - [Grafana Labs](https://github.com/grafana)
 - [Ishan Jain](https://github.com/ishanjainn)
-

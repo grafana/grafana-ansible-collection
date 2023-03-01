@@ -3,11 +3,11 @@
 [![CI Tests](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml)
 [![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
 
-This collection (grafana.grafana) contains modules and plugins to assist in automating managing of resources in <b>Grafana Cloud</b> with Ansible.
+This collection (`grafana.grafana`) contains modules and plugins to assist in automating managing of resources in <b>Grafana Cloud</b> with Ansible.
 
 - [Ansible collection Documentation](https://grafana.github.io/grafana-ansible-collection/)
-- [Grafana website](https://grafana.com)
-- [Grafana Cloud website](https://grafana.com/products/cloud/)
+- [Grafana Site](https://grafana.com)
+- [Grafana Cloud Site](https://grafana.com/products/cloud/)
 
 ## Ansible version compatibility
 The collection is tested and supported with:
@@ -72,10 +72,10 @@ or you can add full namespace and collection name in the `collections` element i
 ```
 
 ## Contributing
-We are accepting Github pull requests and issues. There are many ways in which you can participate in the project, for example:
+We are accepting GitHub pull requests and issues. There are many ways in which you can participate in the project, for example:
 
 * Submit bugs and feature requests, and help us verify them
-* Submit and review source code changes in Github pull requests
+* Submit and review source code changes in GitHub pull requests
 * Add new modules for more Grafana resources
 
 ## Testing and Development
@@ -106,7 +106,7 @@ This collection follows the Ansible project's [Code of Conduct](https://docs.ans
 ## More information
 
 - [Maintainer guidelines](https://docs.ansible.com/ansible/devel/community/maintainers.html)
-- Subscribe to the [news-for-maintainers](https://github.com/ansible-collections/news-for-maintainers) repo and track announcements there. 
+- Subscribe to the [news-for-maintainers](https://github.com/ansible-collections/news-for-maintainers) repository and track announcements there.
 - [Ansible Collection overview](https://github.com/ansible-collections/overview)
 - [Ansible User guide](https://docs.ansible.com/ansible/latest/user_guide/index.html)
 - [Ansible Developer guide](https://docs.ansible.com/ansible/latest/dev_guide/index.html)
