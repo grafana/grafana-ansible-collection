@@ -23,7 +23,8 @@ fi
 (return 0 2>/dev/null) && sourced=1 || sourced=0
 
 # run yamllint
-pipenv run ansible-lint --config-file "$(pwd)/.ansible-lint" .
+echo "$(pwd)/.ansible-lint"
+pipenv run ansible-lint --config-file "$(pwd)/.ansible-lint" --strict
 statusCode="$?"
 
 if [[ "$statusCode" == "0" ]]; then
@@ -31,6 +32,7 @@ if [[ "$statusCode" == "0" ]]; then
   echo ""
 fi
 
+echo ""
 # if the script was called by another, send a valid exit code
 if [[ "$sourced" == "1" ]]; then
   return "$statusCode"
