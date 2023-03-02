@@ -1,0 +1,21 @@
+---
+- name: Preflight Variable Checks
+  ansible.builtin.import_tasks: preflight/vars.yaml
+
+- name: Systemd Variable Checks
+  ansible.builtin.import_tasks: preflight/systemd.yaml
+
+- name: Install Variable Checks
+  ansible.builtin.import_tasks: preflight/install.yaml
+
+- name: Download Variable Checks
+  ansible.builtin.import_tasks: preflight/download.yaml
+
+- name: Set whether or not to do the install
+  ansible.builtin.set_fact:
+    __grafana_agent_do_install: >-
+      {{ not __grafana_agent_is_installed.stat.exists or __grafana_agent_installed_version is version_compare(grafana_agent_version, '<') }}
+
+- name: Do Install
+  ansible.builtin.debug:
+    var: __grafana_agent_do_install
