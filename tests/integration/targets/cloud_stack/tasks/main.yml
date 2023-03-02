@@ -8,7 +8,8 @@
     state: present
   register: create_result
 
-- assert:
+- name: Create Check
+  ansible.builtin.assert:
     that:
       - create_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
 
@@ -25,7 +26,8 @@
     state: absent
   register: delete_result
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - delete_result.changed == true
       - delete_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"

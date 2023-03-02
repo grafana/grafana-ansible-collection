@@ -8,7 +8,8 @@
         object_matchers: [["env", "=", "Production"]]
   register: result
 
-- assert:
+- name: Notification Check
+  ansible.builtin.assert:
     that:
       - result.failed == false
       - result.output.provenance == "api"

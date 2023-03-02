@@ -9,7 +9,8 @@
     state: present
   register: add_result
 
-- assert:
+- name: Add Check
+  ansible.builtin.assert:
     that:
       - add_result.output.name == "ansible-integration-test"
   when: add_result.output.name is defined
@@ -24,7 +25,8 @@
     state: present
   register: update_result
 
-- assert:
+- name: Update Check
+  ansible.builtin.assert:
     that:
       - update_result.changed == false
       - update_result.output == "A Cloud API key with the same name already exists"
@@ -38,7 +40,8 @@
     state: absent
   register: delete_result
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - delete_result.changed == true
       - delete_result.output == "Cloud API key is deleted"

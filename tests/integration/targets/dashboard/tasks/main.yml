@@ -17,7 +17,8 @@
     state: present
   register: result_present
 
-- assert:
+- name: Create/Update Check
+  ansible.builtin.assert:
     that:
       - result_present.changed == true
       - result_present.output.status == "success"
@@ -40,7 +41,8 @@
     state: absent
   register: result_absent
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - result_absent.changed == true
       - result_absent.output.message == "Dashboard Ansible Integration Test deleted"

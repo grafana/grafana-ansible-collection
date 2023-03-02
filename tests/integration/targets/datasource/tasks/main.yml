@@ -17,7 +17,8 @@
     state: present
   register: create_result
 
-- assert:
+- name: Create Check
+  ansible.builtin.assert:
     that:
       - create_result.changed == true
       - create_result.output.message == "Datasource added" or create_result.output.message == "Datasource updated"

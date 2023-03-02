@@ -8,7 +8,8 @@
     state: present
   register: add_result
 
-- assert:
+- name: Add Check
+  ansible.builtin.assert:
     that:
       - add_result.changed == true
       - add_result.pluginName == "GitHub"
@@ -22,7 +23,8 @@
     state: present
   register: idempotency_result
 
-- assert:
+- name: Idempotency Check
+  ansible.builtin.assert:
     that:
       - idempotency_result.changed == false
       - idempotency_result.pluginName == "GitHub"
@@ -36,7 +38,8 @@
     state: present
   register: update_result
 
-- assert:
+- name: Update Check
+  ansible.builtin.assert:
     that:
       - update_result.changed == true
       - update_result.pluginName == "GitHub"
@@ -50,7 +53,8 @@
     state: absent
   register: delete_result
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - delete_result.changed == true
       - delete_result.pluginName == "GitHub"
