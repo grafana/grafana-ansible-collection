@@ -28,4 +28,4 @@
   ansible.builtin.assert:
     that:
       - delete_result.output.status == 200
-      - delete_result.output.response == "Folder has been successfuly deleted"
+      - delete_result.output.response == "Folder has been succesfuly deleted"
