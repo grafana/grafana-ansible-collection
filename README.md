@@ -111,7 +111,7 @@ We use `ansible-test` for sanity.
 | `make lint-md` / `make lint-markdown` | Performs Markdown linting |
 | `make lint-txt` / `make lint-text` | Performs text linting |
 | `make lint-yml` / `make lint-yaml` | Performs Yaml linting |
-| `make lint-ec` / `make lint-editorconfig` | Performs Editorconfig Checks |
+| `make lint-ec` / `make lint-editorconfig` | Performs EditorConfig Checks |
 | `make lint-ansible` | Performs Ansible linting |
 | `make clean` | Removes the `./node_modules` and `./build` directories |
 | `make reinstall` | Shortcut to `make clean` and `make install` |
