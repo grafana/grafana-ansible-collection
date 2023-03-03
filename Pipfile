@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+yamllint = "==1.29.0"
+ansible-lint = ">=6.13.1,<7.0.0"
+pylint = ">=2.16.2,<3.0.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

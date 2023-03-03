@@ -1,4 +1,7 @@
+---
 name: Full Integration Test
+
+# yamllint disable-line rule:truthy
 on:
   schedule:
     - cron: '0 0 * * 0'
@@ -32,13 +35,13 @@ jobs:
         exclude:
           - ansible: stable-2.11
             python: '3.10'
-            
+
     steps:
       - name: Check out code
         uses: actions/checkout@v2
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-      
+
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
         run: |
@@ -49,7 +52,7 @@ jobs:
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
           test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
           EOF
- 
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -61,6 +64,6 @@ jobs:
       - name: Run integration test
         run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-        
+
       - name: Cooling Period
         run: sleep 1m

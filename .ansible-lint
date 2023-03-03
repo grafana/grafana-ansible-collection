@@ -1,0 +1,18 @@
+---
+profile: production
+
+exclude_paths:
+  - .cache/
+  - .github/
+  - examples/
+
+parseable: true
+verbosity: 1
+
+use_default_rules: true
+
+skip_list:
+  - '204'  # Allow string length greater than 160 chars
+  - 'no-changed-when'  # False positives for running command shells
+  - 'yaml' # Disable YAML linting since it's done by yamllint
+  - 'empty-string-compare'  # Allow compare to empty string

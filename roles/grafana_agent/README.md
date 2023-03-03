@@ -1,54 +1,53 @@
-Role Name
-=========
+# Role Name
 
-Ansible Role to deploy Grafana Agent on Linux hosts. Using this Role, Grafana Agent can be deployed on Ubunutu, Debian, CentOS and Fedora linux distributions
+Ansible Role to deploy Grafana Agent on Linux hosts. Using this Role, Grafana Agent can be deployed on RedHat, Ubuntu, Debian, CentOS
+and Fedora linux distributions.
 
-
-Requirements
-------------
+## Requirements
 
 To use this role, You need a YAML file having the Grafana Agent configuration
 
-Role Variables
---------------
+## Role Variables
 
-A description of the variables for this role.
+All variables which can be overridden are stored in [./defaults/main.yaml](./defaults/main.yaml) file as well as in table below.
 
-| Variable                | Required | Default              | Choices                                                                                                            | Comments                                    |
-|-------------------------|----------|----------------------|--------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| install_unzip           | no       | true                 | true, false                                                                                                        | This will install unzip on the Linux host   |
-| update_package_cache    | no       | yes                  | yes, no                                                                                                            | Force dnf/apt to check if cache is out of date and redownload if needed.|
-| agent_version           | no       | 0.29.0               | 0.29.0, 0.28.1, 0.28.0, 0.27.1, 0.27.0                                                                             | Version of the Grafana agent to install|
-| linux_architecture      | no       | linux-amd64          | linux-amd64, linux-arm64, linux-armv6, linux-armv7, linux-ppc64le                                                  | Type of linux architecture of the remote host|
-| agent_binary_location   | no       | /usr/local/bin       |                                                                                                                    | Path where the agent binary will be copied to on the remote host|
-| agent_config_location   | no       | /etc/grafana         |                                                                                                                    | Path where the agent configuration will be copied to on the remote host|
-| agent_config_local_path | yes      | agent-config.yml     |                                                                                                                    | Path to the agent configuration file on local|
-| systemd_service_state   | no       | restarted            | reloaded, restarted, started, stopped                                                                              | Operation performed on the systemd service|
-| systemd_config          | no       |                      |                                                                                                                    | Configuration for grafana-agent systemd service|
+| Variable | Default | Description |
+| :------ | :------ | :--------- |
+| `grafana_agent_version` | `latest` | version of the agent to install |
+| `grafana_agent_install_dir` | `/opt/grafana-agent/bin` | directory to install the binary to |
+| `grafana_agent_binary` | `grafana-agent` | name to use for the binary |
+| `grafana_agent_config_dir` | `/etc/grafana-agent` | directory to store the configuration files in |
+| `grafana_agent_config_filename` | `config.yaml` | name of the configuration file for the agent |
+| `grafana_agent_env_file` | `service.env` | name of the environment file loaded by the system unit file |
+| `grafana_agent_local_tmp_dir` | `/tmp/grafana-agent` | temporary directory to create on the controller/localhost where the archive will be downloaded to |
+| `grafana_agent_data_dir` | `/var/lib/grafana-agent` | the data directory to create for the wal and positions |
+| `grafana_agent_wal_dir` | `"{{ grafana_agent_data_dir }}/data"` | wal directory to use, should be a sub-folder of grafana_agent_data_dir, will automatically be created when the agent starts |
+| `grafana_agent_positions_dir` | `"{{ grafana_agent_data_dir }}/data"` | positions directory to use, should be a sub-folder of grafana_agent_data_dir, will automatically be created when the agent starts |
+| `grafana_agent_mode` | `static` | mode to run Grafana Agent in. Can be "flow" or "static", [Flow Docs](https://grafana.com/docs/agent/latest/flow/) |
+| `grafana_agent_user` | `grafana-agent` | os user to create for the agent to run as |
+| `grafana_agent_user_group` | `grafana-agent` | os user group to create for the agent |
+| `grafana_agent_user_shell` | `/usr/sbin/nologin` | the shell for the user |
+| `grafana_agent_user_createhome` | `false` | whether or not to create a home directory for the user |
+| `grafana_agent_local_binary_file` | `""` | full path to the local binary if already downloaded or built on the controller, this should only be set, if ansible is not downloading the binary and you have manually downloaded the binary |
+| `grafana_agent_flags_extra` | see [./defaults/main.yaml](./defaults/main.yaml) | dictionary of additional command-line flags, run grafana-agent --help for a complete list. [Docs](https://grafana.com/docs/agent/latest/configuration/flags/) |
+| `grafana_agent_env_vars` | `{}` | dictionary of key/pair values to write to the environment file that is loaded by the service, with the flag `--config.expand-env=true` any generated config files will support the expansion of environment variables at runtime by referencing ${ENVVAR}. be aware of boolean values, when output they will result in the proper-cased string "True" and "False" |
+| `grafana_agent_provisioned_config_file` | `""` | path to a config file on the controller that will be used instead of the provided configs below if specified. |
+| `grafana_agent_server_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures the server of the Agent used to enable self-scraping, [Docs](https://grafana.com/docs/agent/latest/configuration/server-config/) |
+| `grafana_agent_metrics_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures metric collection, [Docs](https://grafana.com/docs/agent/latest/configuration/metrics-config/) |
+| `grafana_agent_logs_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures logs collection, [Docs](https://grafana.com/docs/agent/latest/configuration/logs-config/) |
+| `grafana_agent_traces_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures traces collection, [Docs](https://grafana.com/docs/agent/latest/configuration/traces-config/) |
+| `grafana_agent_integrations_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures integrations for the agent, [Docs](https://grafana.com/docs/agent/latest/configuration/integrations/) |
 
-Example Playbook
-----------------
+## Example Playbooks
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+See [examples](../../examples)
 
-```yaml
-- name: Install Grafana Agent  
-  hosts: all
-
-  tasks:
-    - name: Install Grafana Agent
-      ansible.builtin.include_role:
-        name: grafana.grafana.grafana_agent:
-      vars:
-        agent_config_local_path: ../agent-config.yml
-```
-License
--------
+## License
 
 See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LICENSE)
 
-Author Information
-------------------
-- [Grafana Labs](https://github.com/grafana)
-- [Ishan Jain](https://github.com/ishanjainn)
+## Author Information
 
+-   [Grafana Labs](https://github.com/grafana)
+-   [Ishan Jain](https://github.com/ishanjainn)
+-   [Ishan Jain](https://github.com/bentonam)

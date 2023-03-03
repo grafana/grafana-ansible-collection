@@ -1,17 +1,18 @@
+---
 - name: Create Alerting contact point
   grafana.grafana.alert_contact_point:
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
+    settings:
+      addresses: ops@mydomain.com,devs@mydomain.com
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: add_result
 
-- assert:
+- name: Add Check
+  ansible.builtin.assert:
     that:
       - add_result.failed == false
       - add_result.output.provenance == "api"
@@ -21,15 +22,15 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
+    settings:
+      addresses: ops@mydomain.com,devs@mydomain.com
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: idempotent_result
 
-- assert:
+- name: Changed Check
+  ansible.builtin.assert:
     that:
       - idempotent_result.changed == false
       - idempotent_result.output.provenance == "api"
@@ -39,15 +40,15 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-     }
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: update_result
 
-- assert:
+- name: Failed Check
+  ansible.builtin.assert:
     that:
       - update_result.failed == false
       - update_result.output.provenance == "api"
@@ -57,15 +58,15 @@
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-     }
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: delete_result
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - delete_result.failed == false
       - delete_result.output.message == "contactpoint deleted"

@@ -1,0 +1,63 @@
+---
+name: Lint
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint:
+    name: Perform Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install shellcheck
+        run: |
+          wget -c https://github.com/koalaman/shellcheck/releases/download/v0.9.0/shellcheck-v0.9.0.linux.x86_64.tar.xz -O shellcheck.tar.xz && \
+            tar -xvf shellcheck.tar.xz && \
+            sudo mv ./shellcheck-v0.9.0/shellcheck /usr/bin/shellcheck && \
+            rm -rf shellcheck-v0.9.0
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pipenv wheel
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Shell Linting
+        run: make ci-lint-shell
+        if: success() || failure()
+
+      - name: Markdown Linting
+        run: make ci-lint-markdown
+        if: success() || failure()
+
+      - name: Text Linting
+        run: make ci-lint-text
+        if: success() || failure()
+
+      - name: Yaml Linting
+        run: make ci-lint-yaml
+        if: success() || failure()
+
+      - name: Editorconfig Linting
+        run: make ci-lint-editorconfig
+        if: success() || failure()
+
+      - name: Ansible Linting
+        run: make ci-lint-ansible
+        if: success() || failure()

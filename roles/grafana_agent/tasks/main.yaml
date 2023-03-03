@@ -1,0 +1,47 @@
+---
+- name: Preflight Tasks
+  ansible.builtin.include_tasks:
+    file: preflight.yaml
+    apply:
+      become: true
+      tags:
+        - grafana_agent_install
+        - grafana_agent_configure
+        - grafana_agent_run
+  tags:
+    - grafana_agent_install
+    - grafana_agent_configure
+    - grafana_agent_run
+
+- name: Install Tasks
+  ansible.builtin.include_tasks:
+    file: install.yaml
+    apply:
+      become: true
+      tags:
+        - grafana_agent_install
+  tags:
+    - grafana_agent_install
+  when: __grafana_agent_do_install
+
+- name: Configuration Tasks
+  ansible.builtin.include_tasks:
+    file: configure.yaml
+    apply:
+      become: true
+      tags:
+        - grafana_agent_configure
+  tags:
+    - grafana_agent_configure
+
+- name: Ensure Grafana Agent is Started and Enabled on Boot
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: grafana-agent
+    enabled: true
+    state: started
+  tags:
+    - grafana_agent_install
+    - grafana_agent_configure
+    - grafana_agent_run

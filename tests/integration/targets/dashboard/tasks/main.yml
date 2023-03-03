@@ -1,47 +1,48 @@
+---
 - name: Create/Update a dashboard
   grafana.grafana.dashboard:
-    dashboard: {
-      "dashboard": {
-        "uid": test1234,
-        "title": "Ansible Integration Test",
-        "tags": [ "templated" ],
-        "timezone": "browser",
-        "schemaVersion": 16,
-        "version": 0,
-        "refresh": "25s"
-      },
-      "overwrite": true
-    }
+    dashboard:
+      dashboard:
+        uid: test1234
+        title: Ansible Integration Test
+        tags:
+          - templated
+        timezone: browser
+        schemaVersion: 16
+        refresh: 25s
+        version: 0
+      overwrite: true
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: result_present
 
-- assert:
+- name: Create/Update Check
+  ansible.builtin.assert:
     that:
       - result_present.changed == true
       - result_present.output.status == "success"
 
 - name: Delete dashboard
   grafana.grafana.dashboard:
-    dashboard: {
-      "dashboard": {
-        "uid": test1234,
-        "title": "Ansible Integration Test",
-        "tags": [ "templated" ],
-        "timezone": "browser",
-        "schemaVersion": 16,
-        "version": 0,
-        "refresh": "25s"
-      },
-      "overwrite": true
-    }
+    dashboard:
+      dashboard:
+        uid: test1234
+        title: Ansible Integration Test
+        tags:
+          - templated
+        timezone: browser
+        schemaVersion: 16
+        version: 0
+        refresh: 25s
+      overwrite: true
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: result_absent
 
-- assert:
+- name: Delete Check
+  ansible.builtin.assert:
     that:
       - result_absent.changed == true
       - result_absent.output.message == "Dashboard Ansible Integration Test deleted"

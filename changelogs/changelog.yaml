@@ -1,3 +1,4 @@
+---
 ancestor: null
 releases:
   0.0.1:
@@ -15,7 +16,7 @@ releases:
   0.0.4:
     changes:
       bugfixes:
-      - Fix an issue with `cloud_stack` idempotency
+        - Fix an issue with `cloud_stack` idempotency
     release_date: '2022-08-10'
   0.0.5:
     changes:
@@ -24,7 +25,7 @@ releases:
   0.0.6:
     changes:
       minor_changes:
-      - Idempotency updates to cloud_api_key and datasource modules
+        - Idempotency updates to cloud_api_key and datasource modules
     release_date: '2022-08-10'
   0.0.7:
     changes:
@@ -45,39 +46,37 @@ releases:
   1.0.3:
     changes:
       minor_changes:
-      - Add a fail method to modules source code if `requests` library is not present
-      - Fixed markup for arg option in Documenation
-      - Updated Documenation with `notes` to specify if the check_mode feature is
-        supported by modules
-      - removed `supports_check_mode=True` from source code of modules
+        - Add a fail method to modules source code if `requests` library is not present
+        - Fixed markup for arg option in Documentation
+        - Updated Documentation with `notes` to specify if the check_mode feature is
+          supported by modules
+        - removed `supports_check_mode=True` from source code of modules
     release_date: '2022-10-20'
   1.0.4:
     changes:
       bugfixes:
-      - Fixed cases where cloud_stack and alert_contact_point modules do not return
-        a tuple when nothing in loop matches
+        - Fixed cases where cloud_stack and alert_contact_point modules do not return a tuple when nothing in loop matches
       major_changes:
-      - All modules except dashboard and datasource modules now support idempotency
+        - All modules except dashboard and datasource modules now support idempotency
       minor_changes:
-      - All modules use `missing_required_lib`` to compose the message for module.fail_json()
-        when required library is missing from host
+        - All modules use `missing_required_lib`` to compose the message for module.fail_json() when required library is missing from host
       release_summary: Bug fixes and idempotency fixes for modules
     release_date: '2022-11-01'
   1.0.5:
     changes:
       minor_changes:
-      - Added Note to datasource and dashboard module about not supporting Idempotency
+        - Added Note to datasource and dashboard module about not supporting Idempotency
       release_summary: Add Note to modules which don't support Idempotency
     release_date: '2022-11-10'
   1.1.0:
     changes:
       major_changes:
-      - Added Role for Grafana Agent
+        - Added Role for Grafana Agent
       release_summary: Added Role to deploy Grafana Agent on linux hosts
     release_date: '2022-11-22'
   1.1.1:
     changes:
       minor_changes:
-      - Updated the return message in grafana.grafana.folder module
+        - Updated the return message in grafana.grafana.folder module
       release_summary: Updated return description and value for grafana.grafana.folder module
     release_date: '2023-02-08'

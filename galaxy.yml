@@ -1,13 +1,14 @@
+---
 namespace: grafana
 name: grafana
 version: 1.1.1
 readme: README.md
 authors:
-- Grafana Labs <grafana.com>
-- Ishan Jain <ishan.jain@grafana.com>
+  - Grafana Labs <grafana.com>
+  - Ishan Jain <ishan.jain@grafana.com>
 description: Ansible collection to manage Grafana resources
 license:
-- GPL-3.0-or-later
+  - GPL-3.0-or-later
 tags: [grafana, observability, monitoring]
 repository: https://github.com/grafana/grafana-ansible-collection
 issues: https://github.com/grafana/grafana-ansible-collection/issues

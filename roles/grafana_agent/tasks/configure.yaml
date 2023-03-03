@@ -1,0 +1,65 @@
+---
+- name: Stop grafana-agent if installed
+  block:
+    # this will fail the verify first time of installation if local binary is used
+    - name: Ensure grafana-agent is stopped
+      ansible.builtin.systemd:
+        name: grafana-agent
+        enabled: true
+        state: stopped
+  rescue:
+    # make sure that the service isn't actually installed
+    - name: Get the list of services
+      ansible.builtin.service_facts:
+
+    - name: Verify that grafana-agent is not installed
+      ansible.builtin.assert:
+        that:
+          - _grafana_agent_systemd_unit not in services
+
+# these tasks are ran in both install and configure, as directories could have changed
+- name: Configure Directories
+  ansible.builtin.import_tasks: install/directories.yaml
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: "{{ grafana_agent_install_dir }}/{{ grafana_agent_binary }}"
+    dest: "/usr/local/bin/{{ grafana_agent_binary }}"
+    owner: root
+    group: root
+    state: link
+
+- name: Overwrite/Create Grafana Agent Service
+  ansible.builtin.template:
+    src: grafana-agent.service.j2
+    dest: "{{ _grafana_agent_systemd_dir }}/{{ _grafana_agent_systemd_unit }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create the Service Environment File
+  ansible.builtin.template:
+    src: EnvironmentFile.j2
+    dest: "{{ grafana_agent_config_dir }}/{{ grafana_agent_env_file }}"
+    owner: root
+    group: "{{ grafana_agent_user_group }}"
+    mode: 0640
+
+- name: Create Grafana Agent Config
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: "{{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}"
+    force: true
+    owner: root
+    group: "{{ grafana_agent_user_group }}"
+    mode: 0640
+  when: grafana_agent_provisioned_config_file | length == 0
+
+- name: Copy Grafana Agent Config
+  ansible.builtin.copy:
+    src: "{{ grafana_agent_provisioned_config_file }}"
+    dest: "{{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}"
+    owner: root
+    group: "{{ grafana_agent_user_group }}"
+    mode: 0640
+  when: grafana_agent_provisioned_config_file | length > 0
