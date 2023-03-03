@@ -4,7 +4,7 @@
     stack_slug: "{{ stack_name }}"
     grafana_api_key: "{{ grafana_api_key }}"
     routes:
-      - receiver: grafana-default-email,
+      - receiver: ansible,
         object_matchers: [["env", "=", "Production"]]
   register: result
 
