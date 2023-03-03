@@ -100,6 +100,22 @@ and work on it there.
 
 We use `ansible-test` for sanity.
 
+## Commands
+
+| Command | Description |
+| :--- | :----------- |
+| `make setup` | Checks to see if necessary tools are installed |
+| `make install` | Installs project dependencies |
+| `make lint` | Performs all linting commands |
+| `make lint-sh` / `make lint-shell` | Performs shell script linting |
+| `make lint-md` / `make lint-markdown` | Performs Markdown linting |
+| `make lint-txt` / `make lint-text` | Performs text linting |
+| `make lint-yml` / `make lint-yaml` | Performs Yaml linting |
+| `make lint-ec` / `make lint-editorconfig` | Performs Editorconfig Checks |
+| `make lint-ansible` | Performs Ansible linting |
+| `make clean` | Removes the `./node_modules` and `./build` directories |
+| `make reinstall` | Shortcut to `make clean` and `make install` |
+
 ## Releasing, Versioning and Deprecation
 
 This collection follows [Semantic Versioning](https://semver.org/). More details on versioning can be found [in the Ansible docs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections.html#collection-versions).

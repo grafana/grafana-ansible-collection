@@ -30,7 +30,7 @@ reinstall: clean install
 ####################################################################
 lint: lint-shell lint-markdown lint-text lint-yaml lint-editorconfig lint-ansible
 
-# Note "|| true" is added to locally make lint can be ran and all linting is preformmed, regardless of exit code
+# Note "|| true" is added to locally make lint can be ran and all linting is preformed, regardless of exit code
 
 # Shell Linting
 lint-sh lint-shell:
