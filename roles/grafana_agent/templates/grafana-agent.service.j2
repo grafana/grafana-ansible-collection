@@ -11,7 +11,7 @@ After=local-fs.target
 Type=simple
 User={{ grafana_agent_user }}
 Group={{ grafana_agent_user_group }}
-WorkingDirectory={{ grafana_agent_config_dir }}
+WorkingDirectory={{ grafana_agent_data_dir }}
 EnvironmentFile={{ grafana_agent_config_dir }}/{{ grafana_agent_env_file}}
 
 ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} \
@@ -39,6 +39,7 @@ ProtectKernelTunables=yes
 {% else %}
 ProtectSystem=full
 {% endif %}
+ReadWritePaths=/tmp {{ grafana_agent_data_dir }} {{ grafana_agent_positions_dir }} {{ grafana_agent_wal_dir }}
 
 [Install]
 WantedBy=multi-user.target
