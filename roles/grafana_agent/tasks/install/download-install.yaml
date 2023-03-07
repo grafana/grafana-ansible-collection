@@ -1,7 +1,7 @@
 ---
-- name: Download Grafana Agent Binary to controller (localhost)
+- name: Download Grafana Agent binary to controller (localhost)
   block:
-    - name: Create Grafana Agent temp Directory
+    - name: Create Grafana Agent temp directory
       become: false
       ansible.builtin.file:
         path: "{{ grafana_agent_local_tmp_dir }}"
@@ -11,7 +11,7 @@
       check_mode: false
       run_once: true
 
-    - name: Download Grafana Agent Archive to local folder
+    - name: Download Grafana Agent archive to local folder
       become: false
       ansible.builtin.get_url:
         url: "{{ _grafana_agent_download_url }}"
