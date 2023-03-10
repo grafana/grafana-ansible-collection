@@ -49,7 +49,7 @@
   ansible.builtin.debug:
     var: __grafana_agent_is_installed.stat.exists
 
-- name: Install Checks
+- name: Install checks
   when: __grafana_agent_is_installed.stat.exists and not __grafana_agent_local_install
   block:
     - name: Gather currently installed grafana-agent version from the host
@@ -63,10 +63,10 @@
       register: __grafana_agent_current_version_output
       check_mode: false
 
-    - name: Set Grafana Agent Installed Version for the host
+    - name: Set Grafana Agent installed version for the host
       ansible.builtin.set_fact:
         __grafana_agent_installed_version: "{{ __grafana_agent_current_version_output.stdout }}"
 
-    - name: Grafana Agent Installed Version on host
+    - name: Grafana Agent installed version on host
       ansible.builtin.debug:
         var: __grafana_agent_installed_version

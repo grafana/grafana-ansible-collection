@@ -1,8 +1,8 @@
 ---
-- name: Get Grafana Agent Version from Github
+- name: Get Grafana Agent version from Github
   when: grafana_agent_version == 'latest' and not __grafana_agent_local_install
   block:
-    - name: Get the latest published Grafana-Agent     # noqa command-instead-of-module
+    - name: Get the latest published Grafana Agent     # noqa command-instead-of-module
       ansible.builtin.shell: |
         curl -s https://api.github.com/repos/{{ _grafana_agent_github_org }}/{{ _grafana_agent_github_repo }}/releases/latest \
           | grep -m 1 tag_name \
@@ -13,7 +13,7 @@
       become: false
       register: _grafana_agent_version_request
 
-    - name: Set the Grafana Agent Version
+    - name: Set the Grafana Agent version
       ansible.builtin.set_fact:
         grafana_agent_version: "{{ _grafana_agent_version_request.stdout }}"
 
@@ -21,11 +21,11 @@
       ansible.builtin.debug:
         var: grafana_agent_version
 
-- name: Set the Grafana Agent Download URL
+- name: Set the Grafana Agent download URL
   ansible.builtin.set_fact:
     _grafana_agent_download_url: |-
       {{ _grafana_agent_base_download_url }}/v{{ grafana_agent_version }}/{{ _grafana_agent_download_archive_file }}
 
-- name: Grafana Agent Download URL
+- name: Grafana Agent download URL
   ansible.builtin.debug:
     var: _grafana_agent_download_url

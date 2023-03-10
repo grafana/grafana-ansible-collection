@@ -1,5 +1,5 @@
 ---
-- name: Grafana Agent Group Creation
+- name: Grafana Agent group creation
   block:
     - name: "Check if the group exists ({{ grafana_agent_user_group }})"
       ansible.builtin.getent:
@@ -18,14 +18,14 @@
         state: present
       when: not __grafana_agent_user_group_exists and grafana_agent_user_group != 'root'
 
-    - name: Grafana Agent User Group Exists
+    - name: Grafana Agent user group exists
       ansible.builtin.debug:
         msg: |-
           The user group \"{{ grafana_agent_user_group }}\" already exists and will not be modified,
           if modifying permissions please perform a separate task
       when: __grafana_agent_user_group_exists
 
-- name: Grafana Agent User Creation
+- name: Grafana Agent user creation
   block:
     - name: "Check if the user exists ({{ grafana_agent_user }})"
       ansible.builtin.getent:
@@ -48,7 +48,7 @@
         createhome: "{{ grafana_agent_user_createhome }}"
       when: not __grafana_agent_user_exists and grafana_agent_user != 'root'
 
-    - name: Grafana Agent User Exists
+    - name: Grafana Agent user exists
       ansible.builtin.debug:
         msg: |-
           The user \"{{ grafana_agent_user }}\" already exists and will not be modified,
