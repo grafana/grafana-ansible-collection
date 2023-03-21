@@ -24,6 +24,7 @@
     - grafana_agent_local_binary_file
     - grafana_agent_flags_extra
     - grafana_agent_env_vars
+    - grafana_agent_env_file_vars
     - grafana_agent_provisioned_config_file
     - grafana_agent_metrics_config
     - grafana_agent_logs_config
