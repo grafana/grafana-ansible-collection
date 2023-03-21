@@ -59,7 +59,7 @@ grafana_agent_flags_extra:
   server.http.address: 127.0.0.1:12345
   server.grpc.address: 127.0.0.1:12346
 
-# Sets Environment variables in the systemd service configuration.
+# sets Environment variables in the systemd service configuration.
 grafana_agent_env_vars: {}
 
 # dictionary of key/pair values to write to the environment file that is loaded by the service, with the flag --config.expand-env=true
