@@ -30,7 +30,8 @@ All variables which can be overridden are stored in [./defaults/main.yaml](./def
 | `grafana_agent_user_createhome` | `false` | whether or not to create a home directory for the user |
 | `grafana_agent_local_binary_file` | `""` | full path to the local binary if already downloaded or built on the controller, this should only be set, if ansible is not downloading the binary and you have manually downloaded the binary |
 | `grafana_agent_flags_extra` | see [./defaults/main.yaml](./defaults/main.yaml) | dictionary of additional command-line flags, run grafana-agent --help for a complete list. [Docs](https://grafana.com/docs/agent/latest/configuration/flags/) |
-| `grafana_agent_env_vars` | `{}` | dictionary of key/pair values to write to the environment file that is loaded by the service, with the flag `--config.expand-env=true` any generated config files will support the expansion of environment variables at runtime by referencing ${ENVVAR}. be aware of boolean values, when output they will result in the proper-cased string "True" and "False" |
+| `grafana_agent_env_vars` | `{}` | sets Environment variables in the systemd service configuration. |
+| `grafana_agent_env_file_vars` | `{}` | dictionary of key/pair values to write to the environment file that is loaded by the service, with the flag `--config.expand-env=true` any generated config files will support the expansion of environment variables at runtime by referencing ${ENVVAR}. be aware of boolean values, when output they will result in the proper-cased string "True" and "False" |
 | `grafana_agent_provisioned_config_file` | `""` | path to a config file on the controller that will be used instead of the provided configs below if specified. |
 | `grafana_agent_server_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures the server of the Agent used to enable self-scraping, [Docs](https://grafana.com/docs/agent/latest/configuration/server-config/) |
 | `grafana_agent_metrics_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures metric collection, [Docs](https://grafana.com/docs/agent/latest/configuration/metrics-config/) |
@@ -50,4 +51,4 @@ See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LI
 
 -   [Grafana Labs](https://github.com/grafana)
 -   [Ishan Jain](https://github.com/ishanjainn)
--   [Ishan Jain](https://github.com/bentonam)
+-   [Aaron Benton](https://github.com/bentonam)
