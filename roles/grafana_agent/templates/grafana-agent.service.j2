@@ -12,6 +12,9 @@ Type=simple
 User={{ grafana_agent_user }}
 Group={{ grafana_agent_user_group }}
 WorkingDirectory={{ grafana_agent_data_dir }}
+{% for key, value in grafana_agent_env_vars.items() %}
+Environment={{key}}={{value}}
+{% endfor %}
 EnvironmentFile={{ grafana_agent_config_dir }}/{{ grafana_agent_env_file}}
 
 ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} \
