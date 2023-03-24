@@ -12,7 +12,7 @@
 
 This collection (`grafana.grafana`) contains modules and plugins to assist in automating managing of resources in **Grafana Cloud** with Ansible.
 
--   [Ansible collection Documentation](https://grafana.github.io/grafana-ansible-collection/)
+-   [Ansible collection Documentation](https://docs.ansible.com/ansible/latest/collections/grafana/grafana/)
 -   [Grafana Site](https://grafana.com)
 -   [Grafana Cloud Site](https://grafana.com/products/cloud/)
 
