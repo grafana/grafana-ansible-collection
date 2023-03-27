@@ -5,6 +5,26 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.0.0
+======
+
+Release Summary
+---------------
+
+Updated Grafana Agent Role
+
+Major Changes
+-------------
+
+- Added Lint support
+- Configs for server, metrics, logs, traces, and integrations
+- Installation of the latest version
+- Local installations when internet connection is not allowed
+- Only download binary to controller once instead of hosts
+- Skip install if the agent is already installed and the version is the same as the requested version
+- Support for Grafana Agent Flow
+- Validation of variables
+
 v1.1.1
 ======
 
@@ -74,8 +94,8 @@ Minor Changes
 -------------
 
 - Add a fail method to modules source code if `requests` library is not present
-- Fixed markup for arg option in Documenation
-- Updated Documenation with `notes` to specify if the check_mode feature is supported by modules
+- Fixed markup for arg option in Documentation
+- Updated Documentation with `notes` to specify if the check_mode feature is supported by modules
 - removed `supports_check_mode=True` from source code of modules
 
 v1.0.2

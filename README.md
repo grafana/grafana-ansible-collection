@@ -128,7 +128,11 @@ Before the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-
 is run, Contributors should push the new version on Ansible Galaxy Manually.
 
 We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for
-module's documentation in `1.1.2`.
+module's documentation in `2.0.1`.
+
+To generate changelogs for a new release, Refer [Generating Changelogs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs)
+
+To generate the tarball to be uploaded on Ansible Galaxy, Refer [Building collection tarball](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_distributing.html#building-your-collection-tarball)
 
 ## Code of Conduct
 
