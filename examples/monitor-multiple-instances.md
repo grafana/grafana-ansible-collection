@@ -28,32 +28,32 @@ Next, you will set up your hosts and create an inventory file.
 
 1. Create your hosts and add public SSH keys to them.
 
-   This example uses eight Linux hosts: two Ubuntu hosts, two CentOS hosts, two Fedora hosts, and two Debian hosts.
+  This example uses eight Linux hosts: two Ubuntu hosts, two CentOS hosts, two Fedora hosts, and two Debian hosts.
 
 1. Create an Ansible inventory file.
 
-   The Ansible inventory, which resides in a file named `inventory`, looks similar to this:
+  The Ansible inventory, which resides in a file named `inventory`, looks similar to this:
 
-   ```
-   146.190.208.216    # hostname = ubuntu-01
-   146.190.208.190    # hostname = ubuntu-02
-   137.184.155.128    # hostname = centos-01
-   146.190.216.129    # hostname = centos-02
-   198.199.82.174     # hostname = debian-01
-   198.199.77.93      # hostname = debian-02
-   143.198.182.156    # hostname = fedora-01
-   143.244.174.246    # hostname = fedora-02
-   ```
+  ```
+  146.190.208.216    # hostname = ubuntu-01
+  146.190.208.190    # hostname = ubuntu-02
+  137.184.155.128    # hostname = centos-01
+  146.190.216.129    # hostname = centos-02
+  198.199.82.174     # hostname = debian-01
+  198.199.77.93      # hostname = debian-02
+  143.198.182.156    # hostname = fedora-01
+  143.244.174.246    # hostname = fedora-02
+  ```
 
-   > **Note**: If you are copying the above file, remove the comments (#).
+  > **Note**: If you are copying the above file, remove the comments (#).
 
 1. Create an `ansible.cfg` file within the same directory as `inventory`, with the following values:
-   ```
-   [defaults]
-   inventory = inventory  # Path to the inventory file
-   private_key_file = ~/.ssh/id_rsa   # Path to my private SSH Key
-   remote_user=root
-   ```
+  ```
+  [defaults]
+  inventory = inventory  # Path to the inventory file
+  private_key_file = ~/.ssh/id_rsa   # Path to my private SSH Key
+  remote_user=root
+  ```
 
 ## Use the Grafana Agent Ansible role
 
@@ -63,7 +63,7 @@ To use the Grafana Agent Ansible role:
 
 1. Create a file named `deploy-agent.yml` in the same directory as `ansible.cfg` and `inventory` and add the configuration below.
 
-   ```yaml
+  ```yaml
     - name: Install Grafana Agent
       hosts: all
       become: true
@@ -121,26 +121,26 @@ To use the Grafana Agent Ansible role:
                     password: "{{ grafana_cloud_api_key }}"
                     username: "{{ metrics_username }}"
                   url: "{{ prometheus_url }}"
-   ```
+  ```
 
-   The playbook calls the `grafana_agent` role from the `grafana.grafana` Ansible collection.
+  The playbook calls the `grafana_agent` role from the `grafana.grafana` Ansible collection.
    
-   The Agent configuration in this playbook send metrics and logs from the linux hosts to your prometheus and Loki data sources.
+  The Agent configuration in this playbook send metrics and logs from the linux hosts to your prometheus and Loki data sources.
 
-   Refer to the [Grafana Ansible documentation](https://github.com/grafana/grafana-ansible-collection/tree/main/roles/grafana_agent#role-variables) to understand the other variables you can pass to the `grafana_agent` role.
+  Refer to the [Grafana Ansible documentation](https://github.com/grafana/grafana-ansible-collection/tree/main/roles/grafana_agent#role-variables) to understand the other variables you can pass to the `grafana_agent` role.
 
-   When deploying the Agent across multiple instances for monitoring them, It is essential that the Agent is able to auto-detect the hostname for ease in monitoring.
-   Notice that the label `instance` has been set to the value `${HOSTNAME:-default}`, which is substituted by the value of the HOSTNAME environment variable in the Linux host.
+  When deploying the Agent across multiple instances for monitoring them, It is essential that the Agent is able to auto-detect the hostname for ease in monitoring.
+  Notice that the label `instance` has been set to the value `${HOSTNAME:-default}`, which is substituted by the value of the HOSTNAME environment variable in the Linux host.
    
-   To read more about the variable substitution, refer to the Grafana Agent [node_exporter_config](https://grafana.com/docs/agent/latest/configuration/integrations/node-exporter-config/) documentation.
+  To read more about the variable substitution, refer to the Grafana Agent [node_exporter_config](https://grafana.com/docs/agent/latest/configuration/integrations/node-exporter-config/) documentation.
 
 1. To run the playbook, run this command:
 
-   ```
-   ansible-playbook deploy-agent.yml
-   ```
+  ```
+  ansible-playbook deploy-agent.yml
+  ```
 
-   > **Note:** You can place the `deploy-agent.yml`, `ansible.cfg` and `inventory` files in different directories based on your needs.
+  > **Note:** You can place the `deploy-agent.yml`, `ansible.cfg` and `inventory` files in different directories based on your needs.
 
 ## Check that logs and metrics are being ingested into Prometheus and Loki
 
@@ -156,11 +156,11 @@ To check logs:
 
 1. In the log browser, run the query `{instance="centos-01"}` where centos-01 is the hostname of one of the Linux hosts.
 
-   If you see log lines (shown in the example below), logs are being received.
+  If you see log lines (shown in the example below), logs are being received.
 
-   ![Logs](https://grafana.com/static/assets/img/blog/ansible-to-manage-agent1.png) 
+  ![Logs](https://grafana.com/static/assets/img/blog/ansible-to-manage-agent1.png) 
 
-   If no log lines appear, logs are not being collected.
+  If no log lines appear, logs are not being collected.
 
 ### Check metrics
 
@@ -170,11 +170,11 @@ To check metrics:
 
 1. Run the query `{instance="centos-01"}` where centos-01 is the hostname of one of the Linux hosts.
 
-   If you see a metrics graph and table (shown in the example below), metrics are being received.
+  If you see a metrics graph and table (shown in the example below), metrics are being received.
 
-   ![Metrics](https://grafana.com/static/assets/img/blog/ansible-to-manage-agent2.png)
+  ![Metrics](https://grafana.com/static/assets/img/blog/ansible-to-manage-agent2.png)
 
-   If no metrics appear, metrics are not being collected.
+  If no metrics appear, metrics are not being collected.
 
 ### View dashboards
 
