@@ -52,3 +52,4 @@ See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LI
 -   [Grafana Labs](https://github.com/grafana)
 -   [Ishan Jain](https://github.com/ishanjainn)
 -   [Aaron Benton](https://github.com/bentonam)
+-   [Vitaly Zhuravlev](https://github.com/v-zhuravlev)
