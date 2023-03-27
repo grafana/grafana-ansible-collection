@@ -19,7 +19,7 @@ The [Grafana Agent role](https://github.com/grafana/grafana-ansible-collection/t
 To install the Grafana Ansible collection, run this command:
 
 ```
-ansible-galaxy collection install grafana.grafana:1.1.1
+ansible-galaxy collection install grafana.grafana:2.0.0
 ```
 
 ## Create an Ansible inventory file
