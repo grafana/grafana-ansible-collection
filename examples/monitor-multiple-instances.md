@@ -123,15 +123,13 @@ To use the Grafana Agent Ansible role:
                   url: "{{ prometheus_url }}"
   ```
 
-  The playbook calls the `grafana_agent` role from the `grafana.grafana` Ansible collection.
-   
+  The playbook calls the `grafana_agent` role from the `grafana.grafana` Ansible collection. 
   The Agent configuration in this playbook send metrics and logs from the linux hosts to your prometheus and Loki data sources.
 
   Refer to the [Grafana Ansible documentation](https://github.com/grafana/grafana-ansible-collection/tree/main/roles/grafana_agent#role-variables) to understand the other variables you can pass to the `grafana_agent` role.
 
   When deploying the Agent across multiple instances for monitoring them, It is essential that the Agent is able to auto-detect the hostname for ease in monitoring.
   Notice that the label `instance` has been set to the value `${HOSTNAME:-default}`, which is substituted by the value of the HOSTNAME environment variable in the Linux host.
-   
   To read more about the variable substitution, refer to the Grafana Agent [node_exporter_config](https://grafana.com/docs/agent/latest/configuration/integrations/node-exporter-config/) documentation.
 
 1. To run the playbook, run this command:
