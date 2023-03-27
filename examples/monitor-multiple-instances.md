@@ -1,8 +1,8 @@
 # Monitoring multiple Linux hosts with Grafana Agent Role
 
 Monitoring with Grafana Agents across multiple Linux hosts can be difficult.
-To make it easier, you can use the Grafana Agent role with the [Grafana Ansible collection]({{< relref "../" >}}).
-This guide shows how to use the `grafana_agent` Ansible role to deploy and manage Grafana Agents across multiple Linux hosts so you can monitor them using Grafana Cloud.
+To make it easier, you can use the Grafana Agent role with the Grafana Ansible collection.
+This guide shows how to use the `grafana_agent` Ansible role to deploy and manage Grafana Agents across multiple Linux hosts so you can monitor them in Grafana.
 
 ## Before you begin
 
