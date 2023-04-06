@@ -32,41 +32,47 @@
             basic_auth:
               username: "1234567"    # your username / instanceID
               password: "..."   # your grafana.com token
-      scrape_configs:
-        # scrape all of the log files in /var/log on the localhost
-        - job_name: log-files
-          static_configs:
-            - targets:
-                - localhost
-              labels:
-                job: var-logs
-                instance: "{{ ansible_host }}"
-                __path__: /var/log/*.log
-        # scrape all of the journal logs on localhost
-        - job_name: systemd-journal
-          journal:
-            max_age: 12h
-            labels:
-              job: systemd-journal
-          relabel_configs:
-            - source_labels:
-                - __journal__systemd_unit
-              target_label: systemd_unit
-            - source_labels:
-                - __journal__hostname
-              target_label: hostname
-            - source_labels:
-                - __journal_syslog_identifier
-              target_label: syslog_identifier
-            - source_labels:
-                - __journal__pid
-              target_label: pid
-            - source_labels:
-                - __journal__uid
-              target_label: uid
-            - source_labels:
-                - __journal__transport
-              target_label: transport
+      configs:
+        - name: local
+          positions:
+            filename: /tmp/positions.yaml
+          target_config:
+            sync_period: 10s
+          scrape_configs:
+            # scrape all of the log files in /var/log on the localhost
+            - job_name: log-files
+              static_configs:
+                - targets:
+                    - localhost
+                  labels:
+                    job: var-logs
+                    instance: "{{ ansible_host }}"
+                    __path__: /var/log/*.log
+            # scrape all of the journal logs on localhost
+            - job_name: systemd-journal
+              journal:
+                max_age: 12h
+                labels:
+                  job: systemd-journal
+              relabel_configs:
+                - source_labels:
+                    - __journal__systemd_unit
+                  target_label: systemd_unit
+                - source_labels:
+                    - __journal__hostname
+                  target_label: hostname
+                - source_labels:
+                    - __journal_syslog_identifier
+                  target_label: syslog_identifier
+                - source_labels:
+                    - __journal__pid
+                  target_label: pid
+                - source_labels:
+                    - __journal__uid
+                  target_label: uid
+                - source_labels:
+                    - __journal__transport
+                  target_label: transport
     grafana_agent_integrations_config:
       scrape_integrations: true
       # get metrics about the agent
