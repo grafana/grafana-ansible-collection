@@ -39,6 +39,10 @@ grafana_agent_user: grafana-agent
 # os user group to create for the agent
 grafana_agent_user_group: grafana-agent
 
+# Configurable user groups that the grafana agent can be put in so that it can access logs
+# (See https://github.com/grafana/grafana-ansible-collection/issues/40)
+grafana_agent_user_groups: []
+
 # the shell for the user
 grafana_agent_user_shell: /usr/sbin/nologin
 

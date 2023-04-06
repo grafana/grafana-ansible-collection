@@ -41,8 +41,7 @@
       ansible.builtin.user:
         name: "{{ grafana_agent_user }}"
         comment: "Grafana Agent Account"
-        groups:
-          - "{{ grafana_agent_user_group }}"
+        groups: "{{ [ grafana_agent_user_group ] + grafana_agent_user_groups }}"
         system: true
         shell: "{{ grafana_agent_user_shell }}"
         createhome: "{{ grafana_agent_user_createhome }}"
