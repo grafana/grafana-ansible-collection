@@ -72,12 +72,12 @@ To use the Grafana Agent Ansible role:
         grafana_cloud_api_key: <Your Grafana.com API Key>        # Example - eyJrIjoiYjI3NjI5MGQxZTcyOTIxYTc0MDgzMGVhNDhlODNhYzA5OTk2Y2U5YiIsIm4iOiJhbnNpYmxldGVzdCIsImlkIjo2NTI5
         metrics_username: <prometheus-username>                  # Example - 825019
         logs_username: <loki-username>                           # Example - 411478
-        prometheus_url: <prometheus-push-url>                    # Example - https://prometheus-us-central1.grafana.net/api/prom/pus
+        prometheus_url: <prometheus-push-url>                    # Example - https://prometheus-us-central1.grafana.net/api/prom/push
         loki_url: <loki-push-url>                                # Example - https://logs-prod-017.grafana.net/loki/api/v1/push
       tasks: 
         - name: Install Grafana Agent
           ansible.builtin.include_role:
-            name: grafana_agent
+            name: grafana.grafana.grafana_agent
           vars:
             grafana_agent_metrics_config:
               configs:
@@ -99,7 +99,7 @@ To use the Grafana Agent Ansible role:
                     - basic_auth:
                         password: "{{ grafana_cloud_api_key }}"
                         username: "{{ logs_username }}"
-                      url:  "{{ loki_url }}"
+                      url: "{{ loki_url }}"
                   positions:
                     filename: /tmp/positions.yaml
                   target_config:
