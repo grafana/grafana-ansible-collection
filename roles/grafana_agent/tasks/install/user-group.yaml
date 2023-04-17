@@ -30,7 +30,7 @@
     - name: Add user "{{ grafana_agent_user }}"
       ansible.builtin.user:
         name: "{{ grafana_agent_user }}"
-        comment: "Grafana Agent Account"
+        comment: "Grafana Agent account"
         groups: "{{ [ grafana_agent_user_group ] + grafana_agent_user_groups }}"
         system: true
         shell: "{{ grafana_agent_user_shell }}"
