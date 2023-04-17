@@ -17,7 +17,7 @@
       ansible.builtin.set_fact:
         grafana_agent_version: "{{ _grafana_agent_version_request.stdout }}"
 
-    - name: Grafana Agent Version to download
+    - name: Grafana Agent version to download
       ansible.builtin.debug:
         var: grafana_agent_version
 
