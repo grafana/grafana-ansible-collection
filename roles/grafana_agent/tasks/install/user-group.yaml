@@ -27,29 +27,12 @@
 
 - name: Grafana Agent user creation
   block:
-    - name: "Check if the user exists ({{ grafana_agent_user }})"
-      ansible.builtin.getent:
-        database: passwd
-        key: "{{ grafana_agent_user }}"
-        fail_key: false
-
-    - name: Set whether not the user exists
-      ansible.builtin.set_fact:
-        __grafana_agent_user_exists: "{{ ansible_facts.getent_passwd[grafana_agent_user] is not none }}"
-
     - name: Add user "{{ grafana_agent_user }}"
       ansible.builtin.user:
         name: "{{ grafana_agent_user }}"
-        comment: "Grafana Agent Account"
+        comment: "Grafana Agent account"
         groups: "{{ [ grafana_agent_user_group ] + grafana_agent_user_groups }}"
         system: true
         shell: "{{ grafana_agent_user_shell }}"
         createhome: "{{ grafana_agent_user_createhome }}"
-      when: not __grafana_agent_user_exists and grafana_agent_user != 'root'
-
-    - name: Grafana Agent user exists
-      ansible.builtin.debug:
-        msg: |-
-          The user \"{{ grafana_agent_user }}\" already exists and will not be modified,
-          if modifying permissions please perform a separate task
-      when: __grafana_agent_user_exists
+      when: grafana_agent_user != 'root'
