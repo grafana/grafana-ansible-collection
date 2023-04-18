@@ -1,8 +1,9 @@
 ---
-- hosts: all
+- name: "Run role"
+  hosts: all
   any_errors_fatal: true
   roles:
-    - ansible-grafana
+    - grafana.grafana.grafana_server
   vars:
     grafana_version: 6.2.5
     grafana_yum_repo_template: alternative.grafana.yum.repo.j2
@@ -48,7 +49,7 @@
           member_of: memberOf
           email: mail
       group_mappings:
-        - name: Main Organization
+        - name: "Main Organization"
           id: 1
           groups:
             - group_dn: "cn=admins,ou=groups,dc=grafana,dc=org"
@@ -57,7 +58,7 @@
               org_role: Editor
             - group_dn: "*"
               org_role: Viewer
-        - name: Alternative Org
+        - name: "Alternative Org"
           id: 2
           groups:
             - group_dn: "cn=alternative_admins,ou=groups,dc=grafana,dc=org"

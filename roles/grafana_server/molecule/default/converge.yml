@@ -1,9 +1,10 @@
 ---
-- hosts: all
+- name: "Run role"
+  hosts: all
   any_errors_fatal: true
   roles:
-    - ansible-grafana
+    - grafana.grafana.grafana_server
   vars:
     grafana_security:
-      admin_user: admin
+      admin_user: "admin"
       admin_password: "password"
