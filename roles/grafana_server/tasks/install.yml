@@ -1,0 +1,76 @@
+---
+
+- block:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+      register: _pre_update_apt_cache
+      until: _pre_update_apt_cache is succeeded
+      when:
+        - ansible_pkg_mgr == "apt"
+
+    - name: Install dependencies
+      package:
+        name: "{{ grafana_dependencies }}"
+        state: present
+      register: _install_dep_packages
+      until: _install_dep_packages is succeeded
+      retries: 5
+      delay: 2
+
+- name: Remove conflicting grafana packages
+  package:
+    name: grafana-data
+    state: absent
+  register: _old_grafana_pkgs
+
+- name: Clean apt cache
+  command: apt clean
+  when:
+    - _old_grafana_pkgs is changed
+    - ansible_pkg_mgr == "apt"
+
+- name: Add Grafana repository file [RHEL/CentOS]
+  template:
+    src: "{{ grafana_yum_repo_template }}"
+    dest: "/etc/yum.repos.d/{{ grafana_yum_repo_template | basename | regex_replace('\\.j2$', '') }}"
+    force: true
+    backup: true
+  when:
+    - ansible_pkg_mgr in ['yum', 'dnf']
+    - grafana_manage_repo
+
+- block:
+    - name: Import Grafana GPG signing key [Debian/Ubuntu]
+      apt_key:
+        url: "https://packages.grafana.com/gpg.key"
+        state: present
+        validate_certs: false
+      register: _add_apt_key
+      until: _add_apt_key is succeeded
+      retries: 5
+      delay: 2
+
+    - name: Add Grafana repository [Debian/Ubuntu]
+      apt_repository:
+        repo: deb https://packages.grafana.com/oss/deb stable main
+        state: present
+        update_cache: true
+      register: _update_apt_cache
+      until: _update_apt_cache is succeeded
+      retries: 5
+      delay: 2
+  when:
+    - ansible_pkg_mgr == "apt"
+    - grafana_manage_repo
+  environment: "{{ grafana_environment }}"
+
+- name: Install Grafana
+  package:
+    name: "{{ grafana_package }}"
+    state: "{{ (grafana_version == 'latest') | ternary('latest', 'present') }}"
+  register: _install_packages
+  until: _install_packages is succeeded
+  retries: 5
+  delay: 2
+  notify: restart grafana

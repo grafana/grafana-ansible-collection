@@ -1,0 +1,197 @@
+{{ ansible_managed | comment }}
+# More informations:
+# http://docs.grafana.org/installation/configuration
+# https://github.com/grafana/grafana/blob/master/conf/sample.ini
+
+app_mode = production
+instance_name = {{ grafana_instance }}
+
+# Directories
+[paths]
+data = {{ grafana_data_dir }}
+logs = {{ grafana_logs_dir }}
+plugins = {{ grafana_data_dir }}/plugins
+; datasources = conf/datasources
+
+# HTTP options
+[server]
+{% if grafana_server.protocol is undefined or grafana_server.protocol in ['http', 'https'] %}
+http_addr = {{ grafana_address }}
+http_port = {{ grafana_port }}
+{% endif %}
+domain = {{ grafana_domain }}
+root_url = {{ grafana_url }}
+{% for k,v in grafana_server.items() %}
+{%   if not k in ['http_addr', 'http_port', 'domain', 'root_url'] %}
+{{ k }} = {{ v }}
+{%   endif %}
+{% endfor %}
+
+# Database
+[database]
+{% for k,v in grafana_database.items() %}
+{%   if k == 'password' %}
+{{ k }} = """{{ v }}"""
+{%   else %}
+{{ k }} = {{ v }}
+{%   endif %}
+{% endfor %}
+
+# Remote cache
+[remote_cache]
+{% for k,v in grafana_remote_cache.items() %}
+{{ k }} = {{ v }}
+{% endfor %}
+
+# Security
+[security]
+{% for k,v in grafana_security.items() %}
+{{ k }} = {{ v }}
+{% endfor %}
+
+# Users management and registration
+{% if grafana_users != {} %}
+[users]
+{%   for k,v in grafana_users.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
+[emails]
+welcome_email_on_sign_up = {{ grafana_welcome_email_on_sign_up }}
+
+# Authentication
+{% if grafana_auth != {} %}
+[auth]
+disable_login_form = {{ grafana_auth.disable_login_form | default('False') }}
+oauth_auto_login = {{ grafana_auth.oauth_auto_login | default('False') }}
+disable_signout_menu = {{ grafana_auth.disable_signout_menu | default('False') }}
+signout_redirect_url = {{ grafana_auth.signout_redirect_url | default('') }}
+{%  for section, options in grafana_auth.items() %}
+{%    if options is mapping %}
+[auth.{{ section }}]
+{%      if "enabled" not in options %}
+enabled = True
+{%      endif %}
+{%      for k, v in options.items() %}
+{{ k }} = {{ v }}
+{%      endfor %}
+{%    else %}
+{{ section }} = {{ options }}
+{%    endif %}
+{%  endfor %}
+{% endif %}
+
+# Session
+{% if grafana_session != {} %}
+[session]
+{%   for k,v in grafana_session.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
+
+# Analytics
+[analytics]
+reporting_enabled = "{{ grafana_analytics.reporting_enabled | default(True) }}"
+{% if grafana_analytics.google_analytics_ua_id is defined and grafana_analytics.google_analytics_ua_id != '' %}
+google_analytics_ua_id = "{{ grafana_analytics.google_analytics_ua_id }}"
+{% endif %}
+
+# Dashboards
+[dashboards]
+versions_to_keep = 20
+
+[dashboards.json]
+enabled = true
+path = {{ grafana_data_dir }}/dashboards
+
+# Alerting
+[alerting]
+{% if grafana_alerting != {} %}
+enabled = true
+{%   for k,v in grafana_alerting.items() %}
+{%     if k != 'enabled' %}
+{{ k }} = {{ v }}
+{%     endif %}
+{%   endfor %}
+{% else %}
+enabled = false
+{% endif %}
+
+# SMTP and email config
+{% if grafana_smtp != {} %}
+[smtp]
+enabled = True
+{%   for k,v in grafana_smtp.items() %}
+{%     if k == 'enabled' %}{% endif %}
+{%     if k == 'password' %}
+{{ k }} = """{{ v }}"""
+{%     else %}
+{{ k }} = {{ v }}
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+# Logging
+[log]
+mode = {{ grafana_log.mode | default('console, file') }}
+level = {{ grafana_log.level | default('info') }}
+
+# Metrics
+[metrics]
+{% if grafana_metrics != {} %}
+enabled = true
+interval_seconds = {{ grafana_metrics.interval_seconds | default(10) }}
+{%   if grafana_metrics.basic_auth_username is defined %}
+basic_auth_username = {{ grafana_metrics.basic_auth_username }}
+{%   endif %}
+{%   if grafana_metrics.basic_auth_password is defined %}
+basic_auth_password = """{{ grafana_metrics.basic_auth_password }}"""
+{%   endif %}
+{%   if grafana_metrics.graphite is defined %}
+[metrics.graphite]
+address = {{ grafana_metrics.graphite.address }}
+prefix = {{ grafana_metrics.graphite.prefix }}
+{%   endif %}
+{% else %}
+enabled = false
+{% endif %}
+
+# Tracing
+{% if grafana_tracing != {} %}
+[tracing.jaeger]
+{%   for k,v in grafana_tracing.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
+
+# Grafana.com configuration
+[grafana_com]
+url = https://grafana.com
+
+# Snapshots
+{% if grafana_snapshots != {} %}
+[snapshots]
+{%   for k,v in grafana_snapshots.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
+
+# External image storage
+{% if grafana_image_storage != {} %}
+[external_image_storage]
+provider = {{ grafana_image_storage.provider }}
+[external_image_storage.{{ grafana_image_storage.provider }}]
+{%   for k,v in grafana_image_storage.items() %}
+{%     if k != 'provider' %}
+{{ k }} = {{ v }}
+{%     endif %}
+{%   endfor %}
+{% endif %}
+
+# Panels
+{% if grafana_panels != {} %}
+[panels]
+{%   for k,v in grafana_panels.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}

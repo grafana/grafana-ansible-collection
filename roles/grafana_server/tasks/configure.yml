@@ -1,0 +1,87 @@
+---
+- name: Ensure grafana configuration directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: grafana
+  with_items:
+    - "/etc/grafana"
+    - "/etc/grafana/datasources"
+    - "/etc/grafana/provisioning"
+    - "/etc/grafana/provisioning/datasources"
+    - "/etc/grafana/provisioning/dashboards"
+    - "/etc/grafana/provisioning/notifiers"
+    - "/etc/grafana/provisioning/plugins"
+
+- name: Create grafana main configuration file
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: 0640
+  no_log: true
+  notify: restart grafana
+
+- name: Create grafana LDAP configuration file
+  template:
+    src: ldap.toml.j2
+    dest: "{{ grafana_auth.ldap.config_file | default('/etc/grafana/ldap.toml') }}"
+    owner: root
+    group: grafana
+    mode: 0640
+  when:
+    - "'ldap' in grafana_auth"
+    - "'enabled' not in grafana_auth.ldap or grafana_auth.ldap.enabled"
+  no_log: true
+  notify: restart grafana
+
+- name: Create grafana directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "grafana"
+    group: "grafana"
+  with_items:
+    - "{{ grafana_logs_dir }}"
+    - "{{ grafana_data_dir }}"
+    - "{{ grafana_data_dir }}/dashboards"
+    - "{{ grafana_data_dir }}/plugins"
+
+- block:
+    - name: Create grafana socket directory
+      file:
+        path: "{{ grafana_server.socket | dirname }}"
+        state: directory
+        mode: 0775
+        owner: "grafana"
+        group: "grafana"
+
+    - name: Ensure grafana socket directory created on startup
+      template:
+        src: tmpfiles.j2
+        dest: /etc/tmpfiles.d/grafana.conf
+        owner: root
+        group: root
+        mode: 0644
+  when:
+    - grafana_server.protocol is defined and grafana_server.protocol == 'socket'
+    - grafana_server.socket | dirname != '/var/run'
+
+- name: Enable grafana to ports lower than port 1024
+  capabilities:
+    path: /usr/sbin/grafana-server
+    capability: CAP_NET_BIND_SERVICE+ep
+    state: present
+  when:
+    - grafana_port | int <= 1024
+    - grafana_cap_net_bind_service
+
+- name: Enable and start Grafana systemd unit
+  systemd:
+    name: grafana-server
+    enabled: true
+    state: started
+    daemon_reload: true
