@@ -1,6 +1,6 @@
 ---
-- name: Ensure datasources exist (via API)
-  grafana_datasource:
+- name: "Ensure datasources exist (via API)"
+  community.general.grafana_datasource:
     grafana_url: "{{ grafana_api_url }}"
     grafana_user: "{{ grafana_security.admin_user }}"
     grafana_password: "{{ grafana_security.admin_password }}"
@@ -20,12 +20,11 @@
     aws_secret_key: "{{ item.aws_secret_key | default(omit) }}"
     aws_credentials_profile: "{{ item.aws_credentials_profile | default(omit) }}"
     aws_custom_metrics_namespaces: "{{ item.aws_custom_metrics_namespaces | default(omit) }}"
-  with_items: "{{ grafana_datasources }}"
-  when: not grafana_use_provisioning
+  loop: "{{ grafana_datasources }}"
+  when: "not grafana_use_provisioning"
 
-- name: Create/Update datasources file (provisioning)
-  become: true
-  copy:
+- name: "Create/Update datasources file (provisioning)"
+  ansible.builtin.copy:
     dest: "/etc/grafana/provisioning/datasources/ansible.yml"
     content: |
       apiVersion: 1
@@ -36,5 +35,6 @@
     owner: root
     group: grafana
     mode: 0640
-  notify: restart grafana
-  when: grafana_use_provisioning
+  notify: restart_grafana
+  become: true
+  when: "grafana_use_provisioning"

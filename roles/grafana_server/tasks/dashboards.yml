@@ -1,34 +1,27 @@
 ---
-- become: false
+- name: "Download grafana.net dashboards"
+  become: false
   delegate_to: localhost
   run_once: true
+  when: "grafana_dashboards | length > 0"
   block:
-    - name: Create local grafana dashboard directory
-      tempfile:
+    - name: "Create local grafana dashboard directory"
+      ansible.builtin.tempfile:
         state: directory
-      register: _tmp_dashboards
-      changed_when: false
-      check_mode: false
+      register: __tmp_dashboards
 
-    # Use curl to solve issue #77
-    - name: download grafana dashboard from grafana.net to local directory
-      command: >
-        curl --fail --compressed
-        https://grafana.com/api/dashboards/{{ item.dashboard_id }}/revisions/{{ item.revision_id }}/download
-        -o {{ _tmp_dashboards.path }}/{{ item.dashboard_id }}.json
-      args:
-        creates: "{{ _tmp_dashboards.path }}/{{ item.dashboard_id }}.json"
-        warn: false
-      register: _download_dashboards
-      until: _download_dashboards is succeeded
+    - name: "Download grafana dashboard from grafana.net to local directory"
+      ansible.builtin.get_url:
+        url: "https://grafana.com/api/dashboards/{{ item.dashboard_id }}/revisions/{{ item.revision_id }}/download"
+        headers:
+          Accept-Encoding: "gzip, deflate"
+        dest: "/tmp/dashboards/{{ item.dashboard_id }}.json"
+        mode: "0644"
+      register: __download_dashboards
+      until: "__download_dashboards is succeeded"
       retries: 5
       delay: 2
-      with_items: "{{ grafana_dashboards }}"
-      when: grafana_dashboards | length > 0
-      changed_when: false
-      check_mode: false
-      tags:
-        - skip_ansible_lint
+      loop: "{{ grafana_dashboards }}"
 
     # As noted in [1] an exported dashboard replaces the exporter's datasource
     # name with a representative name, something like 'DS_GRAPHITE'. The name
@@ -62,54 +55,34 @@
     # This regex can be tested and understood better by looking at the
     # matches and non-matches in https://regex101.com/r/f4Gkvg/6
 
-    - name: Set the correct data source name in the dashboard
-      replace:
-        dest: "{{ _tmp_dashboards.path }}/{{ item.dashboard_id }}.json"
+    - name: "Set the correct data source name in the dashboard"
+      ansible.builtin.replace:
+        dest: "{{ __tmp_dashboards.path }}/{{ item.dashboard_id }}.json"
         regexp: '"(?:\${)?DS_[A-Z0-9_-]+(?:})?"'
         replace: '"{{ item.datasource }}"'
       changed_when: false
-      with_items: "{{ grafana_dashboards }}"
-      when: grafana_dashboards | length > 0
+      loop: "{{ grafana_dashboards }}"
 
-- name: Import grafana dashboards through API
-  uri:
-    url: "{{ grafana_api_url }}/api/dashboards/db"
-    user: "{{ grafana_security.admin_user }}"
-    password: "{{ grafana_security.admin_password }}"
-    force_basic_auth: true
-    method: POST
-    body_format: json
-    body: >
-      {
-        "dashboard": {{ lookup("file", item) }},
-        "overwrite": true,
-        "message": "Updated by ansible"
-      }
-  no_log: true
+- name: "Import grafana dashboards via api"
+  community.grafana.grafana_dashboard:
+    grafana_url: "{{ grafana_api_url }}"
+    grafana_user: "{{ grafana_security.admin_user }}"
+    grafana_password: "{{ grafana_security.admin_password }}"
+    path: "{{ item }}"
+    message: "Updated by ansible role {{ ansible_role_name }}"
+    state: present
+    overwrite: true
+  no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
   with_fileglob:
-    - "{{ _tmp_dashboards.path }}/*"
+    - "{{ __tmp_dashboards.path }}/*"
     - "{{ grafana_dashboards_dir }}/*.json"
-  when: not grafana_use_provisioning
+  when: "not grafana_use_provisioning"
 
-# TODO: uncomment this when ansible 2.7 will be min supported version
-# - name: import grafana dashboards
-#   grafana_dashboard:
-#     grafana_url: "{{ grafana_api_url }}"
-#     grafana_user: "{{ grafana_security.admin_user }}"
-#     grafana_password: "{{ grafana_security.admin_password }}"
-#     path: "/tmp/dashboards/{{ item }}"
-#     message: Updated by ansible
-#     state: present
-#     overwrite: true
-#   no_log: true
-#   with_fileglob:
-#     - "/tmp/dashboards/*"
-
-- when: grafana_use_provisioning
+- name: "Import grafana dashboards through provisioning"
+  when: grafana_use_provisioning
   block:
-    - name: Create/Update dashboards file (provisioning)
-      become: true
-      copy:
+    - name: "Create/Update dashboards file (provisioning)"
+      ansible.builtin.copy:
         dest: "/etc/grafana/provisioning/dashboards/ansible.yml"
         content: |
           apiVersion: 1
@@ -123,39 +96,38 @@
         backup: false
         owner: root
         group: grafana
-        mode: 0640
-      notify: restart grafana
+        mode: "0640"
+      become: true
+      notify: restart_grafana
 
-    - name: Register previously copied dashboards
-      find:
+    - name: "Register previously copied dashboards"
+      ansible.builtin.find:
         paths: "{{ grafana_data_dir }}/dashboards"
         hidden: true
         patterns:
           - "*.json"
-      register: _dashboards_present
+      register: __dashboards_present
       when: grafana_provisioning_synced
 
-    - name: Import grafana dashboards
-      become: true
-      copy:
+    - name: "Import grafana dashboards"
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ grafana_data_dir }}/dashboards/{{ item | basename }}"
+        mode: "0640"
       with_fileglob:
-        - "{{ _tmp_dashboards.path }}/*"
+        - "{{ __tmp_dashboards.path }}/*"
         - "{{ grafana_dashboards_dir }}/*.json"
-      register: _dashboards_copied
+      become: true
+      register: __dashboards_copied
       notify: "provisioned dashboards changed"
 
-    - name: Get dashboard lists
-      set_fact:
-        _dashboards_present_list: "{{ _dashboards_present | json_query('files[*].path') | default([]) }}"
-        _dashboards_copied_list: "{{ _dashboards_copied | json_query('results[*].dest') | default([]) }}"
-      when: grafana_provisioning_synced
-
-    - name: Remove dashboards not present on deployer machine (synchronize)
-      become: true
-      file:
+    - name: "Remove dashboards not present on deployer machine (synchronize)"
+      ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      with_items: "{{ _dashboards_present_list | difference( _dashboards_copied_list ) }}"
+      loop: "{{ __dashboards_present_list | difference( __dashboards_copied_list ) }}"
+      become: true
       when: grafana_provisioning_synced
+      vars:
+        __dashboards_present_list: "{{ __dashboards_present | json_query('files[*].path') | default([]) }}"
+        __dashboards_copied_list: "{{ __dashboards_copied | json_query('results[*].dest') | default([]) }}"

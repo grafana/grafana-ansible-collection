@@ -1,20 +1,20 @@
 ---
-- name: Check which plugins are installed
-  find:
+- name: "Check which plugins are installed"
+  ansible.builtin.find:
     file_type: directory
     recurse: false
     paths: "{{ grafana_data_dir }}/plugins"
-  register: installed_plugins
+  register: __installed_plugins
 
-- name: Install plugins
+- name: "Install plugins"
   become: true
-  command: "grafana-cli --pluginsDir {{ grafana_data_dir }}/plugins plugins install {{ item }}"
-  args:
+  ansible.builtin.command:
+    cmd: "grafana-cli --pluginsDir {{ grafana_data_dir }}/plugins plugins install {{ item }}"
     creates: "{{ grafana_data_dir }}/plugins/{{ item }}"
-  with_items: "{{ grafana_plugins | difference(installed_plugins.files) }}"
-  register: _plugin_install
-  until: _plugin_install is succeeded
+  loop: "{{ grafana_plugins | difference(__installed_plugins.files) }}"
+  register: __plugin_install
+  until: "__plugin_install is succeeded"
   retries: 5
   delay: 2
   notify:
-    - restart grafana
+    - restart_grafana

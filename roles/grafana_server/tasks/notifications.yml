@@ -1,7 +1,6 @@
 ---
-- name: Create/Delete/Update alert notifications channels (provisioning)
-  become: true
-  copy:
+- name: "Create/Delete/Update alert notifications channels (provisioning)"
+  ansible.builtin.copy:
     content: |
       apiVersion: 1
       {{ grafana_alert_notifications | to_nice_yaml }}
@@ -9,5 +8,6 @@
     owner: root
     group: grafana
     mode: 0640
-  notify: restart grafana
+  become: true
+  notify: restart_grafana
   when: grafana_use_provisioning
