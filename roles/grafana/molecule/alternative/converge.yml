@@ -3,7 +3,7 @@
   hosts: all
   any_errors_fatal: true
   roles:
-    - grafana.grafana.grafana_server
+    - grafana.grafana.grafana
   vars:
     grafana_version: 6.2.5
     grafana_yum_repo_template: alternative.grafana.yum.repo.j2

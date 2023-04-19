@@ -1,17 +1,14 @@
 <p><img src="https://grafana.com/blog/assets/img/blog/timeshift/grafana_release_icon.png" alt="grafana logo" title="grafana" align="right" height="60" /></p>
 
-# Ansible Role: grafana
+# Ansible Role: grafana.grafana.grafana
 
-[![Build Status](https://travis-ci.org/cloudalchemy/ansible-grafana.svg?branch=master)](https://travis-ci.org/cloudalchemy/ansible-grafana)
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![Ansible Role](https://img.shields.io/badge/ansible%20role-cloudalchemy.grafana-blue.svg)](https://galaxy.ansible.com/cloudalchemy/grafana/)
-[![GitHub tag](https://img.shields.io/github/tag/cloudalchemy/ansible-grafana.svg)](https://github.com/cloudalchemy/ansible-grafana/tags)
 
 Provision and manage [grafana](https://github.com/grafana/grafana) - platform for analytics and monitoring
 
 ## Requirements
 
-- Ansible >= 2.7 (It might work on previous versions, but we cannot guarantee it)
+- Ansible >= 2.9 (It might work on previous versions, but we cannot guarantee it)
 - libselinux-python on deployer host (only when deployer machine has SELinux)
 - grafana >= 5.1 (for older grafana versions use this role in version 0.10.1 or earlier)
 - jmespath on deployer machine. If you are using Ansible from a Python virtualenv, install *jmespath* to the same virtualenv via pip.
@@ -120,48 +117,23 @@ Fill in the admin password field with your choice, the Grafana web page won't as
 ```yaml
 - hosts: all
   roles:
-    - role: cloudalchemy.grafana
+    - role: grafana.grafana.grafana
       vars:
         grafana_security:
           admin_user: admin
           admin_password: enter_your_secure_password
 ```
 
-### Demo site
-
-We provide demo site for full monitoring solution based on prometheus and grafana. Repository with code and links to running instances is [available on github](https://github.com/cloudalchemy/demo-site) and site is hosted on [DigitalOcean](https://digitalocean.com).
 
 ## Local Testing
 
-The preferred way of locally testing the role is to use Docker and [molecule](https://github.com/metacloud/molecule) (v2.x). You will have to install Docker on your system. See "Get started" for a Docker package suitable to for your system.
-We are using tox to simplify process of testing on multiple ansible versions. To install tox execute:
-```sh
-pip3 install tox
-```
-To run tests on all ansible versions (WARNING: this can take some time)
-```sh
-tox
-```
-To run a custom molecule command on custom environment with only default test scenario:
-```sh
-tox -e py35-ansible28 -- molecule test -s default
-```
+The preferred way of locally testing the role is to use Docker and [molecule](https://github.com/ansible-community/molecule). You will have to install Docker on your system.
+
 For more information about molecule go to their [docs](http://molecule.readthedocs.io/en/latest/).
-
-If you would like to run tests on remote docker host just specify `DOCKER_HOST` variable before running tox tests.
-
-## Travis CI
-
-Combining molecule and travis CI allows us to test how new PRs will behave when used with multiple ansible versions and multiple operating systems. This also allows use to create test scenarios for different role configurations. As a result we have a quite large test matrix which will take more time than local testing, so please be patient.
-
-## Contributing
-
-See [contributor guideline](CONTRIBUTING.md).
-
-## Troubleshooting
-
-See [troubleshooting](TROUBLESHOOTING.md).
 
 ## License
 
 This project is licensed under MIT License. See [LICENSE](/LICENSE) for more details.
+
+## Credits
+This role was migrated from [cloudalchemy.grafana](https://github.com/cloudalchemy/ansible-grafana).
