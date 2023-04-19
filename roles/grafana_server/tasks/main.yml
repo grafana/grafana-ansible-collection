@@ -56,7 +56,7 @@
   when: "grafana_plugins != []"
 
 - name: "Restart grafana before configuring datasources and dashboards"
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
   tags:
     - grafana_install
     - grafana_configure

@@ -125,7 +125,7 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: absent
-      loop: "{{ __dashboards_present_list | difference( __dashboards_copied_list ) }}"
+      loop: "{{ __dashboards_present_list | difference(__dashboards_copied_list) }}"
       become: true
       when: grafana_provisioning_synced
       vars:
