@@ -25,8 +25,13 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_use_provisioning` | true | Use Grafana provisioning capability when possible (**grafana_version=latest will assume >= 5.0**). |
 | `grafana_provisioning_synced` | false | Ensure no previously provisioned dashboards are kept if not referenced anymore. |
 | `grafana_version` | latest | Grafana package version |
-| `grafana_yum_repo_template` | etc/yum.repos.d/grafana.repo.j2 | Yum template to use |
 | `grafana_manage_repo` | true | Manage package repo (or don't) |
+| `grafana_yum_repo` | https://packages.grafana.com/oss/rpm | Yum repo url |
+| `grafana_yum_key` | https://packages.grafana.com/gpg.key | Yum repo gpg key |
+| `grafana_rhsm_subscription` | | rhsm subscription name (redhat subscription-manager) |
+| `grafana_rhsm_repo` | | rhsm repo name (redhat subscription-manager) |
+| `grafana_apt_repo` | deb https://packages.grafana.com/oss/deb stable main | Apt repo string |
+| `grafana_apt_key` | https://packages.grafana.com/gpg.key | Apt repo gpg key |
 | `grafana_instance` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
 | `grafana_logs_dir` | /var/log/grafana | Path to logs directory |
 | `grafana_data_dir` | /var/lib/grafana | Path to database directory |
@@ -101,25 +106,6 @@ grafana_alert_notifications:
     - name: Channel 2
       uid: channel2
 ```
-
-Use a custom Grafana Yum repo template example:
-
-- Put your template next to your playbook under `templates` folder
-
-- Use a different path than the default one, because ansible , when using relative path, use the first template found and look under the role directory at first then the playbook directory.
-
-- The template expansion will be put under  `/etc/yum.repos.d/` , and will have as a name, the `basename` of the template path without the .j2
-
-  Example:
-
-  ```yaml
-  grafana_yum_repo_template: my_yum_repos/grafana.repo.j2
-
-  # [playbook_dir]/templates/my_yum_repos/grafana.repo.j2
-  # will be put under
-  # /etc/yum.repos.d/grafana.repo
-  # on the remote host
-  ```
 
 ## Supported CPU Architectures
 

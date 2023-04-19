@@ -11,49 +11,77 @@
     update_cache: true
   when: "(_grafana_dependencies | default())"
 
-- name: "Add Grafana repository file [RHEL/CentOS]"
-  ansible.builtin.template:
-    src: "{{ grafana_yum_repo_template }}"
-    dest: "/etc/yum.repos.d/{{ grafana_yum_repo_template | basename | regex_replace('\\.j2$', '') }}"
-    force: true
-    backup: true
-    mode: "0644"
+- name: "Prepare yum/dnf"
   when:
     - "ansible_pkg_mgr in ['yum', 'dnf']"
-    - grafana_manage_repo
-
-- name: "Install Grafana repository"
-  when:
-    - "ansible_pkg_mgr == 'apt'"
-    - "grafana_manage_repo"
+    - "(grafana_manage_repo)"
   environment: "{{ grafana_environment }}"
   block:
-    - name: "Import Grafana GPG signing key [Debian/Ubuntu]"
+    - name: "Add Grafana yum/dnf repository"
+      ansible.builtin.yum_repository:
+        name: grafana
+        baseurl: "{{ grafana_yum_repo }}"
+        enabled: true
+        gpgkey: "{{ grafana_yum_key | default(omit) }}"
+        repo_gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
+        gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
+      when: "(not grafana_rhsm_repo)"
+
+    - name: "Attach RHSM subscription"
+      when: "(grafana_rhsm_subscription)"
+      block:
+        - name: "Check if Grafana RHSM subscription is enabled"
+          ansible.builtin.command:
+            cmd: "subscription-manager list --consumed --matches={{ grafana_rhsm_subscription | quote }} --pool-only"
+          register: __subscription_manager_consumed
+          changed_when: false
+          when: (grafana_rhsm_subscription)
+
+        - name: "Find RHSM repo subscription pool id"
+          ansible.builtin.command:
+            cmd: "subscription-manager list --available --matches={{ grafana_rhsm_subscription | quote }} --pool-only"
+          register: __subscription_manager_available
+          changed_when: false
+          when:
+            - "(grafana_rhsm_subscription)"
+            - "__subscription_manager_consumed.stdout | length <= 0"
+
+        - name: "Attach RHSM subscription"
+          ansible.builtin.command:
+            cmd: "subscription-manager attach --pool={{ __subscription_manager_available.stdout }}"
+          register: __subscription_manager_attach
+          changed_when: "__subscription_manager_attach.stdout is search('Successfully attached a subscription')"
+          failed_when: "__subscription_manager_attach.stdout is search('could not be found')"
+          when:
+            - "(grafana_rhsm_subscription)"
+            - "__subscription_manager_consumed.stdout | default() | length <= 0"
+            - "__subscription_manager_available.stdout | default() | length > 0"
+
+    - name: "Enable RHSM repository"
+      community.general.rhsm_repository:
+        name: "{{ grafana_rhsm_repo }}"
+        state: enabled
+
+- name: "Prepare apt"
+  when:
+    - "ansible_pkg_mgr == 'apt'"
+    - "(grafana_manage_repo)"
+  environment: "{{ grafana_environment }}"
+  block:
+    - name: "Import Grafana apt gpg key"
       ansible.builtin.apt_key:
-        url: "https://packages.grafana.com/gpg.key"
+        url: "{{ grafata_apt_key }}"
         state: present
         validate_certs: false
-      register: __add_apt_key
-      until: "__add_apt_key is succeeded"
-      retries: 5
-      delay: 2
 
-    - name: "Add Grafana repository [Debian/Ubuntu]"
+    - name: "Add Grafana apt repository"
       ansible.builtin.apt_repository:
-        repo: "deb https://packages.grafana.com/oss/deb stable main"
+        repo: "{{ grafana_apt_repo }}"
         state: present
         update_cache: true
-      register: __update_apt_cache
-      until: "__update_apt_cache is succeeded"
-      retries: 5
-      delay: 2
 
 - name: "Install Grafana"
   ansible.builtin.package:
     name: "{{ grafana_package }}"
     state: "{{ (grafana_version == 'latest') | ternary('latest', 'present') }}"
-  register: __install_packages
-  until: "__install_packages is succeeded"
-  retries: 5
-  delay: 2
   notify: restart_grafana

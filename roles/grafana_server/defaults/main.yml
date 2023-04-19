@@ -1,7 +1,15 @@
 ---
 grafana_version: latest
-grafana_yum_repo_template: etc/yum.repos.d/grafana.repo.j2
 grafana_manage_repo: true
+
+grafana_yum_repo: "https://packages.grafana.com/oss/rpm"
+grafana_yum_key: "https://packages.grafana.com/gpg.key"
+
+grafana_rhsm_subscription: ""
+grafana_rhsm_repo: ""
+
+grafana_apt_repo: "deb https://packages.grafana.com/oss/deb stable main"
+grafana_apt_key: "https://packages.grafana.com/gpg.key"
 
 # Should we use the provisioning capability when possible (provisioning require grafana >= 5.0)
 grafana_use_provisioning: true
