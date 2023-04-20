@@ -40,6 +40,15 @@ All variables which can be overridden are stored in [./defaults/main.yaml](./def
 | `grafana_agent_traces_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures traces collection, [Docs](https://grafana.com/docs/agent/latest/configuration/traces-config/) |
 | `grafana_agent_integrations_config` | see [./defaults/main.yaml](./defaults/main.yaml) | Configures integrations for the agent, [Docs](https://grafana.com/docs/agent/latest/configuration/integrations/) |
 
+## OS Support
+The Grafana Agent role has been tested on below Operating Systems
+- Ubuntu 22.10, Ubunutu 22.04 LTS, Ubunutu 20.04 LTS, Ubunutu 18.04 LTS
+- Fedora 37, Fedora 36
+- Debian 11, Debian 10, Debian 9
+- CentOS 9 Stream, CentOS 8 Stream, CentOS 7
+- AlmaLinux 9, AlmaLinux 8
+- RockyLinux 9, RockyLinux 8
+
 ## Example Playbooks
 
 See [examples](../../examples)
