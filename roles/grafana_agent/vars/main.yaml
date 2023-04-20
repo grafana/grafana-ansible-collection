@@ -30,5 +30,5 @@ _grafana_agent_download_archive_file: "grafana-agent-{{ _grafana_agent_os_family
 _grafana_agent_download_binary_file: "grafana-agent-{{ _grafana_agent_os_family }}-{{ _grafana_agent_cpu_arch }}"
 
 # systemd info
-_grafana_agent_systemd_dir: /usr/lib/systemd/system/
+_grafana_agent_systemd_dir: /lib/systemd/system/
 _grafana_agent_systemd_unit: grafana-agent.service
