@@ -22,7 +22,6 @@
         - grafana_agent_install
   tags:
     - grafana_agent_install
-  when: __grafana_agent_do_install
 
 - name: Configuration tasks
   ansible.builtin.include_tasks:
