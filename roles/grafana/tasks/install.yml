@@ -70,7 +70,7 @@
   block:
     - name: "Import Grafana apt gpg key"
       ansible.builtin.apt_key:
-        url: "{{ grafata_apt_key }}"
+        url: "{{ grafana_apt_key }}"
         state: present
         validate_certs: false
 
