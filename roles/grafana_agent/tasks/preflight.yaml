@@ -10,12 +10,3 @@
 
 - name: Download variable checks
   ansible.builtin.import_tasks: preflight/download.yaml
-
-- name: Set whether or not to do the install
-  ansible.builtin.set_fact:
-    __grafana_agent_do_install: >-
-      {{ not __grafana_agent_is_installed.stat.exists or __grafana_agent_installed_version is version_compare(grafana_agent_version, '<') }}
-
-- name: Do install
-  ansible.builtin.debug:
-    var: __grafana_agent_do_install
