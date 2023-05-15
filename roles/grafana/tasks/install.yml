@@ -61,6 +61,7 @@
       community.general.rhsm_repository:
         name: "{{ grafana_rhsm_repo }}"
         state: enabled
+      when: (grafana_rhsm_repo)
 
 - name: "Prepare apt"
   when:
