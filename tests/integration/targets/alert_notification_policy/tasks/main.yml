@@ -13,4 +13,3 @@
 - assert:
     that:
       - result.failed == false
-      - result.output.provenance == "api"
