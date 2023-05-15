@@ -1,6 +1,6 @@
 ---
 - name: "Ensure datasources exist (via API)"
-  community.general.grafana_datasource:
+  community.grafana.grafana_datasource:
     grafana_url: "{{ grafana_api_url }}"
     grafana_user: "{{ grafana_security.admin_user }}"
     grafana_password: "{{ grafana_security.admin_password }}"
