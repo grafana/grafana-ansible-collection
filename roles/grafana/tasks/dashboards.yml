@@ -9,18 +9,18 @@
       ansible.builtin.tempfile:
         state: directory
       register: __tmp_dashboards
+      changed_when: false
 
     - name: "Download grafana dashboard from grafana.net to local directory"
       ansible.builtin.get_url:
         url: "https://grafana.com/api/dashboards/{{ item.dashboard_id }}/revisions/{{ item.revision_id }}/download"
-        headers:
-          Accept-Encoding: "gzip, deflate"
-        dest: "/tmp/dashboards/{{ item.dashboard_id }}.json"
+        dest: "{{ __tmp_dashboards.path }}/{{ item.dashboard_id }}.json"
         mode: "0644"
       register: __download_dashboards
       until: "__download_dashboards is succeeded"
       retries: 5
       delay: 2
+      changed_when: false
       loop: "{{ grafana_dashboards }}"
 
     # As noted in [1] an exported dashboard replaces the exporter's datasource
