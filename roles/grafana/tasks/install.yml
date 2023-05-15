@@ -20,6 +20,7 @@
     - name: "Add Grafana yum/dnf repository"
       ansible.builtin.yum_repository:
         name: grafana
+        description: grafana
         baseurl: "{{ grafana_yum_repo }}"
         enabled: true
         gpgkey: "{{ grafana_yum_key | default(omit) }}"
