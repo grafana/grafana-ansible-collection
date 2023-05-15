@@ -17,6 +17,21 @@ Environment={{key}}={{value}}
 {% endfor %}
 EnvironmentFile={{ grafana_agent_config_dir }}/{{ grafana_agent_env_file}}
 
+{% if grafana_agent_mode == 'flow' %}
+ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} run \
+{% for flag, flag_value in grafana_agent_flags_extra.items() %}
+{% if not flag_value %}
+  --{{ flag }} \
+{% elif flag_value is string %}
+  --{{ flag }}={{ flag_value }} \
+{% elif flag_value is sequence %}
+{% for flag_value_item in flag_value %}
+  --{{ flag }}={{ flag_value_item }} \
+{% endfor %}
+{% endif %}
+{% endfor %}
+ {{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}
+{% else %}
 ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} \
 {% for flag, flag_value in grafana_agent_flags_extra.items() %}
 {% if not flag_value %}
@@ -30,6 +45,7 @@ ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} \
 {% endif %}
 {% endfor %}
   --config.file={{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}
+{% endif %}
 
 SyslogIdentifier=grafana-agent
 Restart=always
