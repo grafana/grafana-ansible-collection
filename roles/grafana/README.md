@@ -4,13 +4,13 @@
 
 [![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
-Provision and manage [grafana](https://github.com/grafana/grafana) - platform for analytics and monitoring
+Provision and manage [Grafana](https://github.com/grafana/grafana) - platform for analytics and monitoring
 
 ## Requirements
 
 - Ansible >= 2.9 (It might work on previous versions, but we cannot guarantee it)
 - libselinux-python on deployer host (only when deployer machine has SELinux)
-- grafana >= 5.1 (for older grafana versions use this role in version 0.10.1 or earlier)
+- Grafana >= 5.1 (for older Grafana versions use this role in version 0.10.1 or earlier)
 - jmespath on deployer machine. If you are using Ansible from a Python virtualenv, install *jmespath* to the same virtualenv via pip.
 
 ## Role Variables
@@ -22,18 +22,18 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_use_provisioning` | true | Use Grafana provisioning capability when possible (**grafana_version=latest will assume >= 5.0**). |
 | `grafana_provisioning_synced` | false | Ensure no previously provisioned dashboards are kept if not referenced anymore. |
 | `grafana_version` | latest | Grafana package version |
-| `grafana_manage_repo` | true | Manage package repo (or don't) |
-| `grafana_yum_repo` | https://packages.grafana.com/oss/rpm | Yum repo url |
-| `grafana_yum_key` | https://packages.grafana.com/gpg.key | Yum repo gpg key |
+| `grafana_manage_repo` | true | Manage package repository (or don't) |
+| `grafana_yum_repo` | https://packages.grafana.com/oss/rpm | Yum repository URL |
+| `grafana_yum_key` | https://packages.grafana.com/gpg.key | Yum repository gpg key |
 | `grafana_rhsm_subscription` | | rhsm subscription name (redhat subscription-manager) |
-| `grafana_rhsm_repo` | | rhsm repo name (redhat subscription-manager) |
-| `grafana_apt_repo` | deb https://packages.grafana.com/oss/deb stable main | Apt repo string |
-| `grafana_apt_key` | https://packages.grafana.com/gpg.key | Apt repo gpg key |
+| `grafana_rhsm_repo` | | rhsm repository name (redhat subscription-manager) |
+| `grafana_apt_repo` | deb https://packages.grafana.com/oss/deb stable main | Apt repository string |
+| `grafana_apt_key` | https://packages.grafana.com/gpg.key | Apt repository gpg key |
 | `grafana_instance` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
 | `grafana_logs_dir` | /var/log/grafana | Path to logs directory |
 | `grafana_data_dir` | /var/lib/grafana | Path to database directory |
-| `grafana_address` | 0.0.0.0 | Address on which grafana listens |
-| `grafana_port` | 3000 | port on which grafana listens |
+| `grafana_address` | 0.0.0.0 | Address on which Grafana listens |
+| `grafana_port` | 3000 | port on which Grafana listens |
 | `grafana_cap_net_bind_service` | false | Enables the use of ports below 1024 without root privileges by leveraging the 'capabilities' of the linux kernel. read: http://man7.org/linux/man-pages/man7/capabilities.7.html |
 | `grafana_url` | "http://{{ grafana_address }}:{{ grafana_port }}" | Full URL used to access Grafana from a web browser |
 | `grafana_api_url` | "{{ grafana_url }}" | URL used for API calls in provisioning if different from public URL. See [this issue](https://github.com/cloudalchemy/ansible-grafana/issues/70). |
@@ -61,7 +61,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_plugins` | [] |  List of Grafana plugins which should be installed |
 | `grafana_alert_notifications` | [] | List of alert notification channels to be created, updated, or deleted |
 
-Datasource example:
+Data source example:
 
 ```yaml
 grafana_datasources:

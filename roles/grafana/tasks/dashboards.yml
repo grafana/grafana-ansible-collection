@@ -87,12 +87,12 @@
         content: |
           apiVersion: 1
           providers:
-           - name: 'default'
-             orgId: 1
-             folder: ''
-             type: file
-             options:
-               path: "{{ grafana_data_dir }}/dashboards"
+            - name: 'default'
+              orgId: 1
+              folder: ''
+              type: file
+              options:
+                path: "{{ grafana_data_dir }}/dashboards"
         backup: false
         owner: root
         group: grafana

@@ -30,7 +30,7 @@
       apiVersion: 1
       deleteDatasources: []
       datasources:
-      {{ grafana_datasources | to_nice_yaml }}
+      "{{ grafana_datasources | to_nice_yaml }}"
     backup: false
     owner: root
     group: grafana
