@@ -26,7 +26,7 @@ All variables which can be overridden are stored in [./defaults/main.yaml](./def
 | `grafana_agent_mode` | `static` | mode to run Grafana Agent in. Can be "flow" or "static", [Flow Docs](https://grafana.com/docs/agent/latest/flow/) |
 | `grafana_agent_user` | `grafana-agent` | os user to create for the agent to run as |
 | `grafana_agent_user_group` | `grafana-agent` | os user group to create for the agent |
-| `grafana_agent_user_groups` | `[]` | Configurable user groups that the grafana agent can be put in so that it can access logs |
+| `grafana_agent_user_groups` | `[]` | Configurable user groups that the Grafana agent can be put in so that it can access logs |
 | `grafana_agent_user_shell` | `/usr/sbin/nologin` | the shell for the user |
 | `grafana_agent_user_createhome` | `false` | whether or not to create a home directory for the user |
 | `grafana_agent_local_binary_file` | `""` | full path to the local binary if already downloaded or built on the controller, this should only be set, if ansible is not downloading the binary and you have manually downloaded the binary |

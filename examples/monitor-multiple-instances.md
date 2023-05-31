@@ -124,7 +124,7 @@ To use the Grafana Agent Ansible role:
   ```
 
   The playbook calls the `grafana_agent` role from the `grafana.grafana` Ansible collection. 
-  The Agent configuration in this playbook send metrics and logs from the linux hosts to your prometheus and Loki data sources.
+  The Agent configuration in this playbook send metrics and logs from the linux hosts to your Prometheus and Loki data sources.
 
   Refer to the [Grafana Ansible documentation](https://github.com/grafana/grafana-ansible-collection/tree/main/roles/grafana_agent#role-variables) to understand the other variables you can pass to the `grafana_agent` role.
 

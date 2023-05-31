@@ -1,0 +1,120 @@
+---
+- name: "Gather variables for each operating system"
+  ansible.builtin.include_vars: "{{ distrovars }}"
+  vars:
+    distrovars: "{{ lookup('first_found', params, errors='ignore') }}"
+    params:
+      skip: true
+      files:
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
+        - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
+        - "{{ ansible_distribution | lower }}.yml"
+        - "{{ ansible_os_family | lower }}.yml"
+      paths:
+        - "vars/distro"
+  tags:
+    - grafana_install
+    - grafana_configure
+    - grafana_datasources
+    - grafana_notifications
+    - grafana_dashboards
+
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+    apply:
+      tags:
+        - grafana_install
+        - grafana_configure
+        - grafana_datasources
+        - grafana_notifications
+        - grafana_dashboards
+
+- name: Install
+  ansible.builtin.include_tasks:
+    file: install.yml
+    apply:
+      become: true
+      tags:
+        - grafana_install
+
+- name: Configure
+  ansible.builtin.include_tasks:
+    file: configure.yml
+    apply:
+      become: true
+      tags:
+        - grafana_configure
+
+- name: Plugins
+  ansible.builtin.include_tasks:
+    file: plugins.yml
+    apply:
+      tags:
+        - grafana_configure
+  when: "grafana_plugins != []"
+
+- name: "Restart grafana before configuring datasources and dashboards"
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - grafana_install
+    - grafana_configure
+    - grafana_datasources
+    - grafana_notifications
+    - grafana_dashboards
+    - grafana_run
+
+- name: "Wait for grafana to start"
+  ansible.builtin.wait_for:
+    host: "{{ grafana_address if grafana_server.protocol is undefined or grafana_server.protocol in ['http', 'https'] else omit }}"
+    port: "{{ grafana_port if grafana_server.protocol is undefined or grafana_server.protocol in ['http', 'https'] else omit }}"
+    path: "{{ grafana_server.socket | default() if grafana_server.protocol is defined and grafana_server.protocol == 'socket' else omit }}"
+  tags:
+    - grafana_install
+    - grafana_configure
+    - grafana_datasources
+    - grafana_notifications
+    - grafana_dashboards
+    - grafana_run
+
+- name: "Api keys"
+  ansible.builtin.include_tasks:
+    file: api_keys.yml
+    apply:
+      tags:
+        - grafana_configure
+        - grafana_run
+  when: "grafana_api_keys | length > 0"
+
+- name: Datasources
+  ansible.builtin.include_tasks:
+    file: datasources.yml
+    apply:
+      tags:
+        - grafana_configure
+        - grafana_datasources
+        - grafana_run
+  when: "grafana_datasources != []"
+
+- name: Notifications
+  ansible.builtin.include_tasks:
+    file: notifications.yml
+    apply:
+      tags:
+        - grafana_configure
+        - grafana_notifications
+        - grafana_run
+  when: "grafana_alert_notifications | length > 0"
+
+- name: Dashboards
+  ansible.builtin.include_tasks:
+    file: dashboards.yml
+    apply:
+      tags:
+        - grafana_configure
+        - grafana_dashboards
+        - grafana_run
+  when: "grafana_dashboards | length > 0 or __found_dashboards | length > 0"
+  vars:
+    __found_dashboards: "{{ lookup('fileglob', grafana_dashboards_dir + '/*.json', wantlist=True) }}"
