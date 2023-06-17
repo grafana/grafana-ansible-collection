@@ -4,6 +4,21 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.0
+======
+
+Release Summary
+---------------
+
+Add Grafana server role
+
+Minor Changes
+-------------
+
+- Remove explicit user creation check #46
+- Add new Grafana server role #48
+- Updated Service for flow mode #54
+- Avoid using shell for fetching latest version #55
 
 v2.0.0
 ======

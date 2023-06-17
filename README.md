@@ -81,6 +81,19 @@ or you can add full namespace and collection name in the `collections` element i
         state: present
 ```
 
+Install a Grafana server:
+
+```yaml
+- name: Install Grafana server
+  hosts: localhost
+  roles:
+    - grafana.grafana.grafana
+  vars:
+    grafana_security:
+      admin_user: admin
+      admin_password: "{{ my_secret_password }}"
+```
+
 ## Contributing
 
 We are accepting GitHub pull requests and issues. There are many ways in which you can participate in the project, for example:

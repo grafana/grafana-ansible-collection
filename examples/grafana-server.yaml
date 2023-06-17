@@ -1,0 +1,9 @@
+---
+- name: Install Grafana server
+  hosts: localhost
+  roles:
+    - grafana.grafana.grafana
+  vars:
+    grafana_security:
+      admin_user: admin
+      admin_password: "{{ my_secret_password }}"
