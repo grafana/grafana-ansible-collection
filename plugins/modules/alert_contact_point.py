@@ -122,7 +122,11 @@ output:
 '''
 
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
-import requests
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
 
 __metaclass__ = type
 
@@ -175,7 +179,7 @@ def main():
         argument_spec=module_args
     )
 
-    if not requests:
+    if not HAS_REQUESTS:
         module.fail_json(msg=missing_required_lib('requests'))
 
     is_error, result = choice_map.get(module.params['state'])(module)
