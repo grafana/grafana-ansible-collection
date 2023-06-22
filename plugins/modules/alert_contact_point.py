@@ -56,7 +56,7 @@ options:
     required: true
   state:
     description:
-      - State for the Grafana Instance.
+      - State for the Grafana Alert Contact Point.
     choices: [ present, absent ]
     type: str
     default: present

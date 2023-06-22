@@ -47,7 +47,7 @@ options:
     required: true
   state:
     description:
-      - State for the Grafana Cloud stack.
+      - State for the Grafana Folder.
     choices: [ present, absent ]
     default: present
     type: str
@@ -59,14 +59,14 @@ EXAMPLES = '''
     title: folder_name
     uid: folder_name
     overwrite: true
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
 - name: Delete a Folder in Grafana
   grafana.grafana.folder:
     uid: folder_name
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
 '''
@@ -169,7 +169,7 @@ def present_folder(module):
         'uid': module.params['uid'],
         'title': module.params['title'],
     }
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders'
+    api_url = module.params['grafana_url'] + '/api/folders'
 
     result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -179,7 +179,7 @@ def present_folder(module):
         sameConfig = False
         folderInfo = {}
 
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders'
+        api_url = module.params['grafana_url'] + '/api/folders'
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
         for folder in result.json():
@@ -195,7 +195,7 @@ def present_folder(module):
                 'title': module.params['title'],
                 'overwrite': module.params['overwrite']
             }
-            api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders/' + module.params['uid']
+            api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
 
             result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -208,7 +208,7 @@ def present_folder(module):
 
 
 def absent_folder(module):
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/folders/' + module.params['uid']
+    api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
 
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -224,7 +224,7 @@ def main():
         title=dict(type='str', required=True),
         uid=dict(type='str', required=True),
         overwrite=dict(type='bool', required=False, default=True),
-        stack_slug=dict(type='str', required=True),
+        grafana_url=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
