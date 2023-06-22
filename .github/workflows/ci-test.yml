@@ -71,6 +71,7 @@ jobs:
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
           grafana_url: "https://ansiblecollection.grafana.net"
+          test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
           EOF
 
       - name: Set up Python
