@@ -130,16 +130,6 @@ except ImportError:
 
 __metaclass__ = type
 
-def call_grafana_api(module, method, url, json_data=None):
-    headers = {"Authorization": 'Bearer ' + module.params['grafana_api_key']}
-    response = requests.request(method, url, json=json_data, headers=headers)
-
-    if response.status_code == 200 or response.status_code == 202:
-        return True, response.json()
-    else:
-        return False, {"status": response.status_code, 'response': response.json()['message']}
-
-
 def present_alert_contact_point(module):
     body = {
         'Name': module.params['name'],
@@ -150,12 +140,67 @@ def present_alert_contact_point(module):
     }
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
-    return call_grafana_api(module, "POST", api_url, json_data=body)
+    result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+    if result.status_code == 202:
+        return False, True, result.json()
+    elif result.status_code == 500:
+        sameConfig = False
+        contactPointInfo = {}
+
+        api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
+
+        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+        for contact_points in result.json():
+            if contact_points['uid'] == module.params['uid']:
+                if (contact_points['name'] == module.params['name'] and contact_points['type'] == module.params['type'] and contact_points['settings']
+                   and contact_points['settings'] == module.params['settings']
+                   and contact_points['disableResolveMessage'] == module.params['disableResolveMessage']):
+
+                    sameConfig = True
+                    contactPointInfo = contact_points
+        if sameConfig:
+            return False, False, contactPointInfo
+        else:
+            api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
+
+            result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+            if result.status_code == 202:
+                api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
+
+                result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+                for contact_points in result.json():
+                    if contact_points['uid'] == module.params['uid']:
+                        return False, True, contact_points
+            else:
+                return True, False, {"status": result.status_code, 'response': result.json()['message']}
+    else:
+        return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
 
 def absent_alert_contact_point(module):
-    api_url = api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
-    return call_grafana_api(module, "DELETE", api_url)
+    already_exists = False
+    api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
+
+    result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+    for contact_points in result.json():
+        if contact_points['uid'] == module.params['uid']:
+            already_exists = True
+    if already_exists:
+        api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
+
+        result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+
+        if result.status_code == 202:
+            return False, True, result.json()
+        else:
+            return True, False, {"status": result.status_code, 'response': result.json()['message']}
+    else:
+        return True, False, "Alert Contact point does not exist"
 
 
 def main():
@@ -165,7 +210,7 @@ def main():
         type=dict(type='str', required=True),
         settings=dict(type='dict', required=True),
         disableResolveMessage=dict(type='bool', required=False, default=False),
-        grafana_url=dict(type='str', required=True),
+        stack_slug=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
@@ -182,10 +227,11 @@ def main():
     if not HAS_REQUESTS:
         module.fail_json(msg=missing_required_lib('requests'))
 
-    is_error, result = choice_map.get(module.params['state'])(module)
+    is_error, has_changed, result = choice_map.get(
+        module.params['state'])(module)
 
     if not is_error:
-        module.exit_json(changed=True, output=result)
+        module.exit_json(changed=has_changed, output=result)
     else:
         module.fail_json(msg=result)
 
