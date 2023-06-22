@@ -130,6 +130,7 @@ except ImportError:
 
 __metaclass__ = type
 
+
 def present_alert_contact_point(module):
     body = {
         'Name': module.params['name'],
