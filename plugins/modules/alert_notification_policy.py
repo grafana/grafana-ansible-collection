@@ -71,9 +71,9 @@ options:
       - Sets the waiting time to resend an alert after they have successfully been sent.
     type: str
     default: 4h
-  stack_slug:
+  grafana_url:
     description:
-      - Name of the Grafana Cloud stack to which the notification policies will be added.
+      - URL of the Grafana instance (without trailing /).
     type: str
     required: true
   grafana_api_key:
@@ -86,7 +86,7 @@ options:
 EXAMPLES = '''
 - name: Set Notification policy tree
   grafana.grafana.alert_notification_policy:
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     routes: [
       {
@@ -113,7 +113,7 @@ EXAMPLES = '''
         object_matchers: [["env", "=", "Staging"]]
       }
     ]
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
 '''
 
@@ -178,7 +178,7 @@ def alert_notification_policy(module):
             'group_wait': module.params['groupWait'], 'object_matchers': module.params['objectMatchers'],
             'repeat_interval': module.params['repeatInterval']}
 
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/policies'
+    api_url = module.params['grafana_url'] + '/api/v1/provisioning/policies'
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if (result.json()['receiver'] == module.params['rootPolicyReceiver'] and result.json()['routes'] == module.params['routes']
@@ -186,7 +186,7 @@ def alert_notification_policy(module):
        and result.json()['repeat_interval'] == module.params['repeatInterval']):
         return False, False, result.json()
     else:
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/policies'
+        api_url = module.params['grafana_url'] + '/api/v1/provisioning/policies'
 
         result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -207,7 +207,7 @@ def main():
                        groupWait=dict(type='str', required=False, default='30s'),
                        repeatInterval=dict(type='str', required=False, default='4h'),
                        objectMatchers=dict(type='list', required=False, default=[], elements='dict'),
-                       stack_slug=dict(type='str', required=True),
+                       grafana_url=dict(type='str', required=True),
                        grafana_api_key=dict(type='str', required=True, no_log=True), )
 
     module = AnsibleModule(argument_spec=module_args)
