@@ -210,7 +210,7 @@ def main():
         type=dict(type='str', required=True),
         settings=dict(type='dict', required=True),
         disableResolveMessage=dict(type='bool', required=False, default=False),
-        stack_slug=dict(type='str', required=True),
+        grafana_url=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
