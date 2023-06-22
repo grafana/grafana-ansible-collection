@@ -25,9 +25,9 @@ options:
       - JSON source code for dashboard.
     type: dict
     required: true
-  stack_slug:
+  grafana_url:
     description:
-      - Name of the Grafana Cloud stack to which the dashboard will be added.
+      - URL of the Grafana instance (without trailing /).
     type: str
     required: true
   grafana_api_key:

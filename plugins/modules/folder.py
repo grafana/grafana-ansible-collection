@@ -40,9 +40,9 @@ options:
       - Grafana API Key to authenticate with Grafana.
     type: str
     required : true
-  stack_slug:
+  grafana_url:
     description:
-      - Name of the Grafana Cloud stack to which the folder will be added.
+      - URL of the Grafana instance (without trailing /).
     type: str
     required: true
   state:
