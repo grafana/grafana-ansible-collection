@@ -30,7 +30,7 @@ ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} run \
 {% endfor %}
 {% endif %}
 {% endfor %}
- {{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}
+  {{ grafana_agent_config_dir }}/{{ grafana_agent_config_filename }}
 {% else %}
 ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} \
 {% for flag, flag_value in grafana_agent_flags_extra.items() %}
