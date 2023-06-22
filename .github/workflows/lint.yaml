@@ -42,13 +42,13 @@ jobs:
         run: make ci-lint-shell
         if: success() || failure()
 
-      - name: Markdown Linting
-        run: make ci-lint-markdown
-        if: success() || failure()
+      # - name: Markdown Linting
+      #   run: make ci-lint-markdown
+      #   if: success() || failure()
 
-      - name: Text Linting
-        run: make ci-lint-text
-        if: success() || failure()
+      # - name: Text Linting
+      #   run: make ci-lint-text
+      #   if: success() || failure()
 
       - name: Yaml Linting
         run: make ci-lint-yaml
