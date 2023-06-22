@@ -12,7 +12,7 @@
         refresh: 25s
         version: 0
       overwrite: true
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: result_present
@@ -36,7 +36,7 @@
         version: 0
         refresh: 25s
       overwrite: true
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: result_absent

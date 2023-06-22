@@ -66,4 +66,4 @@ jobs:
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Cooling Period
-        run: sleep 1m
+        run: sleep 3m
