@@ -97,7 +97,7 @@ releases:
       release_summary: Updated Grafana Agent Role
     release_date: '2023-03-27'
   2.1.0:
-  changes:
+    changes:
       major_changes:
       - Addition of Grafana Server role by @gardar
       - Grafana Plugins support on-prem Grafana installation by @ishanjainn
@@ -110,4 +110,10 @@ releases:
       - Remove agent installation custom check by @VLZZZ
       - Remove explicit user creation check by @v-zhuravlev
       release_summary: Add Grafana Server role and plugins support on-prem Grafana
-  release_date: '2023-06-26'
+    release_date: '2023-06-26'
+  2.1.1:
+    changes:
+      minor_changes:
+      - Update Download tasks in Grafana Agent Role
+      release_summary: Update Download tasks in Grafana Agent Role
+    release_date: '2023-06-26'
