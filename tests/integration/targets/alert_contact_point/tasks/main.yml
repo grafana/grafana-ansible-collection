@@ -6,7 +6,7 @@
     type: email
     settings:
       addresses: ops@mydomain.com,devs@mydomain.com
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: add_result
@@ -24,7 +24,7 @@
     type: email
     settings:
       addresses: ops@mydomain.com,devs@mydomain.com
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: idempotent_result
@@ -42,7 +42,7 @@
     type: email
     settings:
       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: update_result
@@ -60,7 +60,7 @@
     type: email
     settings:
       addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: delete_result

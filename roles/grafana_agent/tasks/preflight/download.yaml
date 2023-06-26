@@ -1,8 +1,7 @@
 ---
 - name: Set the Grafana Agent version to latest version
   ansible.builtin.set_fact:
-    grafana_agent_version: "{{ (lookup('url', 'https://api.github.com/repos/{{ _grafana_agent_github_org }}/{{ _grafana_agent_github_repo }}/releases/latest',
-                             split_lines=False) | from_json).get('tag_name') | replace('v', '') }}"
+    grafana_agent_version: "{{ (lookup('url', 'https://api.github.com/repos/{{ _grafana_agent_github_org }}/{{ _grafana_agent_github_repo }}/releases/latest', split_lines=False) | from_json).get('tag_name') | replace('v', '') }}"
   when: grafana_agent_version == 'latest' and not __grafana_agent_local_install
 
 - name: Grafana Agent version to download
