@@ -4,6 +4,19 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.1
+======
+
+Release Summary
+---------------
+
+Update Download Tasks in Grafana Agent Role
+
+Minor Changes
+-------------
+
+- Update Download Tasks in Grafana Agent Role
+
 v2.1.0
 ======
 
