@@ -49,14 +49,14 @@ options:
       - Grafana API Key used to authenticate with Grafana.
     type: str
     required : true
-  stack_slug:
+  grafana_url:
     description:
-      - Name of the Grafana Cloud stack to which the contact points will be added.
+      - URL of the Grafana instance (without trailing /).
     type: str
     required: true
   state:
     description:
-      - State for the Grafana Cloud stack.
+      - State for the Grafana Alert Contact Point.
     choices: [ present, absent ]
     type: str
     default: present
@@ -68,10 +68,9 @@ EXAMPLES = '''
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
-    stack_slug: "{{ stack_slug }}"
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
@@ -80,10 +79,9 @@ EXAMPLES = '''
     name: ops-email
     uid: opsemail
     type: email
-    settings: {
-       addresses: "ops@mydomain.com,devs@mydomain.com"
-     }
-    stack_slug: "{{ stack_slug }}"
+    settings:
+      addresses: "ops@mydomain.com,devs@mydomain.com"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
 '''
@@ -141,7 +139,7 @@ def present_alert_contact_point(module):
         'settings': module.params['settings'],
         'DisableResolveMessage': module.params['disableResolveMessage']
     }
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+    api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
     result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -151,7 +149,7 @@ def present_alert_contact_point(module):
         sameConfig = False
         contactPointInfo = {}
 
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+        api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
         result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -166,13 +164,12 @@ def present_alert_contact_point(module):
         if sameConfig:
             return False, False, contactPointInfo
         else:
-            api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + \
-                      module.params['uid']
+            api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
 
             result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
             if result.status_code == 202:
-                api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+                api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
                 result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -187,7 +184,7 @@ def present_alert_contact_point(module):
 
 def absent_alert_contact_point(module):
     already_exists = False
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points'
+    api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -195,8 +192,7 @@ def absent_alert_contact_point(module):
         if contact_points['uid'] == module.params['uid']:
             already_exists = True
     if already_exists:
-        api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/v1/provisioning/contact-points/' + \
-                  module.params['uid']
+        api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
 
         result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -215,7 +211,7 @@ def main():
         type=dict(type='str', required=True),
         settings=dict(type='dict', required=True),
         disableResolveMessage=dict(type='bool', required=False, default=False),
-        stack_slug=dict(type='str', required=True),
+        grafana_url=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )

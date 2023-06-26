@@ -4,7 +4,7 @@
     title: Ansible Integration test
     uid: test123
     overwrite: true
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: create_result
@@ -19,7 +19,7 @@
     title: Ansible Integration test
     uid: test123
     overwrite: true
-    stack_slug: "{{ stack_name }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: delete_result

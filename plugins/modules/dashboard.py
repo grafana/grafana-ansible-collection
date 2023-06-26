@@ -25,9 +25,9 @@ options:
       - JSON source code for dashboard.
     type: dict
     required: true
-  stack_slug:
+  grafana_url:
     description:
-      - Name of the Grafana Cloud stack to which the dashboard will be added.
+      - URL of the Grafana instance (without trailing /).
     type: str
     required: true
   grafana_api_key:
@@ -37,7 +37,7 @@ options:
     required : true
   state:
     description:
-      - State for the Grafana Cloud stack.
+      - State for the Grafana Dashboard.
     choices: [ present, absent ]
     default: present
     type: str
@@ -47,14 +47,14 @@ EXAMPLES = '''
 - name: Create/Update a dashboard
   grafana.grafana.dashboard:
     dashboard: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
 - name: Delete dashboard
   grafana.grafana.dashboard:
     dashboard: "{{ lookup('ansible.builtin.file', 'dashboard.json') }}"
-    stack_slug: "{{ stack_slug }}"
+    grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
 '''
@@ -120,7 +120,7 @@ __metaclass__ = type
 
 def present_dashboard(module):
 
-    api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/db'
+    api_url = module.params['grafana_url'] + '/api/dashboards/db'
 
     result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -134,7 +134,7 @@ def absent_dashboard(module):
     if 'uid' not in module.params['dashboard']['dashboard']:
         return True, False, "UID is not defined in the the Dashboard configuration"
 
-    api_url = api_url = 'https://' + module.params['stack_slug'] + '.grafana.net/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
+    api_url = api_url = module.params['grafana_url'] + '/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
 
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
@@ -148,7 +148,7 @@ def main():
 
     module_args = dict(
         dashboard=dict(type='dict', required=True),
-        stack_slug=dict(type='str', required=True),
+        grafana_url=dict(type='str', required=True),
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )

@@ -47,7 +47,7 @@ options:
     default: True
   state:
     description:
-      - State for the Grafana Cloud stack.
+      - State for the Grafana Cloud API Key.
     type: str
     default: present
     choices: [ present, absent ]

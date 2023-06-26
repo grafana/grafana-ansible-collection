@@ -41,7 +41,7 @@ options:
     required : true
   state:
     description:
-      - State for the Grafana Cloud stack.
+      - State for the Grafana Cloud Plugin.
     type: str
     default: present
     choices: [ present, absent ]

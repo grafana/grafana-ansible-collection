@@ -70,6 +70,7 @@ jobs:
           org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
+          grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }}
           test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
           EOF
 
@@ -80,6 +81,9 @@ jobs:
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Install Requests
+        run: pip install requests
 
       - name: Run integration test
         run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
