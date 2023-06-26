@@ -109,5 +109,5 @@ releases:
       - Fix for invalid yaml with datasources list enclosed in quotes by @elkozmon
       - Remove agent installation custom check by @VLZZZ
       - Remove explicit user creation check by @v-zhuravlev
-      release_summary: Updated Grafana Agent Role
-    release_date: '2023-03-27'
+      release_summary: Add Grafana Server role and plugins support on-prem Grafana
+  release_date: '2023-06-26'

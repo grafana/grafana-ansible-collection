@@ -4,6 +4,30 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.0
+======
+
+Release Summary
+---------------
+
+Add Grafana Server role and plugins support on-prem Grafana
+
+Major Changes
+-------------
+
+- Addition of Grafana Server role by @gardar
+- Grafana Plugins support on-prem Grafana installation by @ishanjainn
+- Updated Service for flow mode by @bentonam
+- Configurable agent user groups by @NormanJS 
+
+Minor Changes
+-------------
+
+- Ability to configure date format in grafana server role by @RomainMou
+- Avoid using shell for fetching latest version in Grafana Agent Role by @gardar
+- Fix for invalid yaml with datasources list enclosed in quotes by @elkozmon
+- Remove agent installation custom check by @VLZZZ
+- Remove explicit user creation check by @v-zhuravlev
 
 v2.0.0
 ======
