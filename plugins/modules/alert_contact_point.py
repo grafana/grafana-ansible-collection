@@ -51,7 +51,7 @@ options:
     required : true
   grafana_url:
     description:
-      - URL of the Grafana instance (without trailing /).
+      - URL of the Grafana instance.
     type: str
     required: true
   state:
