@@ -181,7 +181,7 @@ def alert_notification_policy(module):
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/policies'
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
-    if 'KeyError' in result.json():
+    if 'routes' not in result.json():
             api_url = module.params['grafana_url'] + '/api/v1/provisioning/policies'
             result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
