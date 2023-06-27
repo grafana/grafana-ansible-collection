@@ -217,8 +217,8 @@ def main():
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
     
-    if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
+    if module_args['grafana_url'][-1] == '/':
+      module_args['grafana_url']=module_args['grafana_url'][:-1]
 
     choice_map = {
         "present": present_alert_contact_point,
