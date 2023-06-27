@@ -44,5 +44,5 @@
 - name: Delete Check
   ansible.builtin.assert:
     that:
-      - create_result.changed == true
-      - create_result.output.message == "Data source deleted"
+      - delete_result.changed == true
+      - delete_result.output.response == "Data source deleted"
