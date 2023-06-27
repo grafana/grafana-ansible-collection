@@ -132,8 +132,8 @@ __metaclass__ = type
 
 def present_datasource(module):
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
-    
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
     api_url = module.params['grafana_url'] + '/api/datasources'
 
     result = requests.post(api_url, json=module.params['dataSource'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
@@ -159,8 +159,8 @@ def present_datasource(module):
 
 def absent_datasource(module):
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
-    
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
     api_url = module.params['grafana_url'] + '/api/datasources/name' + module.params['dataSource']['name']
 
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})

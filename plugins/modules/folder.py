@@ -166,8 +166,8 @@ __metaclass__ = type
 
 def present_folder(module):
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
-    
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
     body = {
         'uid': module.params['uid'],
         'title': module.params['title'],
@@ -212,28 +212,27 @@ def present_folder(module):
 
 def absent_folder(module):
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
-    
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
     sameConfig = False
-    
+
     api_url = module.params['grafana_url'] + '/api/folders'
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     for folder in result.json():
         if folder['uid'] == module.params['uid'] and folder['title'] == module.params['title']:
             sameConfig = True
-            folderInfo = folder
-    if sameConfig == True:
-      api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
+    if sameConfig is True:
+        api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
 
-      result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
-      if result.status_code == 200:
-          return False, True, {"status": result.status_code, 'response': "Folder has been succesfuly deleted"}
-      else:
-          return True, False, {"status": result.status_code, 'response': "Error deleting folder"}
+        if result.status_code == 200:
+            return False, True, {"status": result.status_code, 'response': "Folder has been succesfuly deleted"}
+        else:
+            return True, False, {"status": result.status_code, 'response': "Error deleting folder"}
     else:
-      return False, True, {"status": 200, 'response': "Folder does not exist"}
+        return False, True, {"status": 200, 'response': "Folder does not exist"}
 
 
 def main():

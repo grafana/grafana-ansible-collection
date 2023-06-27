@@ -4,6 +4,19 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.3
+======
+
+Release Summary
+---------------
+
+Update modules to fix failing Sanity Tests
+
+Minor Changes
+-------------
+
+- indentation and Lint fixes to modules
+
 v2.1.2
 ======
 
