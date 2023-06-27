@@ -177,6 +177,9 @@ def alert_notification_policy(module):
             'receiver': module.params['rootPolicyReceiver'], 'group_interval': module.params['groupInterval'],
             'group_wait': module.params['groupWait'], 'object_matchers': module.params['objectMatchers'],
             'repeat_interval': module.params['repeatInterval']}
+    
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
 
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/policies'
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})

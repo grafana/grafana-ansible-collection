@@ -165,6 +165,9 @@ __metaclass__ = type
 
 
 def present_folder(module):
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+    
     body = {
         'uid': module.params['uid'],
         'title': module.params['title'],
@@ -208,6 +211,9 @@ def present_folder(module):
 
 
 def absent_folder(module):
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+    
     sameConfig = False
     
     api_url = module.params['grafana_url'] + '/api/folders'
