@@ -143,7 +143,7 @@ def present_datasource(module):
 
 
 def absent_datasource(module):
-    api_url = module.params['grafana_url'] + '/api/datasources/' + module.params['dataSource']['name']
+    api_url = module.params['grafana_url'] + '/api/datasources/name' + module.params['dataSource']['name']
 
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
