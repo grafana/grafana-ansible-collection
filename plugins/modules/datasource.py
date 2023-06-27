@@ -12,7 +12,7 @@ module: datasource
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Data sources in Grafana Cloud
+short_description: Manage Data sources in Grafana
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]
@@ -46,7 +46,19 @@ options:
 EXAMPLES = '''
 - name: Create/Update Data sources
   grafana.grafana.datasource:
-    dataSource: "{{ lookup('ansible.builtin.file', 'datasource.json') }}"
+    dataSource: |
+      {
+        "name": "Prometheus",
+        "type": "prometheus",
+        "access": "proxy",
+        "url": "http://localhost:9090",
+        "jsonData": {
+          "httpMethod": "POST",
+          "manageAlerts": true,
+          "prometheusType": "Prometheus",
+          "cacheLevel": "High"
+        }
+      }
     grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present

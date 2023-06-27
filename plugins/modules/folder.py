@@ -12,7 +12,7 @@ module: folder
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Folders in Grafana Cloud
+short_description: Manage Folders in Grafana
 description:
   - Create, Update and delete Folders via Ansible.
 requirements: [ "requests >= 1.0.0" ]
