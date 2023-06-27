@@ -120,6 +120,9 @@ __metaclass__ = type
 
 def present_dashboard(module):
 
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+
     api_url = module.params['grafana_url'] + '/api/dashboards/db'
 
     result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
@@ -131,6 +134,10 @@ def present_dashboard(module):
 
 
 def absent_dashboard(module):
+    
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+    
     if 'uid' not in module.params['dashboard']['dashboard']:
         return True, False, "UID is not defined in the the Dashboard configuration"
 
