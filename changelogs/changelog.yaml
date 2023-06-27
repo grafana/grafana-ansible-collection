@@ -132,3 +132,9 @@ releases:
       - indentation and Lint fixes to modules
       release_summary: Update modules to fix failing Sanity Tests
     release_date: '2023-06-27'
+  2.1.4:
+    changes:
+      minor_changes:
+      - Datasource test updates and minor fixes
+      release_summary: Update Datasource Tests and minor fixes
+    release_date: '2023-06-27'

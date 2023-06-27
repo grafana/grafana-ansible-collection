@@ -166,7 +166,7 @@ def absent_datasource(module):
     result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
     if result.status_code == 200:
-        return False, True, result.json()
+        return False, True, {"status": result.status_code, 'response': result.json()['message']}
     else:
         return True, False, {"status": result.status_code, 'response': result.json()['message']}
 
