@@ -139,10 +139,10 @@ def present_alert_contact_point(module):
         'settings': module.params['settings'],
         'DisableResolveMessage': module.params['disableResolveMessage']
     }
-    
+
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
-    
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
     result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
@@ -190,7 +190,7 @@ def absent_alert_contact_point(module):
     already_exists = False
 
     if module.params['grafana_url'][-1] == '/':
-      module.params['grafana_url']=module.params['grafana_url'][:-1]
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
 
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
