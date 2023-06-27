@@ -208,6 +208,8 @@ def present_folder(module):
 
 
 def absent_folder(module):
+    sameConfig = False
+    
     api_url = module.params['grafana_url'] + '/api/folders'
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
 
