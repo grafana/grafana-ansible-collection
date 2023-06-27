@@ -4,6 +4,22 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.2
+======
+
+Release Summary
+---------------
+
+Idempotency Updates and minor api_url fixes
+
+Minor Changes
+-------------
+
+- Remove trailing slash automatically from grafana_url
+- Fix alert_notification_policy failing on fresh instance
+- Fix Deleting datasources
+- Making Deleting folders idempotent
+
 v2.1.1
 ======
 
@@ -31,7 +47,7 @@ Major Changes
 - Addition of Grafana Server role by @gardar
 - Grafana Plugins support on-prem Grafana installation by @ishanjainn
 - Updated Service for flow mode by @bentonam
-- Configurable agent user groups by @NormanJS 
+- Configurable agent user groups by @NormanJS
 
 Minor Changes
 -------------
