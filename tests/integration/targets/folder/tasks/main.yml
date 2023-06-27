@@ -29,3 +29,19 @@
     that:
       - delete_result.output.status == 200
       - delete_result.output.response == "Folder has been succesfuly deleted"
+
+- name: Delete Idempotency Check
+  grafana.grafana.folder:
+    title: Ansible Integration test
+    uid: test123
+    overwrite: true
+    grafana_url: "{{ grafana_url }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: absent
+  register: delete_result
+
+- name: Delete Check
+  ansible.builtin.assert:
+    that:
+      - delete_result.output.status == 200
+      - delete_result.output.response == "Folder does not exist"
