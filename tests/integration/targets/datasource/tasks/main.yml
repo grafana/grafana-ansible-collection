@@ -22,3 +22,27 @@
     that:
       - create_result.changed == true
       - create_result.output.message == "Datasource added" or create_result.output.message == "Datasource updated"
+
+- name: Delete a Data Source
+  grafana.grafana.datasource:
+    dataSource:
+      name: ansible-integration
+      type: influxdb
+      url: https://grafana.github.com/grafana-ansible-collection
+      user: user
+      secureJsonData:
+        password: password
+      database: db-name
+      id: 123
+      uid: ansibletest
+      access: proxy
+    grafana_url: "{{ grafana_url }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: absent
+  register: delete_result
+
+- name: Delete Check
+  ansible.builtin.assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.output.response == "Data source deleted"

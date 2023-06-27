@@ -4,6 +4,19 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v2.1.33
+======
+
+Release Summary
+---------------
+
+Update modules for Datasource Tests and minor fixes
+
+Minor Changes
+-------------
+
+- Update modules for datasource tests and minor fixes
+
 v2.1.3
 ======
 
