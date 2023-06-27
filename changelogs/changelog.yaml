@@ -126,3 +126,9 @@ releases:
       - Making Deleting folders idempotent
       release_summary: Idempotency Updates and minor api_url fixes
     release_date: '2023-06-27'
+  2.1.3:
+    changes:
+      minor_changes:
+      - indentation and Lint fixes to modules
+      release_summary: Update modules to fix failing Sanity Tests
+    release_date: '2023-06-27'
