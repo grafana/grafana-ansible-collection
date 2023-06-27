@@ -12,7 +12,7 @@ module: alert_contact_point
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Alerting Contact points in Grafana Cloud
+short_description: Manage Alerting Contact points in Grafana
 description:
   - Create, Update and delete Contact points using Ansible.
 requirements: [ "requests >= 1.0.0" ]

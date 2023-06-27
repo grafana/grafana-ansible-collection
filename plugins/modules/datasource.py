@@ -12,7 +12,7 @@ module: datasource
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Manage Data sources in Grafana Cloud
+short_description: Manage Data sources in Grafana
 description:
   - Create, Update and delete Data sources using Ansible.
 requirements: [ "requests >= 1.0.0" ]

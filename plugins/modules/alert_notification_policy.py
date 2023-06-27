@@ -12,7 +12,7 @@ module: alert_notification_policy
 author:
   - Ishan Jain (@ishanjainn)
 version_added: "0.0.1"
-short_description: Sets the notification policy tree in Alerting on Grafana Cloud
+short_description: Manage Alerting Policies points in Grafana
 description:
   - Set the notification policy tree using Ansible.
 requirements: [ "requests >= 1.0.0" ]
