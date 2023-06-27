@@ -140,6 +140,9 @@ def present_alert_contact_point(module):
         'DisableResolveMessage': module.params['disableResolveMessage']
     }
     
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+    
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
     result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
@@ -185,6 +188,10 @@ def present_alert_contact_point(module):
 
 def absent_alert_contact_point(module):
     already_exists = False
+
+    if module.params['grafana_url'][-1] == '/':
+      module.params['grafana_url']=module.params['grafana_url'][:-1]
+
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
     result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
@@ -216,9 +223,6 @@ def main():
         grafana_api_key=dict(type='str', required=True, no_log=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
     )
-    
-    if module_args['grafana_url'][-1] == '/':
-      module_args['grafana_url']=module_args['grafana_url'][:-1]
 
     choice_map = {
         "present": present_alert_contact_point,
