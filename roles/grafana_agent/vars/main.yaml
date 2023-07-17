@@ -1,7 +1,6 @@
 ---
 _grafana_agent_github_org: grafana
 _grafana_agent_github_repo: agent
-_grafana_agent_base_download_url: "https://github.com/{{ _grafana_agent_github_org }}/{{ _grafana_agent_github_repo }}/releases/download"
 
 # set the go cpu arch
 _download_cpu_arch_map:

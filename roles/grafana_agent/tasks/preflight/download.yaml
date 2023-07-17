@@ -24,7 +24,7 @@
 - name: Set the Grafana Agent download URL
   ansible.builtin.set_fact:
     _grafana_agent_download_url: |-
-      {{ _grafana_agent_base_download_url }}/v{{ grafana_agent_version }}/{{ _grafana_agent_download_archive_file }}
+      {{ grafana_agent_base_download_url }}/v{{ grafana_agent_version }}/{{ _grafana_agent_download_archive_file }}
 
 - name: Grafana Agent download URL
   ansible.builtin.debug:

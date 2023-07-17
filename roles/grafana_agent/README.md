@@ -14,6 +14,7 @@ All variables which can be overridden are stored in [./defaults/main.yaml](./def
 | Variable | Default | Description |
 | :------ | :------ | :--------- |
 | `grafana_agent_version` | `latest` | version of the agent to install |
+| `grafana_agent_base_download_url` | `https://github.com/{{ _grafana_agent_github_org }}/{{ _grafana_agent_github_repo }}/releases/download` | base download url. Github or mirror to download from |
 | `grafana_agent_install_dir` | `/opt/grafana-agent/bin` | directory to install the binary to |
 | `grafana_agent_binary` | `grafana-agent` | name to use for the binary |
 | `grafana_agent_config_dir` | `/etc/grafana-agent` | directory to store the configuration files in |
