@@ -33,13 +33,10 @@
   tags:
     - grafana_agent_configure
 
-- name: Ensure Grafana Agent is started and enabled on boot
+- name: Ensure Grafana Agent is started # noqa command-instead-of-module
   become: true
-  ansible.builtin.systemd:
-    daemon_reload: true
-    name: grafana-agent
-    enabled: true
-    state: started
+  command: systemctl status grafana-agent
+  changed_when: false
   tags:
     - grafana_agent_install
     - grafana_agent_configure
