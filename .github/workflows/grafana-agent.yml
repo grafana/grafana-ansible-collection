@@ -31,7 +31,8 @@ jobs:
         run: |
           cat <<EOF > test.yml
           - name: Install Grafana Agent
-            hosts: all
+            hosts: localhost
+            connection: local
             become: true
 
             vars:
