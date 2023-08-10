@@ -12,7 +12,7 @@ on:
 jobs:
 
   linux:
-    name: Sanity (Ⓐ${{ matrix.ansible }})
+    name: Grafana Agent Linux
     runs-on: ubuntu-20.04
     steps:
 
@@ -28,4 +28,4 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/stable-2.14.tar.gz --disable-pip-version-check
 
       - name: Run Grafana Agent Role test
-        run: ansible-playbook tests/integration/grafana_agent/linux.yml --extra-vars "grafana_cloud_api_key=${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }} metrics_username=${{ secrets.METRICS_USERNAME }} logs_username=${{ secrets.LOGS_USERNAME }} loki_url=${{ secrets.LOGS_PUSH_URL }} prometheus_url=${{ secrets.METRICS_PUSH_URL }}
+        run: ansible-playbook tests/integration/grafana_agent/linux.yml --extra-vars "grafana_cloud_api_key=${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }} metrics_username=${{ secrets.METRICS_USERNAME }} logs_username=${{ secrets.LOGS_USERNAME }} loki_url=${{ secrets.LOGS_PUSH_URL }} prometheus_url=${{ secrets.METRICS_PUSH_URL }}"
