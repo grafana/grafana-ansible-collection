@@ -28,4 +28,4 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/stable-2.14.tar.gz --disable-pip-version-check
 
       - name: Run Grafana Agent Role test
-        run: ansible-playbook /tests/integration/targets/grafana_agent/linux.yml
+        run: ansible-playbook tests/integration/targets/grafana_agent/linux.yml
