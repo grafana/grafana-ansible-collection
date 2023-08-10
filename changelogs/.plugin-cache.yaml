@@ -12,12 +12,12 @@ plugins:
   lookup: {}
   module:
     alert_contact_point:
-      description: Manage Alerting Contact points in Grafana Cloud
+      description: Manage Alerting Contact points in Grafana
       name: alert_contact_point
       namespace: ''
       version_added: 0.0.1
     alert_notification_policy:
-      description: Sets the notification policy tree in Alerting on Grafana Cloud
+      description: Manage Alerting Policies points in Grafana
       name: alert_notification_policy
       namespace: ''
       version_added: 0.0.1
@@ -37,17 +37,17 @@ plugins:
       namespace: ''
       version_added: 0.0.1
     dashboard:
-      description: Manage Dashboards in Grafana Cloud
+      description: Manage Dashboards in Grafana
       name: dashboard
       namespace: ''
       version_added: 0.0.1
     datasource:
-      description: Manage Data sources in Grafana Cloud
+      description: Manage Data sources in Grafana
       name: datasource
       namespace: ''
       version_added: 0.0.1
     folder:
-      description: Manage Folders in Grafana Cloud
+      description: Manage Folders in Grafana
       name: folder
       namespace: ''
       version_added: 0.0.1
@@ -56,4 +56,4 @@ plugins:
   strategy: {}
   test: {}
   vars: {}
-version: 2.1.4
+version: 2.1.5

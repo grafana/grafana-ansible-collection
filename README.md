@@ -127,9 +127,6 @@ Releasing the current major version on GitHub happens from the `main` branch by 
 Before the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml)
 is run, Contributors should push the new version on Ansible Galaxy Manually.
 
-We currently are not planning any deprecations or new major releases. The current landscape includes minor version updates for
-module's documentation in `2.1.5`.
-
 To generate changelogs for a new release, Refer [Generating Changelogs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs)
 
 To generate the tarball to be uploaded on Ansible Galaxy, Refer [Building collection tarball](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_distributing.html#building-your-collection-tarball)
