@@ -4,18 +4,33 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
-v2.1.33
+
+v2.1.5
 ======
 
 Release Summary
 ---------------
 
-Update modules for Datasource Tests and minor fixes
+Update Grafana Agent Download varibale and ZIP file
 
 Minor Changes
 -------------
 
-- Update modules for datasource tests and minor fixes
+- Add Grafana Agent Version and CPU Arch to Downloaded ZIP in Grafana Agent Role
+- Move _grafana_agent_base_download_url from /vars to /defaults in Grafana Agent Role
+
+v2.1.4
+======
+
+Release Summary
+---------------
+
+Update Datasource Tests and minor fixes
+
+Minor Changes
+-------------
+
+- Datasource test updates and minor fixes
 
 v2.1.3
 ======
@@ -41,10 +56,10 @@ Idempotency Updates and minor api_url fixes
 Minor Changes
 -------------
 
-- Remove trailing slash automatically from grafana_url
-- Fix alert_notification_policy failing on fresh instance
 - Fix Deleting datasources
+- Fix alert_notification_policy failing on fresh instance
 - Making Deleting folders idempotent
+- Remove trailing slash automatically from grafana_url
 
 v2.1.1
 ======
@@ -52,12 +67,12 @@ v2.1.1
 Release Summary
 ---------------
 
-Update Download Tasks in Grafana Agent Role
+Update Download tasks in Grafana Agent Role
 
 Minor Changes
 -------------
 
-- Update Download Tasks in Grafana Agent Role
+- Update Download tasks in Grafana Agent Role
 
 v2.1.0
 ======
@@ -71,9 +86,9 @@ Major Changes
 -------------
 
 - Addition of Grafana Server role by @gardar
+- Configurable agent user groups by @NormanJS
 - Grafana Plugins support on-prem Grafana installation by @ishanjainn
 - Updated Service for flow mode by @bentonam
-- Configurable agent user groups by @NormanJS
 
 Minor Changes
 -------------
