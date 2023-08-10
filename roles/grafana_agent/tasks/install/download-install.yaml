@@ -15,7 +15,7 @@
       become: false
       ansible.builtin.get_url:
         url: "{{ _grafana_agent_download_url }}"
-        dest: "{{ grafana_agent_local_tmp_dir }}/grafana-agent.zip"
+        dest: "{{ grafana_agent_local_tmp_dir }}/grafana-agent_{{ _grafana_agent_cpu_arch }}_{{ grafana_agent_version }}.zip"
         mode: 0664
       register: _download_archive
       until: _download_archive is succeeded
@@ -27,7 +27,7 @@
     - name: Extract grafana-agent.zip
       become: false
       ansible.builtin.unarchive:
-        src: "{{ grafana_agent_local_tmp_dir }}/grafana-agent.zip"
+        src: "{{ grafana_agent_local_tmp_dir }}/grafana-agent_{{ _grafana_agent_cpu_arch }}_{{ grafana_agent_version }}.zip"
         dest: "{{ grafana_agent_local_tmp_dir }}"
         remote_src: false
       delegate_to: localhost
