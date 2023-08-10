@@ -5,7 +5,7 @@
   tasks:
     - name: Install Grafana Agent
       ansible.builtin.include_role:
-        name: grafana.grafana.grafana_agent
+        name: grafana_agent
       vars:
         grafana_agent_metrics_config:
           configs:
