@@ -27,5 +27,61 @@ jobs:
       - name: Install ansible-base (stable-2.14)
         run: pip install https://github.com/ansible/ansible/archive/stable-2.14.tar.gz --disable-pip-version-check
 
+      - name: Create Ansible playbook
+        run: |
+        cat <<EOF > grafana-agent-linux-test.yml
+        - name: Install Grafana Agent
+          hosts: localhost
+          become: true
+
+          tasks:
+            - name: Install Grafana Agent
+              ansible.builtin.include_role:
+                name: grafana.grafana.grafana_agent
+              vars:
+                grafana_agent_metrics_config:
+                  configs:
+                    - name: integrations
+                      remote_write:
+                        - basic_auth:
+                            password: '{{ grafana_cloud_api_key }}'
+                            username: '{{ metrics_username }}'
+                          url: '{{ prometheus_url }}'
+
+                  global:
+                    scrape_interval: 60s
+                  wal_directory: /tmp/grafana-agent-wal
+                grafana_agent_logs_config:
+                  configs:
+                    - name: default
+                      clients:
+                        - basic_auth:
+                            password: '{{ grafana_cloud_api_key }}'
+                            username: '{{ logs_username }}'
+                          url: '{{ loki_url }}'
+                      positions:
+                        filename: /tmp/positions.yaml
+                      target_config:
+                        sync_period: 10s
+                      scrape_configs:
+                        - job_name: varlogs
+                          static_configs:
+                            - targets: [localhost]
+                              labels:
+                                instance: ${HOSTNAME:-default}
+                                job: varlogs
+                                __path__: /var/log/*log
+                grafana_agent_integrations_config:
+                  node_exporter:
+                    enabled: true
+                    instance: ${HOSTNAME:-default}
+                  prometheus_remote_write:
+                    - basic_auth:
+                        password: '{{ grafana_cloud_api_key }}'
+                        username: '{{ metrics_username }}'
+                      url: '{{ prometheus_url }}'
+                grafana_agent_env_vars:
+                  HOSTNAME: '%H'
+        EOF
       - name: Run Grafana Agent Role test
         run: ansible-playbook tests/integration/targets/grafana_agent/linux.yml

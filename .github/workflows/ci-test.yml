@@ -71,7 +71,11 @@ jobs:
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
           grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }}
-          test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
+          # test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
+          metrics_username: ${{ secrets.METRICS_USERNAME }}
+          logs_username: ${{ secrets.LOGS_USERNAME }}
+          loki_url: ${{ secrets.LOGS_URL }}
+          prometheus_url: ${{ secrets.METRICS_URL }}
           EOF
 
       - name: Set up Python
