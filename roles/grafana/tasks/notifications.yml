@@ -3,7 +3,7 @@
   ansible.builtin.copy:
     content: |
       apiVersion: 1
-      "{{ grafana_alert_notifications | to_nice_yaml }}"
+      {{ grafana_alert_notifications | to_nice_yaml }}
     dest: /etc/grafana/provisioning/notifiers/ansible.yml
     owner: root
     group: grafana
