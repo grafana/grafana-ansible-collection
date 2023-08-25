@@ -37,6 +37,14 @@ root_url = {{ grafana_url }}
 {%   endif %}
 {% endfor %}
 
+# Plugins
+{% if grafana_plugins_ops is defined %}
+[plugins]
+{% for k,v in grafana_plugins_ops.items() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{%   endif %}
+
 # Remote cache
 [remote_cache]
 {% for k,v in grafana_remote_cache.items() %}
