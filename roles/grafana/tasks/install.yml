@@ -71,10 +71,10 @@
   environment: "{{ grafana_environment }}"
   block:
     - name: "Import Grafana apt gpg key"
-      ansible.builtin.apt_key:
+      ansible.builtin.get_url:
         url: "{{ grafana_apt_key }}"
-        state: present
-        validate_certs: false
+        dest: /usr/share/keyrings/grafana.key
+        mode: "0644"
 
     - name: "Add Grafana apt repository"
       ansible.builtin.apt_repository:
