@@ -27,8 +27,10 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_yum_key` | https://packages.grafana.com/gpg.key | Yum repository gpg key |
 | `grafana_rhsm_subscription` | | rhsm subscription name (redhat subscription-manager) |
 | `grafana_rhsm_repo` | | rhsm repository name (redhat subscription-manager) |
-| `grafana_apt_repo` | deb https://packages.grafana.com/oss/deb stable main | Apt repository string |
-| `grafana_apt_key` | https://packages.grafana.com/gpg.key | Apt repository gpg key |
+| `grafana_apt_release_channel` | stable | Apt release chanel (stable or beta) |
+| `grafana_apt_arch` | {{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }} | Apt architecture | 
+| `grafana_apt_repo` | deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main | Apt repository string |
+| `grafana_apt_key` | https://apt.grafana.com/gpg.key | Apt repository gpg key |
 | `grafana_instance` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
 | `grafana_logs_dir` | /var/log/grafana | Path to logs directory |
 | `grafana_data_dir` | /var/lib/grafana | Path to database directory |
