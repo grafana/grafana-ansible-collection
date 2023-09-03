@@ -1,16 +1,16 @@
 ---
+- name: "Create local grafana dashboard directory"
+  ansible.builtin.tempfile:
+    state: directory
+  register: __tmp_dashboards
+  changed_when: false
+
 - name: "Download grafana.net dashboards"
   become: false
   delegate_to: localhost
   run_once: true
   when: "grafana_dashboards | length > 0"
   block:
-    - name: "Create local grafana dashboard directory"
-      ansible.builtin.tempfile:
-        state: directory
-      register: __tmp_dashboards
-      changed_when: false
-
     - name: "Download grafana dashboard from grafana.net to local directory"
       ansible.builtin.get_url:
         url: "https://grafana.com/api/dashboards/{{ item.dashboard_id }}/revisions/{{ item.revision_id }}/download"
