@@ -8,7 +8,7 @@
   failed_when: false
   until: _result.status == 200
   retries: 3 
-  delay: 2
+  delay: 5
   changed_when: false
 
 - name: Check system logs if Grafana Agent is not started
