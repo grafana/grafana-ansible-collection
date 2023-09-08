@@ -1,7 +1,7 @@
 ---
 - name:  Health check Grafana Agent
   ansible.builtin.uri:
-    url: "http://127.0.0.1:12345/-/ready"
+    url: "{{ _grafana_agent_healthcheck_endpoint }}"
     follow_redirects: none
     method: GET
   register: _result
