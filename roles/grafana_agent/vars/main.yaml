@@ -33,4 +33,4 @@ _grafana_agent_systemd_dir: /lib/systemd/system/
 _grafana_agent_systemd_unit: grafana-agent.service
 
 # Server http address, used in self health check after start
-_grafana_agent_healthcheck_endpoint: "http://{{ grafana_agent_flags_extra.server.http.address if ((grafana_agent_flags_extra.server|default({})).http|default({})).http.address is defined else '127.0.0.1:12345' }}/-/ready"
+_grafana_agent_healthcheck_endpoint: "http://{{ grafana_agent_flags_extra['server.http.address'] if grafana_agent_flags_extra['server.http.address'] is defined else '127.0.0.1:12345' }}/-/ready"
