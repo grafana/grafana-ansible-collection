@@ -5,6 +5,23 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.1.6
+======
+
+Release Summary
+---------------
+
+Grafana and Grafana Agent role updates
+
+Minor Changes
+-------------
+
+- Add overrides.conf with CAP_NET_BIND_SERVICE for grafana-server unit
+- Fix Grafana Dashboard Import for Grafana Role
+- Make grafana_agent Idempotent
+- Provisioning errors in YAML
+- Use new standard to configure Grafana APT source for Grafana Role
+
 v2.1.5
 ======
 
