@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.1.7
+======
+
+Release Summary
+---------------
+
+YAML Fixes
+
+Minor Changes
+-------------
+
+- YAML Fixes
+
 v2.1.6
 ======
 
