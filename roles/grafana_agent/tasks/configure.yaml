@@ -1,22 +1,4 @@
 ---
-- name: Stop grafana-agent if installed
-  block:
-    # this will fail the verify first time of installation if local binary is used
-    - name: Ensure grafana-agent is stopped
-      ansible.builtin.systemd:
-        name: grafana-agent
-        enabled: true
-        state: stopped
-  rescue:
-    # make sure that the service isn't actually installed
-    - name: Get the list of services
-      ansible.builtin.service_facts:
-
-    - name: Verify that grafana-agent is not installed
-      ansible.builtin.assert:
-        that:
-          - _grafana_agent_systemd_unit not in services
-
 # these tasks are ran in both install and configure, as directories could have changed
 - name: Configure directories
   ansible.builtin.import_tasks: install/directories.yaml
@@ -36,6 +18,7 @@
     owner: root
     group: root
     mode: 0644
+  notify: "restart grafana-agent"  
 
 - name: Create the Service Environment file
   ansible.builtin.template:
@@ -44,6 +27,7 @@
     owner: root
     group: "{{ grafana_agent_user_group }}"
     mode: 0640
+  notify: "restart grafana-agent"
 
 - name: Create Grafana Agent config
   ansible.builtin.template:
@@ -53,6 +37,7 @@
     owner: root
     group: "{{ grafana_agent_user_group }}"
     mode: 0640
+  notify: "restart grafana-agent"  
   when: grafana_agent_provisioned_config_file | length == 0
 
 - name: Copy Grafana Agent config
@@ -62,4 +47,5 @@
     owner: root
     group: "{{ grafana_agent_user_group }}"
     mode: 0640
+  notify: "restart grafana-agent"  
   when: grafana_agent_provisioned_config_file | length > 0

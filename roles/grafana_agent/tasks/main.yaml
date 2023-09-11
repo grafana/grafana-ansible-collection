@@ -40,6 +40,8 @@
     name: grafana-agent
     enabled: true
     state: started
+  failed_when: false
+  changed_when: false
   tags:
     - grafana_agent_install
     - grafana_agent_configure
