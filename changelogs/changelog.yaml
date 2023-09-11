@@ -147,3 +147,13 @@ releases:
         Role
       release_summary: Update Grafana Agent Download varibale and ZIP file
     release_date: '2023-08-10'
+  2.1.6:
+    changes:
+      minor_changes:
+      - Add overrides.conf with CAP_NET_BIND_SERVICE for grafana-server unit
+      - Fix Grafana Dashboard Import for Grafana Role
+      - Make grafana_agent Idempotent
+      - Provisioning errors in YAML
+      - Use new standard to configure Grafana APT source for Grafana Role
+      release_summary: Grafana and Grafana Agent role updates
+    release_date: '2023-09-11'
