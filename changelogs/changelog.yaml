@@ -157,3 +157,9 @@ releases:
       - Use new standard to configure Grafana APT source for Grafana Role
       release_summary: Grafana and Grafana Agent role updates
     release_date: '2023-09-11'
+  2.1.7:
+    changes:
+      minor_changes:
+      - YAML Fixes
+      release_summary: YAML Fixes
+    release_date: '2023-09-11'

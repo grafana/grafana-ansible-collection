@@ -56,4 +56,4 @@ plugins:
   strategy: {}
   test: {}
   vars: {}
-version: 2.1.6
+version: 2.1.7
