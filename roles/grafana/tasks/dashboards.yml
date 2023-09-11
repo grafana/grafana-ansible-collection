@@ -1,5 +1,8 @@
 ---
 - name: "Create local grafana dashboard directory"
+  become: false
+  delegate_to: localhost
+  run_once: true
   ansible.builtin.tempfile:
     state: directory
   register: __tmp_dashboards
