@@ -163,3 +163,9 @@ releases:
       - YAML Fixes
       release_summary: YAML Fixes
     release_date: '2023-09-11'
+  2.1.8:
+    changes:
+      minor_changes:
+      - Fix grafana dashboard import in Grafana Role
+      release_summary: Fix grafana dashboard import in Grafana Role
+    release_date: '2023-09-12'

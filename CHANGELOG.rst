@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.1.8
+======
+
+Release Summary
+---------------
+
+Fix grafana dashboard import in Grafana Role
+
+Minor Changes
+-------------
+
+- Fix grafana dashboard import in Grafana Role
+
 v2.1.7
 ======
 
