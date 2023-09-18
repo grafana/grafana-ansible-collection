@@ -1,4 +1,4 @@
-# Ansible Collection for Grafana
+# Ansible Collection for Grafanaa
 
 [![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?&logo=grafana&logoColor=white)](https://grafana.com)
 [![Ansible Collection](https://img.shields.io/ansible/collection/1935?color=orange&style=flat-square)](https://galaxy.ansible.com/grafana/grafana)
