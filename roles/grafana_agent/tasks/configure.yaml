@@ -18,7 +18,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: "restart grafana-agent"  
+  notify: "restart grafana-agent"
 
 - name: Create the Service Environment file
   ansible.builtin.template:
@@ -37,7 +37,7 @@
     owner: root
     group: "{{ grafana_agent_user_group }}"
     mode: 0640
-  notify: "restart grafana-agent"  
+  notify: "restart grafana-agent"
   when: grafana_agent_provisioned_config_file | length == 0
 
 - name: Copy Grafana Agent config
@@ -47,5 +47,5 @@
     owner: root
     group: "{{ grafana_agent_user_group }}"
     mode: 0640
-  notify: "restart grafana-agent"  
+  notify: "restart grafana-agent"
   when: grafana_agent_provisioned_config_file | length > 0
