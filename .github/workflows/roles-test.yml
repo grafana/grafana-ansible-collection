@@ -85,6 +85,6 @@ jobs:
       - name: Install Requests
         run: pip install requests
 
-      - name: Test role alert_contact_point
+      - name: Test Roles
         run: ansible-test integration -v molecule-grafana-alternative molecule-grafana-default --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
