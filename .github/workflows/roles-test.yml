@@ -1,5 +1,5 @@
 ---
-name: Role Test
+name: Roles Test
 
 # yamllint disable-line rule:truthy
 on:
