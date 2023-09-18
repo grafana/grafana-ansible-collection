@@ -61,8 +61,36 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      - name: Run integration test
-        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage --test alert_contact_point
+      - name: Test module alert_contact_point
+        run: ansible-test integration -v alert_contact_point --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module alert_notification_policy
+        run: ansible-test integration -v alert_notification_policy --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module cloud_api_key
+        run: ansible-test integration -v cloud_api_key --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module cloud_plugin
+        run: ansible-test integration -v cloud_plugin --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module cloud_stack
+        run: ansible-test integration -v cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module dashboard
+        run: ansible-test integration -v dashboard --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Test module datasource
+        run: ansible-test integration -v datasource --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      
+      - name: Test module folder
+        run: ansible-test integration -v folder --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Cooling Period
