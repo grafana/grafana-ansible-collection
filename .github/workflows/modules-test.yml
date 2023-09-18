@@ -66,7 +66,6 @@ jobs:
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
         run: |
           cat <<EOF > integration_config.yml
-          stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
           org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
