@@ -171,7 +171,6 @@ def main():
         module.exit_json(changed=has_changed,
                          pluginId=result['pluginId'],
                          pluginName=result['pluginName'],
-                         pluginSlug=result['pluginSlug'],
                          current_version=result['version'],
                          latest_version=result['latestVersion'])
     else:
