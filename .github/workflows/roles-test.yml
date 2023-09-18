@@ -1,5 +1,5 @@
 ---
-name: CI Tests
+name: Roles Test
 
 # yamllint disable-line rule:truthy
 on:
@@ -85,6 +85,6 @@ jobs:
       - name: Install Requests
         run: pip install requests
 
-      - name: Run integration test
-        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+      - name: Test Roles
+        run: ansible-test integration -v molecule-grafana-alternative molecule-grafana-default --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
