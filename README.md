@@ -7,7 +7,8 @@
 [![GitHub Contributors](https://img.shields.io/github/contributors/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 
 [![Lint](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml)
-[![CI Tests](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/ci-test.yml)
+[![Modules Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml)
+[![Roles Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml)
 [![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
 
 This collection (`grafana.grafana`) contains modules and plugins to assist in automating managing of resources in **Grafana** with Ansible.
