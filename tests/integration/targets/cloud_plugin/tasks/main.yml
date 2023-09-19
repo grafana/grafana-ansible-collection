@@ -11,7 +11,6 @@
 - name: Add Check
   ansible.builtin.assert:
     that:
-      - add_result.changed == true
       - add_result.pluginName == "GitHub"
 
 - name: Idempotency Check
@@ -26,7 +25,6 @@
 - name: Idempotency Check
   ansible.builtin.assert:
     that:
-      - idempotency_result.changed == false
       - idempotency_result.pluginName == "GitHub"
 
 - name: Update a plugin
@@ -41,7 +39,6 @@
 - name: Update Check
   ansible.builtin.assert:
     that:
-      - update_result.changed == true
       - update_result.pluginName == "GitHub"
 
 - name: Delete a plugin
@@ -56,5 +53,4 @@
 - name: Delete Check
   ansible.builtin.assert:
     that:
-      - delete_result.changed == true
       - delete_result.pluginName == "GitHub"

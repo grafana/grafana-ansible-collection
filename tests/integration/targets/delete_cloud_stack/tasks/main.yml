@@ -1,0 +1,15 @@
+---
+- name: Delete a Grafana Cloud stack
+  grafana.grafana.cloud_stack:
+    name: "{{ test_stack_name }}"
+    stack_slug: "{{ test_stack_name }}"
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    org_slug: "{{ org_name }}"
+    state: absent
+  register: delete_result
+
+- name: Delete Check
+  ansible.builtin.assert:
+    that:
+      - delete_result.changed == true
+      - delete_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
