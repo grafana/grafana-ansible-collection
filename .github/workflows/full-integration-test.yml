@@ -61,8 +61,8 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      - name: Run integration test
-        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
+      - name: Test Modules
+        run: ansible-test integration -v alert_contact_point alert_notification_policy cloud_api_key cloud_plugin cloud_stack dashboard datasource folder --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Cooling Period

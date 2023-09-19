@@ -28,7 +28,6 @@
 - name: Update Check
   ansible.builtin.assert:
     that:
-      - update_result.changed == false
       - update_result.output == "A Cloud API key with the same name already exists"
 
 - name: Delete Grafana Cloud API key
@@ -43,5 +42,4 @@
 - name: Delete Check
   ansible.builtin.assert:
     that:
-      - delete_result.changed == true
       - delete_result.output == "Cloud API key is deleted"

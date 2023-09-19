@@ -1,18 +1,20 @@
 ---
-name: GitHub Release
+name: Modules Test
 
 # yamllint disable-line rule:truthy
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version number to release'
-        required: true
+  push:
+    branches:
+      - "main"
+  pull_request:
+  schedule:
+    - cron: '0 6 * * *'
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
 jobs:
+
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
@@ -64,10 +66,10 @@ jobs:
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
         run: |
           cat <<EOF > integration_config.yml
-          stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
           org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
           grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
           grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
+          grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }}
           test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
           EOF
 
@@ -79,30 +81,17 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      - name: Test Modules
-        run: ansible-test integration -v alert_contact_point alert_notification_policy cloud_api_key cloud_plugin cloud_stack dashboard datasource folder --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+      - name: Install Requests
+        run: pip install requests
+
+      - name: Create Test Stack
+        run: ansible-test integration -v create_cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-  release:
-    name: Create GitHub Release
-    runs-on: ubuntu-latest
-    needs: [sanity, integration]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Test Modules
+        run: ansible-test integration -v alert_contact_point alert_notification_policy cloud_api_key cloud_plugin dashboard datasource folder --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-
-      - name: Install PyYaml
-        run: pip install pyyaml
-
-      - name: Validate version is published to Galaxy
-        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana-${{ github.event.inputs.version }}.tar.gz
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.event.inputs.version }}
+      - name: Delete Test Stack
+        run: ansible-test integration -v delete_cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
