@@ -13,3 +13,7 @@
     that:
       - delete_result.changed == true
       - delete_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
+
+- name: Sleep for 45 seconds
+  ansible.builtin.wait_for:
+    timeout: 45

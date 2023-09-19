@@ -13,6 +13,6 @@
     that:
       - create_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
 
-- name: Sleep for 30 seconds
+- name: Sleep for 45 seconds
   ansible.builtin.wait_for:
-    timeout: 30
+    timeout: 45
