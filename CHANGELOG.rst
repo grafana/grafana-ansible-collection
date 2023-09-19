@@ -5,6 +5,25 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.1.9
+======
+
+Release Summary
+---------------
+
+Security Updates and Grafana Agent Version failure fixes
+
+Minor Changes
+-------------
+
+- Add check for Curl and failure step if Agent Version is not retrieved
+- Bump cryptography from 39.0.2 to 41.0.3
+- Bump semver from 5.7.1 to 5.7.2
+- Bump word-wrap from 1.2.3 to 1.2.5
+- Create local dashboard directory in check mode
+- Update CI Testing
+- Update Cloud Stack Module failures
+
 v2.1.8
 ======
 
