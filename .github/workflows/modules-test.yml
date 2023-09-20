@@ -93,5 +93,6 @@ jobs:
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Delete Test Stack
+        if: success() || failure()
         run: ansible-test integration -v delete_cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

@@ -5,6 +5,20 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.2.0
+======
+
+Release Summary
+---------------
+
+Grafana Agent Role Updates
+
+Minor Changes
+-------------
+
+- Use 'ansible_system' env variable to detect os typ in Grafana Agent Role
+- hange grafana Agent Wal and Positions Directory in Grafana Agent Role
+
 v2.1.9
 ======
 
