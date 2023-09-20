@@ -27,10 +27,10 @@ grafana_agent_local_tmp_dir: /tmp/grafana-agent
 grafana_agent_data_dir: /var/lib/grafana-agent
 
 # wal directory to use, should be a sub-folder of grafana_agent_data_dir, will automatically be created when the agent starts
-grafana_agent_wal_dir: "{{ grafana_agent_data_dir }}/data"
+grafana_agent_wal_dir: "{{ grafana_agent_data_dir }}/wal"
 
 # positions directory to use, should be a sub-folder of grafana_agent_data_dir, will automatically be created when the agent starts
-grafana_agent_positions_dir: "{{ grafana_agent_data_dir }}/data"
+grafana_agent_positions_dir: "{{ grafana_agent_data_dir }}/positions"
 
 # mode to run Grafana Agent in. Can be "flow" or "static".
 # Docs: https://grafana.com/docs/agent/latest/flow/
