@@ -181,3 +181,10 @@ releases:
       - Update Cloud Stack Module failures
       release_summary: Security Updates and Grafana Agent Version failure fixes
     release_date: '2023-09-19'
+  2.2.0:
+    changes:
+      minor_changes:
+      - Use 'ansible_system' env variable to detect os typ in Grafana Agent Role
+      - hange grafana Agent Wal and Positions Directory in Grafana Agent Role
+      release_summary: Grafana Agent Role Updates
+    release_date: '2023-09-20'
