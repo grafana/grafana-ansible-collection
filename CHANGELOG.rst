@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.2.1
+======
+
+Release Summary
+---------------
+
+Allow alert resource provisioning in Grafana Role
+
+Minor Changes
+-------------
+
+- Allow alert resource provisioning in Grafana Role
+
 v2.2.0
 ======
 
