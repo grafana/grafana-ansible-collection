@@ -105,7 +105,7 @@
         - grafana_configure
         - grafana_notifications
         - grafana_run
-  when: "grafana_alert_notifications | length > 0"
+  when: "grafana_alert_notifications | length > 0 or grafana_alert_resources | length > 0"
 
 - name: Dashboards
   ansible.builtin.include_tasks:
