@@ -188,3 +188,9 @@ releases:
       - hange grafana Agent Wal and Positions Directory in Grafana Agent Role
       release_summary: Grafana Agent Role Updates
     release_date: '2023-09-20'
+  2.2.1:
+    changes:
+      minor_changes:
+      - Allow alert resource provisioning in Grafana Role
+      release_summary: Allow alert resource provisioning in Grafana Role
+    release_date: '2023-09-27'
