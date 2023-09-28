@@ -7,7 +7,6 @@
     state: directory
   register: __tmp_dashboards
   changed_when: false
-  check_mode: true
 
 - name: "Download grafana.net dashboards"
   become: false
