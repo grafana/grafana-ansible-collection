@@ -13,6 +13,7 @@
     - path: "/etc/grafana/provisioning/datasources"
     - path: "/etc/grafana/provisioning/dashboards"
     - path: "/etc/grafana/provisioning/notifiers"
+    - path: "/etc/grafana/provisioning/notification"
     - path: "/etc/grafana/provisioning/plugins"
     - path: "{{ grafana_logs_dir }}"
       owner: grafana
