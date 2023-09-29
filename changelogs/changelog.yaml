@@ -194,3 +194,11 @@ releases:
       - Allow alert resource provisioning in Grafana Role
       release_summary: Allow alert resource provisioning in Grafana Role
     release_date: '2023-09-27'
+  2.2.2:
+    changes:
+      minor_changes:
+      - Bump cryptography from 41.0.3 to 41.0.4
+      - Create missing notification directory in Grafana Role
+      - Remove check_mode from create local directory task in Grafana Role
+      release_summary: Grafana Role bug fixes and security updates
+    release_date: '2023-09-29'

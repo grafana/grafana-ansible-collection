@@ -5,6 +5,21 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.2.2
+======
+
+Release Summary
+---------------
+
+Grafana Role bug fixes and security updates
+
+Minor Changes
+-------------
+
+- Bump cryptography from 41.0.3 to 41.0.4
+- Create missing notification directory in Grafana Role
+- Remove check_mode from create local directory task in Grafana Role
+
 v2.2.1
 ======
 
