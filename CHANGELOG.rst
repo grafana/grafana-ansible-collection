@@ -5,6 +5,19 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.2.3
+======
+
+Release Summary
+---------------
+
+Remove dependency on local-fs.target from Grafana Agent role
+
+Minor Changes
+-------------
+
+- Remove dependency on local-fs.target from Grafana Agent role
+
 v2.2.2
 ======
 

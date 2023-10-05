@@ -1,7 +1,7 @@
 ---
 namespace: grafana
 name: grafana
-version: 2.2.2
+version: 2.2.3
 readme: README.md
 authors:
   - Grafana Labs <grafana.com>
