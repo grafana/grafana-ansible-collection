@@ -202,3 +202,9 @@ releases:
       - Remove check_mode from create local directory task in Grafana Role
       release_summary: Grafana Role bug fixes and security updates
     release_date: '2023-09-29'
+  2.2.3:
+    changes:
+      minor_changes:
+      - Remove dependency on local-fs.target from Grafana Agent role
+      release_summary: Remove dependency on local-fs.target from Grafana Agent role
+    release_date: '2023-10-05'
