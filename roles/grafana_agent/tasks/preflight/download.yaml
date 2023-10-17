@@ -1,14 +1,4 @@
 ---
-- name: Gather the package facts
-  ansible.builtin.package_facts:
-    manager: auto
-
-- name: Fail if Curl is not installed
-  ansible.builtin.fail:
-    msg: "curl is not installed!"
-  when: "'curl' not in ansible_facts.packages"
-
-
 - name: Get Grafana Agent version from Github
   when: grafana_agent_version == 'latest' and not __grafana_agent_local_install
   block:
