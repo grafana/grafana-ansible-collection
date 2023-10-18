@@ -1,7 +1,7 @@
 # Ansible Collection for Grafana
 
 [![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?&logo=grafana&logoColor=white)](https://grafana.com)
-[![Ansible Collection](https://img.shields.io/ansible/collection/1935?color=orange&style=flat-square)](https://galaxy.ansible.com/grafana/grafana)
+[![Ansible Collection](https://img.shields.io/badge/grafana.grafana-orange)](https://galaxy.ansible.com/ui/repo/published/grafana/grafana/)
 [![GitHub tag](https://img.shields.io/github/tag/grafana/grafana-ansible-collection.svg)](https://github.com/grafana/grafana-ansible-collection/tags)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 [![GitHub Contributors](https://img.shields.io/github/contributors/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
