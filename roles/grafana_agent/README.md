@@ -5,7 +5,9 @@ and Fedora linux distributions.
 
 ## Requirements
 
-To use this role, You need a YAML file having the Grafana Agent configuration
+Please ensure that `curl` is intalled on Ansible controller.
+
+To use this role, You need a YAML file having the Grafana Agent configuration.
 
 ## Role Variables
 
