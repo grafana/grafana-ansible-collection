@@ -43,4 +43,4 @@
         mode: 0755
         owner: root
         group: root
-      ignore_errors: "{{ ansible_check_mode }}"
+      when: not ansible_check_mode
