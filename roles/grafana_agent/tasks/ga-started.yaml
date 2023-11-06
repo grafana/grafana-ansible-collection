@@ -10,9 +10,10 @@
   retries: 3
   delay: 5
   changed_when: false
+  when: not ansible_check_mode
 
 - name: Check system logs if Grafana Agent is not started
-  when: _result.status != 200
+  when: not ansible_check_mode and _result.status != 200
   block:
   - name: Run journalctl
     ansible.builtin.shell:
