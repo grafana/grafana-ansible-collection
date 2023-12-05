@@ -123,6 +123,13 @@
       become: true
       register: __dashboards_copied
       notify: "provisioned dashboards changed"
+      when: not ansible_check_mode
+
+    - name: "Register present and copied dashboards list"
+      ansible.builtin.set_fact:
+        __dashboards_present_list: "{{ __dashboards_present | json_query('files[*].path') | default([]) }}"
+        __dashboards_copied_list: "{{ __dashboards_copied | json_query('results[*].dest') | default([]) }}"
+      when: not ansible_check_mode
 
     - name: "Remove dashboards not present on deployer machine (synchronize)"
       ansible.builtin.file:
@@ -130,7 +137,4 @@
         state: absent
       loop: "{{ __dashboards_present_list | difference(__dashboards_copied_list) }}"
       become: true
-      when: grafana_provisioning_synced
-      vars:
-        __dashboards_present_list: "{{ __dashboards_present | json_query('files[*].path') | default([]) }}"
-        __dashboards_copied_list: "{{ __dashboards_copied | json_query('results[*].dest') | default([]) }}"
+      when: grafana_provisioning_synced and not ansible_check_mode
