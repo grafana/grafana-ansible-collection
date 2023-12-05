@@ -43,3 +43,4 @@
         mode: 0755
         owner: root
         group: root
+      when: not ansible_check_mode
