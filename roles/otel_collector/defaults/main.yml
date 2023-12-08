@@ -1,0 +1,10 @@
+otel_collector_version: "0.90.1"
+otel_collector_service_name: "otel-collector"
+otel_collector_type: contrib
+otel_collector_installation_dir: "/etc/otel-collector"
+otel_collector_config_dir: "/etc/otel-collector"
+otel_collector_config_file: "config.yaml"
+otel_collector_service_user: "otel"
+otel_collector_service_group: "otel"
+
+otel_collector_config: ""
