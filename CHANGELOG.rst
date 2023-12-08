@@ -5,6 +5,23 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 
+v2.2.4
+======
+
+Release Summary
+---------------
+
+Grafana and Agent Role bug fixes and security updates
+
+Minor Changes
+-------------
+
+- Bump cryptography from 41.0.4 to 41.0.6 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/126
+- Drop curl check by @v-zhuravlev in https://github.com/grafana/grafana-ansible-collection/pull/120
+- Fix check mode for grafana role by @Boschung-Mecatronic-AG-Infrastructure in https://github.com/grafana/grafana-ansible-collection/pull/125
+- Fix check mode in Grafana Agent by @AmandaCameron in https://github.com/grafana/grafana-ansible-collection/pull/124
+- Update tags in README by @ishanjainn in https://github.com/grafana/grafana-ansible-collection/pull/121
+
 v2.2.3
 ======
 
