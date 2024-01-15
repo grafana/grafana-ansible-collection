@@ -14,6 +14,10 @@ env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ansible-test-sanity:
     uses: ./.github/workflows/ansible-test-sanity.yml
