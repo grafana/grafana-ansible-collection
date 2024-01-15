@@ -29,7 +29,7 @@ jobs:
         ansible-core-versions: ${{ fromJson(inputs.ansible-core-versions) }}
         target-python-versions: ${{ fromJson(inputs.target-python-versions) }}
 
-    name: "${{ matrix.targets.name }}-${{ matrix.ansible-core-versions }}"
+    name: "${{ matrix.targets.name }}-${{ matrix.ansible-core-versions }}-py-${{ matrix.target-python-versions }}"
     steps:
       - name: "Perform ${{ matrix.targets.test }} integration test with ansible-test"
         uses: ansible-community/ansible-test-gh-action@release/v1
