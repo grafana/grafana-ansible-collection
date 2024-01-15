@@ -50,6 +50,7 @@ jobs:
     uses: ./.github/workflows/ansible-test-integration.yml
     needs: discover-ansible-tests
     if: needs.discover-ansible-tests.outputs.integration-tests != '[]'
+    secrets: inherit
     with:
       targets: ${{ needs.discover-ansible-tests.outputs.integration-tests }}
       ansible-core-versions: '["stable-2.14","stable-2.15","stable-2.16"]'

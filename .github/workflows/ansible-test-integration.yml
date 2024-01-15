@@ -41,5 +41,11 @@ jobs:
           testing-type: integration
           target: ${{ matrix.targets.test }}
           coverage: ${{ inputs.coverage }}
+          pre-test-cmd: |-
+            echo -e "org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }} \n\
+            grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }} \n\
+            grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }} \n\
+            grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }} \n\
+            test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}" > tests/integration/integration_config.yml
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
