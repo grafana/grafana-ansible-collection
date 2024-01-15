@@ -35,7 +35,7 @@ jobs:
         run: |
           echo ansible-test-molecule="[`for x in $(find tests/integration/targets -maxdepth 1 -mindepth 1 -type d -iname "molecule-*" -printf "%f\n");
             do echo '{"test":\"'"${x}"'\","name":\"'"${x#*-}\"'"}'; done | tr '\n' ',' | sed '$s/,$//'`]" >> $GITHUB_OUTPUT
-          echo ansible-test-integration="[`for x in $(find tests/integration/targets -maxdepth 1 -mindepth 1 -type d -not -iname "molecule-*" -printf "%f\n");
+          echo ansible-test-integration="[`for x in $(find tests/integration/targets -maxdepth 1 -mindepth 1 -type d -not -iname "molecule-*" -not -iname "*_cloud_stack" -printf "%f\n");
             do echo '{"test":\"'"${x}"'\","name":\"'"${x}\"'"}'; done | tr '\n' ',' | sed '$s/,$//'`]" >> $GITHUB_OUTPUT
 
   ansible-test-molecule:
