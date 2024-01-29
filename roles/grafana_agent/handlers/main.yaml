@@ -1,7 +1,7 @@
 ---
 - name: Restart Grafana Agent
   become: true
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: grafana-agent
     state: restarted
     daemon_reload: true
