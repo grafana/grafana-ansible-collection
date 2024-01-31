@@ -4,7 +4,7 @@
     dest: /etc/systemd/system/{{ otel_collector_service_name }}.service
     mode: '0644'
   become: true
-  notify: restart opentelemetry collector
+  notify: Restart OpenTelemetry Collector
 
 - name: Reload systemd daemon to pick up changes
   ansible.builtin.systemd:
