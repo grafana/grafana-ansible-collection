@@ -47,10 +47,6 @@ To customize, provide additional variables:
         otel_collector_version: "0.33.0"
 ```
 
-## License
-
-Choose a license, such as MIT or Apache 2.0.
-
 ## Author Information
 
-This role was created in [Year] by [Your Name/Company/Organization].
+This role was created in Ishan Jain (@ishanjainn) (ishan.jain0099@gmailcom)
