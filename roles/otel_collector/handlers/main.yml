@@ -1,4 +1,4 @@
-- name: restart opentelemetry collector
+- name: Restart OpenTelemetry Collector
   ansible.builtin.service:
     name: "{{ otel_collector_service_name }}"
     state: restarted
