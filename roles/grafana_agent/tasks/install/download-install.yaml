@@ -23,6 +23,7 @@
       delay: 2
       delegate_to: localhost
       check_mode: false
+      run_once: true
 
     - name: Extract grafana-agent.zip
       become: false
@@ -31,6 +32,7 @@
         dest: "{{ grafana_agent_local_tmp_dir }}"
         remote_src: false
       delegate_to: localhost
+      run_once: true
 
     - name: Set local path
       ansible.builtin.set_fact:
