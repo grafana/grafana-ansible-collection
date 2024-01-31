@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 yamllint = "==1.33.0"
 ansible-lint = ">=6.13.1,<7.0.0"
-pylint = ">=2.16.2,<3.0.0"
+pylint = ">=2.16.2,<4.0.0"
 
 [dev-packages]
 
