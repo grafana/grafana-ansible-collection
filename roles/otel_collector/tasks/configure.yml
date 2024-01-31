@@ -14,5 +14,5 @@
     owner: "{{ otel_collector_service_user }}"
     group: "{{ otel_collector_service_group }}"
     mode: '0644'
-  notify: restart opentelemetry collector
+  notify: Restart OpenTelemetry Collector
   become: true
