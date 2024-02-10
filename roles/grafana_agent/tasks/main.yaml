@@ -33,6 +33,9 @@
   tags:
     - grafana_agent_configure
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Ensure Grafana Agent is started and enabled on boot
   become: true
   ansible.builtin.systemd:
