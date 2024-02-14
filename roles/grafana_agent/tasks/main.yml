@@ -23,8 +23,15 @@
       tags:
         - grafana_agent_configure
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Start and enable Grafana Agent
+  become: true
   ansible.builtin.service:
     name: grafana-agent{% if grafana_agent_mode == 'flow' %}-flow{% endif %}
     state: started
     enabled: true
+  tags:
+    - grafana_agent_install
+    - grafana_agent_configure
