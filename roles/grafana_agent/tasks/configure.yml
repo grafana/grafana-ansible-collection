@@ -8,3 +8,13 @@
     group: "{{ grafana_agent_user_group }}"
     mode: "0640"
   notify: Restart Grafana Agent
+
+- name: Create Grafana Agent config - flow
+  when: grafana_agent_mode == 'flow'
+  ansible.builtin.template:
+    src: grafana-agent-flow.river.j2
+    dest: /etc/grafana-agent-flow.river
+    owner: root
+    group: "{{ grafana_agent_user_group }}"
+    mode: "0640"
+  notify: Reload Grafana Agent
