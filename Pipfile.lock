@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9d540058fca5fce5144006b82090f008fb1b9440b3bcaf0d31f538046d6333fe"
+            "sha256": "6a1528d3f70e2629822009c43b3b54d7e74aa1ac3873ec6700f3b2ca47ccb0bf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -34,12 +34,12 @@
         },
         "ansible-lint": {
             "hashes": [
-                "sha256:2f409fe98efada61da9f8ab7cdf34a5b67de43e1338cee0619f5d51f4f8b15dd",
-                "sha256:d28a7c1ceaf043b77aebeb0a20475e647565270356c23f4790a9c01e67bf815d"
+                "sha256:6bc5d6273f33711ec6d370dfe5fdbe97a64b4c36c2a7a19a249401326eb03616",
+                "sha256:755f369c6baf601b09c4931a4e6bd0df3d79c54eb519f093e5db6ab52ad03e0c"
             ],
             "index": "pypi",
-            "markers": "python_version >= '3.9'",
-            "version": "==6.22.2"
+            "markers": "python_version >= '3.10'",
+            "version": "==24.2.0"
         },
         "astroid": {
             "hashes": [
@@ -620,11 +620,11 @@
         },
         "ruamel.yaml": {
             "hashes": [
-                "sha256:61917e3a35a569c1133a8f772e1226961bf5a1198bea7e23f06a0841dea1ab0e",
-                "sha256:a013ac02f99a69cdd6277d9664689eb1acba07069f912823177c5eced21a6ada"
+                "sha256:57b53ba33def16c4f3d807c0ccbc00f8a6081827e81ba2491691b76882d0c636",
+                "sha256:8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==0.18.5"
+            "version": "==0.18.6"
         },
         "ruamel.yaml.clib": {
             "hashes": [
@@ -813,12 +813,12 @@
         },
         "yamllint": {
             "hashes": [
-                "sha256:28a19f5d68d28d8fec538a1db21bb2d84c7dc2e2ea36266da8d4d1c5a683814d",
-                "sha256:2dceab9ef2d99518a2fcf4ffc964d44250ac4459be1ba3ca315118e4a1a81f7d"
+                "sha256:2e16e504bb129ff515b37823b472750b36b6de07963bd74b307341ef5ad8bdc3",
+                "sha256:7a003809f88324fd2c877734f2d575ee7881dd9043360657cc8049c809eba6cd"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==1.33.0"
+            "version": "==1.35.1"
         }
     },
     "develop": {}
