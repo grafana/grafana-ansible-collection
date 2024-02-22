@@ -14,6 +14,12 @@ WorkingDirectory={{ grafana_agent_data_dir }}
 Environment={{key}}={{value}}
 {% endfor %}
 EnvironmentFile={{ grafana_agent_config_dir }}/{{ grafana_agent_env_file}}
+{% if grafana_agent_optional_env_file | length > 0  %}
+EnvironmentFile={{ grafana_agent_optional_env_file }}
+{% endif -%}
+{% if grafana_agent_exec_start_pre | length > 0  %}
+ExecStartPre={{ grafana_agent_exec_start_pre }}
+{% endif -%}
 
 {% if grafana_agent_mode == 'flow' %}
 ExecStart={{ grafana_agent_install_dir }}/{{ grafana_agent_binary }} run \
