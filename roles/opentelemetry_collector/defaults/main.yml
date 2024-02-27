@@ -25,4 +25,3 @@ otel_collector_processors: ""
 otel_collector_extensions: ""
 otel_collector_service: ""
 otel_collector_connectors: ""
-
