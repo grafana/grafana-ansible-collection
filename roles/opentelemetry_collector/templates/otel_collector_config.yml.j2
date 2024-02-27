@@ -8,3 +8,7 @@ extensions:
 {{ otel_collector_extensions | to_nice_yaml(indent=2) | indent(2, true) }}
 service:
 {{ otel_collector_service | to_nice_yaml(indent=2) | indent(2, true) }}
+{% if otel_collector_connectors is defined and otel_collector_connectors | length > 0 %}
+connectors:
+{{ otel_collector_connectors | to_nice_yaml(indent=2) | indent(2, true) }}
+{% endif %}
