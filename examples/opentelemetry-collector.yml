@@ -2,7 +2,7 @@
   hosts: all
   become: true
 
-  tasks: 
+  tasks:
     - name: Install OpenTelemetry Collector
       ansible.builtin.include_role:
         name: grafana.grafana.opentelemetry_collector
