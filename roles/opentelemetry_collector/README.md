@@ -1,57 +1,100 @@
 # Ansible Role for OpenTelemetry Collector
 
-This Ansible role installs and configures the OpenTelemetry Collector, which can be used to collect traces, metrics, and logs.
+This Ansible role to install and configure the OpenTelemetry Collector, which can be used to collect traces, metrics, and logs.
 
 ## Requirements
 
-No specific requirements.
+Please ensure that `curl` is intalled on Ansible controller.
 
 ## Role Variables
 
 Available variables with their default values are listed below (`defaults/main.yml`):
 
-```yaml
-otel_collector_version: "latest"
-otel_collector_service_name: "otel-collector"
-otel_collector_binary_url: "https://github.com/open-telemetry/opentelemetry-collector-releases/download/{{ otel_collector_version }}/otelcol_{{ otel_collector_version }}_linux_amd64.tar.gz"
-otel_collector_installation_dir: "/opt/otel-collector"
-otel_collector_config_dir: "/etc/otel-collector"
-otel_collector_config_file: "config.yaml"
-otel_collector_service_user: "otel"
-otel_collector_service_group: "otel"
-otel_collector_receivers: ""
-otel_collector_exporters: ""
-otel_collector_processors: ""
-otel_collector_extensions: ""
-otel_collector_service: ""
-```
+| Variable Name | Description | Default Value |
+|---------------|-------------|---------------|
+| `otel_collector_version` | Version of OpenTelemetry Collector to install. | `"0.90.1"` |
+| `otel_collector_binary_url` | URL for downloading the OpenTelemetry Collector binary. This URL is constructed based on the collector version, type, and architecture. | `"https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{ otel_collector_version }}/{% if otel_collector_type == 'contrib' %}otelcol-contrib_{{ otel_collector_version }}_linux_{{ otel_collector_arch }}{% else %}otelcol_{{ otel_collector_version }}_linux_{{ otel_collector_arch }}{% endif %}.tar.gz"` |
+| `arch_mapping` | Mapping of `ansible_architecture` values to OpenTelemetry Collector binary architecture names. | See below\* |
+| `otel_collector_arch` | Architecture for the OpenTelemetry Collector binary, determined based on the `ansible_architecture` fact. | `"{{ arch_mapping[ansible_architecture] | default('amd64') }}"` |
+| `otel_collector_service_name` | The service name for the OpenTelemetry Collector. | `"otel-collector"` |
+| `otel_collector_type` | Type of the OpenTelemetry Collector (`contrib` includes additional components). | `contrib` |
+| `otel_collector_executable` | The executable name of the OpenTelemetry Collector, changes based on the collector type. | `{% if otel_collector_type == 'contrib' %}otelcol-contrib{% else %}otelcol{% endif %}` |
+| `otel_collector_installation_dir` | Installation directory for the OpenTelemetry Collector. | `"/etc/otel-collector"` |
+| `otel_collector_config_dir` | Directory for OpenTelemetry Collector configuration files. | `"/etc/otel-collector"` |
+| `otel_collector_config_file` | The main configuration file name for the OpenTelemetry Collector. | `"config.yaml"` |
+| `otel_collector_service_user` | The system user under which the OpenTelemetry Collector service will run. | `"otel"` |
+| `otel_collector_service_group` | The system group under which the OpenTelemetry Collector service will run. | `"otel"` |
+| `otel_collector_receivers` | Receivers configuration for the OpenTelemetry Collector. | `""` |
+| `otel_collector_exporters` | Exporters configuration for the OpenTelemetry Collector. | `""` |
+| `otel_collector_processors` | Processors configuration for the OpenTelemetry Collector. | `""` |
+| `otel_collector_extensions` | Extensions configuration for the OpenTelemetry Collector. | `""` |
+| `otel_collector_service` | Service configuration for the OpenTelemetry Collector. | `""` |
+| `otel_collector_connectors` | Connectors configuration for the OpenTelemetry Collector (optional). | `""` |
+
+\* For `arch_mapping`, the default mapping is as follows:
+- `x86_64`: `amd64`
+- `aarch64`: `arm64`
+- `armv7l`: `armhf`
+- `i386`: `i386`
+- `ppc64le`: `ppc64le`
 
 Users of the role can override these variables as needed.
-
-## Dependencies
-
-None.
 
 ## Example Playbook
 
 Include this role in your playbook with default settings:
 
 ```yaml
-- hosts: all
-  roles:
-    - opentelemetry_collector
-```
+- name: Install OpenTelemetry Collector
+  hosts: all
+  become: true
 
-To customize, provide additional variables:
-
-```yaml
-- hosts: all
-  roles:
-    - role: opentelemetry_collector
+  tasks: 
+    - name: Install OpenTelemetry Collector
+      ansible.builtin.include_role:
+        name: grafana.grafana.opentelemetry_collector
       vars:
-        otel_collector_version: "0.33.0"
+        otel_collector_receivers:
+          otlp:
+            protocols:
+              grpc:
+                endpoint: 0.0.0.0:4317
+              http:
+                endpoint: 0.0.0.0:4318
+        otel_collector_processors:
+          batch:
+
+        otel_collector_exporters:
+          otlp:
+            endpoint: otelcol:4317
+
+        otel_collector_extensions:
+          health_check:
+          pprof:
+          zpages:
+
+        otel_collector_service:
+          extensions: [health_check, pprof, zpages]
+          pipelines:
+            traces:
+              receivers: [otlp]
+              processors: [batch]
+              exporters: [otlp]
+            metrics:
+              receivers: [otlp]
+              processors: [batch]
+              exporters: [otlp]
+            logs:
+              receivers: [otlp]
+              processors: [batch]
+              exporters: [otlp]
+
 ```
+
+## License
+
+See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LICENSE)
 
 ## Author Information
 
-This role was created in Ishan Jain (@ishanjainn) (ishan.jain0099@gmailcom)
+-   [Ishan Jain](https://github.com/ishanjainn)
