@@ -1,1 +1,5 @@
-{{ otel_collector_config }}
+recievers: {{ otel_collector_receivers }}
+processors: {{ otel_collector_processors }}
+exporters: {{ otel_collector_exporters }}
+extensions: {{ otel_collector_extensions }}
+service: {{ otel_collector_service }}

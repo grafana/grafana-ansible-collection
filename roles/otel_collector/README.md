@@ -19,6 +19,11 @@ otel_collector_config_dir: "/etc/otel-collector"
 otel_collector_config_file: "config.yaml"
 otel_collector_service_user: "otel"
 otel_collector_service_group: "otel"
+otel_collector_receivers: ""
+otel_collector_exporters: ""
+otel_collector_processors: ""
+otel_collector_extensions: ""
+otel_collector_service: ""
 ```
 
 Users of the role can override these variables as needed.
