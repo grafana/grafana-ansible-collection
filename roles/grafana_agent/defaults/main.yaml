@@ -20,6 +20,9 @@ grafana_agent_config_filename: config.yaml
 # name of the environment file loaded by the system unit file
 grafana_agent_env_file: service.env
 
+# dictionary of additional custom settings for the systemd service file
+grafana_agent_service_extra: {}
+
 # temporary directory to create on the controller/localhost where the archive will be downloaded to
 grafana_agent_local_tmp_dir: /tmp/grafana-agent
 
