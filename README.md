@@ -6,11 +6,6 @@
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 [![GitHub Contributors](https://img.shields.io/github/contributors/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 
-[![Modules Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml)
-[![Roles Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml)
-[![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
-[![Lint](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml)
-
 This collection (`grafana.grafana`) contains modules and roles to assist in automating the management of resources in **Grafana**, **Grafana Agent**, and **OpenTelemetry Collector** with Ansible.
 
 -   [Ansible collection Documentation](https://docs.ansible.com/ansible/latest/collections/grafana/grafana/)
