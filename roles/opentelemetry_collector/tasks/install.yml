@@ -1,0 +1,56 @@
+- name: Create otel group
+  ansible.builtin.group:
+    name: "{{ otel_collector_service_group }}"
+    system: true
+  become: true
+
+- name: Create otel user
+  ansible.builtin.user:
+    name: "{{ otel_collector_service_user }}"
+    group: "{{ otel_collector_service_group }}"
+    system: true
+    create_home: false  # Appropriate for a system user, usually doesn't need a home directory
+  become: true
+
+- name: Determine the architecture for OpenTelemetry Collector binary
+  set_fact:
+    otel_collector_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+  vars:
+    arch_mapping:
+      x86_64: amd64
+      aarch64: arm64
+      armv7l: armhf
+      i386: i386
+      ppc64le: ppc64le
+
+- name: Download OpenTelemetry Collector binary
+  ansible.builtin.get_url:
+    url: "{{ otel_collector_binary_url }}"
+    dest: "/tmp/otelcol-{{ otel_collector_type }}-{{ otel_collector_version }}.tar.gz"
+    mode: '0755'
+  become: true
+  register: download_result
+
+- name: Remove existing OpenTelemetry Collector installation directory
+  ansible.builtin.file:
+    path: "{{ otel_collector_installation_dir }}"
+    state: absent
+  become: true
+  when: download_result.changed
+
+- name: Create OpenTelemetry Collector installation directory
+  ansible.builtin.file:
+    path: "{{ otel_collector_installation_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ otel_collector_service_user }}"
+    group: "{{ otel_collector_service_group }}"
+  become: true
+
+- name: Extract OpenTelemetry Collector binary
+  ansible.builtin.unarchive:
+    src: "/tmp/otelcol-{{ otel_collector_type }}-{{ otel_collector_version }}.tar.gz"
+    dest: "{{ otel_collector_installation_dir }}"
+    remote_src: yes
+  become: true
+  register: extract_result

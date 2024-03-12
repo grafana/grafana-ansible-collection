@@ -11,7 +11,7 @@
 [![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
 [![Lint](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml)
 
-This collection (`grafana.grafana`) contains modules and plugins to assist in automating managing of resources in **Grafana** with Ansible.
+This collection (`grafana.grafana`) contains modules and roles to assist in automating the management of resources in **Grafana**, **Grafana Agent**, and **OpenTelemetry Collector** with Ansible.
 
 -   [Ansible collection Documentation](https://docs.ansible.com/ansible/latest/collections/grafana/grafana/)
 -   [Grafana](https://grafana.com)
@@ -45,6 +45,14 @@ collections:
   - name: grafana.grafana
     version: 1.0.0
 ```
+
+## Roles included in the collection
+
+This collection includes the following roles to help set up and manage Grafana, Grafana Agent, and OpenTelemetry Collector:
+
+- **Grafana**: Installs and configures Grafana on your target hosts.
+- **Grafana Agent**: Deploys and configures Grafana Agent, allowing for efficient metrics, logs, and trace data shipping to Grafana Cloud or other endpoints.
+- **OpenTelemetry Collector**: Sets up and configures the OpenTelemetry Collector, enabling advanced observability features through data collection and transmission.
 
 ## Using this collection
 

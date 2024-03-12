@@ -1,4 +1,4 @@
-# Role Name
+# Ansible Role for Grafana Agent
 
 Ansible Role to deploy Grafana Agent on Linux hosts. Using this Role, Grafana Agent can be deployed on RedHat, Ubuntu, Debian, CentOS
 and Fedora linux distributions.
