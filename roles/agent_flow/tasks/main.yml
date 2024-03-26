@@ -1,0 +1,11 @@
+- name: Install agent_flow 
+  include_tasks: install.yml
+  tags: [install]
+
+- name: Configure agent_flow 
+  include_tasks: configure.yml
+  tags: [configure]
+
+- name: Manage agent_flow service
+  include_tasks: service.yml
+  tags: [service]

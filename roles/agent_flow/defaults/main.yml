@@ -1,0 +1,43 @@
+version: "0.40.3"
+
+arch_mapping:
+  x86_64: amd64
+  aarch64: arm64
+  armv7l: armhf
+  i386: i386
+  ppc64le: ppc64le
+
+arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+
+binary_url: "https://github.com/grafana/agent/releases/download/v{{ version }}/grafana-agent-linux-{{ arch }}.zip"
+
+service_name: "agent_flow"
+
+installation_dir: "/etc/agent_flow"
+
+environment_file: "service.env"
+
+config_dir: "/etc/agent_flow"
+
+config_file: "config.river"
+
+service_user: "agent_flow"
+
+service_group: "agent_flow"
+
+working_dir: "/etc/agent_flow"
+
+env_file_vars: {}
+
+config: |
+  prometheus.scrape "default" {
+      targets = [{"__address__" = "localhost:12345"}]
+      forward_to = [prometheus.remote_write.prom.receiver]
+  }
+  prometheus.remote_write "prom" {
+    endpoint {
+        url = "http://mimir:9009/api/v1/push"
+    }
+  }
+
+  
