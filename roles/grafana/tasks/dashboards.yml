@@ -116,6 +116,8 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ grafana_data_dir }}/dashboards/{{ item | basename }}"
+        owner: root
+        group: grafana
         mode: "0640"
       with_fileglob:
         - "{{ __tmp_dashboards.path }}/*"
