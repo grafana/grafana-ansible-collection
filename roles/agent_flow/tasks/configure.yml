@@ -1,0 +1,28 @@
+- name: Create agent_flow config directory
+  ansible.builtin.file:
+    path: "{{ config_dir }}"
+    state: directory
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+    mode: '0755'
+  become: true
+
+- name: Deploy agent_flow configuration file
+  ansible.builtin.template:
+    src: config.river.j2
+    dest: "{{ config_dir }}/{{ config_file }}"
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+    mode: '0644'
+  notify: Restart agent_flow
+  become: true
+
+- name: Deploy agent_flow environment file
+  ansible.builtin.template:
+    src: environment.j2
+    dest: "{{ config_dir }}/{{ environment_file }}"
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+    mode: '0644'
+  notify: Restart agent_flow
+  become: true

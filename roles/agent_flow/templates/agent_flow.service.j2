@@ -1,0 +1,20 @@
+[Unit]
+Description=Vendor-neutral programmable observability pipelines.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+User={{ service_user }}
+Group={{ service_group }}
+Environment=HOSTNAME=%H
+Environment="AGENT_MODE=flow"
+EnvironmentFile={{ installation_dir }}/{{ environment_file }}
+WorkingDirectory={{ working_dir }}
+ExecStart={{ installation_dir }}/grafana-agent-linux-{{ arch }} run $CUSTOM_ARGS --storage.path={{ working_dir }} $CONFIG_FILE
+ExecReload=/usr/bin/env kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target

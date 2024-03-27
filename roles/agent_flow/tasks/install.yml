@@ -1,0 +1,51 @@
+- name: Install unzip
+  ansible.builtin.package:
+    name: unzip
+    state: present
+  become: true
+
+- name: Create agent_flow group
+  ansible.builtin.group:
+    name: "{{ service_group }}"
+    system: true
+  become: true
+
+- name: Create agent_flow user
+  ansible.builtin.user:
+    name: "{{ service_user }}"
+    group: "{{ service_group }}"
+    system: true
+    create_home: false  # Appropriate for a system user, usually doesn't need a home directory
+  become: true
+
+- name: Download agent_flow binary
+  ansible.builtin.get_url:
+    url: "{{ binary_url }}"
+    dest: "/tmp/agent_flow-{{ version }}.zip"
+    mode: '0755'
+  become: true
+  register: download_result
+
+- name: Remove existing agent_flow installation directory
+  ansible.builtin.file:
+    path: "{{ installation_dir }}"
+    state: absent
+  become: true
+  when: download_result.changed
+
+- name: Create agent_flow installation directory
+  ansible.builtin.file:
+    path: "{{ installation_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+  become: true
+
+- name: Extract agent_flow binary
+  ansible.builtin.unarchive:
+    src: "/tmp/agent_flow-{{ version }}.zip"
+    dest: "{{ installation_dir }}"
+    remote_src: yes
+  become: true
+  register: extract_result
