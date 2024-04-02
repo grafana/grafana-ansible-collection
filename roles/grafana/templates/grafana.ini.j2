@@ -212,3 +212,11 @@ provider = {{ grafana_image_storage.provider }}
 {{ k }} = {{ v }}
 {%   endfor %}
 {% endif %}
+
+# Feature toggles
+{% if grafana_feature_toggles != {} %}
+[feature_toggles]
+{%   for k,v in grafana_feature_toggles.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}

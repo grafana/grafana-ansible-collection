@@ -212,6 +212,12 @@ grafana_date_formats: {}
 #  use_browser_locale: true
 #  default_timezone: "browser"
 
+# Feature toggles
+# List of feature toggles: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/feature-toggles/#feature-toggles
+grafana_feature_toggles: {}
+#  autoMigrateOldPanels: true
+#  regressionTransformation: true
+
 #######
 # Plugins from https://grafana.com/plugins
 grafana_plugins: []
