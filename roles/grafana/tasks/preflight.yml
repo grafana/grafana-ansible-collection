@@ -45,7 +45,7 @@
 - name: "Fail when grafana_server isn't properly configured"
   ansible.builtin.assert:
     that: item.option not in grafana_server
-    fail_msg: "Invalid grafana_server configuration parameter. Use variable {{ item.role_var }} instead"
+    fail_msg: "Invalid grafana_server configuration parameter: {{ item.option }}. Use variable {{ item.role_var }} instead"
   loop:
     - option: http_addr
       role_var: grafana_address
