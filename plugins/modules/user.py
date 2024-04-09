@@ -130,7 +130,7 @@ def _get_user(grafana_url, admin_name, admin_password, login, email=None):
     result = requests.get(f"{get_user_url}{login}", auth=requests.auth.HTTPBasicAuth(
         admin_name, admin_password))
     # if no user has this login, check the email if provided
-    if result.status_code == 404 and 'email' is not None:
+    if result.status_code == 404 and email is not None:
         result = requests.get(f"{get_user_url}{email}", auth=requests.auth.HTTPBasicAuth(
             admin_name, admin_password))
 
