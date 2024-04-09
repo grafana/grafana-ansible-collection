@@ -42,12 +42,14 @@
           ( grafana_database.type == 'sqlite3' and grafana_database.password is defined ) or
           ( grafana_database.type == 'sqlite3' and grafana_database.server_cert_name is defined )"
 
-- name: "Fail when grafana domain isn't properly configured"
+- name: "Fail when grafana_server isn't properly configured"
   ansible.builtin.fail:
-    msg: "Check server configuration. Please look at http://docs.grafana.org/installation/configuration/#server"
+    msg: "Wrong grafana_server configuration parameter. Please look at https://github.com/grafana/grafana-ansible-collection/blob/main/README.md"
   when:
-    - "grafana_server.root_url is defined"
-    - "grafana_server.root_url is search(grafana_server.domain)"
+    "grafana_server.http_addr is defined or
+    grafana_server.http_port is defined or
+    grafana_server.domain is defined or
+    grafana_server.root_url is defined"
 
 - name: "Fail when grafana_api_keys uses invalid role names"
   ansible.builtin.fail:
