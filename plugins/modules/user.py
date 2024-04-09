@@ -140,6 +140,19 @@ def _get_user(grafana_url, admin_name, admin_password, login, email=None):
     return result.json()
 
 
+def _set_user_password(grafana_url, admin_name, admin_password, user_id, password):
+    """ sets the password for the existing user having user_id.
+    admin_name should be a user having users.password:write permission
+    """
+
+    set_user_password_url = f"{grafana_url}/api/admin/users/{user_id}/password"
+
+    result = requests.put(set_user_password_url, json={'password': password}, auth=requests.auth.HTTPBasicAuth(
+        admin_name, admin_password))
+
+    return result
+
+
 def present_user(module):
 
     if module.params['grafana_url'][-1] == '/':
@@ -189,8 +202,39 @@ def absent_user(module):
 
     if result.status_code == 200:
         return False, True, result.json()
-    else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+
+    return True, False, {"status": result.status_code, 'response': result.json()['message']}
+
+
+def password_user(module):
+    if module.params['grafana_url'][-1] == '/':
+        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+
+    # try with new password to check if already changed
+    user = _get_user(module.params['grafana_url'], module.params['login'],
+                     module.params['password'], module.params['login'], module.params['email'])
+
+    if 'id' in user:
+        # Auth is OK, password does not need to be changed
+        return False, False, {'message': 'Password has already been changed', 'user': user}
+
+    # from here, we begin password change procedure
+    user = _get_user(module.params['grafana_url'], module.params['admin_name'],
+                     module.params['admin_password'], module.params['login'], module.params['email'])
+
+    if user is None:
+        return True, False, "User does not exist"
+
+    if 'id' not in user:
+        return True, False, user
+
+    result = _set_user_password(module.params['grafana_url'], module.params['admin_name'],
+                                module.params['admin_password'], user['id'], module.params['password'])
+
+    if result.status_code == 200:
+        return False, True, result.json()
+
+    return True, False, result.json()
 
 
 def main():
@@ -207,12 +251,13 @@ def main():
         orgid=dict(type='int', required=False),
         grafana_url=dict(type='str', required=True),
         state=dict(type='str', required=False, default='present',
-                   choices=['present', 'absent'])
+                   choices=['present', 'absent', 'update_password'])
     )
 
     choice_map = {
         "present": present_user,
         "absent": absent_user,
+        "update_password": password_user
     }
 
     module = AnsibleModule(
@@ -222,8 +267,9 @@ def main():
     if not HAS_REQUESTS:
         module.fail_json(msg=missing_required_lib('requests'))
 
-    if module.params['state'] == 'present' and 'password' not in module.params:
-        module.fail_json(msg="Want to create user but password is missing")
+    if module.params['state'] in ('present', 'update_password') and 'password' not in module.params:
+        module.fail_json(
+            msg="Want to create or update user but password is missing")
 
     is_error, has_changed, result = choice_map.get(
         module.params['state'])(module)
