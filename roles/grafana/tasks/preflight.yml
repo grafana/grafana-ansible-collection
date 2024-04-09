@@ -34,7 +34,7 @@
 
 - name: "Fail on bad database configuration"
   ansible.builtin.fail:
-    msg: "Wrong database configuration. Please look at http://docs.grafana.org/installation/configuration/#database"
+    msg: "Invalid database configuration. Please look at http://docs.grafana.org/installation/configuration/#database"
   when: "( grafana_database.type == 'sqlite3' and grafana_database.url is defined ) or
           ( grafana_database.type != 'sqlite3' and grafana_database.path is defined ) or
           ( grafana_database.type == 'sqlite3' and grafana_database.host is defined ) or
@@ -43,13 +43,18 @@
           ( grafana_database.type == 'sqlite3' and grafana_database.server_cert_name is defined )"
 
 - name: "Fail when grafana_server isn't properly configured"
-  ansible.builtin.fail:
-    msg: "Wrong grafana_server configuration parameter. Please look at https://github.com/grafana/grafana-ansible-collection/blob/main/README.md"
-  when:
-    "grafana_server.http_addr is defined or
-    grafana_server.http_port is defined or
-    grafana_server.domain is defined or
-    grafana_server.root_url is defined"
+  ansible.builtin.assert:
+    that: item.option not in grafana_server
+    fail_msg: "Invalid grafana_server configuration parameter. Use variable {{ item.role_var }} instead"
+  loop:
+    - option: http_addr
+      role_var: grafana_address
+    - option: http_port
+      role_var: grafana_port
+    - option: domain
+      role_var: grafana_domain
+    - option: root_url
+      role_var: grafana_url
 
 - name: "Fail when grafana_api_keys uses invalid role names"
   ansible.builtin.fail:
