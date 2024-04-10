@@ -9,7 +9,7 @@
 
 - name: Deploy alloy configuration file
   ansible.builtin.template:
-    src: config.river.j2
+    src: config.alloy.j2
     dest: "{{ config_dir }}/{{ config_file }}"
     owner: "{{ service_user }}"
     group: "{{ service_group }}"

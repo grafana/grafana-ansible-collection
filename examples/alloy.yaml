@@ -1,0 +1,24 @@
+- name: Install alloy
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install alloy
+      ansible.builtin.include_role:
+        name: grafana.grafana.alloy
+      vars:
+        config: |
+          prometheus.scrape "default" {
+            targets = [{"__address__" = "localhost:12345"}]
+            forward_to = [prometheus.remote_write.prom.receiver]
+          }
+          prometheus.remote_write "prom" {
+            endpoint {
+                url = "https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push"
+
+                basic_auth {
+                username = "1493467"
+                password = "glc_eyJvIjoiNjUyOTkyIiwibiI6InN0YWNrLTg5MDA0My1obS13cml0ZS1hc2FzIiwiayI6IjIwME9NeThmWlFpMGlmQzBGMTlJNDdqSiIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19"
+              }
+            }
+          }
