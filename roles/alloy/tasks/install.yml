@@ -15,13 +15,13 @@
     name: "{{ service_user }}"
     group: "{{ service_group }}"
     system: true
-    create_home: false
+    create_home: false  # Appropriate for a system user, usually doesn't need a home directory
   become: true
 
 - name: Download alloy binary
   ansible.builtin.get_url:
     url: "{{ binary_url }}"
-    dest: "/tmp/alloy-linux.zip"
+    dest: "/tmp/alloy-{{ version }}.zip"
     mode: '0755'
   become: true
   register: download_result
@@ -44,7 +44,7 @@
 
 - name: Extract alloy binary
   ansible.builtin.unarchive:
-    src: "/tmp/alloy-linux.zip"
+    src: "/tmp/alloy-{{ version }}.zip"
     dest: "{{ installation_dir }}"
     remote_src: yes
   become: true

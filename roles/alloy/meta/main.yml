@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ishan Jain
-  description: Role to install and configure alloy
+  description: Role to Install and Configure Grafana Alloy
   license: "GPL-3.0-or-later"
   min_ansible_version: "2.11"
   platforms:

@@ -1,3 +1,6 @@
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | This Ansible role is now in maintenance mode only. We recommend using the Grafana Alloy Role for future deployments and updates.
+|---|---|
+
 # Ansible Role for Grafana Agent
 
 Ansible Role to deploy Grafana Agent on Linux hosts. Using this Role, Grafana Agent can be deployed on RedHat, Ubuntu, Debian, CentOS
