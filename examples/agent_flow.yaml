@@ -1,11 +1,11 @@
-- name: Install agent_flow
+- name: Install alloy
   hosts: all
   become: true
 
   tasks:
-    - name: Install agent_flow
+    - name: Install alloy
       ansible.builtin.include_role:
-        name: grafana.grafana.agent_flow
+        name: grafana.grafana.alloy
       vars:
         config: |
           prometheus.scrape "default" {

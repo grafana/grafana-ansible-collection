@@ -1,6 +1,6 @@
 galaxy_info:
   author: Ishan Jain
-  description: Role to install and configure agent_flow
+  description: Role to install and configure alloy
   license: "GPL-3.0-or-later"
   min_ansible_version: "2.11"
   platforms:

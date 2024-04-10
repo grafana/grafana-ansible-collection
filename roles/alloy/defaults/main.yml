@@ -11,21 +11,21 @@ arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
 
 binary_url: "https://github.com/grafana/agent/releases/download/v{{ version }}/grafana-agent-linux-{{ arch }}.zip"
 
-service_name: "agent_flow"
+service_name: "alloy"
 
-installation_dir: "/etc/agent_flow"
+installation_dir: "/etc/alloy"
 
 environment_file: "service.env"
 
-config_dir: "/etc/agent_flow"
+config_dir: "/etc/alloy"
 
 config_file: "config.river"
 
-service_user: "agent_flow"
+service_user: "alloy"
 
-service_group: "agent_flow"
+service_group: "alloy"
 
-working_dir: "/etc/agent_flow"
+working_dir: "/etc/alloy"
 
 env_file_vars: {}
 
