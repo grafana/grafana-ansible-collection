@@ -1,0 +1,45 @@
+version: "1.0.0"
+
+arch_mapping:
+  x86_64: amd64
+  aarch64: arm64
+  armv7l: armhf
+  i386: i386
+  ppc64le: ppc64le
+
+arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+
+binary_url: "https://github.com/grafana/alloy/releases/download/v{{ version }}/alloy-linux-{{ arch }}.zip"
+
+service_name: "alloy"
+
+installation_dir: "/etc/alloy"
+
+environment_file: "service.env"
+
+config_dir: "/etc/alloy"
+
+config_file: "config.alloy"
+
+service_user: "alloy"
+
+service_group: "alloy"
+
+working_dir: "/etc/alloy"
+
+env_file_vars: {}
+
+alloy_flags_extra: {}
+
+start_after_service: ''
+
+config: |
+  prometheus.scrape "default" {
+      targets = [{"__address__" = "localhost:12345"}]
+      forward_to = [prometheus.remote_write.prom.receiver]
+  }
+  prometheus.remote_write "prom" {
+    endpoint {
+        url = "http://mimir:9009/api/v1/push"
+    }
+  }

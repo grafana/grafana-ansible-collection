@@ -1,0 +1,11 @@
+- name: Install alloy
+  include_tasks: install.yml
+  tags: [install]
+
+- name: Configure alloy
+  include_tasks: configure.yml
+  tags: [configure]
+
+- name: Manage alloy service
+  include_tasks: service.yml
+  tags: [service]

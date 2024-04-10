@@ -1,0 +1,51 @@
+- name: Install unzip
+  ansible.builtin.package:
+    name: unzip
+    state: present
+  become: true
+
+- name: Create alloy group
+  ansible.builtin.group:
+    name: "{{ service_group }}"
+    system: true
+  become: true
+
+- name: Create alloy user
+  ansible.builtin.user:
+    name: "{{ service_user }}"
+    group: "{{ service_group }}"
+    system: true
+    create_home: false  # Appropriate for a system user, usually doesn't need a home directory
+  become: true
+
+- name: Download alloy binary
+  ansible.builtin.get_url:
+    url: "{{ binary_url }}"
+    dest: "/tmp/alloy-{{ version }}.zip"
+    mode: '0755'
+  become: true
+  register: download_result
+
+- name: Remove existing alloy installation directory
+  ansible.builtin.file:
+    path: "{{ installation_dir }}"
+    state: absent
+  become: true
+  when: download_result.changed
+
+- name: Create alloy installation directory
+  ansible.builtin.file:
+    path: "{{ installation_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+  become: true
+
+- name: Extract alloy binary
+  ansible.builtin.unarchive:
+    src: "/tmp/alloy-{{ version }}.zip"
+    dest: "{{ installation_dir }}"
+    remote_src: yes
+  become: true
+  register: extract_result
