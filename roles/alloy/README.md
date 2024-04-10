@@ -1,6 +1,6 @@
-# Ansible Role for Agent
+# Ansible Role for Alloy
 
-This Ansible role to install and configure the Agent, which can be used to collect traces, metrics, and logs.
+This Ansible role to install and configure the Alloy, which can be used to collect traces, metrics, and logs.
 
 ## Requirements
 
@@ -14,20 +14,20 @@ Available variables with their default values are listed below (`defaults/main.y
 
 | Variable Name        | Description                                                          | Default Value                                                       |
 |----------------------|----------------------------------------------------------------------|---------------------------------------------------------------------|
-| `version`            | The version of the Grafana Agent to be installed.                    | "0.40.3"                                                            |
-| `arch_mapping`       | A mapping of common architecture names to Grafana Agent binaries.    | `{'x86_64': 'amd64', 'aarch64': 'arm64', 'armv7l': 'armhf', 'i386': 'i386', 'ppc64le': 'ppc64le'}` |
+| `version`            | The version of the Grafana Alloy to be installed.                    | "0.40.3"                                                            |
+| `arch_mapping`       | A mapping of common architecture names to Grafana Alloy binaries.    | `{'x86_64': 'amd64', 'aarch64': 'arm64', 'armv7l': 'armhf', 'i386': 'i386', 'ppc64le': 'ppc64le'}` |
 | `arch`               | The architecture of the current machine.                             | Based on `ansible_architecture` lookup, defaults to 'amd64'.       |
-| `binary_url`         | URL to the Grafana Agent binary for the specific version and arch.   | Constructed URL based on `version` and `arch` variables.            |
-| `service_name`       | The name to be used for the Grafana Agent service.                   | "alloy"                                                        |
-| `installation_dir`   | Directory where the Grafana Agent is to be installed.                | "/etc/alloy"                                                   |
-| `environment_file`   | Name of the environment file for the Grafana Agent service.          | "service.env"                                                       |
-| `config_dir`         | Directory for the Grafana Agent configuration.                       | "/etc/alloy"                                                   |
-| `config_file`        | Configuration file name for the Grafana Agent.                       | "config.river"                                                      |
-| `service_user`       | User under which the Grafana Agent service will run.                 | "alloy"                                                        |
-| `service_group`      | Group under which the Grafana Agent service will run.                | "alloy"                                                        |
-| `working_dir`        | Working directory for the Grafana Agent service.                     | "/etc/alloy"                                                   |
+| `binary_url`         | URL to the Grafana Alloy binary for the specific version and arch.   | Constructed URL based on `version` and `arch` variables.            |
+| `service_name`       | The name to be used for the Grafana Alloy service.                   | "alloy"                                                        |
+| `installation_dir`   | Directory where the Grafana Alloy is to be installed.                | "/etc/alloy"                                                   |
+| `environment_file`   | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                       |
+| `config_dir`         | Directory for the Grafana Alloy configuration.                       | "/etc/alloy"                                                   |
+| `config_file`        | Configuration file name for the Grafana Alloy.                       | "config.river"                                                      |
+| `service_user`       | User under which the Grafana Alloy service will run.                 | "alloy"                                                        |
+| `service_group`      | Group under which the Grafana Alloy service will run.                | "alloy"                                                        |
+| `working_dir`        | Working directory for the Grafana Alloy service.                     | "/etc/alloy"                                                   |
 | `env_file_vars`      | Additional environment variables to be set in the service env file.  | {} (Empty dictionary)                                               |
-| `config`             | Configuration template for the Grafana Agent.                        | Configuration script with prometheus scrape and remote_write setup |
+| `config`             | Configuration template for the Grafana Alloy.                        | Configuration script with prometheus scrape and remote_write setup |
 
 
 ## Example Playbook
