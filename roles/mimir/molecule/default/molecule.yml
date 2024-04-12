@@ -1,0 +1,58 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+platforms:
+  - name: molecule-grafana-mimir01
+    image: quay.io/rockylinux/rockylinux:8
+    pre_build_image: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    network: molecule
+    published_ports:
+      - 7946
+      - 9019:9009
+      - 9096
+  - name: molecule-grafana-mimir02
+    image: quay.io/rockylinux/rockylinux:8
+    pre_build_image: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    network: molecule
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    published_ports:
+      - 7946
+      - 9029:9009
+      - 9096
+  - name: molecule-grafana-mimir03
+    image: quay.io/rockylinux/rockylinux:8
+    pre_build_image: true
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    network: molecule
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    published_ports:
+      - 7946
+      - 9039:9009
+      - 9096
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/roles
+verifier:
+  name: testinfra
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .

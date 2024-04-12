@@ -1,0 +1,17 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Ensure some basic os packages are installed
+      ansible.builtin.package:
+        name:
+          - sudo
+        state: installed
+
+    - name: Add Grafana repo
+      ansible.builtin.yum_repository:
+        name: grafana
+        description: Grafana repo
+        file: grafana
+        baseurl: "https://packages.grafana.com/oss/rpm"
+        gpgcheck: false
