@@ -1,0 +1,19 @@
+- name: Copy alloy systemd unit file
+  ansible.builtin.template:
+    src: alloy.service.j2
+    dest: /etc/systemd/system/{{ service_name }}.service
+    mode: '0644'
+  become: true
+  notify: Restart alloy
+
+- name: Reload systemd daemon to pick up changes
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  become: true
+
+- name: Ensure alloy service is enabled and running
+  ansible.builtin.service:
+    name: "{{ service_name }}"
+    enabled: yes
+    state: started
+  become: true

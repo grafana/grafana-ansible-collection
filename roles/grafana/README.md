@@ -108,6 +108,18 @@ grafana_alert_notifications:
       uid: channel2
 ```
 
+**NOTE 2**: setting the `http_addr`,`http_port`,`domain` and `root_url` parameters under the `grafana_server` variable has no effect, the `grafana_address`, `grafana_port`, `grafana_domain` and `grafana_url` values are used instead ( from [defaults/main.yml](defaults/main.yml) or as set variables).
+An example snippet:
+```yaml
+grafana_domain: "{{ inventory_hostname }}"
+grafana_url: "https://{{ inventory_hostname }}:3000"
+grafana_address: 0.0.0.0
+grafana_port: 3000
+
+grafana_server:
+  enforce_domain: false
+```
+
 ## Supported CPU Architectures
 
 Historically packages were taken from different channels according to CPU architecture. Specifically, armv6/armv7 and aarch64/arm64 packages were via [unofficial packages distributed by fg2it](https://github.com/fg2it/grafana-on-raspberry). Now that Grafana publishes official ARM builds, all packages are taken from the official [Debian/Ubuntu](http://docs.grafana.org/installation/debian/#installing-on-debian-ubuntu) or [RPM](http://docs.grafana.org/installation/rpm/) packages.

@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+# Grafana Alloy Environment File
+CONFIG_FILE="{{ config_dir }}/{{ config_file }}"
+
+GOMAXPROCS={{ ansible_processor_vcpus|default(ansible_processor_count) }}
+RESTART_ON_UPGRADE=true
+
+{% for key, value in env_file_vars.items() %}
+{{key}}={{value}}
+{% endfor %}

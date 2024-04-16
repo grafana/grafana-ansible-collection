@@ -4,6 +4,23 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v4.0.0
+======
+
+Major Changes
+-------------
+
+- Add an Ansible role for Grafana Alloy by @ishanjainn in https://github.com/grafana/grafana-ansible-collection/pull/169
+
+Minor Changes
+-------------
+
+- Bump ansible-lint from 24.2.0 to 24.2.1 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/164
+- Update description to match module by @brmurphy in https://github.com/grafana/grafana-ansible-collection/pull/179
+- Clarify grafana-server configuration in README by @VGerris in https://github.com/grafana/grafana-ansible-collection/pull/177
+- Bump ansible-lint from 24.2.0 to 24.2.1 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/168
+- Bump black from 24.1.1 to 24.3.0 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/165
+- fix: Apply correct uid + gid for imported dashboards by @hypery2k in https://github.com/grafana/grafana-ansible-collection/pull/167
 
 v3.0.0
 ======
