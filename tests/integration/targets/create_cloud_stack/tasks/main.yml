@@ -13,6 +13,15 @@
     that:
       - create_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
 
-- name: Sleep for 90 seconds
-  ansible.builtin.wait_for:
-    timeout: 90
+- name: "{{ java_app_name }} - Check health through health endpoint"
+  ansible.builtin.uri:
+    url: "https://{{ test_stack_name }}.grafana.net"
+    method: GET
+    return_content: true
+    status_code: 200
+    timeout: 5
+  register: _healthcheck_uri
+  until: ((_healthcheck_uri.content | default('{}', true) | from_json).status | default('Unknown')) == 'UP'
+  retries: 15
+  delay: 15
+
