@@ -36,9 +36,11 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible molecule molecule-plugins[docker] docker
 
+      - name: Debug test
+        run: pwd && ls -l
+
       - name: Run Molecule tests.
         run: molecule test
-        working-directory: roles/loki
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
