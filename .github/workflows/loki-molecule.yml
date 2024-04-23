@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: roles/loki
+
 jobs:
   molecule:
     name: Molecule
