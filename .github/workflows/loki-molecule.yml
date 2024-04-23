@@ -32,6 +32,9 @@ jobs:
       - name: Install test dependencies.
         run: pip3 install ansible molecule molecule-plugins[docker] docker
 
+      - name: debug test
+        run: pwd && ls -l
+
       - name: Run Molecule tests.
         run: molecule test
         env:
