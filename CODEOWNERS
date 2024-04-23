@@ -1,3 +1,4 @@
 ./                           @ishanjainn
 /roles/grafana               @gardar @ishanjainn
 /roles/grafana_agent         @ishanjainn @v-zhuravlev @gardar
+/roles/loki                  @voidquark
