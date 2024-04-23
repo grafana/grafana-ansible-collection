@@ -217,7 +217,7 @@ Below variables allow you to extend Loki configuration to fit your needs. Always
   hosts: all
   become: true
   roles:
-    - role: voidquark.loki
+    - role: grafana.grafana.loki
 ```
 
 - Playbook execution example
