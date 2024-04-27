@@ -2,54 +2,56 @@
 dependency:
   name: galaxy
 driver:
-  name: podman
+  name: docker
 platforms:
   - name: molecule-grafana-mimir01
-    image: quay.io/rockylinux/rockylinux:8
-    pre_build_image: true
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-rockylinux8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-"/sbin/init"}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
     network: molecule
+    network_mode: "molecule"
     published_ports:
       - 7946
       - 9019:9009
       - 9096
   - name: molecule-grafana-mimir02
-    image: quay.io/rockylinux/rockylinux:8
-    pre_build_image: true
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    network: molecule
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-rockylinux8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-"/sbin/init"}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+    network: molecule
+    network_mode: "molecule"
     published_ports:
       - 7946
       - 9029:9009
       - 9096
   - name: molecule-grafana-mimir03
-    image: quay.io/rockylinux/rockylinux:8
-    pre_build_image: true
-    command: /sbin/init
-    tmpfs:
-      - /run
-      - /tmp
-    network: molecule
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-rockylinux8}-ansible:latest"
+    command: ${MOLECULE_DOCKER_COMMAND:-"/sbin/init"}
     volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    privileged: true
+    pre_build_image: true
+    network: molecule
+    network_mode: "molecule"
     published_ports:
       - 7946
       - 9039:9009
       - 9096
+
 provisioner:
   name: ansible
   env:
     ANSIBLE_ROLES_PATH: ${MOLECULE_PROJECT_DIRECTORY}/roles
+
 verifier:
   name: testinfra
 lint: |
