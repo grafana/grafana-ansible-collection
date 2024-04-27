@@ -20,7 +20,7 @@
     - name: import Grafana RPM Key
       ansible.builtin.rpm_key:
         state: present
-        Key: "{{ grafana_yum_key }}"
+        key: "{{ grafana_yum_key }}"
 
     - name: "Add Grafana zypper repository"
       community.general.zypper_repository:
