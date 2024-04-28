@@ -35,13 +35,13 @@ docker network create molecule
 To be able to run mimir using an object store backend, run the following command
 
 docker run -d \
-   -p 9000:9000 \
-   -p 9001:9001 \
-   --name minio-mimir --network molecule \
-   -e "MINIO_ROOT_USER=testtest" \
-   -e "MINIO_ROOT_PASSWORD=testtest" \
-   -e "MINIO_DEFAULT_BUCKETS=mimir" \
-   bitnami/minio:latest
+      -p 9000:9000 \
+      -p 9001:9001 \
+      --name minio-mimir --network molecule \
+      -e "MINIO_ROOT_USER=testtest" \
+      -e "MINIO_ROOT_PASSWORD=testtest" \
+      -e "MINIO_DEFAULT_BUCKETS=mimir" \
+      bitnami/minio:latest
 
 ### Testing the changes
 To test the changes in a role run:
