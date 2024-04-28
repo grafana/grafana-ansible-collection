@@ -4,7 +4,60 @@ Grafana Mimir
 
 This role installs and configures a Mimir standalone application.
 
-Role Variables
+## Testing with Molecule
+To be able to test this collection locally we use Molecule. Molecule is an Ansible testtool that enable us to run our roles inside containers. In our case we are using Podman as a container runtime. To be able to run the Molecule test you need to have the following installed on your machine:
+
+- Podman
+- Ansible
+- Python3
+
+### First Time Setup
+To install all the depencies, use the following commands:
+
+```
+# Create a virtual environment
+python -m venv .venv
+
+# On MacOS, WSL, Linux
+source .venv/bin/activate
+
+# On Windows
+.\.venv\Scripts\activate
+
+# Install dependencies
+pip3 install molecule molecule-plugins[docker] docker pytest-testinfra jmespath selinux passlib
+
+# Create molecule network
+docker network create molecule
+```
+
+### Run Minio for local S3
+To be able to run mimir using an object store backend, run the following command
+
+docker run -d \
+   -p 9000:9000 \
+   -p 9001:9001 \
+   --name minio-mimir --network molecule \
+   -e "MINIO_ROOT_USER=testtest" \
+   -e "MINIO_ROOT_PASSWORD=testtest" \
+   -e "MINIO_DEFAULT_BUCKETS=mimir" \
+   bitnami/minio:latest
+
+### Testing the changes
+To test the changes in a role run:
+```
+molecule converge 
+## example: molecule converge 
+```
+When Ansible has succesfully ran, you can run assertions against your infrastructure using.
+```
+molecule verify 
+## example: `molecule verify`
+```
+
+You can also run commands like `molecule destroy` , `molecule prepare` , and `molecule test` . See Molecule documentation for more information
+
+## Role Variables
 --------------
 | Name | Type | Default | Description |
 |---|---|---|---|

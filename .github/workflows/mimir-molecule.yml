@@ -4,7 +4,7 @@ name: Mimir Molecule
 on:
   push:
     branches:
-      - main
+      - feat/add-ubuntu-and-debian-support-to-mimir
   pull_request:
     branches:
       - main
@@ -22,6 +22,8 @@ jobs:
         distro:
           - rockylinux9
           - rockylinux8
+          - ubuntu2204
+          - debian12
 
     steps:
       - name: Check out the codebase.
