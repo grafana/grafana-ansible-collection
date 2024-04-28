@@ -4,7 +4,7 @@ name: Mimir Molecule
 on:
   push:
     branches:
-      - feat/run-molecule-tests-in-pipeline
+      - main
   pull_request:
     branches:
       - main
