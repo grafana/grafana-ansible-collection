@@ -4,6 +4,15 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.0.0
+======
+
+Major Changes
+-------------
+
+- Add Grafana Mimir role by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/183
+- Add Grafana Loki role by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/188
+
 v4.0.0
 ======
 
