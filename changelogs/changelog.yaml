@@ -265,3 +265,9 @@ releases:
       - Bump black from 24.1.1 to 24.3.0 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/165
       - fix: Apply correct uid + gid for imported dashboards by @hypery2k in https://github.com/grafana/grafana-ansible-collection/pull/167
     release_date: '2024-04-10'
+  5.0.0:
+    changes:
+      major_changes:
+      - Add Grafana Mimir role by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/183
+      - Add Grafana Loki role by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/188
+    release_date: '2024-04-29'
