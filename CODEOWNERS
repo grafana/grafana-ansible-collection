@@ -2,6 +2,6 @@
 /roles/grafana                 @gardar @ishanjainn
 /roles/grafana_agent           @ishanjainn @v-zhuravlev @gardar
 /roles/alloy                   @ishanjainn @v-zhuravlev @gardar
-/roles/opentelemetry_collector @ishanjainn 
+/roles/opentelemetry_collector @ishanjainn
 /roles/loki                    @voidquark @ishanjainn
 /roles/mimir                   @GVengelen @gardar @ishanjainn
