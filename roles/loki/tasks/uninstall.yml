@@ -18,6 +18,7 @@
   ansible.builtin.apt:
     name: "loki"
     state: absent
+    purge: true
   when: ansible_os_family == 'Debian'
 
 - name: Ensure that Loki firewalld rule is not present - tcp port {{ loki_http_listen_port }}
