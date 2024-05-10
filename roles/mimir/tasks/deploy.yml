@@ -67,16 +67,6 @@
     group: "mimir"
     mode: "0755"
 
-- name: Template Mimir config - /etc/mimir/config.yml
-  ansible.builtin.template:
-    src: "config.yml.j2"
-    dest: "/etc/mimir/config.yml"
-    owner: "mimir"
-    group: "mimir"
-    mode: "0644"
-  notify:
-    - Restart mimir
-
 - name: Ensure that Mimir rule path exists
   ansible.builtin.file:
     path: "{{ mimir_ruler_alert_path }}"
@@ -88,11 +78,29 @@
     - mimir_ruler_alert_path is defined
     - mimir_ruler is defined
 
+- name: Template Mimir config - /etc/mimir/config.yml
+  ansible.builtin.template:
+    src: "config.yml.j2"
+    dest: "/etc/mimir/config.yml"
+    owner: "mimir"
+    group: "mimir"
+    mode: "0644"
+  register: _mimir_config
+
+- name: Test Mimir config before restarting
+  ansible.builtin.command: "mimir --config.file=/etc/mimir/config.yml -print.config"
+  when: _mimir_config.changed
+  notify:
+    - Restart mimir
+
 - name: Ensure that Mimir is started
   ansible.builtin.systemd:
     name: mimir.service
     state: started
     enabled: true
+
+- name: Ensure restart has completed
+  meta: flush_handlers
 
 - name: Verify that Mimir URL is responding
   ansible.builtin.uri:
