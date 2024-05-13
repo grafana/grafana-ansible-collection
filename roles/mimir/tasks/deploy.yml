@@ -85,8 +85,7 @@
     owner: "mimir"
     group: "mimir"
     mode: "0644"
-    validate: "mimir --config.file=/etc/mimir/config.yml -print.config"
-    backup: true
+    validate: "mimir --config.file=%s -print.config"
 
 - name: Ensure restart has completed
   ansible.builtin.meta: flush_handlers
