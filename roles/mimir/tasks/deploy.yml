@@ -85,13 +85,11 @@
     owner: "mimir"
     group: "mimir"
     mode: "0644"
-  register: _mimir_config
+    validate: "mimir --config.file=/etc/mimir/config.yml -print.config"
+    backup: true
 
-- name: Test Mimir config before restarting
-  ansible.builtin.command: "mimir --config.file=/etc/mimir/config.yml -print.config"
-  when: _mimir_config.changed
-  notify:
-    - Restart mimir
+- name: Ensure restart has completed
+  ansible.builtin.meta: flush_handlers
 
 - name: Ensure that Mimir is started
   ansible.builtin.systemd:
@@ -99,8 +97,6 @@
     state: started
     enabled: true
 
-- name: Ensure restart has completed
-  meta: flush_handlers
 
 - name: Verify that Mimir URL is responding
   ansible.builtin.uri:
