@@ -86,6 +86,8 @@
     group: "mimir"
     mode: "0644"
     validate: "mimir --config.file=%s -print.config"
+  notify:
+    - Restart mimir
 
 - name: Ensure restart has completed
   ansible.builtin.meta: flush_handlers
