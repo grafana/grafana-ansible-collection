@@ -1,0 +1,23 @@
+---
+# tasks file for promtail
+- name: Include OS specific variables
+  ansible.builtin.include_vars:
+    file: "{{ ansible_os_family }}.yml"
+
+- name: Deploy Promtail service
+  ansible.builtin.include_tasks:
+    file: "deploy.yml"
+    apply:
+      tags: promtail_deploy
+  tags: promtail_deploy
+
+- name: Uninstall Promtail service
+  ansible.builtin.include_tasks:
+    file: "uninstall.yml"
+    apply:
+      tags:
+        - promtail_uninstall
+        - never
+  tags:
+    - promtail_uninstall
+    - never

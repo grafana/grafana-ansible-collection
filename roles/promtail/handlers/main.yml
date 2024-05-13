@@ -1,0 +1,9 @@
+---
+# handlers file for promtail
+- name: Restart promtail
+  listen: "restart promtail"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: promtail.service
+    state: restarted
+    enabled: true

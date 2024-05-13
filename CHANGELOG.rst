@@ -4,6 +4,14 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.1.0
+======
+
+Minor Changes
+-------------
+
+- fix: Uninstall Step for Loki and Mimir by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/193
+
 v5.0.0
 ======
 

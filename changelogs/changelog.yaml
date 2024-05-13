@@ -271,3 +271,8 @@ releases:
       - Add Grafana Mimir role by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/183
       - Add Grafana Loki role by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/188
     release_date: '2024-04-29'
+  5.1.0:
+    changes:
+      major_changes:
+      - fix: Uninstall Step for Loki and Mimir by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/193
+    release_date: '2024-05-07'
