@@ -213,6 +213,14 @@ provider = {{ grafana_image_storage.provider }}
 {%   endfor %}
 {% endif %}
 
+{% if grafana_feature_toggles != {} %}
+# Feature toggles
+[feature_toggles]
+{%   for k,v in grafana_feature_toggles.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
+
 # Oauth_Keycloack
 {% if grafana_auth_generic_oauth != {} %}
 [auth.generic_oauth]
