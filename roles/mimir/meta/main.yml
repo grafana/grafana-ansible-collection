@@ -1,8 +1,10 @@
 ---
+# meta/main.yml
 galaxy_info:
   author: "Grafana"
+  role_name: mimir
   description: "Grafana - platform for analytics and monitoring"
-  license: "GPL-3.0-or-later"
+  license: "MIT"
   min_ansible_version: "2.9"
   platforms:
     - name: Ubuntu
@@ -29,3 +31,7 @@ galaxy_info:
     - presentation
     - monitoring
     - metrics
+
+dependencies: []
+
+allow_duplicates: true

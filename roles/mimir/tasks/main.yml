@@ -1,0 +1,17 @@
+- name: Deploy Mimir service
+  ansible.builtin.include_tasks:
+    file: "deploy.yml"
+    apply:
+      tags: mimir_deploy
+  tags: mimir_deploy
+
+- name: Uninstall Mimir service
+  ansible.builtin.include_tasks:
+    file: "uninstall.yml"
+    apply:
+      tags:
+        - mimir_uninstall
+        - never
+  tags:
+    - mimir_uninstall
+    - never

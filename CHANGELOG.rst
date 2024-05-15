@@ -4,6 +4,33 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.2.0
+======
+
+Major Changes
+-------------
+
+- Bump ansible-lint from 24.2.2 to 24.2.3 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/195
+- Add promtail role by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/197
+- Add a new config part to configure KeyCloak based auth by @he0s in https://github.com/grafana/grafana-ansible-collection/pull/191
+
+v5.1.0
+======
+
+Major Changes
+-------------
+
+- fix: Uninstall Step for Loki and Mimir by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/193
+
+v5.0.0
+======
+
+Major Changes
+-------------
+
+- Add Grafana Mimir role by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/183
+- Add Grafana Loki role by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/188
+
 v4.0.0
 ======
 

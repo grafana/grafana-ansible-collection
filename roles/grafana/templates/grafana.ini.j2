@@ -221,3 +221,10 @@ provider = {{ grafana_image_storage.provider }}
 {%   endfor %}
 {% endif %}
 
+# Oauth_Keycloack
+{% if grafana_auth_generic_oauth != {} %}
+[auth.generic_oauth]
+{%   for k,v in grafana_auth_generic_oauth.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% endif %}
