@@ -113,9 +113,9 @@ versions_to_keep = 20
 enabled = true
 path = {{ grafana_data_dir }}/dashboards
 
+{% if grafana_alerting != {} %}
 # Alerting
 [alerting]
-{% if grafana_alerting != {} %}
 enabled = true
 {%   for k,v in grafana_alerting.items() %}
 {%     if k != 'enabled' %}
@@ -124,8 +124,8 @@ enabled = true
 {%   endfor %}
 {% else %}
 enabled = false
-{% endif %}
 
+{% endif %}
 # SMTP and email config
 {% if grafana_smtp != {} %}
 [smtp]
