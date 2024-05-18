@@ -145,6 +145,21 @@ grafana_ldap: {}
 #        - group_dn: "cn=alternative_admins,ou=groups,dc=grafana,dc=org"
 #          org_role: Admin
 
+# Grafana KeyCloak auth
+grafana_auth_generic_oauth: {}
+#  enabled: true
+#  name: "Keycloak-OAuth"
+#  allow_sign_up: true
+#  client_id: YOUR_APP_CLIENT_ID
+#  client_secret: YOUR_APP_CLIENT_SECRET
+#  scopes: "openid email profile offline_access roles"
+#  email_attribute_path: email
+#  login_attribute_path: username
+#  name_attribute_path: full_name
+#  auth_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/auth"
+#  token_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/token"
+#  api_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/userinfo"
+
 grafana_session: {}
 #  provider: file
 #  provider_config: "sessions"
@@ -211,6 +226,12 @@ grafana_date_formats: {}
 #  interval_year: "YYYY"
 #  use_browser_locale: true
 #  default_timezone: "browser"
+
+# Feature toggles
+# List of feature toggles: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/feature-toggles/#feature-toggles
+grafana_feature_toggles: {}
+#  autoMigrateOldPanels: true
+#  regressionTransformation: true
 
 #######
 # Plugins from https://grafana.com/plugins

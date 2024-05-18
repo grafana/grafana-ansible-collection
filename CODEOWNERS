@@ -5,3 +5,4 @@
 /roles/opentelemetry_collector @ishanjainn
 /roles/loki                    @voidquark @ishanjainn
 /roles/mimir                   @GVengelen @gardar @ishanjainn
+/roles/promtail                @voidquark @ishanjainn
