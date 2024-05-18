@@ -85,7 +85,7 @@
     owner: "mimir"
     group: "mimir"
     mode: "0644"
-    validate: "mimir --config.file=%s -print.config"
+    validate: "mimir -modules --config.file=%s"
   notify:
     - Restart mimir
 
