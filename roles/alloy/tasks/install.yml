@@ -33,15 +33,6 @@
   become: true
   when: download_result.changed
 
-- name: Create alloy installation directory
-  ansible.builtin.file:
-    path: "{{ installation_dir }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
-  become: true
-
 - name: Extract alloy binary
   ansible.builtin.unarchive:
     src: "/tmp/alloy-{{ version }}.zip"
