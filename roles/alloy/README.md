@@ -30,6 +30,8 @@ Available variables with their default values are listed below (`defaults/main.y
 | `alloy_flags_extra`   | Extra flags to pass to the Alloy service.                            | {} (Empty dictionary)                                              |
 | `start_after_service` | Specify an optional dependency service Alloy should start after.     | '' (Empty string)                                                  |
 | `config`              | Configuration template for Grafana Alloy.                            | Configuration script with Prometheus scrape and remote_write setup |
+| `alloy_user_groups`.  | Configurable user groups that the Grafana Alloy can be put in so that it can access logs.  | `[]` |
+
 
 
 ## Example Playbook
