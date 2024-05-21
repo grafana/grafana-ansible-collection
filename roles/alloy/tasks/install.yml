@@ -26,9 +26,9 @@
   become: true
   register: download_result
 
-- name: Remove existing alloy installation directory
+- name: Remove existing alloy binary
   ansible.builtin.file:
-    path: "{{ installation_dir }}"
+    path: "{{ installation_dir }}/alloy-{{ version }}"
     state: absent
   become: true
   when: download_result.changed
