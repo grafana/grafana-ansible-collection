@@ -1,5 +1,5 @@
 - name: Restart alloy
   ansible.builtin.systemd:
-    name: "{{ service_name }}"
+    name: "{{ grafana_alloy_service_name }}"
     state: restarted
   become: true

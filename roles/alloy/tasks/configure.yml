@@ -1,18 +1,18 @@
 - name: Create alloy config directory
   ansible.builtin.file:
-    path: "{{ config_dir }}"
+    path: "{{ grafana_alloy_config_dir }}"
     state: directory
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    owner: "{{ grafana_alloy_service_user }}"
+    group: "{{ grafana_alloy_service_group }}"
     mode: '0755'
   become: true
 
 - name: Deploy alloy configuration file
   ansible.builtin.template:
     src: config.alloy.j2
-    dest: "{{ config_dir }}/{{ config_file }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    dest: "{{ grafana_alloy_config_dir }}/{{ grafana_alloy_config_file }}"
+    owner: "{{ grafana_alloy_service_user }}"
+    group: "{{ grafana_alloy_service_group }}"
     mode: '0644'
   notify: Restart alloy
   become: true
@@ -20,9 +20,9 @@
 - name: Deploy alloy environment file
   ansible.builtin.template:
     src: environment.j2
-    dest: "{{ config_dir }}/{{ environment_file }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    dest: "{{ grafana_alloy_config_dir }}/{{ grafana_alloy_environment_file }}"
+    owner: "{{ grafana_alloy_service_user }}"
+    group: "{{ grafana_alloy_service_group }}"
     mode: '0644'
   notify: Restart alloy
   become: true
