@@ -28,7 +28,7 @@
 
 - name: Remove existing alloy binary
   ansible.builtin.file:
-    path: "{{ installation_dir }}/alloy-{{ version }}"
+    path: "{{ installation_dir }}/alloy-linux-{{ arch }}"
     state: absent
   become: true
   when: download_result.changed
