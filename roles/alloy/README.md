@@ -19,17 +19,19 @@ Available variables with their default values are listed below (`defaults/main.y
 | `arch`                | The architecture of the current machine.                             | Based on `ansible_architecture` lookup, defaults to 'amd64'.       |
 | `binary_url`          | URL to Grafana Alloy binary for the specific version and architecture. | Constructed URL based on `version` and `arch` variables.          |
 | `service_name`        | The name to be used for the Grafana Alloy service.                   | "alloy"                                                            |
-| `installation_dir`    | Directory where Grafana Alloy is to be installed.                    | "/etc/alloy"                                                      |
+| `installation_dir`    | Directory where Grafana Alloy binary is to be installed. Must be present.   | "/usr/local/bin"                                                      |
 | `environment_file`    | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                      |
 | `config_dir`          | Directory for Grafana Alloy configuration.                           | "/etc/alloy"                                                      |
 | `config_file`         | Configuration file name for Grafana Alloy.                           | "config.river"                                                     |
 | `service_user`        | User under which the Grafana Alloy service will run.                 | "alloy"                                                            |
 | `service_group`       | Group under which the Grafana Alloy service will run.                | "alloy"                                                            |
-| `working_dir`         | Working directory for the Grafana Alloy service.                     | "/etc/alloy"                                                      |
+| `working_dir`         | Working directory for the Grafana Alloy service.                     | "/var/lib/alloy"                                                      |
 | `env_file_vars`       | Additional environment variables to be set in the service environment file. | {} (Empty dictionary)                                          |
 | `alloy_flags_extra`   | Extra flags to pass to the Alloy service.                            | {} (Empty dictionary)                                              |
 | `start_after_service` | Specify an optional dependency service Alloy should start after.     | '' (Empty string)                                                  |
 | `config`              | Configuration template for Grafana Alloy.                            | Configuration script with Prometheus scrape and remote_write setup |
+| `alloy_user_groups`.  | Configurable user groups that the Grafana Alloy can be put in so that it can access logs.  | `[]` |
+
 
 
 ## Example Playbook
