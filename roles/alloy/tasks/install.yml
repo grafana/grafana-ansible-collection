@@ -26,21 +26,12 @@
   become: true
   register: download_result
 
-- name: Remove existing alloy installation directory
+- name: Remove existing alloy binary
   ansible.builtin.file:
-    path: "{{ installation_dir }}"
+    path: "{{ installation_dir }}/alloy-linux-{{ arch }}"
     state: absent
   become: true
   when: download_result.changed
-
-- name: Create alloy installation directory
-  ansible.builtin.file:
-    path: "{{ installation_dir }}"
-    state: directory
-    mode: '0755'
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
-  become: true
 
 - name: Extract alloy binary
   ansible.builtin.unarchive:

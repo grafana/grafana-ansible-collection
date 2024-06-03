@@ -1,3 +1,12 @@
+- name: Create alloy working directory
+  ansible.builtin.file:
+    path: "{{ working_dir }}"
+    state: directory
+    owner: "{{ service_user }}"
+    group: "{{ service_group }}"
+    mode: "0755"
+  become: true
+  
 - name: Create alloy config directory
   ansible.builtin.file:
     path: "{{ config_dir }}"

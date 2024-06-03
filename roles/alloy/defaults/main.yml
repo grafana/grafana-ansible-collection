@@ -13,7 +13,7 @@ binary_url: "https://github.com/grafana/alloy/releases/download/v{{ version }}/a
 
 service_name: "alloy"
 
-installation_dir: "/etc/alloy"
+installation_dir: "/usr/local/bin"
 
 environment_file: "service.env"
 
@@ -25,7 +25,7 @@ service_user: "alloy"
 
 service_group: "alloy"
 
-working_dir: "/etc/alloy"
+working_dir: "/var/lib/alloy"
 
 env_file_vars: {}
 
