@@ -3,3 +3,8 @@
     name: "{{ service_name }}"
     state: restarted
   become: true
+  listen: "Restart alloy"
+
+- name: Check alloy is started properly
+  ansible.builtin.include_tasks: ga-started.yml
+  listen: "Restart alloy"

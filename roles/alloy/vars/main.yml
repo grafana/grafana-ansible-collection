@@ -1,0 +1,2 @@
+# Server http address, used in self health check after start
+_alloy_healthcheck_endpoint: "http://{{ alloy_flags_extra['server.http.listen-addr'] if alloy_flags_extra['server.http.listen-addr'] is defined else '127.0.0.1:12345' }}/-/ready"
