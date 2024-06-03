@@ -6,7 +6,7 @@
     group: "{{ service_group }}"
     mode: "0755"
   become: true
-  
+
 - name: Create alloy config directory
   ansible.builtin.file:
     path: "{{ config_dir }}"
