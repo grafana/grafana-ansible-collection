@@ -9,7 +9,7 @@ Restart=always
 User={{ service_user }}
 Group={{ service_group }}
 Environment=HOSTNAME=%H
-EnvironmentFile={{ installation_dir }}/{{ environment_file }}
+EnvironmentFile={{ config_dir }}/{{ environment_file }}
 WorkingDirectory={{ working_dir }}
 ExecStart={{ installation_dir }}/alloy-linux-{{ arch }} run \
 {% for flag, flag_value in alloy_flags_extra.items() %}
