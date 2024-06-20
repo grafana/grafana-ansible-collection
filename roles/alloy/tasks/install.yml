@@ -13,16 +13,16 @@
 - name: Create alloy user
   ansible.builtin.user:
     name: "{{ service_user }}"
-    groups: "{{ [ service_group ] + alloy_user_groups }}"
+    groups: "{{ [service_group] + alloy_user_groups }}"
     system: true
-    create_home: false  # Appropriate for a system user, usually doesn't need a home directory
+    create_home: false # Appropriate for a system user, usually doesn't need a home directory
   become: true
 
 - name: Download alloy binary
   ansible.builtin.get_url:
     url: "{{ binary_url }}"
     dest: "/tmp/alloy-{{ version }}.zip"
-    mode: '0755'
+    mode: "0755"
   become: true
   register: download_result
 

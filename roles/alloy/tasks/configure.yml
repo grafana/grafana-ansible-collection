@@ -13,7 +13,7 @@
     state: directory
     owner: "{{ service_user }}"
     group: "{{ service_group }}"
-    mode: '0755'
+    mode: "0755"
   become: true
 
 - name: Deploy alloy configuration file
@@ -22,7 +22,7 @@
     dest: "{{ config_dir }}/{{ config_file }}"
     owner: "{{ service_user }}"
     group: "{{ service_group }}"
-    mode: '0644'
+    mode: "0644"
   notify: Restart alloy
   become: true
 
@@ -32,6 +32,6 @@
     dest: "{{ config_dir }}/{{ environment_file }}"
     owner: "{{ service_user }}"
     group: "{{ service_group }}"
-    mode: '0644'
+    mode: "0644"
   notify: Restart alloy
   become: true
