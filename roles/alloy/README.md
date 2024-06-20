@@ -14,22 +14,22 @@ Available variables with their default values are listed below (`defaults/main.y
 
 | Variable Name         | Description                                                          | Default Value                                                       |
 |-----------------------|----------------------------------------------------------------------|---------------------------------------------------------------------|
-| `version`             | The version of Grafana Alloy to be installed.                        | "1.0.0"                                                             |
-| `arch_mapping`        | A mapping of common architecture names to Grafana Alloy binaries.    | `{'x86_64': 'amd64', 'aarch64': 'arm64', 'armv7l': 'armhf', 'i386': 'i386', 'ppc64le': 'ppc64le'}` |
-| `arch`                | The architecture of the current machine.                             | Based on `ansible_architecture` lookup, defaults to 'amd64'.       |
-| `binary_url`          | URL to Grafana Alloy binary for the specific version and architecture. | Constructed URL based on `version` and `arch` variables.          |
-| `service_name`        | The name to be used for the Grafana Alloy service.                   | "alloy"                                                            |
-| `installation_dir`    | Directory where Grafana Alloy binary is to be installed. Must be present.   | "/usr/local/bin"                                                      |
-| `environment_file`    | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                      |
-| `config_dir`          | Directory for Grafana Alloy configuration.                           | "/etc/alloy"                                                      |
-| `config_file`         | Configuration file name for Grafana Alloy.                           | "config.river"                                                     |
-| `service_user`        | User under which the Grafana Alloy service will run.                 | "alloy"                                                            |
-| `service_group`       | Group under which the Grafana Alloy service will run.                | "alloy"                                                            |
-| `working_dir`         | Working directory for the Grafana Alloy service.                     | "/var/lib/alloy"                                                      |
-| `env_file_vars`       | Additional environment variables to be set in the service environment file. | {} (Empty dictionary)                                          |
+| `alloy_version`             | The version of Grafana Alloy to be installed.                        | "1.0.0"                                                             |
+| `alloy_arch_mapping`        | A mapping of common architecture names to Grafana Alloy binaries.    | `{'x86_64': 'amd64', 'aarch64': 'arm64', 'armv7l': 'armhf', 'i386': 'i386', 'ppc64le': 'ppc64le'}` |
+| `alloy_arch`                | The architecture of the current machine.                             | Based on `ansible_architecture` lookup, defaults to 'amd64'.       |
+| `alloy_binary_url`          | URL to Grafana Alloy binary for the specific version and architecture. | Constructed URL based on `alloy_version` and `alloy_arch` variables.          |
+| `alloy_service_name`        | The name to be used for the Grafana Alloy service.                   | "alloy"                                                            |
+| `alloy_installation_dir`    | Directory where Grafana Alloy binary is to be installed. Must be present.   | "/usr/local/bin"                                                      |
+| `alloy_environment_file`    | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                      |
+| `alloy_config_dir`          | Directory for Grafana Alloy configuration.                           | "/etc/alloy"                                                      |
+| `alloy_config_file`         | Configuration file name for Grafana Alloy.                           | "config.river"                                                     |
+| `alloy_service_user`        | User under which the Grafana Alloy service will run.                 | "alloy"                                                            |
+| `alloy_service_group`       | Group under which the Grafana Alloy service will run.                | "alloy"                                                            |
+| `alloy_working_dir`         | Working directory for the Grafana Alloy service.                     | "/var/lib/alloy"                                                      |
+| `alloy_env_file_vars`       | Additional environment variables to be set in the service environment file. | {} (Empty dictionary)                                          |
 | `alloy_flags_extra`   | Extra flags to pass to the Alloy service.                            | {} (Empty dictionary)                                              |
-| `start_after_service` | Specify an optional dependency service Alloy should start after.     | '' (Empty string)                                                  |
-| `config`              | Configuration template for Grafana Alloy.                            | Configuration script with Prometheus scrape and remote_write setup |
+| `alloy_start_after_service` | Specify an optional dependency service Alloy should start after.     | '' (Empty string)                                                  |
+| `alloy_config`              | Configuration template for Grafana Alloy.                            | Configuration script with Prometheus scrape and remote_write setup |
 | `alloy_user_groups`.  | Configurable user groups that the Grafana Alloy can be put in so that it can access logs.  | `[]` |
 
 
@@ -47,7 +47,7 @@ Including an example of how to use your role:
       ansible.builtin.include_role:
         name: grafana.grafana.alloy
       vars:
-        config: |
+        alloy_config: |
           prometheus.scrape "default" {
             targets = [{"__address__" = "localhost:12345"}]
             forward_to = [prometheus.remote_write.prom.receiver]
