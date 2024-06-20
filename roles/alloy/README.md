@@ -22,7 +22,7 @@ Available variables with their default values are listed below (`defaults/main.y
 | `installation_dir`    | Directory where Grafana Alloy binary is to be installed. Must be present.   | "/usr/local/bin"                                                      |
 | `environment_file`    | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                      |
 | `config_dir`          | Directory for Grafana Alloy configuration.                           | "/etc/alloy"                                                      |
-| `config_file`         | Configuration file name for Grafana Alloy.                           | "config.river"                                                     |
+| `config_file`         | Configuration file name for Grafana Alloy.                           | "config.alloy"                                                     |
 | `service_user`        | User under which the Grafana Alloy service will run.                 | "alloy"                                                            |
 | `service_group`       | Group under which the Grafana Alloy service will run.                | "alloy"                                                            |
 | `working_dir`         | Working directory for the Grafana Alloy service.                     | "/var/lib/alloy"                                                      |
