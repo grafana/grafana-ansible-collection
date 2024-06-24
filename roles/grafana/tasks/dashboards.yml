@@ -97,7 +97,7 @@
               folder: ''
               type: file
               options:
-                path: "{{ grafana_data_dir }}/dashboards"
+                path: "{{ grafana_ini.paths.data }}/dashboards"
         backup: false
         owner: root
         group: grafana
@@ -107,7 +107,7 @@
 
     - name: "Register previously copied dashboards"
       ansible.builtin.find:
-        paths: "{{ grafana_data_dir }}/dashboards"
+        paths: "{{ grafana_ini.paths.data }}/dashboards"
         hidden: true
         patterns:
           - "*.json"
@@ -117,7 +117,7 @@
     - name: "Import grafana dashboards"
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "{{ grafana_data_dir }}/dashboards/{{ item | basename }}"
+        dest: "{{ grafana_ini.paths.data }}/dashboards/{{ item | basename }}"
         owner: root
         group: grafana
         mode: "0640"
