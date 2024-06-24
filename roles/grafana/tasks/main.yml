@@ -67,9 +67,9 @@
 
 - name: "Wait for grafana to start"
   ansible.builtin.wait_for:
-    host: "{{ grafana_address if grafana_server.protocol is undefined or grafana_server.protocol in ['http', 'https'] else omit }}"
-    port: "{{ grafana_port if grafana_server.protocol is undefined or grafana_server.protocol in ['http', 'https'] else omit }}"
-    path: "{{ grafana_server.socket | default() if grafana_server.protocol is defined and grafana_server.protocol == 'socket' else omit }}"
+    host: "{{ grafana_ini.server.http_addr if grafana_ini.server.protocol is undefined or grafana_ini.server.protocol in ['http', 'https'] else omit }}"
+    port: "{{ grafana_ini.server.http_port if grafana_ini.server.protocol is undefined or grafana_ini.server.protocol in ['http', 'https'] else omit }}"
+    path: "{{ grafana_ini.server.socket | default() if grafana_ini.server.protocol is defined and grafana_ini.server.protocol == 'socket' else omit }}"
   tags:
     - grafana_install
     - grafana_configure
