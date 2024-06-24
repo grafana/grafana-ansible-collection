@@ -12,7 +12,9 @@
       id: 123
       uid: ansibletest
       access: proxy
-    grafana_url: "{{ grafana_url }}"
+    grafana_ini:
+      server:
+        root_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
   register: create_result
@@ -36,7 +38,9 @@
       id: 123
       uid: ansibletest
       access: proxy
-    grafana_url: "{{ grafana_url }}"
+    grafana_ini:
+      server:
+        root_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
   register: delete_result
