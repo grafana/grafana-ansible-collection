@@ -76,12 +76,7 @@ grafana_ini:
     # max_open_conn: ""
     # log_queries: ""
 
-  # Remote cache
-  remote_cache: {}
-
   # User management and registration
-  emails:
-    welcome_email_on_sign_up: false
   users:
     allow_sign_up: false
     # allow_org_create: true
@@ -108,107 +103,6 @@ grafana_ini:
   #  basic:
   #    enabled: true
 
-  # Grafana KeyCloak auth
-  auth.generic_oauth: {}
-  # enabled: true
-  # name: "Keycloak-OAuth"
-  # allow_sign_up: true
-  # client_id: YOUR_APP_CLIENT_ID
-  # client_secret: YOUR_APP_CLIENT_SECRET
-  # scopes: "openid email profile offline_access roles"
-  # email_attribute_path: email
-  # login_attribute_path: username
-  # name_attribute_path: full_name
-  # auth_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/auth"
-  # token_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/token"
-  # api_url: "https://<PROVIDER_DOMAIN>/realms/<REALM_NAME>/protocol/openid-connect/userinfo"
-
-  session: {}
-  # provider: file
-  # provider_config: "sessions"
-
-  analytics: {}
-  # reporting_enabled: true
-  # google_analytics_ua_id: ""
-
-  # Set this for mail notifications
-  smtp: {}
-  # host:
-  # user:
-  # password:
-  # from_address:
-
-  # Enable grafana unified alerting mechanism for grafana v11+
-  unified_alerting:
-    enabled: true
-
-  # REMOVED FROM Grafana v11+
-  # Enable grafana alerting mechanism for grafana v10 and below
-  alerting:
-    execute_alerts: true
-  #  error_or_timeout: 'alerting'
-  #  nodata_or_nullvalues: 'no_data'
-  #  concurrent_render_limit: 5
-
-  # Enable grafana alerting mechanism
-  alerting:
-    enabled: true
-    execute_alerts: true
-  #  error_or_timeout: 'alerting'
-  #  nodata_or_nullvalues: 'no_data'
-  #  concurrent_render_limit: 5
-
-  # Grafana logging configuration
-  log:
-  # mode: 'console file'
-  # level: info
-
-  # Internal grafana metrics system
-  metrics: {}
-  # enabled: true
-  # interval_seconds: 10
-  # graphite:
-  #   address: "localhost:2003"
-  #   prefix: "prod.grafana.%(instance_name)s"
-
-  # Distributed tracing options
-  tracing.jaeger: {}
-  # address: "localhost:6831"
-  # always_included_tag: "tag1:value1,tag2:value2"
-  # sampler_type: const
-  # sampler_param: 1
-
-  snapshots: {}
-  # external_enabled: true
-  # external_snapshot_url: "https://snapshots-origin.raintank.io"
-  # external_snapshot_name: "Publish to snapshot.raintank.io"
-  # snapshot_remove_expired: true
-  # snapshot_TTL_days: 90
-
-  # External image store
-  external_image_storage: {}
-  #  provider: gcs
-  #  key_file:
-  #  bucket:
-  #  path:
-
-  # Date format
-  date_formats: {}
-  # full_date: "DD-MM-YYYY HH:mm:ss"
-  # interval_second: "HH:mm:ss"
-  # interval_minute: "HH:mm"
-  # interval_hour: "DD/MM HH:mm"
-  # interval_day: "DD/MM"
-  # interval_month: "MM-YYYY"
-  # interval_year: "YYYY"
-  # use_browser_locale: true
-  # default_timezone: "browser"
-
-  # Feature toggles
-  # List of feature toggles: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/feature-toggles/#feature-toggles
-  feature_toggles: {}
-  # autoMigrateOldPanels: true
-  # regressionTransformation: true
 
 grafana_api_url: "{{ grafana_ini.server.root_url }}"
 
@@ -310,8 +204,3 @@ grafana_api_keys: []
 grafana_api_keys_dir: "{{ lookup('env', 'HOME') }}/grafana/keys"
 
 grafana_environment: {}
-
-# Panels configurations
-grafana_panels: {}
-#  disable_sanitize_html: false
-#  enable_alpha: false
