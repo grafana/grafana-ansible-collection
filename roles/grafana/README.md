@@ -43,21 +43,9 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_ini.server` | { protocol: http, enforce_domain: false, socket: "", cert_key: "", cert_file: "", enable_gzip: false, static_root_path: public, router_logging: false } | [server](http://docs.grafana.org/installation/configuration/#server) configuration section |
 | `grafana_ini.security` | { admin_user: admin, admin_password: "" } | [security](http://docs.grafana.org/installation/configuration/#security) configuration section |
 | `grafana_ini.database` | { type: sqlite3 } | [database](http://docs.grafana.org/installation/configuration/#database) configuration section |
-| `grafana_ini.emails.welcome_email_on_sign_up` | false | Send welcome email after signing up |
 | `grafana_ini.users` | { allow_sign_up: false, auto_assign_org_role: Viewer, default_theme: dark } | [users](http://docs.grafana.org/installation/configuration/#users) configuration section |
 | `grafana_ini.auth` | {} | [authorization](http://docs.grafana.org/installation/configuration/#auth) configuration section |
 | `grafana_ldap` | {} | [ldap](http://docs.grafana.org/installation/ldap/) configuration section. group_mappings are expanded, see defaults for example |
-| `grafana_ini.session` | {} | [session](http://docs.grafana.org/installation/configuration/#session) management configuration section |
-| `grafana_ini.analytics` | {} | Google [analytics](http://docs.grafana.org/installation/configuration/#analytics) configuration section |
-| `grafana_ini.smtp` | {} | [smtp](http://docs.grafana.org/installation/configuration/#smtp) configuration section |
-| `grafana_ini.alerting` | {} | [alerting](http://docs.grafana.org/installation/configuration/#alerting) configuration section |
-| `grafana_ini.log` | {} | [log](http://docs.grafana.org/installation/configuration/#log) configuration section |
-| `grafana_ini.metrics` | {} | [metrics](http://docs.grafana.org/installation/configuration/#metrics) configuration section |
-| `grafana_ini."tracing.jaeger"` | {} | [tracing](http://docs.grafana.org/installation/configuration/#tracing) configuration section |
-| `grafana_ini.snapshots` | {} | [snapshots](http://docs.grafana.org/installation/configuration/#snapshots) configuration section |
-| `grafana_ini.image_storage` | {} | [image storage](http://docs.grafana.org/installation/configuration/#external-image-storage) configuration section |
-| `grafana_ini.date_formats` | {} | [date formats](http://docs.grafana.org/installation/configuration/#date_formats) configuration section |
-| `grafana_ini.feature_toggles` | {} | [feature toggles](http://docs.grafana.org/installation/configuration/#feature_toggles) configuration section |
 | `grafana_dashboards` | [] | List of dashboards which should be imported |
 | `grafana_dashboards_dir` | "dashboards" | Path to a local directory containing dashboards files in `json` format |
 | `grafana_datasources` | [] | List of datasources which should be configured |
