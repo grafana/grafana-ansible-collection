@@ -67,18 +67,40 @@
       loop: "{{ grafana_dashboards }}"
 
 - name: "Import grafana dashboards via api"
-  community.grafana.grafana_dashboard:
-    grafana_url: "{{ grafana_api_url }}"
-    grafana_user: "{{ grafana_security.admin_user }}"
-    grafana_password: "{{ grafana_security.admin_password }}"
-    path: "{{ item }}"
-    message: "Updated by ansible role {{ ansible_role_name }}"
-    state: present
-    overwrite: true
-  no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
-  with_fileglob:
-    - "{{ __tmp_dashboards.path }}/*"
-    - "{{ grafana_dashboards_dir }}/*.json"
+  block:
+    - name: "Create temporary directory for dashboards"
+      ansible.builtin.tempfile:
+        prefix: grafana.grafana.grafana.
+        state: directory
+      changed_when: false
+      register: __tmp_dashboards_import
+
+    - name: "Copy dashboards to the temporary directory"
+      ansible.builtin.copy:
+       src: "{{ grafana_dashboards_dir }}/"
+       dest: "{{ __tmp_dashboards_import.path }}/"
+       mode: "0440"
+
+    - name: "Import dashboards via api"
+      community.grafana.grafana_dashboard:
+        grafana_url: "{{ grafana_api_url }}"
+        grafana_user: "{{ grafana_security.admin_user }}"
+        grafana_password: "{{ grafana_security.admin_password }}"
+        path: "{{ item }}"
+        commit_message: "Updated by ansible role {{ ansible_role_name }}"
+        state: present
+        overwrite: true
+      no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
+      with_fileglob:
+        - "{{ __tmp_dashboards.path }}/*"
+        - "{{ __tmp_dashboards_import.path }}/*.json"
+  always:
+    - name: "Clean up the temporary directory"
+      ansible.builtin.file:
+        path: "{{ __tmp_dashboards_import.path }}"
+        state: absent
+      when: __tmp_dashboards_import is defined
+      changed_when: false        
   when: "not grafana_use_provisioning"
 
 - name: "Import grafana dashboards through provisioning"
