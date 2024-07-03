@@ -113,6 +113,19 @@ versions_to_keep = 20
 enabled = true
 path = {{ grafana_data_dir }}/dashboards
 
+{% if grafana_version == 'latest' or grafana_version.split('.')[0]|int >= 11 %}
+# Unified Alerting
+[unified_alerting]
+{% if grafana_unified_alerting != {} %}
+{%   for k,v in grafana_unified_alerting.items() %}
+{{ k }} = {{ v }}
+{%   endfor %}
+{% else %}
+enabled = false
+{% endif %}
+{% endif %}
+
+{% if grafana_version != 'latest' and grafana_version.split('.')[0]|int < 11 %}
 # Alerting
 [alerting]
 {% if grafana_alerting != {} %}
@@ -124,6 +137,7 @@ enabled = true
 {%   endfor %}
 {% else %}
 enabled = false
+{% endif %}
 {% endif %}
 
 # SMTP and email config
