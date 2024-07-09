@@ -175,7 +175,12 @@ grafana_smtp: {}
 #  password:
 #  from_address:
 
-# Enable grafana alerting mechanism
+# Enable grafana unified alerting mechanism for grafana v11+
+grafana_unified_alerting:
+  enabled: true
+
+# REMOVED FROM Grafana v11+
+# Enable grafana alerting mechanism for grafana v10 and below
 grafana_alerting:
   execute_alerts: true
 #  error_or_timeout: 'alerting'
