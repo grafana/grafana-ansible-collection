@@ -23,7 +23,7 @@
     owner: "{{ service_user }}"
     group: "{{ service_group }}"
     mode: '0644'
-  notify: Restart alloy
+  notify: Reload alloy
   become: true
 
 - name: Deploy alloy environment file
