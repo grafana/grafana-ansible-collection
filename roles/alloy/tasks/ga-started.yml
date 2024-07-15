@@ -7,8 +7,8 @@
   register: _result
   failed_when: false
   until: _result.status == 200
-  retries: 3
-  delay: 5
+  retries: "{{ retry_count }}"
+  delay: "{{ delay_duration }}"
   changed_when: false
   when: not ansible_check_mode
 
