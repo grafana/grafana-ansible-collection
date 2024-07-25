@@ -88,14 +88,14 @@
   when: ansible_os_family == 'Debian'
 
 - name: Ensure that Promtail firewalld rule is not present - tcp port {{ promtail_http_listen_port }}
-  ansible.posix.firewalld:  # noqa ignore-errors
+  ansible.posix.firewalld: # noqa ignore-errors
     immediate: true
     permanent: true
     port: "{{ promtail_http_listen_port }}/tcp"
     state: disabled
   ignore_errors: true
 
-- name: Remove Promtail directories"
+- name: Remove Promtail directories
   ansible.builtin.file:
     path: "{{ remove_me }}"
     state: absent
