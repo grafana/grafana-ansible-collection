@@ -18,6 +18,5 @@
       tags:
         - promtail_uninstall
         - never
-  tags:
-    - promtail_uninstall
-    - never
+  when: "'promtail_uninstall' in ansible_run_tags"
+  tags: always
