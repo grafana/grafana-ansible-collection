@@ -29,7 +29,7 @@
     state: disabled
   ignore_errors: true
 
-- name: Remove Loki directories"
+- name: Remove Loki directories
   ansible.builtin.file:
     path: "{{ remove_me }}"
     state: absent
