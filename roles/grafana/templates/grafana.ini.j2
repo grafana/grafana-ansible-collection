@@ -38,7 +38,7 @@ root_url = {{ grafana_url }}
 {% endfor %}
 
 # Plugins
-{% if grafana_plugins_ops is defined %}
+{% if grafana_plugins_ops != {} %}
 [plugins]
 {% for k,v in grafana_plugins_ops.items() %}
 {{ k }} = {{ v }}
