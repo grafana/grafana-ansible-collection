@@ -1,4 +1,7 @@
 ---
+- name: Inherit default vars
+  ansible.builtin.set_fact:
+    grafana_ini: "{{ grafana_ini_default | ansible.builtin.combine(grafana_ini, recursive=true) }}"
 - name: "Gather variables for each operating system"
   ansible.builtin.include_vars: "{{ distrovars }}"
   vars:

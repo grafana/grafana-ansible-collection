@@ -24,7 +24,7 @@ grafana_provisioning_synced: false
 # Get informed by reading: http://man7.org/linux/man-pages/man7/capabilities.7.html
 grafana_cap_net_bind_service: false
 
-grafana_ini:
+grafana_ini_default:
   instance_name: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
 
   paths:
@@ -35,7 +35,7 @@ grafana_ini:
     http_addr: "0.0.0.0"
     http_port: 3000
     # External Grafana address. Variable maps to "root_url" in grafana server section
-    root_url: "http://{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}"
+    #root_url: "http://{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}"
     domain: "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}"
 
     # Additional options for grafana "server" section
