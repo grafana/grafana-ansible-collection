@@ -29,6 +29,7 @@
       - grafana_domain is undefined
       - grafana_url is undefined
       - grafana_panels is undefined
+    fail_msg: Check upgrade notes
 
 - name: "Fail when datasources aren't configured when dashboards are set to be installed"
   ansible.builtin.fail:
