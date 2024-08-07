@@ -20,7 +20,7 @@ The Ansible Loki Role allows you to effortlessly deploy and manage [Loki](https:
 
 ## Requirements
 
--   Ansible 2.10+
+- Ansible 2.10+
 
 ## Role Variables
 
