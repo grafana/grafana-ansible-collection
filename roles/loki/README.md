@@ -7,7 +7,7 @@ The Ansible Loki Role allows you to effortlessly deploy and manage [Loki](https:
 **🔑 Key Features**
 - **📦 Out-of-the-box Deployment**: Get Loki up and running quickly with default configurations.
 - **🧹 Effortless Uninstall**: Easily remove Loki from your system setting the "loki_uninstall" variable.
--   **🔔 Example Alerting Rules**: Benefit from the included sample Ruler configuration. Utilize the provided example alerting rules as a reference guide for structuring your own rules effectively.
+- **🔔 Example Alerting Rules**: Benefit from the included sample Ruler configuration. Utilize the provided example alerting rules as a reference guide for structuring your own rules effectively.
 
 ## Table of Content
 
