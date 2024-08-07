@@ -6,33 +6,40 @@ The Ansible Loki Role allows you to effortlessly deploy and manage [Loki](https:
 
 **🔑 Key Features**
 - **📦 Out-of-the-box Deployment**: Get Loki up and running quickly with default configurations.
-- **🧹 Effortless Uninstall**: Easily remove Loki from your system using the "loki_uninstall" tag.
-- **🔔 Example Alerting Rules**: Benefit from the included sample Ruler configuration. Utilize the provided example alerting rules as a reference guide for structuring your own rules effectively.
+-   **🧹 Effortless Uninstall**: Easily remove Loki from your system setting the "loki_uninstall" variable.
+-   **🔔 Example Alerting Rules**: Benefit from the included sample Ruler configuration. Utilize the provided example alerting rules as a reference guide for structuring your own rules effectively.
 
 ## Table of Content
 
-- [Requirements](#requirements)
-- [Role Variables](#role-variables)
-- - [Default Variables - `defaults/main.yml`](#default-variables---defaultsmainyml)
-- - [Alerting Rules Variables](#alerting-rules-variables)
-- - [Additional Config Variables for `/etc/loki/config.yml`](#additional-config-variables-for-etclokiconfigyml)
-- [Playbook](#playbook)
+-   [Requirements](#requirements)
+-   [Role Variables](#role-variables)
+-   -   [Default Variables - `defaults/main.yml`](#default-variables---defaultsmainyml)
+-   -   [Alerting Rules Variables](#alerting-rules-variables)
+-   -   [Additional Config Variables for `/etc/loki/config.yml`](#additional-config-variables-for-etclokiconfigyml)
+-   [Playbook](#playbook)
 
 ## Requirements
 
-- Ansible 2.10+
+-   Ansible 2.10+
 
 ## Role Variables
 
-- 📚 Official Loki configuration [documentation](https://grafana.com/docs/loki/latest/configuration/)
-- 🏗️ Upgrading Loki [documentation](https://grafana.com/docs/loki/latest/upgrading/)
+-   📚 Official Loki configuration [documentation](https://grafana.com/docs/loki/latest/configuration/)
+-   🏗️ Upgrading Loki [documentation](https://grafana.com/docs/loki/latest/upgrading/)
 
 ### **Default Variables - `defaults/main.yml`**
 
 ```yaml
 loki_version: "latest"
 ```
+
 The version of Loki to download and deploy. Supported standard version "3.0.0" format or "latest".
+
+```yaml
+loki_uninstall: "false"
+```
+
+If set to `true` will perfom uninstall instead of deployment.
 
 ```yaml
 loki_http_listen_port: 3100
