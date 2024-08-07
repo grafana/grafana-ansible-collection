@@ -158,7 +158,7 @@ No Dependencies
 ansible-playbook function_promtail_play.yml
 
 # Uninstall Promtail
-ansible-playbook function_promtail_play.yml -t promtail_uninstall
+ansible-playbook function_promtail_play.yml -e "promtail_uninstall=true"
 ```
 
 ## License

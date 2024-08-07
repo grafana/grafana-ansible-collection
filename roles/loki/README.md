@@ -233,7 +233,7 @@ Below variables allow you to extend Loki configuration to fit your needs. Always
 ansible-playbook -i inventory/hosts playbook/function_loki_play.yml
 
 # Uninstall
-ansible-playbook -i inventory/hosts playbook/function_loki_play.yml -t loki_uninstall
+ansible-playbook -i inventory/hosts playbook/function_loki_play.yml -e "loki_uninstall=true"
 ```
 
 ## License
