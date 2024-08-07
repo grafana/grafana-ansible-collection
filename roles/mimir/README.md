@@ -49,12 +49,12 @@ docker run -d \
 ### Testing the changes
 To test the changes in a role run:
 ```sh
-molecule converge 
-## example: molecule converge 
+molecule converge
+## example: molecule converge
 ```
 When Ansible has succesfully ran, you can run assertions against your infrastructure using.
 ```sh
-molecule verify 
+molecule verify
 ## example: `molecule verify`
 ```
 
@@ -65,6 +65,7 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 | Name | Type | Default | Description |
 |---|---|---|---|
 mimir_working_path|str|/usr/share/mimir|Used to specify the directory path where Mimir, a component of the Grafana Agent, stores its working files and temporary data.|
+mimir_uninstall|bool|false|If set to `true` will perfom uninstall instead of deployment.|
 mimir_ruler_alert_path|str|/data/ruler|Used to specify the directory path where the Mimir ruler component of the Grafana Agent stores its alert files.|
 mimir_http_listen_port|str|8080|Used to specify the port number on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.|
 mimir_http_listen_address|str|0.0.0.0|Used to specify the network address on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.|
