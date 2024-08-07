@@ -24,8 +24,8 @@ The Ansible Loki Role allows you to effortlessly deploy and manage [Loki](https:
 
 ## Role Variables
 
--   📚 Official Loki configuration [documentation](https://grafana.com/docs/loki/latest/configuration/)
--   🏗️ Upgrading Loki [documentation](https://grafana.com/docs/loki/latest/upgrading/)
+- 📚 Official Loki configuration [documentation](https://grafana.com/docs/loki/latest/configuration/)
+- 🏗️ Upgrading Loki [documentation](https://grafana.com/docs/loki/latest/upgrading/)
 
 ### **Default Variables - `defaults/main.yml`**
 
