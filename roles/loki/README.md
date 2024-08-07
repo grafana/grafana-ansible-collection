@@ -11,12 +11,12 @@ The Ansible Loki Role allows you to effortlessly deploy and manage [Loki](https:
 
 ## Table of Content
 
--   [Requirements](#requirements)
--   [Role Variables](#role-variables)
--   -   [Default Variables - `defaults/main.yml`](#default-variables---defaultsmainyml)
--   -   [Alerting Rules Variables](#alerting-rules-variables)
--   -   [Additional Config Variables for `/etc/loki/config.yml`](#additional-config-variables-for-etclokiconfigyml)
--   [Playbook](#playbook)
+- [Requirements](#requirements)
+- [Role Variables](#role-variables)
+- - [Default Variables - `defaults/main.yml`](#default-variables---defaultsmainyml)
+- - [Alerting Rules Variables](#alerting-rules-variables)
+- - [Additional Config Variables for `/etc/loki/config.yml`](#additional-config-variables-for-etclokiconfigyml)
+- [Playbook](#playbook)
 
 ## Requirements
 
