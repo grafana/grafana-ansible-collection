@@ -7,7 +7,7 @@ This role is tailored for operating systems such as **RedHat**, **Rocky Linux**,
 
 **🔑 Key Features**
 - **⚡ Root-less/Root runtime**: By default, Promtail operates in root-less mode, utilizing ACL (Access Control List) to securely access logs without requiring root permissions. You have the option to configure root mode if necessary.
--   **🧹 Effortless Uninstall**: Easily remove Promtail from your system setting the "promtail_uninstall" variable.
+- **🧹 Effortless Uninstall**: Easily remove Promtail from your system setting the "promtail_uninstall" variable.
 
 📢 **[Check the blog post](https://voidquark.com/blog/rootless-promtail-with-ansible/)** 📝 **Learn more about root-less mode.**
 
