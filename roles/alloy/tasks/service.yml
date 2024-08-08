@@ -11,6 +11,9 @@
     daemon_reload: yes
   become: true
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Ensure alloy service is enabled and running
   ansible.builtin.service:
     name: "{{ alloy_service_name }}"
