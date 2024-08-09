@@ -35,7 +35,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install molecule molecule-plugins[docker] docker pytest-testinfra jmespath selinux passlib
+        run: pip3 install ansible-core==2.16 'molecule-plugins[docker]' pytest-testinfra jmespath selinux passlib
 
       - name: create docker network
         run: docker network create molecule

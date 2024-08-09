@@ -25,7 +25,7 @@ source .venv/bin/activate
 .\.venv\Scripts\activate
 
 # Install dependencies
-pip3 install molecule molecule-plugins[docker] docker pytest-testinfra jmespath selinux passlib
+pip3 install ansible-core==2.16 'molecule-plugins[docker]' pytest-testinfra jmespath selinux passlib
 
 # Create molecule network
 docker network create molecule
