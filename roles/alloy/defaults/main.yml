@@ -46,3 +46,6 @@ config: |
 
 # Configurable user groups that the Grafana Alloy can be put in so that it can access logs.
 alloy_user_groups: []
+
+retry_count: 3
+delay_duration: 5
