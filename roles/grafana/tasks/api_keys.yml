@@ -10,8 +10,8 @@
 - name: "Check api key list"
   ansible.builtin.uri:
     url: "{{ grafana_api_url }}/api/auth/keys"
-    user: "{{ grafana_security.admin_user }}"
-    password: "{{ grafana_security.admin_password }}"
+    user: "{{ grafana_ini.security.admin_user }}"
+    password: "{{ grafana_ini.security.admin_password }}"
     force_basic_auth: true
     return_content: true
   register: __existing_api_keys
@@ -20,8 +20,8 @@
 - name: "Create grafana api keys"
   ansible.builtin.uri:
     url: "{{ grafana_api_url }}/api/auth/keys"
-    user: "{{ grafana_security.admin_user }}"
-    password: "{{ grafana_security.admin_password }}"
+    user: "{{ grafana_ini.security.admin_user }}"
+    password: "{{ grafana_ini.security.admin_password }}"
     force_basic_auth: true
     method: POST
     body_format: json
