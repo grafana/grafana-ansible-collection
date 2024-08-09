@@ -303,3 +303,8 @@ releases:
       - Bump pylint from 3.2.3 to 3.2.5 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/234
       - Fix Grafana Configuration for Unified and Legacy Alerting Based on Version by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/215
     release_date: '2024-07-12'
+  5.4.0:
+    changes:
+      major_changes:
+      - fix: Use a variable to control uninstall behavior instead of tags by @dobbi84 in https://github.com/grafana/grafana-ansible-collection/pull/253
+    release_date: '2024-08-09'
