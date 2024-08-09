@@ -4,6 +4,14 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.4.0
+======
+
+Major Changes
+-------------
+
+- fix: Use a variable to control uninstall behavior instead of tags by @dobbi84 in https://github.com/grafana/grafana-ansible-collection/pull/253
+
 v5.3.0
 ======
 
