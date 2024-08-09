@@ -24,19 +24,19 @@
     dest: "/tmp/alloy-{{ version }}.zip"
     mode: '0755'
   become: true
-  register: download_result
-
-- name: Remove existing alloy binary
-  ansible.builtin.file:
-    path: "{{ installation_dir }}/alloy-linux-{{ arch }}"
-    state: absent
-  become: true
-  when: download_result.changed
 
 - name: Extract alloy binary
   ansible.builtin.unarchive:
     src: "/tmp/alloy-{{ version }}.zip"
-    dest: "{{ installation_dir }}"
+    dest: "/tmp"
     remote_src: yes
   become: true
-  register: extract_result
+
+- name: Copy installed binary to installation dir
+  ansible.builtin.copy:
+    src: "/tmp/alloy-linux-{{ arch }}"
+    dest: "{{ installation_dir }}/alloy-linux-{{ arch }}"
+    mode: '0755'
+    remote_src: yes
+  become: true
+  notify: Restart alloy
