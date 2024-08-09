@@ -17,7 +17,7 @@
   block:
     - name: Run journalctl
       ansible.builtin.shell:
-        cmd: "journalctl -u {{ service_name }} -b -n20 --no-pager"
+        cmd: "journalctl -u {{ alloy_service_name }} -b -n20 --no-pager"
       register: journal_ret
       changed_when: false
     - name: Output Grafana Alloy logs
@@ -26,4 +26,4 @@
     - name: Raise alerts
       ansible.builtin.assert:
         that: false
-        fail_msg: "Service {{ service_name }} hasn't started."
+        fail_msg: "Service {{ alloy_service_name }} hasn't started."
