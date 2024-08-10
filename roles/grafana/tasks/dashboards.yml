@@ -72,7 +72,7 @@
     grafana_user: "{{ grafana_security.admin_user }}"
     grafana_password: "{{ grafana_security.admin_password }}"
     path: "{{ item }}"
-    message: "Updated by ansible role {{ ansible_role_name }}"
+    commit_message: "Updated by ansible role {{ ansible_role_name }}"
     state: present
     overwrite: true
   no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
