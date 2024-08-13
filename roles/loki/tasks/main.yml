@@ -7,17 +7,9 @@
 - name: Deploy Loki service
   ansible.builtin.include_tasks:
     file: "deploy.yml"
-    apply:
-      tags: loki_deploy
-  tags: loki_deploy
+  when: not loki_uninstall
 
 - name: Uninstall Loki service
   ansible.builtin.include_tasks:
     file: "uninstall.yml"
-    apply:
-      tags:
-        - loki_uninstall
-        - never
-  tags:
-    - loki_uninstall
-    - never
+  when: loki_uninstall

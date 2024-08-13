@@ -1,6 +1,7 @@
 ---
 # defaults file for promtail
 promtail_version: "latest"
+promtail_uninstall: false
 promtail_http_listen_port: 9080
 promtail_http_listen_address: "0.0.0.0"
 promtail_expose_port: false
