@@ -1,5 +1,8 @@
 ---
 __promtail_arch_map:
-  x86_64: 'amd64'
+  x86_64: amd64
+  armv6l: arm
+  armv7l: arm
+  aarch64: arm64
 
 __promtail_arch: "{{ __promtail_arch_map[ansible_architecture] | default(ansible_architecture) }}"
