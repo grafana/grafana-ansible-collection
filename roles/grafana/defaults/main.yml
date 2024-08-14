@@ -181,8 +181,8 @@ grafana_unified_alerting:
 
 # REMOVED FROM Grafana v11+
 # Enable grafana alerting mechanism for grafana v10 and below
-grafana_alerting:
-  execute_alerts: true
+grafana_alerting: {}
+#  execute_alerts: true
 #  error_or_timeout: 'alerting'
 #  nodata_or_nullvalues: 'no_data'
 #  concurrent_render_limit: 5
