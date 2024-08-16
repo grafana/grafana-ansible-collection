@@ -4,6 +4,21 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.4.2
+
+Major Changes
+-------------
+
+- fix:mimir molecule should use ansible core 2.16 by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/254
+- promtail: add support for extra args by @harryfinbow in https://github.com/grafana/grafana-ansible-collection/pull/259
+
+v5.4.1
+
+Major Changes
+-------------
+
+- fix: Updated promtail arch map for aarch64 matching by @gianmarco-mameli in https://github.com/grafana/grafana-ansible-collection/pull/257
+
 v5.4.0
 ======
 
