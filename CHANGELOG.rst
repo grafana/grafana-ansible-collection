@@ -5,6 +5,7 @@ Grafana.Grafana Release Notes
 .. contents:: Topics
 
 v5.4.2
+======
 
 Major Changes
 -------------
@@ -13,6 +14,7 @@ Major Changes
 - promtail: add support for extra args by @harryfinbow in https://github.com/grafana/grafana-ansible-collection/pull/259
 
 v5.4.1
+======
 
 Major Changes
 -------------
