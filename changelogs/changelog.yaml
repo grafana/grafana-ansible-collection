@@ -303,3 +303,19 @@ releases:
       - Bump pylint from 3.2.3 to 3.2.5 by @dependabot in https://github.com/grafana/grafana-ansible-collection/pull/234
       - Fix Grafana Configuration for Unified and Legacy Alerting Based on Version by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/215
     release_date: '2024-07-12'
+  5.4.0:
+    changes:
+      major_changes:
+      - fix: Use a variable to control uninstall behavior instead of tags by @dobbi84 in https://github.com/grafana/grafana-ansible-collection/pull/253
+    release_date: '2024-08-09'
+  5.4.1:
+    changes:
+      major_changes:
+      - fix: Updated promtail arch map for aarch64 matching by @gianmarco-mameli in https://github.com/grafana/grafana-ansible-collection/pull/257
+    release_date: '2024-08-13'
+  5.5.0:
+    changes:
+      major_changes:
+      - fix:mimir molecule should use ansible core 2.16 by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/254
+      - promtail: add support for extra args by @harryfinbow in https://github.com/grafana/grafana-ansible-collection/pull/259
+    release_date: '2024-08-16'
