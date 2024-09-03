@@ -17,3 +17,4 @@
     enabled: yes
     state: started
   become: true
+  ignore_errors: '{{ ansible_check_mode | bool }}'
