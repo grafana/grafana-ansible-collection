@@ -6,13 +6,13 @@ After=network-online.target{{ ' ' + start_after_service if start_after_service i
 
 [Service]
 Restart=always
-User={{ service_user }}
-Group={{ service_group }}
+User={{ grafana_alloy_service_user }}
+Group={{ grafana_alloy_service_group }}
 Environment=HOSTNAME=%H
-EnvironmentFile={{ config_dir }}/{{ environment_file }}
-WorkingDirectory={{ working_dir }}
-ExecStart={{ installation_dir }}/alloy-linux-{{ arch }} run \
-{% for flag, flag_value in alloy_flags_extra.items() %}
+EnvironmentFile={{ grafana_alloy_installation_dir }}/{{ grafana_alloy_environment_file }}
+WorkingDirectory={{ grafana_alloy_working_dir }}
+ExecStart={{ grafana_alloy_installation_dir }}/alloy-linux-{{ grafana_alloy_arch }} run \
+{% for flag, flag_value in grafana_alloy_flags_extra.items() %}
 {% if not flag_value %}
   --{{ flag }} \
 {% elif flag_value is string %}
@@ -23,7 +23,7 @@ ExecStart={{ installation_dir }}/alloy-linux-{{ arch }} run \
 {% endfor %}
 {% endif %}
 {% endfor %}
-    $CUSTOM_ARGS --storage.path={{ working_dir }} $CONFIG_FILE
+    $CUSTOM_ARGS --storage.path={{ grafana_alloy_working_dir }} $CONFIG_FILE
 ExecReload=/usr/bin/env kill -HUP $MAINPID
 TimeoutStopSec=20s
 SendSIGKILL=no
