@@ -9,7 +9,7 @@ grafana_alloy_arch_mapping:
 
 grafana_alloy_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
 
-grafana_alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{{ version }}/alloy-linux-{{ arch }}.zip"
+grafana_alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{{ grafana_allot_version }}/alloy-linux-{{ grafana_alloy_arch }}.zip"
 
 grafana_alloy_service_name: "alloy"
 
