@@ -13,7 +13,7 @@ grafana_alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{
 
 grafana_alloy_service_name: "alloy"
 
-grafana_alloy_installation_dir: "/etc/alloy"
+grafana_alloy_installation_dir: "/etc/alloy/bin"
 
 grafana_alloy_environment_file: "service.env"
 
