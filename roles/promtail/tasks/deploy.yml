@@ -58,7 +58,7 @@
     owner: "promtail"
     group: "root"
     mode: "0644"
-    validate: "/usr/bin/promtail -check-syntax -config.file %s"
+    validate: "/usr/bin/promtail -config.expand-env=true -check-syntax -config.file %s"
   notify: restart promtail
 
 - name: Template Promtail systemd - /etc/systemd/system/promtail.service
