@@ -1,7 +1,7 @@
 - name: Copy alloy systemd unit file
   ansible.builtin.template:
     src: alloy.service.j2
-    dest: /etc/systemd/system/{{ grafana_alloy_service_name }}.service
+    dest: /etc/systemd/system/{{ alloy_service_name }}.service
     mode: '0644'
   become: true
   notify: Restart alloy
@@ -16,7 +16,7 @@
 
 - name: Ensure alloy service is enabled and running
   ansible.builtin.service:
-    name: "{{ grafana_alloy_service_name }}"
+    name: "{{ alloy_service_name }}"
     enabled: yes
     state: started
   become: true
