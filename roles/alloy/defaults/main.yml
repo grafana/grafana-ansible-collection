@@ -13,7 +13,9 @@ grafana_alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{
 
 grafana_alloy_service_name: "alloy"
 
-grafana_alloy_installation_dir: "/etc/alloy/bin"
+grafana_alloy_working_dir: "/opt/alloy"
+
+grafana_alloy_installation_dir: "{{ grafana_alloy_working_dir }}/bin"
 
 grafana_alloy_environment_file: "service.env"
 
@@ -24,8 +26,6 @@ grafana_alloy_config_file: "config.alloy"
 grafana_alloy_service_user: "alloy"
 
 grafana_alloy_service_group: "alloy"
-
-grafana_alloy_working_dir: "/etc/alloy"
 
 grafana_alloy_env_file_vars: {}
 

@@ -33,6 +33,15 @@
   become: true
   when: grafana_alloy_download_result.changed
 
+- name: Create alloy working directory
+  ansible.builtin.file:
+    path: "{{ grafana_alloy_working_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ grafana_alloy_service_user }}"
+    group: "{{ grafana_alloy_service_group }}"
+  become: true
+
 - name: Create alloy installation directory
   ansible.builtin.file:
     path: "{{ grafana_alloy_installation_dir }}"
