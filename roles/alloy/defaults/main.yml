@@ -7,7 +7,7 @@ grafana_alloy_arch_mapping:
   i386: i386
   ppc64le: ppc64le
 
-grafana_alloy_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+grafana_alloy_arch: "{{ grafnana_alloy_arch_mapping[ansible_architecture] | default('amd64') }}"
 
 grafana_alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{{ grafana_alloy_version }}/alloy-linux-{{ grafana_alloy_arch }}.zip"
 
