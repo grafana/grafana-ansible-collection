@@ -9,7 +9,7 @@ Restart=always
 User={{ grafana_alloy_service_user }}
 Group={{ grafana_alloy_service_group }}
 Environment=HOSTNAME=%H
-EnvironmentFile={{ grafana_alloy_installation_dir }}/{{ grafana_alloy_environment_file }}
+EnvironmentFile={{ grafana_alloy_config_dir }}/{{ grafana_alloy_environment_file }}
 WorkingDirectory={{ grafana_alloy_working_dir }}
 ExecStart={{ grafana_alloy_installation_dir }}/alloy-linux-{{ grafana_alloy_arch }} run \
 {% for flag, flag_value in grafana_alloy_flags_extra.items() %}
