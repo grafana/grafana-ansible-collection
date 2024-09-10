@@ -20,3 +20,4 @@
     enabled: yes
     state: started
   become: true
+  when: not ansible_check_mode

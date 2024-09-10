@@ -4,6 +4,7 @@
     state: restarted
   become: true
   listen: "Restart alloy"
+  when: not ansible_check_mode
 
 - name: Check alloy is started properly
   ansible.builtin.include_tasks: ga-started.yml

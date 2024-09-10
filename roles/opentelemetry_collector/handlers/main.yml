@@ -3,3 +3,4 @@
     name: "{{ otel_collector_service_name }}"
     state: restarted
   become: true
+  when: not ansible_check_mode

@@ -98,7 +98,7 @@
     name: mimir.service
     state: started
     enabled: true
-
+  when: not ansible_check_mode
 
 - name: Verify that Mimir URL is responding
   ansible.builtin.uri:

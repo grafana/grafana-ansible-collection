@@ -1,6 +1,7 @@
 ---
-
+# handlers file for mimir
 - name: Restart mimir
   ansible.builtin.systemd:
     name: mimir.service
     state: restarted
+  when: not ansible_check_mode

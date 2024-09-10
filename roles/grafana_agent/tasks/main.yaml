@@ -46,3 +46,4 @@
     - grafana_agent_install
     - grafana_agent_configure
     - grafana_agent_run
+  when: not ansible_check_mode
