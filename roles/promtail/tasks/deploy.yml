@@ -12,6 +12,7 @@
       become: false
       delegate_to: localhost
       run_once: true
+      check_mode: false
       register: __github_latest_version
 
     - name: Latest available Promtail version
