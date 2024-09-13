@@ -1,27 +1,27 @@
 - name: Create alloy working directory
   ansible.builtin.file:
-    path: "{{ working_dir }}"
+    path: "{{ alloy_working_dir }}"
     state: directory
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    owner: "{{ alloy_service_user }}"
+    group: "{{ alloy_service_group }}"
     mode: "0755"
   become: true
 
 - name: Create alloy config directory
   ansible.builtin.file:
-    path: "{{ config_dir }}"
+    path: "{{ alloy_config_dir }}"
     state: directory
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    owner: "{{ alloy_service_user }}"
+    group: "{{ alloy_service_group }}"
     mode: '0755'
   become: true
 
 - name: Deploy alloy configuration file
   ansible.builtin.template:
     src: config.alloy.j2
-    dest: "{{ config_dir }}/{{ config_file }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    dest: "{{ alloy_config_dir }}/{{ alloy_config_file }}"
+    owner: "{{ alloy_service_user }}"
+    group: "{{ alloy_service_group }}"
     mode: '0644'
   notify: Restart alloy
   become: true
@@ -29,9 +29,9 @@
 - name: Deploy alloy environment file
   ansible.builtin.template:
     src: environment.j2
-    dest: "{{ config_dir }}/{{ environment_file }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_group }}"
+    dest: "{{ alloy_config_dir }}/{{ alloy_environment_file }}"
+    owner: "{{ alloy_service_user }}"
+    group: "{{ alloy_service_group }}"
     mode: '0644'
   notify: Restart alloy
   become: true
