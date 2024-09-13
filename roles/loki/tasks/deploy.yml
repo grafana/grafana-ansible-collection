@@ -135,6 +135,7 @@
   ansible.builtin.systemd:
     name: loki.service
     state: started
+  when: not ansible_check_mode
 
 - name: Verify that Loki URL is responding
   ansible.builtin.uri:
@@ -144,4 +145,6 @@
   retries: 5
   delay: 8
   until: loki_verify_url_status_code.status == 200
-  when: loki_expose_port | bool
+  when:
+    - loki_expose_port | bool
+    - not ansible_check_mode
