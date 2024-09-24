@@ -4,7 +4,7 @@ This Ansible role to install and configure [Alloy](https://grafana.com/docs/allo
 
 ## Requirements
 
-Please ensure that `curl` is intalled on Ansible controller.
+Please ensure that `curl` is installed on the Ansible controller.
 
 ## Role Variables
 
