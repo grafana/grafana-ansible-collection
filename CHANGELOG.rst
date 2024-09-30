@@ -4,6 +4,14 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.5.1
+======
+
+Bugfixes
+-------------
+
+- Add check_mode: false to Loki "Scrape GitHub" Task by @winsmith in https://github.com/grafana/grafana-ansible-collection/pull/262
+
 v5.4.2
 ======
 
