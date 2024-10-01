@@ -43,10 +43,11 @@ collections:
 
 ## Roles included in the collection
 
-This collection includes the following roles to help set up and manage Grafana, Grafana Agent, OpenTelemetry Collector, Loki, Mimir and Promtail:
+This collection includes the following roles to help set up and manage Grafana, Grafana Agent, Alloy, OpenTelemetry Collector, Loki, Mimir and Promtail:
 
 - **Grafana**: Installs and configures Grafana on your target hosts.
 - **Grafana Agent**: Deploys and configures Grafana Agent, allowing for efficient metrics, logs, and trace data shipping to Grafana Cloud or other endpoints.
+- **Alloy**: The replacement for Grafana Agent. Alloy can be used to collect traces, metrics, and logs. 
 - **OpenTelemetry Collector**: Sets up and configures the OpenTelemetry Collector, enabling advanced observability features through data collection and transmission.
 - **Loki**: Deploy and manage Loki, the log aggregation system.
 - **Mimir**: Deploy and manage Mimir, the scalable long-term storage for Prometheus.
