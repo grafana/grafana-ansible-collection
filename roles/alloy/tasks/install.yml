@@ -13,7 +13,7 @@
 - name: Create alloy user
   ansible.builtin.user:
     name: "{{ alloy_service_user }}"
-    group: "{{ alloy_service_group }}"
+    group: "{{ [ alloy_service_group ] + alloy_user_groups }}"
     system: true
     create_home: false  # Appropriate for a system user, usually doesn't need a home directory
   become: true
