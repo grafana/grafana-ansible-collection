@@ -54,3 +54,4 @@
     remote_src: yes
   become: true
   register: extract_result
+  when: not ansible_check_mode
