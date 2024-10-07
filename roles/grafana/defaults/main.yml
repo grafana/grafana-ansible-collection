@@ -239,9 +239,14 @@ grafana_feature_toggles: {}
 #  regressionTransformation: true
 
 #######
-# Plugins from https://grafana.com/plugins
+# Plugins to install from https://grafana.com/plugins
 grafana_plugins: []
 #  - raintank-worldping-app
+
+#######
+# Configuration of plugins  ([plugin] section of grafana.ini]
+grafana_plugins_ops: {}
+#  allow_loading_unsigned_plugins: alexanderzobnin-zabbix-datasource
 
 # Dashboards from https://grafana.com/dashboards
 grafana_dashboards: []
