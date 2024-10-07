@@ -10,7 +10,7 @@
 
 - name: "Set privileges on provisioned dashboards"
   ansible.builtin.file:
-    path: "{{ grafana_data_dir }}/dashboards"
+    path: "{{ grafana_ini.paths.data }}/dashboards"
     recurse: true
     owner: "grafana"
     group: "grafana"
@@ -20,7 +20,7 @@
 
 - name: "Set privileges on provisioned dashboards directory"
   ansible.builtin.file:
-    path: "{{ grafana_data_dir }}/dashboards"
+    path: "{{ grafana_ini.paths.data }}/dashboards"
     state: "directory"
     recurse: false
     mode: "0755"
