@@ -1,39 +1,40 @@
-version: "1.3.1"
+alloy_version: "1.3.1"
 
-arch_mapping:
+
+alloy_arch_mapping:
   x86_64: amd64
   aarch64: arm64
   armv7l: armhf
   i386: i386
   ppc64le: ppc64le
 
-arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+alloy_arch: "{{ alloy_arch_mapping[ansible_architecture] | default('amd64') }}"
 
-binary_url: "https://github.com/grafana/alloy/releases/download/v{{ version }}/alloy-linux-{{ arch }}.zip"
+alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-linux-{{ alloy_arch }}.zip"
 
-service_name: "alloy"
+alloy_service_name: "alloy"
 
-installation_dir: "/usr/local/bin"
+alloy_working_dir: "/opt/alloy"
 
-environment_file: "service.env"
+alloy_installation_dir: "{{ alloy_working_dir }}/bin"
 
-config_dir: "/etc/alloy"
+alloy_environment_file: "service.env"
 
-config_file: "config.alloy"
+alloy_config_dir: "/etc/alloy"
 
-service_user: "alloy"
+alloy_config_file: "config.alloy"
 
-service_group: "alloy"
+alloy_service_user: "alloy"
 
-working_dir: "/var/lib/alloy"
+alloy_service_group: "alloy"
 
-env_file_vars: {}
+alloy_env_file_vars: {}
 
 alloy_flags_extra: {}
 
-start_after_service: ''
+alloy_start_after_service: ''
 
-config: |
+alloy_config: |
   prometheus.scrape "default" {
       targets = [{"__address__" = "localhost:12345"}]
       forward_to = [prometheus.remote_write.prom.receiver]
