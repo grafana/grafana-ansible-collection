@@ -8,11 +8,11 @@
   when: alloy_env_file_vars.CUSTOM_ARGS is defined and alloy_env_file_vars.CUSTOM_ARGS | length > 0
   block:
     - name: Search for server.http.listen-addr string
-      set_fact:
+      ansible.builtin.set_fact:
         __alloy_server_http_listen_addr_regex: "{{ alloy_env_file_vars.CUSTOM_ARGS | regex_search('--server.http.listen-addr=([\\d\\.]+):(\\d+)') }}"
 
     - name: Extract IP address and port
-      set_fact:
+      ansible.builtin.set_fact:
         __alloy_server_http_listen_address: "{{ __alloy_server_http_listen_addr_regex | regex_search('(?<!:)(\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b)(?=:)') }}"
         __alloy_server_http_listen_port: "{{ __alloy_server_http_listen_addr_regex | regex_search('(?<=:)(\\d+)$') }}"
       when: __alloy_server_http_listen_addr_regex | length > 0
