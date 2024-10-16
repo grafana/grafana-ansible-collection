@@ -7,17 +7,9 @@
 - name: Deploy Promtail service
   ansible.builtin.include_tasks:
     file: "deploy.yml"
-    apply:
-      tags: promtail_deploy
-  tags: promtail_deploy
+  when: not promtail_uninstall
 
 - name: Uninstall Promtail service
   ansible.builtin.include_tasks:
     file: "uninstall.yml"
-    apply:
-      tags:
-        - promtail_uninstall
-        - never
-  tags:
-    - promtail_uninstall
-    - never
+  when: promtail_uninstall

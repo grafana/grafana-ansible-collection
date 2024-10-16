@@ -7,7 +7,7 @@ This role is tailored for operating systems such as **RedHat**, **Rocky Linux**,
 
 **🔑 Key Features**
 - **⚡ Root-less/Root runtime**: By default, Promtail operates in root-less mode, utilizing ACL (Access Control List) to securely access logs without requiring root permissions. You have the option to configure root mode if necessary.
-- **🧹 Effortless Uninstall**: Easily remove Promtail from your system using the "promtail_uninstall" tag.
+- **🧹 Effortless Uninstall**: Easily remove Promtail from your system setting the "promtail_uninstall" variable.
 
 📢 **[Check the blog post](https://voidquark.com/blog/rootless-promtail-with-ansible/)** 📝 **Learn more about root-less mode.**
 
@@ -27,6 +27,12 @@ This role is tailored for operating systems such as **RedHat**, **Rocky Linux**,
 promtail_version: "latest"
 ```
 The version of Promtail to download and deploy. Supported standard version "3.0.0" format or "latest".
+
+```yaml
+promtail_uninstall: "false"
+```
+
+If set to `true` will perfom uninstall instead of deployment.
 
 ```yaml
 promtail_http_listen_port: 9080
@@ -54,6 +60,11 @@ promtail_runtime_mode: "acl"
 By default, Promtail runs in root-less mode. It supports two modes:
 - `acl`: Root-less mode, utilizing ACL permission model to read target log files.
 - `root`: Root mode, where Promtail runs as root and ACL configuration is skipped.
+
+```yaml
+promtail_extra_flags: []
+```
+Additional flags to be passed to the Promtail systemd unit.
 
 ```yaml
 promtail_user_append_groups:
@@ -152,7 +163,7 @@ No Dependencies
 ansible-playbook function_promtail_play.yml
 
 # Uninstall Promtail
-ansible-playbook function_promtail_play.yml -t promtail_uninstall
+ansible-playbook function_promtail_play.yml -e "promtail_uninstall=true"
 ```
 
 ## License

@@ -12,6 +12,7 @@
       become: false
       delegate_to: localhost
       run_once: true
+      check_mode: false
       register: __github_latest_version
 
     - name: Latest available Promtail version
@@ -58,7 +59,7 @@
     owner: "promtail"
     group: "root"
     mode: "0644"
-    validate: "/usr/bin/promtail -check-syntax -config.file %s"
+    validate: "/usr/bin/promtail -config.expand-env=true -check-syntax -config.file %s"
   notify: restart promtail
 
 - name: Template Promtail systemd - /etc/systemd/system/promtail.service
@@ -89,6 +90,7 @@
   when:
     - promtail_scrape_configs | length > 0
     - promtail_runtime_mode == "acl"
+    - not ansible_check_mode
 
 - name: Get firewalld state
   ansible.builtin.systemd:
@@ -112,6 +114,7 @@
   ansible.builtin.systemd:
     name: promtail.service
     state: started
+  when: not ansible_check_mode
 
 - name: Stat position file
   ansible.builtin.stat:
@@ -136,4 +139,6 @@
   retries: 5
   delay: 8
   until: promtail_verify_url_status_code.status == 200
-  when: promtail_expose_port | bool
+  when:
+    - promtail_expose_port | bool
+    - not ansible_check_mode

@@ -4,6 +4,39 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.5.1
+======
+
+Bugfixes
+-------------
+
+- Add check_mode: false to Loki "Scrape GitHub" Task by @winsmith in https://github.com/grafana/grafana-ansible-collection/pull/262
+
+v5.4.2
+======
+
+Major Changes
+-------------
+
+- fix:mimir molecule should use ansible core 2.16 by @GVengelen in https://github.com/grafana/grafana-ansible-collection/pull/254
+- promtail: add support for extra args by @harryfinbow in https://github.com/grafana/grafana-ansible-collection/pull/259
+
+v5.4.1
+======
+
+Major Changes
+-------------
+
+- fix: Updated promtail arch map for aarch64 matching by @gianmarco-mameli in https://github.com/grafana/grafana-ansible-collection/pull/257
+
+v5.4.0
+======
+
+Major Changes
+-------------
+
+- fix: Use a variable to control uninstall behavior instead of tags by @dobbi84 in https://github.com/grafana/grafana-ansible-collection/pull/253
+
 v5.3.0
 ======
 
