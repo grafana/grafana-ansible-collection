@@ -18,54 +18,17 @@ This role is tailored for operating systems such as **RedHat**, **Rocky Linux**,
 
 ## Role Variables
 
-```yaml
-alloy_version: "latest"
-```
-The version of Alloy to download and deploy. Supported standard version "1.4.2" format or "latest".
-
-```yaml
-alloy_uninstall: false
-```
-
-If set to `true` will perfom uninstall instead of deployment.
-
-```yaml
-alloy_expose_port: false
-```
-By default, this is set to false. It supports only simple firewalld configurations. If set to true, a firewalld rule is added to expose the TCP alloy port. The Port is automatically extracted from the environment variable `alloy_env_file_vars` in CUSTOM_ARGS when --server.http.listen-addr=0.0.0.0:12345 is defined. If set to false, configuration is skipped. If the firewalld.service is not active, all firewalld tasks are skipped.
-
-```yaml
-alloy_user_groups: []
-```
-Appends the alloy user to specific groups.
-
-```yaml
-alloy_download_url_rpm: "https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.rpm"
-```
-The default download URL for the Alloy rpm package from GitHub.
-
-```yaml
-alloy_download_url_deb: "https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.deb"
-```
-The default download URL for the Alloy deb package from GitHub.
-
-```yaml
-alloy_env_file_vars: {}
-```
-
-You can use environment variables to control the run-time behavior of Grafana Alloy.
-
-```yaml
-alloy_systemd_override: {}
-```
-Systemd unit drop-in file used to override or extend the default configuration of a systemd unit.
-
-```yaml
-alloy_config: {}
-```
-
-This is the configuration that sets up Alloy. Refer to the [configuration blocks](https://grafana.com/docs/alloy/latest/reference/config-blocks/) and [components](https://grafana.com/docs/alloy/latest/reference/components/) documentation for more details. By default, there is no configuration provided, and it is required for successful deployment. Without it, the deployment will fail. Since the purpose of using Alloy varies, no default configuration is provided. ⚠️ **This configuration is mandatory.**
-
+| Variable Name         | Description                                                          | Default Value                                                       |
+|-----------------------|----------------------------------------------------------------------|---------------------------------------------------------------------|
+| `alloy_version`             | The version of Alloy to download and deploy. Supported standard version "1.4.2" format or "latest". | `latest` |
+| `alloy_uninstall`           | If set to `true` will perfom uninstall instead of deployment. | `false` |
+| `alloy_expose_port`         | By default, this is set to false. It supports only simple firewalld configurations. If set to true, a firewalld rule is added to expose the TCP alloy port. The Port is automatically extracted from the environment variable `alloy_env_file_vars` in CUSTOM_ARGS when --server.http.listen-addr=0.0.0.0:12345 is defined. If set to false, configuration is skipped. If the firewalld.service is not active, all firewalld tasks are skipped. | `false` |
+| `alloy_user_groups`         | Appends the alloy user to specific groups. | `[]` |
+| `alloy_download_url_rpm`    | The default download URL for the Alloy rpm package from GitHub. | `"https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.rpm"` |
+| `alloy_download_url_deb`    | The default download URL for the Alloy deb package from GitHub. | `"https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.deb"` |
+| `alloy_env_file_vars`       | You can use environment variables to control the run-time behavior of Grafana Alloy. | `{}` |
+| `alloy_systemd_override`    | Systemd unit drop-in file used to override or extend the default configuration of a systemd unit. | `{}` |
+| `alloy_config`              | This is the configuration that sets up Alloy. Refer to the [configuration blocks](https://grafana.com/docs/alloy/latest/reference/config-blocks/) and [components](https://grafana.com/docs/alloy/latest/reference/components/) documentation for more details. By default, there is no configuration provided, and it is required for successful deployment. Without it, the deployment will fail. Since the purpose of using Alloy varies, no default configuration is provided. ⚠️ **This configuration is mandatory.** | `{}` |
 
 ## Dependencies
 
