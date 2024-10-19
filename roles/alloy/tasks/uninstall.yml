@@ -1,0 +1,52 @@
+---
+- name: Stop Alloy service
+  ansible.builtin.systemd:  # noqa ignore-errors
+    name: alloy
+    state: stopped
+  ignore_errors: true
+
+- name: Uninstall Alloy rpm package
+  ansible.builtin.dnf:
+    name: "alloy"
+    state: absent
+    autoremove: true
+  when: ansible_os_family in ['RedHat', 'Rocky']
+
+- name: Uninstall Alloy deb package
+  ansible.builtin.apt:
+    name: "alloy"
+    state: absent
+    purge: true
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure that Alloy firewalld rule is not present - tcp port {{ __alloy_server_http_listen_port }}
+  ansible.posix.firewalld:  # noqa ignore-errors
+    immediate: true
+    permanent: true
+    port: "{{ __alloy_server_http_listen_port }}/tcp"
+    state: disabled
+  ignore_errors: true
+
+- name: Remove Alloy directories
+  ansible.builtin.file:
+    path: "{{ remove_me }}"
+    state: absent
+  loop:
+    - "/etc/alloy"
+    - "/etc/systemd/system/alloy.service.d"
+    - "/var/lib/alloy"
+    - "/etc/sysconfig/alloy"
+    - "/etc/default/alloy"
+  loop_control:
+    loop_var: remove_me
+
+- name: Remove the Alloy system user
+  ansible.builtin.user:
+    name: "alloy"
+    force: true
+    state: absent
+
+- name: Remove Alloy system group
+  ansible.builtin.group:
+    name: "alloy"
+    state: absent

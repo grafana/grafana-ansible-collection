@@ -1,67 +1,59 @@
-# Ansible Role for Alloy
+# Ansible role - Alloy
+
+[![License](https://img.shields.io/github/license/grafana/grafana-ansible-collection)](LICENSE)
 
 This Ansible role to install and configure [Alloy](https://grafana.com/docs/alloy/latest/), which can be used to collect traces, metrics, and logs.
+This role is tailored for operating systems such as **RedHat**, **Rocky Linux**, **AlmaLinux**, **Ubuntu**, and **Debian**.
+
+## Table of Content
+
+- [Requirements](#requirements)
+- [Role Variables](#role-variables)
+- [Playbook](#playbook)
 
 ## Requirements
 
-Please ensure that `curl` is intalled on Ansible controller.
-
-## Role Variables
-
-Available variables with their default values are listed below (`defaults/main.yml`):
+- Ansible 2.13+
+- `ansible.utils` collection is required. Additionally, you must install the `netaddr` Python library on the host where you are running Ansible (not on the target remote host) if is not present.
 
 ## Role Variables
 
 | Variable Name         | Description                                                          | Default Value                                                       |
 |-----------------------|----------------------------------------------------------------------|---------------------------------------------------------------------|
-| `version`             | The version of Grafana Alloy to be installed.                        | "1.0.0"                                                             |
-| `arch_mapping`        | A mapping of common architecture names to Grafana Alloy binaries.    | `{'x86_64': 'amd64', 'aarch64': 'arm64', 'armv7l': 'armhf', 'i386': 'i386', 'ppc64le': 'ppc64le'}` |
-| `arch`                | The architecture of the current machine.                             | Based on `ansible_architecture` lookup, defaults to 'amd64'.       |
-| `binary_url`          | URL to Grafana Alloy binary for the specific version and architecture. | Constructed URL based on `version` and `arch` variables.          |
-| `service_name`        | The name to be used for the Grafana Alloy service.                   | "alloy"                                                            |
-| `installation_dir`    | Directory where Grafana Alloy binary is to be installed. Must be present.   | "/usr/local/bin"                                                      |
-| `environment_file`    | Name of the environment file for the Grafana Alloy service.          | "service.env"                                                      |
-| `config_dir`          | Directory for Grafana Alloy configuration.                           | "/etc/alloy"                                                      |
-| `config_file`         | Configuration file name for Grafana Alloy.                           | "config.alloy"                                                     |
-| `service_user`        | User under which the Grafana Alloy service will run.                 | "alloy"                                                            |
-| `service_group`       | Group under which the Grafana Alloy service will run.                | "alloy"                                                            |
-| `working_dir`         | Working directory for the Grafana Alloy service.                     | "/var/lib/alloy"                                                      |
-| `env_file_vars`       | Additional environment variables to be set in the service environment file. | {} (Empty dictionary)                                          |
-| `alloy_flags_extra`   | Extra flags to pass to the Alloy service.                            | {} (Empty dictionary)                                              |
-| `start_after_service` | Specify an optional dependency service Alloy should start after.     | '' (Empty string)                                                  |
-| `config`              | Configuration template for Grafana Alloy.                            | Configuration script with Prometheus scrape and remote_write setup |
-| `alloy_user_groups`.  | Configurable user groups that the Grafana Alloy can be put in so that it can access logs.  | `[]` |
+| `alloy_version`             | The version of Alloy to download and deploy. Supported standard version "1.4.2" format or "latest". | `latest` |
+| `alloy_uninstall`           | If set to `true` will perfom uninstall instead of deployment. | `false` |
+| `alloy_expose_port`         | By default, this is set to false. It supports only simple firewalld configurations. If set to true, a firewalld rule is added to expose the TCP alloy port. The Port is automatically extracted from the environment variable `alloy_env_file_vars` in CUSTOM_ARGS when --server.http.listen-addr=0.0.0.0:12345 is defined. If set to false, configuration is skipped. If the firewalld.service is not active, all firewalld tasks are skipped. | `false` |
+| `alloy_user_groups`         | Appends the alloy user to specific groups. | `[]` |
+| `alloy_download_url_rpm`    | The default download URL for the Alloy rpm package from GitHub. | `"https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.rpm"` |
+| `alloy_download_url_deb`    | The default download URL for the Alloy deb package from GitHub. | `"https://github.com/grafana/alloy/releases/download/v{{ aloy_version }}/alloy-{{ aloy_version }}-1.{{ __alloy_arch }}.deb"` |
+| `alloy_env_file_vars`       | You can use environment variables to control the run-time behavior of Grafana Alloy. | `{}` |
+| `alloy_systemd_override`    | Systemd unit drop-in file used to override or extend the default configuration of a systemd unit. | `{}` |
+| `alloy_config`              | This is the configuration that sets up Alloy. Refer to the [configuration blocks](https://grafana.com/docs/alloy/latest/reference/config-blocks/) and [components](https://grafana.com/docs/alloy/latest/reference/components/) documentation for more details. By default, there is no configuration provided, and it is required for successful deployment. Without it, the deployment will fail. Since the purpose of using Alloy varies, no default configuration is provided. ⚠️ **This configuration is mandatory.** | `{}` |
 
+## Dependencies
 
+No Dependencies
 
-## Example Playbook
+## Playbook
 
-Including an example of how to use your role:
 ```yaml
-- name: Install alloy
+- name: Manage alloy service
   hosts: all
   become: true
+  vars:
+    # alloy_config: |
+    #   Your Config Content
+  roles:
+    - role: grafana.grafana.alloy
+```
 
-  tasks:
-    - name: Install alloy
-      ansible.builtin.include_role:
-        name: grafana.grafana.alloy
-      vars:
-        config: |
-          prometheus.scrape "default" {
-            targets = [{"__address__" = "localhost:12345"}]
-            forward_to = [prometheus.remote_write.prom.receiver]
-          }
-          prometheus.remote_write "prom" {
-            endpoint {
-                url = "https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push"
+- Playbook execution example
+```shell
+# Deploy Alloy
+ansible-playbook function_alloy_play.yml
 
-                basic_auth {
-                username = "149xxx"
-                password = "glc_xxx"
-              }
-            }
-          }
+# Uninstall Alloy
+ansible-playbook function_alloy_play.yml -e "alloy_uninstall=true"
 ```
 
 ## License
@@ -71,3 +63,4 @@ See [LICENSE](https://github.com/grafana/grafana-ansible-collection/blob/main/LI
 ## Author Information
 
 -   [Ishan Jain](https://github.com/ishanjainn)
+-   [VoidQuark](https://github.com/voidquark)
