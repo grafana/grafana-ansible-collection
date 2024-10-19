@@ -105,6 +105,10 @@ reporting_enabled = "{{ grafana_analytics.reporting_enabled | default(True) }}"
 google_analytics_ua_id = "{{ grafana_analytics.google_analytics_ua_id }}"
 {% endif %}
 
+{% if grafana_analytics.google_analytics_4_id is defined and grafana_analytics.google_analytics_4_id != '' %}
+google_analytics_4_id = "{{ grafana_analytics.google_analytics_4_id }}"
+{% endif %}
+
 # Dashboards
 [dashboards]
 versions_to_keep = 20
