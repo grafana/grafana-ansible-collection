@@ -7,3 +7,4 @@
     name: loki.service
     state: restarted
     enabled: true
+  when: not ansible_check_mode

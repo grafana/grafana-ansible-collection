@@ -62,6 +62,11 @@ By default, Promtail runs in root-less mode. It supports two modes:
 - `root`: Root mode, where Promtail runs as root and ACL configuration is skipped.
 
 ```yaml
+promtail_extra_flags: []
+```
+Additional flags to be passed to the Promtail systemd unit.
+
+```yaml
 promtail_user_append_groups:
   - "systemd-journal"
 ```
