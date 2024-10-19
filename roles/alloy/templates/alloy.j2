@@ -1,0 +1,8 @@
+# Ansible Managed
+
+CONFIG_FILE="/etc/alloy/config.alloy"
+RESTART_ON_UPGRADE=true
+
+{% for key, value in alloy_env_file_vars.items() %}
+{{ key}}={{value}}
+{% endfor %}
