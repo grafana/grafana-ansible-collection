@@ -1,10 +1,10 @@
+---
+# handlers file for alloy
 - name: Restart alloy
+  listen: "restart alloy"
   ansible.builtin.systemd:
-    name: "{{ alloy_service_name }}"
+    daemon_reload: true
+    name: alloy.service
     state: restarted
-  become: true
-  listen: "Restart alloy"
-
-- name: Check alloy is started properly
-  ansible.builtin.include_tasks: ga-started.yml
-  listen: "Restart alloy"
+    enabled: true
+  when: not ansible_check_mode

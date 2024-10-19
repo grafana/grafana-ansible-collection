@@ -1,49 +1,32 @@
-alloy_version: "1.3.1"
+---
+# defaults file for alloy
+alloy_version: "latest"
+alloy_uninstall: false
+alloy_expose_port: false
+alloy_download_url_rpm: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.rpm"
+alloy_download_url_deb: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.deb"
 
-
-alloy_arch_mapping:
-  x86_64: amd64
-  aarch64: arm64
-  armv7l: armhf
-  i386: i386
-  ppc64le: ppc64le
-
-alloy_arch: "{{ alloy_arch_mapping[ansible_architecture] | default('amd64') }}"
-
-alloy_binary_url: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-linux-{{ alloy_arch }}.zip"
-
-alloy_service_name: "alloy"
-
-alloy_working_dir: "/opt/alloy"
-
-alloy_installation_dir: "{{ alloy_working_dir }}/bin"
-
-alloy_environment_file: "service.env"
-
-alloy_config_dir: "/etc/alloy"
-
-alloy_config_file: "config.alloy"
-
-alloy_service_user: "alloy"
-
-alloy_service_group: "alloy"
+alloy_user_groups: []
+# alloy_user_groups:
+#   - "systemd-journal"
 
 alloy_env_file_vars: {}
+# alloy_env_file_vars:
+#   CUSTOM_ARGS: "--server.http.listen-addr=0.0.0.0:12345 --stability.level=public-preview --feature.community-components.enabled=true"
 
-alloy_flags_extra: {}
+alloy_systemd_override: {}
+# alloy_systemd_override: |
+#   [Service]
+#   User=root
 
-alloy_start_after_service: ''
-
-alloy_config: |
-  prometheus.scrape "default" {
-      targets = [{"__address__" = "localhost:12345"}]
-      forward_to = [prometheus.remote_write.prom.receiver]
-  }
-  prometheus.remote_write "prom" {
-    endpoint {
-        url = "http://mimir:9009/api/v1/push"
-    }
-  }
-
-# Configurable user groups that the Grafana Alloy can be put in so that it can access logs.
-alloy_user_groups: []
+alloy_config: {}
+# alloy_config: |
+#   prometheus.scrape "default" {
+#       targets = [{"__address__" = "127.0.0.1:12345"}]
+#       forward_to = [prometheus.remote_write.prom.receiver]
+#   }
+#   prometheus.remote_write "prom" {
+#     endpoint {
+#         url = "http://mimir:9009/api/v1/push"
+#     }
+#   }
