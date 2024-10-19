@@ -50,3 +50,8 @@ server:
 limits:
   {{ mimir_limits | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
 {% endif %}
+
+{% if mimir_distributor is defined %}
+distributor:
+  {{ mimir_distributor | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
