@@ -8,7 +8,7 @@
     dest: /etc/grafana/provisioning/notification/ansible.yml
     owner: root
     group: grafana
-    mode: 0640
+    mode: "0640"
   become: true
   notify: restart_grafana
   when: grafana_use_provisioning and grafana_alert_notifications | length > 0
@@ -22,7 +22,7 @@
     dest: /etc/grafana/provisioning/alerting/ansible.yml
     owner: root
     group: grafana
-    mode: 0640
+    mode: "0640"
   become: true
   notify: restart_grafana
   when: grafana_use_provisioning and grafana_alert_resources | length > 0

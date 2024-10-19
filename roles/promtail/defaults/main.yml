@@ -1,11 +1,16 @@
 ---
 # defaults file for promtail
 promtail_version: "latest"
+promtail_uninstall: false
 promtail_http_listen_port: 9080
 promtail_http_listen_address: "0.0.0.0"
 promtail_expose_port: false
 promtail_positions_path: "/var/lib/promtail"
 promtail_runtime_mode: "acl"  # Supported "root" or "acl"
+promtail_extra_flags: []
+# promtail_extra_flags:
+#   - "-server.enable-runtime-reload"
+#   - "-config.expand-env=true"
 
 promtail_user_append_groups:
   - "systemd-journal"

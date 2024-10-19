@@ -1,5 +1,5 @@
 ---
-name: Mimir Molecule
+name: Alloy Molecule
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 defaults:
   run:
-    working-directory: roles/mimir
+    working-directory: roles/alloy
 
 jobs:
   molecule:
@@ -21,7 +21,6 @@ jobs:
       matrix:
         distro:
           - rockylinux9
-          - rockylinux8
           - ubuntu2204
           - debian12
 
@@ -35,13 +34,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible-core==2.16 'molecule-plugins[docker]' pytest-testinfra jmespath selinux passlib
-
-      - name: create docker network
-        run: docker network create molecule
-
-      - name: Start s3 backend
-        run: docker run -d -p 9000:9000 -p 9001:9001 --name minio-mimir --network molecule -e "MINIO_ROOT_USER=testtest" -e "MINIO_ROOT_PASSWORD=testtest" -e "MINIO_DEFAULT_BUCKETS=mimir" bitnami/minio:latest
+        run: pip3 install ansible molecule molecule-plugins[docker] docker
 
       - name: Run Molecule tests.
         run: molecule test

@@ -64,6 +64,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_datasources` | [] | List of datasources which should be configured |
 | `grafana_environment` | {} | Optional Environment param for Grafana installation, useful ie for setting http_proxy |
 | `grafana_plugins` | [] |  List of Grafana plugins which should be installed |
+| `grafana_plugins_ops` | {} |  [plugins](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#plugins-1) configuration section |
 | `grafana_alert_notifications` | [] | List of alert notification channels to be created, updated, or deleted |
 
 Data source example:

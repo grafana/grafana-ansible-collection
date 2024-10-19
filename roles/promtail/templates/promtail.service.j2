@@ -9,7 +9,13 @@ User=promtail
 {% elif promtail_runtime_mode == "root" %}
 User=root
 {% endif %}
-ExecStart=/usr/bin/promtail -config.file /etc/promtail/config.yml
+ExecStart=/usr/bin/promtail \
+{% if promtail_extra_flags | length > 0 %}
+{% for flag in promtail_extra_flags %}
+  {{ flag }} \
+{% endfor %}
+{% endif %}
+  -config.file /etc/promtail/config.yml
 
 TimeoutSec = 60
 Restart = on-failure

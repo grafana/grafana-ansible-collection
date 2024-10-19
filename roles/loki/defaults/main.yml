@@ -1,6 +1,7 @@
 ---
 # defaults file for loki
 loki_version: "latest"
+loki_uninstall: false
 loki_http_listen_port: 3100
 loki_http_listen_address: "0.0.0.0"
 loki_expose_port: false
