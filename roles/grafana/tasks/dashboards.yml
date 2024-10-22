@@ -12,7 +12,9 @@
   become: false
   delegate_to: localhost
   run_once: true
-  when: "grafana_dashboards | length > 0"
+  when:
+    - not ansible_check_mode
+    - "grafana_dashboards | length > 0"
   block:
     - name: "Download grafana dashboard from grafana.net to local directory"
       ansible.builtin.get_url:
