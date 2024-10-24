@@ -91,15 +91,6 @@
   when: alloy_config_file is not defined or alloy_config_file == ""
   notify: restart alloy
 
-- name: Template Alloy config - /etc/alloy/config.alloy
-  ansible.builtin.template:
-    src: "config.alloy.j2"
-    dest: "/etc/alloy/config.alloy"
-    owner: "root"
-    group: "root"
-    mode: "0644"
-  notify: restart alloy
-
 - name: Add the Alloy system user to additional group
   ansible.builtin.user:
     name: "alloy"
