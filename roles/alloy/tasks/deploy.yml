@@ -71,6 +71,26 @@
     mode: "0644"
   notify: restart alloy
 
+- name: Copy alloy config file if provided from downstream
+  ansible.builtin.copy:
+    src: "{{ alloy_config_file }}"
+    dest: "/etc/alloy/config.alloy"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: alloy_config_file is defined and alloy_config_file != ""
+  notify: restart alloy
+
+- name: Template alloy config file from variable if no file is provided
+  ansible.builtin.template:
+    src: "config.alloy.j2"
+    dest: "/etc/alloy/config.alloy"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  when: alloy_config_file is not defined or alloy_config_file == ""
+  notify: restart alloy
+
 - name: Template Alloy config - /etc/alloy/config.alloy
   ansible.builtin.template:
     src: "config.alloy.j2"
