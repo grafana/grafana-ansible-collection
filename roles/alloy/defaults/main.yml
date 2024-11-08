@@ -5,7 +5,7 @@ alloy_uninstall: false
 alloy_expose_port: false
 alloy_download_url_rpm: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.rpm"
 alloy_download_url_deb: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.deb"
-
+alloy_local_environment: []
 alloy_user_groups: []
 # alloy_user_groups:
 #   - "systemd-journal"
