@@ -12,6 +12,7 @@
       run_once: true
       check_mode: false
       register: __github_latest_version
+      environment: "{{ alloy_localhost_environment }}"
 
     - name: Latest available Alloy version
       ansible.builtin.set_fact:
