@@ -12,6 +12,7 @@ alloy_user_groups: []
 
 alloy_env_file_vars: {}
 # alloy_env_file_vars:
+#   CONFIG_FILE: "/custom/path"
 #   CUSTOM_ARGS: "--server.http.listen-addr=0.0.0.0:12345 --stability.level=public-preview --feature.community-components.enabled=true"
 
 alloy_systemd_override: {}
