@@ -1,8 +1,11 @@
 ---
-- name: Fail when alloy_config is empty
+- name: Fail when alloy_config or alloy_env_file_vars.CONFIG_FILE is not defined
   ansible.builtin.fail:
-    msg: Variable alloy_config is required!
-  when: alloy_config | length < 1
+    msg: Variable alloy_config or alloy_env_file_vars.CONFIG_FILE is required!
+  when:
+    - alloy_config | length < 1
+    - alloy_env_file_vars.CONFIG_FILE is not defined
+    - not alloy_uninstall
 
 - name: Extract IP address and PORT from alloy_env_file_vars
   when: alloy_env_file_vars.CUSTOM_ARGS is defined and alloy_env_file_vars.CUSTOM_ARGS | length > 0
