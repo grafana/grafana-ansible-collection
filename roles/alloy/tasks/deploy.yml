@@ -78,7 +78,17 @@
     owner: "root"
     group: "root"
     mode: "0644"
+  when:
+    - alloy_config | length > 0
+    - alloy_env_file_vars.CONFIG_FILE is not defined
   notify: restart alloy
+
+- name: Ensure that /etc/alloy/alloy.config is absent when a custom configuration file/dir is specified in alloy_env_file_vars.CONFIG_FILE
+  ansible.builtin.file:
+    path: "/etc/alloy/config.alloy"
+    state: absent
+  when:
+    - alloy_config | length < 1 or alloy_env_file_vars.CONFIG_FILE is defined
 
 - name: Add the Alloy system user to additional group
   ansible.builtin.user:
