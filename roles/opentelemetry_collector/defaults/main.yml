@@ -11,7 +11,7 @@ arch_mapping:
   i386: i386
   ppc64le: ppc64le
 
-otel_collector_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+otel_collector_arch: "{{ arch_mapping[ansible_facts['architecture']] | default('amd64') }}"
 otel_collector_service_name: "otel-collector"
 otel_collector_type: contrib
 otel_collector_executable: "{% if otel_collector_type == 'contrib' %}otelcol-contrib{% else %}otelcol{% endif %}"

@@ -5,4 +5,4 @@ __loki_arch_map:
   armv7l: 'arm'
   aarch64: 'arm64'
 
-__loki_arch: "{{ __loki_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+__loki_arch: "{{ __loki_arch_map[ansible_facts['architecture']] | default(ansible_facts['architecture']) }}"

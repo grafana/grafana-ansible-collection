@@ -109,13 +109,13 @@ promtail_scrape_configs:
           - localhost
         labels:
           job: messages
-          instance: "{{ ansible_fqdn }}"
+          instance: "{{ ansible_facts['fqdn'] }}"
           __path__: /var/log/messages
       - targets:
           - localhost
         labels:
           job: nginx
-          instance: "{{ ansible_fqdn }}"
+          instance: "{{ ansible_facts['fqdn'] }}"
           __path__: /var/log/nginx/*.log
 ```
 The `scrape_configs` block configures how Promtail can scrape logs from a series of targets using a specified discovery method. [All possible values for `scrape_configs`](https://grafana.com/docs/loki/latest/clients/promtail/configuration/#scrape_configs). ⚠️ This configuration is mandatory. By default, it's empty, and the example above serves as a simple illustration for inspiration.
@@ -145,13 +145,13 @@ No Dependencies
               - localhost
             labels:
               job: messages
-              instance: "{{ ansible_fqdn }}"
+              instance: "{{ ansible_facts['fqdn'] }}"
               __path__: /var/log/messages
           - targets:
               - localhost
             labels:
               job: nginx
-              instance: "{{ ansible_fqdn }}"
+              instance: "{{ ansible_facts['fqdn'] }}"
               __path__: /var/log/nginx/*.log
   roles:
     - role: grafana.grafana.promtail

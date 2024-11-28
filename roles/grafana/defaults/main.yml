@@ -9,7 +9,7 @@ grafana_rhsm_subscription: ""
 grafana_rhsm_repo: ""
 
 grafana_apt_release_channel: stable
-grafana_apt_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+grafana_apt_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
 grafana_apt_repo: "deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main"
 grafana_apt_key: "https://apt.grafana.com/gpg.key"
 
@@ -25,7 +25,7 @@ grafana_provisioning_synced: false
 grafana_cap_net_bind_service: false
 
 grafana_ini_default:
-  instance_name: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
+  instance_name: "{{ ansible_facts['fqdn'] | default(ansible_host) | default(inventory_hostname) }}"
 
   paths:
     logs: "/var/log/grafana"
@@ -36,7 +36,7 @@ grafana_ini_default:
     http_port: 3000
     # External Grafana address. Variable maps to "root_url" in grafana server section
     #root_url: "http://{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}"
-    domain: "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}"
+    domain: "{{ ansible_facts['fqdn'] | default(ansible_host) | default('localhost') }}"
 
     # Additional options for grafana "server" section
     # This section WILL omit options for: http_addr, http_port, domain, and root_url, as those settings are set by variables listed before

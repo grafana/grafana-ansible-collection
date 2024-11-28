@@ -6,4 +6,4 @@ __alloy_arch_map:
   armv6l: 'arm'
   armv7l: 'arm'
   aarch64: 'arm64'
-__alloy_arch: "{{ __alloy_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+__alloy_arch: "{{ __alloy_arch_map[ansible_facts['architecture']] | default(ansible_facts['architecture']) }}"

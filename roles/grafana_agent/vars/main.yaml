@@ -10,10 +10,10 @@ _download_cpu_arch_map:
   armv7l: armv7
   armv6l: armv6
 
-_grafana_agent_cpu_arch: "{{ _download_cpu_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+_grafana_agent_cpu_arch: "{{ _download_cpu_arch_map[ansible_facts['architecture']] | default(ansible_facts['architecture']) }}"
 
 # set the go os family
-_grafana_agent_os_family: "{{ ansible_system | lower }}"
+_grafana_agent_os_family: "{{ ansible_facts['system'] | lower }}"
 
 # set the name of the archive file to download
 _grafana_agent_download_archive_file: "grafana-agent-{{ _grafana_agent_os_family }}-{{ _grafana_agent_cpu_arch }}.zip"

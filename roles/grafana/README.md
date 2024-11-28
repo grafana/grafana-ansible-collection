@@ -28,10 +28,10 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_rhsm_subscription` | | rhsm subscription name (redhat subscription-manager) |
 | `grafana_rhsm_repo` | | rhsm repository name (redhat subscription-manager) |
 | `grafana_apt_release_channel` | stable | Apt release chanel (stable or beta) |
-| `grafana_apt_arch` | {{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }} | Apt architecture | 
+| `grafana_apt_arch` | {{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }} | Apt architecture | 
 | `grafana_apt_repo` | deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main | Apt repository string |
 | `grafana_apt_key` | https://apt.grafana.com/gpg.key | Apt repository gpg key |
-| `grafana_ini.instance_name` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
+| `grafana_ini.instance_name` | {{ ansible_facts['fqdn'] \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
 | `grafana_ini.paths.logs` | /var/log/grafana | Path to logs directory |
 | `grafana_ini.paths.data` | /var/lib/grafana | Path to database directory |
 | `grafana_ini.server.http_addr` | 0.0.0.0 | Address on which Grafana listens |
@@ -39,7 +39,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_cap_net_bind_service` | false | Enables the use of ports below 1024 without root privileges by leveraging the 'capabilities' of the linux kernel. read: http://man7.org/linux/man-pages/man7/capabilities.7.html |
 | `grafana_ini.server.root_url` | "http://{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}" | Full URL used to access Grafana from a web browser |
 | `grafana_api_url` | "{{ grafana_url }}" | URL used for API calls in provisioning if different from public URL. See [this issue](https://github.com/cloudalchemy/ansible-grafana/issues/70). |
-| `grafana_ini.server.domain` | "{{ ansible_fqdn \| default(ansible_host) \| default('localhost') }}" | setting is only used in as a part of the `root_url` option. Useful when using GitHub or Google OAuth |
+| `grafana_ini.server.domain` | "{{ ansible_facts['fqdn'] \| default(ansible_host) \| default('localhost') }}" | setting is only used in as a part of the `root_url` option. Useful when using GitHub or Google OAuth |
 | `grafana_ini.server` | { protocol: http, enforce_domain: false, socket: "", cert_key: "", cert_file: "", enable_gzip: false, static_root_path: public, router_logging: false } | [server](http://docs.grafana.org/installation/configuration/#server) configuration section |
 | `grafana_ini.security` | { admin_user: admin, admin_password: "" } | [security](http://docs.grafana.org/installation/configuration/#security) configuration section |
 | `grafana_ini.database` | { type: sqlite3 } | [database](http://docs.grafana.org/installation/configuration/#database) configuration section |

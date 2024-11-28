@@ -76,5 +76,8 @@ platforms:
     privileged: true
     cgroup_parent: docker.slice
     command: /lib/systemd/systemd
+provisioner:
+  env:
+    ANSIBLE_INJECT_FACT_VARS: false
 verifier:
   name: testinfra

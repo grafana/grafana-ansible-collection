@@ -5,4 +5,4 @@ __promtail_arch_map:
   armv7l: 'arm'
   aarch64: 'arm64'
 
-__promtail_arch: "{{ __promtail_arch_map[ansible_architecture] | default(ansible_architecture) }}"
+__promtail_arch: "{{ __promtail_arch_map[ansible_facts['architecture']] | default(ansible_facts['architecture']) }}"

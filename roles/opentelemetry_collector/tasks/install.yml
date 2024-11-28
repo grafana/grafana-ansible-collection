@@ -36,7 +36,7 @@
 
 - name: Determine the architecture for OpenTelemetry Collector binary
   set_fact:
-    otel_collector_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+    otel_collector_arch: "{{ arch_mapping[ansible_facts['architecture']] | default('amd64') }}"
   vars:
     arch_mapping:
       x86_64: amd64

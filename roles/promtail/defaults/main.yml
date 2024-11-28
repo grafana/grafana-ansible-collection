@@ -38,13 +38,13 @@ promtail_scrape_configs: []
 #           - localhost
 #         labels:
 #           job: messages
-#           instance: "{{ ansible_fqdn }}"
+#           instance: "{{ ansible_facts['fqdn'] }}"
 #           __path__: /var/log/messages
 #       - targets:
 #           - localhost
 #         labels:
 #           job: nginx
-#           instance: "{{ ansible_fqdn }}"
+#           instance: "{{ ansible_facts['fqdn'] }}"
 #           __path__: /var/log/nginx/*.log
 
 # not set by default

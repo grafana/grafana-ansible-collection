@@ -12,14 +12,14 @@
     name: "loki"
     state: absent
     autoremove: true
-  when: ansible_os_family in ['RedHat', 'Rocky']
+  when: ansible_facts['os_family'] in ['RedHat', 'Rocky']
 
 - name: Uninstall Loki deb package
   ansible.builtin.apt:
     name: "loki"
     state: absent
     purge: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Ensure that Loki firewalld rule is not present - tcp port {{ loki_http_listen_port }}
   ansible.posix.firewalld:  # noqa ignore-errors
