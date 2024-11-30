@@ -16,6 +16,7 @@
       - grafana_analytics is undefined
       - grafana_smtp is undefined
       - grafana_alerting is undefined
+      - grafana_unified_alerting is undefined
       - grafana_log is undefined
       - grafana_metrics is undefined
       - grafana_tracing is undefined
@@ -23,6 +24,7 @@
       - grafana_image_storage is undefined
       - grafana_date_formats is undefined
       - grafana_feature_toggles is undefined
+      - grafana_plugins_ops is undefined
       - grafana_instance is undefined
       - grafana_address is undefined
       - grafana_port is undefined
