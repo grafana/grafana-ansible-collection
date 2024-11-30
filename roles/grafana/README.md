@@ -31,40 +31,26 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_apt_arch` | {{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }} | Apt architecture | 
 | `grafana_apt_repo` | deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main | Apt repository string |
 | `grafana_apt_key` | https://apt.grafana.com/gpg.key | Apt repository gpg key |
-| `grafana_instance` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
-| `grafana_logs_dir` | /var/log/grafana | Path to logs directory |
-| `grafana_data_dir` | /var/lib/grafana | Path to database directory |
-| `grafana_address` | 0.0.0.0 | Address on which Grafana listens |
-| `grafana_port` | 3000 | port on which Grafana listens |
+| `grafana_ini.instance_name` | {{ ansible_fqdn \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
+| `grafana_ini.paths.logs` | /var/log/grafana | Path to logs directory |
+| `grafana_ini.paths.data` | /var/lib/grafana | Path to database directory |
+| `grafana_ini.server.http_addr` | 0.0.0.0 | Address on which Grafana listens |
+| `grafana_ini.server.http_port` | 3000 | port on which Grafana listens |
 | `grafana_cap_net_bind_service` | false | Enables the use of ports below 1024 without root privileges by leveraging the 'capabilities' of the linux kernel. read: http://man7.org/linux/man-pages/man7/capabilities.7.html |
-| `grafana_url` | "http://{{ grafana_address }}:{{ grafana_port }}" | Full URL used to access Grafana from a web browser |
+| `grafana_ini.server.root_url` | "http://{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}" | Full URL used to access Grafana from a web browser |
 | `grafana_api_url` | "{{ grafana_url }}" | URL used for API calls in provisioning if different from public URL. See [this issue](https://github.com/cloudalchemy/ansible-grafana/issues/70). |
-| `grafana_domain` | "{{ ansible_fqdn \| default(ansible_host) \| default('localhost') }}" | setting is only used in as a part of the `root_url` option. Useful when using GitHub or Google OAuth |
-| `grafana_server` | { protocol: http, enforce_domain: false, socket: "", cert_key: "", cert_file: "", enable_gzip: false, static_root_path: public, router_logging: false } | [server](http://docs.grafana.org/installation/configuration/#server) configuration section |
-| `grafana_security` | { admin_user: admin, admin_password: "" } | [security](http://docs.grafana.org/installation/configuration/#security) configuration section |
-| `grafana_database` | { type: sqlite3 } | [database](http://docs.grafana.org/installation/configuration/#database) configuration section |
-| `grafana_welcome_email_on_sign_up` | false | Send welcome email after signing up |
-| `grafana_users` | { allow_sign_up: false, auto_assign_org_role: Viewer, default_theme: dark } | [users](http://docs.grafana.org/installation/configuration/#users) configuration section |
-| `grafana_auth` | {} | [authorization](http://docs.grafana.org/installation/configuration/#auth) configuration section |
+| `grafana_ini.server.domain` | "{{ ansible_fqdn \| default(ansible_host) \| default('localhost') }}" | setting is only used in as a part of the `root_url` option. Useful when using GitHub or Google OAuth |
+| `grafana_ini.server` | { protocol: http, enforce_domain: false, socket: "", cert_key: "", cert_file: "", enable_gzip: false, static_root_path: public, router_logging: false } | [server](http://docs.grafana.org/installation/configuration/#server) configuration section |
+| `grafana_ini.security` | { admin_user: admin, admin_password: "" } | [security](http://docs.grafana.org/installation/configuration/#security) configuration section |
+| `grafana_ini.database` | { type: sqlite3 } | [database](http://docs.grafana.org/installation/configuration/#database) configuration section |
+| `grafana_ini.users` | { allow_sign_up: false, auto_assign_org_role: Viewer, default_theme: dark } | [users](http://docs.grafana.org/installation/configuration/#users) configuration section |
+| `grafana_ini.auth` | {} | [authorization](http://docs.grafana.org/installation/configuration/#auth) configuration section |
 | `grafana_ldap` | {} | [ldap](http://docs.grafana.org/installation/ldap/) configuration section. group_mappings are expanded, see defaults for example |
-| `grafana_session` | {} | [session](http://docs.grafana.org/installation/configuration/#session) management configuration section |
-| `grafana_analytics` | {} | Google [analytics](http://docs.grafana.org/installation/configuration/#analytics) configuration section |
-| `grafana_smtp` | {} | [smtp](http://docs.grafana.org/installation/configuration/#smtp) configuration section |
-| `grafana_alerting` | { execute_alerts: true } | [alerting](http://docs.grafana.org/installation/configuration/#alerting) configuration section, require Grafana v10 and below |
-| `grafana_unified_alerting` | { enabled: true } | [unified_alerting](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#unified_alerting) configuration section, require Grafana v11+ |
-| `grafana_log` | {} | [log](http://docs.grafana.org/installation/configuration/#log) configuration section |
-| `grafana_metrics` | {} | [metrics](http://docs.grafana.org/installation/configuration/#metrics) configuration section |
-| `grafana_tracing` | {} | [tracing](http://docs.grafana.org/installation/configuration/#tracing) configuration section |
-| `grafana_snapshots` | {} | [snapshots](http://docs.grafana.org/installation/configuration/#snapshots) configuration section |
-| `grafana_image_storage` | {} | [image storage](http://docs.grafana.org/installation/configuration/#external-image-storage) configuration section |
-| `grafana_date_formats` | {} | [date formats](http://docs.grafana.org/installation/configuration/#date_formats) configuration section |
-| `grafana_feature_toggles` | {} | [feature toggles](http://docs.grafana.org/installation/configuration/#feature_toggles) configuration section |
 | `grafana_dashboards` | [] | List of dashboards which should be imported |
 | `grafana_dashboards_dir` | "dashboards" | Path to a local directory containing dashboards files in `json` format |
 | `grafana_datasources` | [] | List of datasources which should be configured |
 | `grafana_environment` | {} | Optional Environment param for Grafana installation, useful ie for setting http_proxy |
 | `grafana_plugins` | [] |  List of Grafana plugins which should be installed |
-| `grafana_plugins_ops` | {} |  [plugins](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#plugins-1) configuration section |
 | `grafana_alert_notifications` | [] | List of alert notification channels to be created, updated, or deleted |
 
 Data source example:
@@ -110,18 +96,6 @@ grafana_alert_notifications:
       uid: channel2
 ```
 
-**NOTE 2**: setting the `http_addr`,`http_port`,`domain` and `root_url` parameters under the `grafana_server` variable has no effect, the `grafana_address`, `grafana_port`, `grafana_domain` and `grafana_url` values are used instead ( from [defaults/main.yml](defaults/main.yml) or as set variables).
-An example snippet:
-```yaml
-grafana_domain: "{{ inventory_hostname }}"
-grafana_url: "https://{{ inventory_hostname }}:3000"
-grafana_address: 0.0.0.0
-grafana_port: 3000
-
-grafana_server:
-  enforce_domain: false
-```
-
 ## Supported CPU Architectures
 
 Historically packages were taken from different channels according to CPU architecture. Specifically, armv6/armv7 and aarch64/arm64 packages were via [unofficial packages distributed by fg2it](https://github.com/fg2it/grafana-on-raspberry). Now that Grafana publishes official ARM builds, all packages are taken from the official [Debian/Ubuntu](http://docs.grafana.org/installation/debian/#installing-on-debian-ubuntu) or [RPM](http://docs.grafana.org/installation/rpm/) packages.
@@ -137,9 +111,10 @@ Fill in the admin password field with your choice, the Grafana web page won't as
   roles:
     - role: grafana.grafana.grafana
       vars:
-        grafana_security:
-          admin_user: admin
-          admin_password: enter_your_secure_password
+        grafana_ini:
+          security:
+            admin_user: admin
+            admin_password: enter_your_secure_password
 ```
 
 
