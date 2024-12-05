@@ -4,6 +4,19 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v5.7.0
+======
+
+Major Changes
+-------------
+- Fix 'dict object' has no attribute 'path' when running with --check by @JMLX42 in https://github.com/grafana/grafana-ansible-collection/pull/283
+- Ability to set custom directory path for *.alloy config files by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/294
+- grafana.ini yaml syntax by @intermittentnrg in https://github.com/grafana/grafana-ansible-collection/pull/232
+- Update grafana template by @santilococo in https://github.com/grafana/grafana-ansible-collection/pull/300
+- OpenTelemetry Collector: Add tests and support version latest by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/299
+- add loki bloom support by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/298
+
+
 v5.6.0
 ======
 
