@@ -340,3 +340,12 @@ releases:
       - fix ansible-lint warnings on Forbidden implicit octal value "0640" by @copolycube in https://github.com/grafana/grafana-ansible-collection/pull/279
       - add option to populate google_analytics_4_id value by @copolycube in https://github.com/grafana/grafana-ansible-collection/pull/249
       - Adding "distributor" section support to mimir config file by @HamzaKhait in https://github.com/grafana/grafana-ansible-collection/pull/247
+  5.7.0:
+    changes:
+      major_changes:
+      - Fix 'dict object' has no attribute 'path' when running with --check by @JMLX42 in https://github.com/grafana/grafana-ansible-collection/pull/283
+      - Ability to set custom directory path for *.alloy config files by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/294
+      - grafana.ini yaml syntax by @intermittentnrg in https://github.com/grafana/grafana-ansible-collection/pull/232
+      - Update grafana template by @santilococo in https://github.com/grafana/grafana-ansible-collection/pull/300
+      - OpenTelemetry Collector: Add tests and support version latest by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/299
+      - add loki bloom support by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/298

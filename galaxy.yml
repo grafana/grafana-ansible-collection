@@ -1,7 +1,7 @@
 ---
 namespace: grafana
 name: grafana
-version: 5.6.0
+version: 5.7.0
 readme: README.md
 authors:
   - Grafana Labs <grafana.com>
