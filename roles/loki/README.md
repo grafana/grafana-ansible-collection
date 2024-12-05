@@ -215,6 +215,8 @@ Below variables allow you to extend Loki configuration to fit your needs. Always
 | `loki_runtime_config` | Configuration for `runtime config` module, responsible for reloading runtime configuration file. 📚 [documentation](https://grafana.com/docs/loki/latest/configuration/#runtime_config)
 | `loki_operational_config` | These are values which allow you to control aspects of Loki's operation, most commonly used for controlling types of higher verbosity logging, the values here can be overridden in the configs section of the `runtime_config` file. 📚 [documentation](https://grafana.com/docs/loki/latest/configure/#operational_config)
 | `loki_tracing` | Configuration for tracing. 📚 [documentation](https://grafana.com/docs/loki/latest/configuration/#tracing)
+| `loki_bloom_build` | The `bloom_build` block configures the Loki bloom planner and builder servers, responsible for building bloom filters. 📚 [documentation](https://grafana.com/docs/loki/latest/configure/#bloom_build)
+| `loki_bloom_gateway` | The `bloom_gateway` block configures the Loki bloom gateway server, responsible for serving queries for filtering chunks based on filter expressions. 📚 [documentation](https://grafana.com/docs/loki/latest/configure/#bloom_gateway)
 
 ## Playbook
 
