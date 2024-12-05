@@ -97,3 +97,11 @@ analytics:
 common:
   {{ loki_common | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
 {% endif %}
+{% if loki_bloom_build is defined %}
+bloom_build:
+  {{ loki_bloom_build | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
+{% endif %}
+{% if loki_bloom_gateway is defined %}
+bloom_gateway:
+  {{ loki_bloom_gateway | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
+{% endif %}
