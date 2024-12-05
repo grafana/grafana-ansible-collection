@@ -4,7 +4,7 @@ This Ansible role to install and configure the OpenTelemetry Collector, which ca
 
 ## Requirements
 
-Please ensure that `curl` is intalled on Ansible controller.
+Please ensure that `curl` is installed on Ansible controller.
 
 ## Role Variables
 
@@ -12,7 +12,7 @@ Available variables with their default values are listed below (`defaults/main.y
 
 | Variable Name | Description | Default Value |
 |---------------|-------------|---------------|
-| `otel_collector_version` | Version of OpenTelemetry Collector to install. | `"0.90.1"` |
+| `otel_collector_version` | Version of OpenTelemetry Collector to install. Set to 'latest' to automatically determine and install the latest release | `"0.90.1"` |
 | `otel_collector_binary_url` | URL for downloading the OpenTelemetry Collector binary. This URL is constructed based on the collector version, type, and architecture. | `"https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v{{ otel_collector_version }}/{% if otel_collector_type == 'contrib' %}otelcol-contrib_{{ otel_collector_version }}_linux_{{ otel_collector_arch }}{% else %}otelcol_{{ otel_collector_version }}_linux_{{ otel_collector_arch }}{% endif %}.tar.gz"` |
 | `arch_mapping` | Mapping of `ansible_architecture` values to OpenTelemetry Collector binary architecture names. | See below\* |
 | `otel_collector_arch` | Architecture for the OpenTelemetry Collector binary, determined based on the `ansible_architecture` fact. | `"{{ arch_mapping[ansible_architecture] | default('amd64') }}"` |
