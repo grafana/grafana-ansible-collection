@@ -12,14 +12,14 @@
     name: "mimir"
     state: absent
     autoremove: true
-  when: ansible_os_family in ['RedHat', 'Rocky']
+  when: ansible_facts['os_family'] in ['RedHat', 'Rocky']
 
 - name: Uninstall Mimir deb package
   ansible.builtin.apt:
     name: "mimir"
     state: absent
     purge: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Ensure that Mimir firewalld rule is not present - tcp port {{ mimir_http_listen_port }}
   ansible.posix.firewalld:  # noqa ignore-errors

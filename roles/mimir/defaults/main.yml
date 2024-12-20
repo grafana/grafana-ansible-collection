@@ -2,7 +2,7 @@
 # defaults file for mimir
 mimir_version: "latest"
 mimir_uninstall: false
-__mimir_arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+__mimir_arch: "{{ arch_mapping[ansible_facts['architecture']] | default('amd64') }}"
 mimir_download_url_rpm: "https://github.com/grafana/mimir/releases/download/{{ mimir_version }}/{{ mimir_version }}_{{ __mimir_arch }}.rpm"
 mimir_download_url_deb: "https://github.com/grafana/mimir/releases/download/{{ mimir_version }}/{{ mimir_version }}_{{ __mimir_arch }}.deb"
 mimir_working_path: "/var/lib/mimir"

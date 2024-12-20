@@ -9,7 +9,7 @@
               - localhost
             labels:
               job: test
-              instance: "{{ ansible_fqdn }}"
+              instance: "{{ ansible_facts['fqdn'] }}"
               __path__: /var/log/last*
   roles:
     - role: grafana.grafana.promtail

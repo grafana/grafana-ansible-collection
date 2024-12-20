@@ -78,14 +78,14 @@
     name: "promtail"
     state: absent
     autoremove: true
-  when: ansible_os_family in ['RedHat', 'Rocky']
+  when: ansible_facts['os_family'] in ['RedHat', 'Rocky']
 
 - name: Uninstall Promtail deb package
   ansible.builtin.apt:
     name: "promtail"
     state: absent
     purge: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Ensure that Promtail firewalld rule is not present - tcp port {{ promtail_http_listen_port }}
   ansible.posix.firewalld:  # noqa ignore-errors

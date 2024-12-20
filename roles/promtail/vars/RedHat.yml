@@ -1,2 +1,2 @@
 ---
-__promtail_arch: "{{ ansible_architecture }}"
+__promtail_arch: "{{ ansible_facts['architecture'] }}"

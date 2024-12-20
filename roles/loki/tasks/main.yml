@@ -2,7 +2,7 @@
 # tasks file for loki
 - name: Include OS specific variables
   ansible.builtin.include_vars:
-    file: "{{ ansible_os_family }}.yml"
+    file: "{{ ansible_facts['os_family'] }}.yml"
 
 - name: Deploy Loki service
   ansible.builtin.include_tasks:

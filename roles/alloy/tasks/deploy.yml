@@ -34,12 +34,12 @@
 - name: Include RedHat/Rocky setup
   ansible.builtin.include_tasks:
     file: setup-RedHat.yml
-  when: ansible_os_family in ['RedHat', 'Rocky']
+  when: ansible_facts['os_family'] in ['RedHat', 'Rocky']
 
 - name: Include Debian/Ubuntu setup
   ansible.builtin.include_tasks:
     file: setup-Debian.yml
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Alloy systemd override
   when: alloy_systemd_override | length > 0

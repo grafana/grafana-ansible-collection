@@ -2,7 +2,7 @@
 # Grafana Agent Environment File
 AGENT_MODE={{ grafana_agent_mode }}
 
-GOMAXPROCS={{ ansible_processor_vcpus|default(ansible_processor_count) }}
+GOMAXPROCS={{ ansible_facts['processor_vcpus']|default(ansible_facts['processor_count']) }}
 
 {% for key, value in grafana_agent_env_file_vars.items() %}
 {{key}}={{value}}
