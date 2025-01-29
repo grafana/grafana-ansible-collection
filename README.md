@@ -24,7 +24,7 @@ Before using the Grafana collection, you need to install it using the below comm
 ansible-galaxy collection install grafana.grafana
 ```
 
-You can also include it in a `requirements.yml` file and install it via ansible-galaxy collection install -r `requirements.yml`, using the format:
+You can also include it in a `requirements.yml` file and install it via `ansible-galaxy collection install -r requirements.yml`, using the format:
 
 ```yaml
 ---
