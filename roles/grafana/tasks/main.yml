@@ -9,9 +9,9 @@
     params:
       skip: true
       files:
-        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution']_version | lower }}.yml"
-        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution']_major_version | lower }}.yml"
-        - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution']_major_version | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
         - "{{ ansible_facts['distribution'] | lower }}.yml"
         - "{{ ansible_facts['os_family'] | lower }}.yml"
       paths:
