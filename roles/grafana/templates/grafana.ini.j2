@@ -3,6 +3,12 @@
 # http://docs.grafana.org/installation/configuration
 # https://github.com/grafana/grafana/blob/master/conf/sample.ini
 
+{% for k, v in grafana_ini.items() %}
+{% if v is not mapping %}
+{{ k }} = {{ v }}
+{% endif %}
+{% endfor %}
+
 {% for section, items in grafana_ini.items() %}
 {% if items is mapping %}
 [{{ section }}]
@@ -17,8 +23,6 @@
 {{ sub_key }} = {{ sub_value }}
 {% endif %}
 {% endfor %}
-{% else %}
-{{ section }} = {{ items }}
 {% endif %}
 
 {% endfor %}
