@@ -19,6 +19,9 @@ grafana_use_provisioning: true
 # Should the provisioning be kept synced. If true, previous provisioned objects will be removed if not referenced anymore.
 grafana_provisioning_synced: false
 
+# Should we provision dashboards by following the files structure. This sets the foldersFromFilesStructure option
+grafana_provisioning_dashboards_from_file_structure: false
+
 # To enable the use of ports below 1024 for unprivileged processes linux needs to set CAP_NET_BIND_SERVICE.
 # This has some security implications, and should be a conscious choice.
 # Get informed by reading: http://man7.org/linux/man-pages/man7/capabilities.7.html
