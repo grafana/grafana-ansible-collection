@@ -52,6 +52,12 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_environment` | {} | Optional Environment param for Grafana installation, useful ie for setting http_proxy |
 | `grafana_plugins` | [] |  List of Grafana plugins which should be installed |
 | `grafana_alert_notifications` | [] | List of alert notification channels to be created, updated, or deleted |
+| `grafana_ini.metrics.enabled` | true | Enable metrics |
+| `grafana_ini.metrics.interval_seconds` | 10 | Interval in seconds for metrics collection |
+| `grafana_ini.metrics.disable_total_stats` | false | Disable total stats metrics |
+| `grafana_ini.metrics.total_stats_collector_interval_seconds` | 1800 | Interval in seconds for total stats collector |
+| `grafana_ini.metrics.basic_auth_username` | "" | Basic auth username for metrics endpoints |
+| `grafana_ini.metrics.basic_auth_password` | "" | Basic auth password for metrics endpoints |
 
 Data source example:
 

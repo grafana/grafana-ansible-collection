@@ -48,3 +48,14 @@ def test_yum_repo(host):
     if host.system_info.distribution in ['centos', 'redhat', 'fedora']:
         f = host.file("/etc/yum.repos.d/grafana.repo")
         assert f.exists
+
+
+def test_metrics_settings(host):
+    f = host.file("/etc/grafana/grafana.ini")
+    assert f.contains("[metrics]")
+    assert f.contains("enabled = true")
+    assert f.contains("interval_seconds = 10")
+    assert f.contains("disable_total_stats = false")
+    assert f.contains("total_stats_collector_interval_seconds = 1800")
+    assert f.contains("basic_auth_username = ")
+    assert f.contains("basic_auth_password = ")
