@@ -103,6 +103,13 @@ grafana_ini_default:
   #  basic:
   #    enabled: true
 
+  metrics:
+    enabled: true
+    interval_seconds: 10
+    disable_total_stats: false
+    total_stats_collector_interval_seconds: 1800
+    basic_auth_username: ""
+    basic_auth_password: ""
 
 grafana_api_url: "{{ grafana_ini.server.root_url }}"
 
