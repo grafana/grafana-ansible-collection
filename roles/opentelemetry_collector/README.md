@@ -24,6 +24,7 @@ Available variables with their default values are listed below (`defaults/main.y
 | `otel_collector_config_file` | The main configuration file name for the OpenTelemetry Collector. | `"config.yaml"` |
 | `otel_collector_service_user` | The system user under which the OpenTelemetry Collector service will run. | `"otel"` |
 | `otel_collector_service_group` | The system group under which the OpenTelemetry Collector service will run. | `"otel"` |
+| `otel_collector_service_statedirectory` | The directory systemd should create under `/var/lib`. | `"otel-collector"` |
 | `otel_collector_receivers` | Receivers configuration for the OpenTelemetry Collector. | `""` |
 | `otel_collector_exporters` | Exporters configuration for the OpenTelemetry Collector. | `""` |
 | `otel_collector_processors` | Processors configuration for the OpenTelemetry Collector. | `""` |
