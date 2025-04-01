@@ -99,6 +99,7 @@ jobs:
     name: Publish to Galaxy
     runs-on: ubuntu-latest
     needs: [sanity, integration]
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -110,6 +111,17 @@ jobs:
 
       - name: Install Ansible
         run: pip install ansible-core
+      
+      - name: Install PyYaml
+        run: pip install pyyaml
+
+      - name: Validate version matches
+        run: |
+          VERSION=$(python -c "import yaml; print(yaml.safe_load(open('galaxy.yml'))['version'])")
+          if [ "$VERSION" != "${{ github.event.inputs.version }}" ]; then
+            echo "Error: Input version (${{ github.event.inputs.version }}) doesn't match galaxy.yml version ($VERSION)"
+            exit 1
+          fi
 
       - name: Build collection
         id: build
