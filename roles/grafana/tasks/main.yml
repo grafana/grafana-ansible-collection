@@ -112,6 +112,14 @@
         - grafana_run
   when: "grafana_alert_notifications | length > 0 or grafana_alert_resources | length > 0"
 
+- name: Find dashboards to be provisioned
+  ansible.builtin.find:
+    paths: "{{ grafana_dashboards_dir }}"
+    recurse: true
+    patterns: "*.json"
+  delegate_to: localhost
+  register: __found_dashboards
+
 - name: Dashboards
   ansible.builtin.include_tasks:
     file: dashboards.yml
@@ -121,5 +129,3 @@
         - grafana_dashboards
         - grafana_run
   when: "grafana_dashboards | length > 0 or __found_dashboards | length > 0"
-  vars:
-    __found_dashboards: "{{ lookup('fileglob', grafana_dashboards_dir + '/*.json', wantlist=True) }}"
