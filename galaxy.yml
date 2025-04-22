@@ -1,11 +1,12 @@
 ---
 namespace: grafana
 name: grafana
-version: 4.0.0
+version: 5.7.0
 readme: README.md
 authors:
   - Grafana Labs <grafana.com>
   - Ishan Jain <ishan.jain@grafana.com>
+  - Gerard van Engelen <g.vanengelen@codepeople.nl>
 description: Ansible collection to manage Grafana resources
 license:
   - GPL-3.0-or-later

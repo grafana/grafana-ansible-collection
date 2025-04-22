@@ -34,7 +34,7 @@
 
 - name: "Prepare yum/dnf"
   when:
-    - "ansible_pkg_mgr in ['yum', 'dnf']"
+    - "ansible_facts['pkg_mgr'] in ['yum', 'dnf']"
     - "(grafana_manage_repo)"
   environment: "{{ grafana_environment }}"
   block:
@@ -87,7 +87,7 @@
 
 - name: "Prepare apt"
   when:
-    - "ansible_pkg_mgr == 'apt'"
+    - "ansible_facts['pkg_mgr'] == 'apt'"
     - "(grafana_manage_repo)"
   environment: "{{ grafana_environment }}"
   block:

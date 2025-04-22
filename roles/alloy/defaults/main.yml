@@ -1,45 +1,33 @@
-version: "1.0.0"
+---
+# defaults file for alloy
+alloy_version: "latest"
+alloy_uninstall: false
+alloy_expose_port: false
+alloy_download_url_rpm: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.rpm"
+alloy_download_url_deb: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.deb"
 
-arch_mapping:
-  x86_64: amd64
-  aarch64: arm64
-  armv7l: armhf
-  i386: i386
-  ppc64le: ppc64le
+alloy_user_groups: []
+# alloy_user_groups:
+#   - "systemd-journal"
 
-arch: "{{ arch_mapping[ansible_architecture] | default('amd64') }}"
+alloy_env_file_vars: {}
+# alloy_env_file_vars:
+#   CONFIG_FILE: "/custom/path"
+#   CUSTOM_ARGS: "--server.http.listen-addr=0.0.0.0:12345 --stability.level=public-preview --feature.community-components.enabled=true"
 
-binary_url: "https://github.com/grafana/alloy/releases/download/v{{ version }}/alloy-linux-{{ arch }}.zip"
+alloy_systemd_override: {}
+# alloy_systemd_override: |
+#   [Service]
+#   User=root
 
-service_name: "alloy"
-
-installation_dir: "/etc/alloy"
-
-environment_file: "service.env"
-
-config_dir: "/etc/alloy"
-
-config_file: "config.alloy"
-
-service_user: "alloy"
-
-service_group: "alloy"
-
-working_dir: "/etc/alloy"
-
-env_file_vars: {}
-
-alloy_flags_extra: {}
-
-start_after_service: ''
-
-config: |
-  prometheus.scrape "default" {
-      targets = [{"__address__" = "localhost:12345"}]
-      forward_to = [prometheus.remote_write.prom.receiver]
-  }
-  prometheus.remote_write "prom" {
-    endpoint {
-        url = "http://mimir:9009/api/v1/push"
-    }
-  }
+alloy_config: {}
+# alloy_config: |
+#   prometheus.scrape "default" {
+#       targets = [{"__address__" = "127.0.0.1:12345"}]
+#       forward_to = [prometheus.remote_write.prom.receiver]
+#   }
+#   prometheus.remote_write "prom" {
+#     endpoint {
+#         url = "http://mimir:9009/api/v1/push"
+#     }
+#   }

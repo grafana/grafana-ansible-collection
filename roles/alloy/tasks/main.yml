@@ -1,11 +1,19 @@
-- name: Install alloy
-  include_tasks: install.yml
-  tags: [install]
+---
+# tasks file for alloy
+- name: Include OS specific variables
+  ansible.builtin.include_vars:
+    file: "{{ ansible_facts['os_family'] }}.yml"
 
-- name: Configure alloy
-  include_tasks: configure.yml
-  tags: [configure]
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: "preflight.yml"
 
-- name: Manage alloy service
-  include_tasks: service.yml
-  tags: [service]
+- name: Deploy Alloy service
+  ansible.builtin.include_tasks:
+    file: "deploy.yml"
+  when: not alloy_uninstall
+
+- name: Uninstall Alloy service
+  ansible.builtin.include_tasks:
+    file: "uninstall.yml"
+  when: alloy_uninstall
