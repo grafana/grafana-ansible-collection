@@ -3,6 +3,8 @@
   ansible.builtin.set_fact:
     grafana_ini: "{{ grafana_ini_default | ansible.builtin.combine(grafana_ini, recursive=true) }}"
   no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
+  tags:
+    - always
 - name: "Gather variables for each operating system"
   ansible.builtin.include_vars: "{{ distrovars }}"
   vars:
@@ -111,6 +113,14 @@
         - grafana_run
   when: "grafana_alert_notifications | length > 0 or grafana_alert_resources | length > 0"
 
+- name: Find dashboards to be provisioned
+  ansible.builtin.find:
+    paths: "{{ grafana_dashboards_dir }}"
+    recurse: true
+    patterns: "*.json"
+  delegate_to: localhost
+  register: __found_dashboards
+
 - name: Dashboards
   ansible.builtin.include_tasks:
     file: dashboards.yml
@@ -120,5 +130,3 @@
         - grafana_dashboards
         - grafana_run
   when: "grafana_dashboards | length > 0 or __found_dashboards | length > 0"
-  vars:
-    __found_dashboards: "{{ lookup('fileglob', grafana_dashboards_dir + '/*.json', wantlist=True) }}"

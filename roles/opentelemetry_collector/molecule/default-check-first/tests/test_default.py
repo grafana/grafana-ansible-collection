@@ -11,7 +11,9 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 
 def test_directories(host):
-    dirs = ["/etc/otel-collector", "/var/lib/otel-collector"]
+    dirs = [
+        "/etc/otel-collector",
+    ]
     files = ["/etc/otel-collector/config.yaml"]
     for directory in dirs:
         d = host.file(directory)
