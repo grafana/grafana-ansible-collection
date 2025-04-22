@@ -1,4 +1,7 @@
-# Role Name
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | This Ansible role is now in maintenance mode only. We recommend using the Grafana Alloy Role for future deployments and updates.
+|---|---|
+
+# Ansible Role for Grafana Agent
 
 Ansible Role to deploy Grafana Agent on Linux hosts. Using this Role, Grafana Agent can be deployed on RedHat, Ubuntu, Debian, CentOS
 and Fedora linux distributions.
@@ -22,6 +25,7 @@ All variables which can be overridden are stored in [./defaults/main.yaml](./def
 | `grafana_agent_config_dir` | `/etc/grafana-agent` | directory to store the configuration files in |
 | `grafana_agent_config_filename` | `config.yaml` | name of the configuration file for the agent |
 | `grafana_agent_env_file` | `service.env` | name of the environment file loaded by the system unit file |
+| `grafana_agent_service_extra` | "" | dictionary of additional custom settings for the systemd service file |
 | `grafana_agent_local_tmp_dir` | `/tmp/grafana-agent` | temporary directory to create on the controller/localhost where the archive will be downloaded to |
 | `grafana_agent_data_dir` | `/var/lib/grafana-agent` | the data directory to create for the wal and positions |
 | `grafana_agent_wal_dir` | `"{{ grafana_agent_data_dir }}/data"` | wal directory to use, should be a sub-folder of grafana_agent_data_dir, will automatically be created when the agent starts |

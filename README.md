@@ -6,12 +6,7 @@
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 [![GitHub Contributors](https://img.shields.io/github/contributors/grafana/grafana-ansible-collection)](https://github.com/grafana/grafana-ansible-collection/tags)
 
-[![Modules Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/modules-test.yml)
-[![Roles Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/roles-test.yml)
-[![Full Integration Test](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml/badge.svg?branch=main)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/full-integration-test.yml)
-[![Lint](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml/badge.svg)](https://github.com/grafana/grafana-ansible-collection/actions/workflows/lint.yaml)
-
-This collection (`grafana.grafana`) contains modules and plugins to assist in automating managing of resources in **Grafana** with Ansible.
+This collection (`grafana.grafana`) contains modules and roles to assist in automating the management of resources in **Grafana**, **Grafana Agent**, **OpenTelemetry Collector**, **Loki**, **Mimir**, **Alloy**, and **Promtail** with Ansible.
 
 -   [Ansible collection Documentation](https://docs.ansible.com/ansible/latest/collections/grafana/grafana/)
 -   [Grafana](https://grafana.com)
@@ -29,7 +24,7 @@ Before using the Grafana collection, you need to install it using the below comm
 ansible-galaxy collection install grafana.grafana
 ```
 
-You can also include it in a `requirements.yml` file and install it via ansible-galaxy collection install -r `requirements.yml`, using the format:
+You can also include it in a `requirements.yml` file and install it via `ansible-galaxy collection install -r requirements.yml`, using the format:
 
 ```yaml
 ---
@@ -45,6 +40,18 @@ collections:
   - name: grafana.grafana
     version: 1.0.0
 ```
+
+## Roles included in the collection
+
+This collection includes the following roles to help set up and manage Grafana, Grafana Agent, Alloy, OpenTelemetry Collector, Loki, Mimir and Promtail:
+
+- **Grafana**: Installs and configures Grafana on your target hosts.
+- **Grafana Agent**: Deploys and configures Grafana Agent, allowing for efficient metrics, logs, and trace data shipping to Grafana Cloud or other endpoints.
+- **Alloy**: The replacement for Grafana Agent and Promtail. Alloy can be used to collect traces, metrics, and logs.
+- **OpenTelemetry Collector**: Sets up and configures the OpenTelemetry Collector, enabling advanced observability features through data collection and transmission.
+- **Loki**: Deploy and manage Loki, the log aggregation system.
+- **Mimir**: Deploy and manage Mimir, the scalable long-term storage for Prometheus.
+- **Promtail**: Deploy and manage Promtail, the agent which ships the contents of local logs to a private Grafana Loki.
 
 ## Using this collection
 

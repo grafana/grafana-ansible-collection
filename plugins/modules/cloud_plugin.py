@@ -14,7 +14,7 @@ author:
 version_added: "0.0.1"
 short_description: Manage Grafana Cloud Plugins
 description:
-  - Create, Update and delete Grafana Cloud stacks using Ansible.
+  - Create, Update and delete Grafana Cloud plugins using Ansible.
 requirements: [ "requests >= 1.0.0" ]
 notes:
   - Does not support C(check_mode).

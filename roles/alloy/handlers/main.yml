@@ -1,0 +1,10 @@
+---
+# handlers file for alloy
+- name: Restart alloy
+  listen: "restart alloy"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: alloy.service
+    state: restarted
+    enabled: true
+  when: not ansible_check_mode

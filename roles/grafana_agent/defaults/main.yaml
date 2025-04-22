@@ -20,6 +20,9 @@ grafana_agent_config_filename: config.yaml
 # name of the environment file loaded by the system unit file
 grafana_agent_env_file: service.env
 
+# dictionary of additional custom settings for the systemd service file
+grafana_agent_service_extra: {}
+
 # temporary directory to create on the controller/localhost where the archive will be downloaded to
 grafana_agent_local_tmp_dir: /tmp/grafana-agent
 
@@ -58,7 +61,7 @@ grafana_agent_user_createhome: false
 grafana_agent_local_binary_file: ""
 
 # dictionary of additional command-line flags, run grafana-agent --help for a complete list
-# Docs: https://grafana.com/docs/agent/latest/configuration/flags/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/flags/
 grafana_agent_flags_extra:
   config.expand-env: 'true'
   config.enable-read-api: 'false'
@@ -80,7 +83,7 @@ grafana_agent_provisioned_config_file: ""
 #################################################################################################
 #              Configures the server of the Agent used to enable self-scraping                  #
 #################################################################################################
-# Docs: https://grafana.com/docs/agent/latest/configuration/server-config/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/server-config/
 # the entire dictionary value for this object is copied to the server: block in the config file
 grafana_agent_server_config:
   # Log only messages with the given severity or above. Supported values [debug,
@@ -94,11 +97,11 @@ grafana_agent_server_config:
 #################################################################################################
 #                             Configures metric collection                                      #
 #################################################################################################
-# Docs: https://grafana.com/docs/agent/latest/configuration/metrics-config/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/metrics-config/
 # the entire dictionary value for this object is copied to the metrics: block in the config file
 grafana_agent_metrics_config:
   # Configure values for all Prometheus instances
-  # Docs: https://grafana.com/docs/agent/latest/configuration/metrics-config/#global_config
+  # Docs: https://grafana.com/docs/agent/latest/static/configuration/metrics-config/#global_config
   global:
     # How frequently should Prometheus instances scrape.
     scrape_interval: 1m
@@ -111,17 +114,17 @@ grafana_agent_metrics_config:
 
     # Default set of remote_write endpoints. If an instance doesn't define any
     # remote_writes, it will use this list.
-    # Docs: https://prometheus.io/docs/prometheus/2.34/configuration/configuration/#remote_write
+    # Docs: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write
     remote_write: []
 
   # The list of Prometheus instances to launch with the agent.
-  # Docs: https://grafana.com/docs/agent/latest/configuration/metrics-config/#metrics_instance_config
+  # Docs: https://grafana.com/docs/agent/latest/static/configuration/metrics-config/#metrics_instance_config
   configs: []
   #  - name: name-of-scrape-job
-  #    # Docs: https://prometheus.io/docs/prometheus/2.34/configuration/configuration/#scrape_config
+  #    # Docs: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
   #    scrape_configs: []
   #    # Optional list of remote_write targets, if not specified metrics.global.remote_write is used
-  #    # Docs: https://prometheus.io/docs/prometheus/2.34/configuration/configuration/#remote_write
+  #    # Docs: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write
   #    remote_write: []
 
   # Configure the directory used by instances to store their WAL.
@@ -139,7 +142,7 @@ grafana_agent_metrics_config:
 #################################################################################################
 #                              Configures logs collection                                       #
 #################################################################################################
-# Docs: https://grafana.com/docs/agent/latest/configuration/logs-config/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/logs-config/
 # the entire dictionary value for this object is copied to the logs: block in the config file
 grafana_agent_logs_config:
   # Directory to store Loki Promtail positions files in. Positions files are
@@ -153,22 +156,22 @@ grafana_agent_logs_config:
   positions_directory: "{{ grafana_agent_positions_dir }}"
   # Configure values for all Loki Promtail instances.
   global:
-    # Docs: https://grafana.com/docs/agent/latest/configuration/logs-config/#logs_instance_config
+    # Docs: https://grafana.com/docs/agent/latest/static/configuration/logs-config/#logs_instance_config
     clients: []
 
 #################################################################################################
 #                             Configures traces collection                                      #
 #################################################################################################
-# Docs: https://grafana.com/docs/agent/latest/configuration/traces-config/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/traces-config/
 # the entire dictionary value for this object is copied to the traces: block in the config file
 grafana_agent_traces_config:
-  # Docs: https://grafana.com/docs/agent/latest/configuration/traces-config/#traces_instance_config
+  # Docs: https://grafana.com/docs/agent/latest/static/configuration/traces-config/#traces_instance_config
   configs: []
 
 #################################################################################################
 #                          Configures integrations for the agent                                #
 #################################################################################################
-# Docs: https://grafana.com/docs/agent/latest/configuration/integrations/
+# Docs: https://grafana.com/docs/agent/latest/static/configuration/integrations/
 # the entire dictionary value for this object is copied to the integrations: block in the config file
 grafana_agent_integrations_config:
   # Automatically collect metrics from enabled integrations. If disabled,
@@ -188,6 +191,6 @@ grafana_agent_integrations_config:
     metric_relabel_configs: []
 
   # Controls the node_exporter integration
-  # Docs: https://grafana.com/docs/agent/latest/configuration/integrations/node-exporter-config/
+  # Docs: https://grafana.com/docs/agent/latest/static/configuration/integrations/node-exporter-config/
   node_exporter:
     enabled: true
