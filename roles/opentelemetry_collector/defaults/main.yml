@@ -20,6 +20,7 @@ otel_collector_config_dir: "/etc/otel-collector"
 otel_collector_config_file: "config.yaml"
 otel_collector_service_user: "otel"
 otel_collector_service_group: "otel"
+otel_collector_service_statedirectory: "otel-collector"
 
 otel_collector_receivers: ""
 otel_collector_exporters: ""

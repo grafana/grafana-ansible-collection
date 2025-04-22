@@ -7,6 +7,7 @@
     state: directory
   register: __tmp_dashboards
   changed_when: false
+  check_mode: false
 
 - name: "Download grafana.net dashboards"
   become: false
@@ -120,6 +121,7 @@
               type: file
               options:
                 path: "{{ grafana_ini.paths.data }}/dashboards"
+                foldersFromFilesStructure: {{ grafana_provisioning_dashboards_from_file_structure }}
         backup: false
         owner: root
         group: grafana
@@ -136,7 +138,7 @@
       register: __dashboards_present
       when: grafana_provisioning_synced
 
-    - name: "Import grafana dashboards"
+    - name: "Import grafana.net dashboards"
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ grafana_ini.paths.data }}/dashboards/{{ item | basename }}"
@@ -145,7 +147,18 @@
         mode: "0640"
       with_fileglob:
         - "{{ __tmp_dashboards.path }}/*"
-        - "{{ grafana_dashboards_dir }}/*.json"
+      become: true
+      register: __dashboards_copied
+      notify: "provisioned dashboards changed"
+      when: not ansible_check_mode
+
+    - name: "Import custom grafana dashboards"
+      ansible.builtin.copy:
+        src: "{{ grafana_dashboards_dir }}"
+        dest: "{{ grafana_ini.paths.data }}/dashboards/"
+        owner: root
+        group: grafana
+        mode: "0640"
       become: true
       register: __dashboards_copied
       notify: "provisioned dashboards changed"

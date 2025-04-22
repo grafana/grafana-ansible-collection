@@ -14,5 +14,6 @@
     owner: "{{ otel_collector_service_user }}"
     group: "{{ otel_collector_service_group }}"
     mode: '0644'
+    validate: '{{ otel_collector_installation_dir }}/{{ otel_collector_executable }} --config={{ otel_collector_config_dir }}/{{ otel_collector_config_file }} validate'
   notify: Restart OpenTelemetry Collector
   become: true
