@@ -2,10 +2,10 @@
 - name: "Ensure datasources exist (via API)"
   community.grafana.grafana_datasource:
     grafana_url: "{{ grafana_api_url }}"
-    grafana_user: "{{ grafana_security.admin_user }}"
-    grafana_password: "{{ grafana_security.admin_password }}"
+    grafana_user: "{{ grafana_ini.security.admin_user }}"
+    grafana_password: "{{ grafana_ini.security.admin_password }}"
     name: "{{ item.name }}"
-    url: "{{ item.url }}"
+    ds_url: "{{ item.url }}"
     ds_type: "{{ item.type }}"
     access: "{{ item.access | default(omit) }}"
     is_default: "{{ item.isDefault | default(omit) }}"

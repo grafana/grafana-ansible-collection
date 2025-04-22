@@ -1,0 +1,51 @@
+---
+name: Mimir Molecule
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    working-directory: roles/mimir
+
+jobs:
+  molecule:
+    name: Molecule
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        distro:
+          - rockylinux9
+          - rockylinux8
+          - ubuntu2204
+          - debian12
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install ansible-core==2.16 'molecule-plugins[docker]' pytest-testinfra jmespath selinux passlib
+
+      - name: create docker network
+        run: docker network create molecule
+
+      - name: Start s3 backend
+        run: docker run -d -p 9000:9000 -p 9001:9001 --name minio-mimir --network molecule -e "MINIO_ROOT_USER=testtest" -e "MINIO_ROOT_PASSWORD=testtest" -e "MINIO_DEFAULT_BUCKETS=mimir" bitnami/minio:latest
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_DISTRO: ${{ matrix.distro }}

@@ -3,14 +3,14 @@
   ansible.builtin.find:
     file_type: directory
     recurse: false
-    paths: "{{ grafana_data_dir }}/plugins"
+    paths: "{{ grafana_ini.paths.data }}/plugins"
   register: __installed_plugins
 
 - name: "Install plugins"
   become: true
   ansible.builtin.command:
-    cmd: "grafana-cli --pluginsDir {{ grafana_data_dir }}/plugins plugins install {{ item }}"
-    creates: "{{ grafana_data_dir }}/plugins/{{ item }}"
+    cmd: "grafana-cli --pluginsDir {{ grafana_ini.paths.data }}/plugins plugins install {{ item }}"
+    creates: "{{ grafana_ini.paths.data }}/plugins/{{ item }}"
   loop: "{{ grafana_plugins | difference(__installed_plugins.files) }}"
   register: __plugin_install
   until: "__plugin_install is succeeded"
