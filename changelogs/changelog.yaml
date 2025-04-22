@@ -349,3 +349,24 @@ releases:
       - Update grafana template by @santilococo in https://github.com/grafana/grafana-ansible-collection/pull/300
       - OpenTelemetry Collector: Add tests and support version latest by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/299
       - add loki bloom support by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/298
+  6.0.0:
+    changes:
+      major_changes:
+      - fix: use ansible_facts instead of ansible_* variables by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/296
+      - Fix the markdown code fences for install command by @benmatselby in https://github.com/grafana/grafana-ansible-collection/pull/306
+      - Grafana fix facts in main.yml by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/315
+      - chore: add catalog-info file for internal dev catalog by @theSuess in https://github.com/grafana/grafana-ansible-collection/pull/317
+      - Fix sectionless items edge case by @santilococo in https://github.com/grafana/grafana-ansible-collection/pull/303
+      - Fix loki_operational_config section not getting rendered in config.yml by @olegkaspersky in https://github.com/grafana/grafana-ansible-collection/pull/330
+      - Fix tags Inherit default vars by @MJurayev in https://github.com/grafana/grafana-ansible-collection/pull/341
+      - feat(ci): add publish step to GitHub Actions workflow for Ansible Galaxy by @thelooter in https://github.com/grafana/grafana-ansible-collection/pull/340
+      - force temporary directory even in check mode for  dashboards.yml by @cmehat in https://github.com/grafana/grafana-ansible-collection/pull/339
+      - feat(otel-collector): Make systemd create /var/lib/otel-collector by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/336
+      - feat(otelcol): Validate config by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/327
+      - grafana: Add foldersFromFilesStructure option by @root-expert in https://github.com/grafana/grafana-ansible-collection/pull/326
+      - Do not log grafana.ini contents when setting facts by @root-expert in https://github.com/grafana/grafana-ansible-collection/pull/325
+      - Add tempo role by @CSTDev in https://github.com/grafana/grafana-ansible-collection/pull/323
+      - Make dashboard imports more flexible by @torfbolt in https://github.com/grafana/grafana-ansible-collection/pull/308
+      - integrate sles legacy init-script support by @floerica in https://github.com/grafana/grafana-ansible-collection/pull/184
+      - feat: add user module to create/update/delete grafana users by @mvalois in https://github.com/grafana/grafana-ansible-collection/pull/178
+      - management of the config.river with the conversion of the config.yaml by @lbrule in https://github.com/grafana/grafana-ansible-collection/pull/149
