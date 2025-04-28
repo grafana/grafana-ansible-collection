@@ -148,7 +148,7 @@
       with_fileglob:
         - "{{ __tmp_dashboards.path }}/*"
       become: true
-      register: __dashboards_copied
+      register: __dashboards_grafana_net_copied
       notify: "provisioned dashboards changed"
       when: not ansible_check_mode
 
@@ -167,7 +167,12 @@
     - name: "Register present and copied dashboards list"
       ansible.builtin.set_fact:
         __dashboards_present_list: "{{ __dashboards_present | json_query('files[*].path') | default([]) }}"
-        __dashboards_copied_list: "{{ __dashboards_copied | json_query('results[*].dest') | default([]) }}"
+        __dashboards_copied_list: "{{ 
+          (
+            (__dashboards_copied | json_query('results[*].dest')) +
+            (__dashboards_grafana_net_copied | json_query('results[*].dest'))
+          ) | default([])
+        }}"
       when: not ansible_check_mode
 
     - name: "Remove dashboards not present on deployer machine (synchronize)"
