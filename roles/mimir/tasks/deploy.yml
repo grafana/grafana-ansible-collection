@@ -101,7 +101,7 @@
 
 - name: Verify that Mimir URL is responding
   ansible.builtin.uri:
-    url: "http://127.0.0.1:{{ mimir_http_listen_port }}/ready"
+    url: "http://{{ mimir_http_listen_address }}:{{ mimir_http_listen_port }}/ready"
     method: GET
   register: mimir_verify_url_status_code
   retries: 5
