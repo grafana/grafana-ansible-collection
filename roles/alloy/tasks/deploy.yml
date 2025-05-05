@@ -128,8 +128,8 @@
 
 - name: Verify that Alloy URL is responding
   ansible.builtin.uri:
-    url: "http://{{ __alloy_server_http_listen_address }}:{{ __alloy_server_http_listen_port }}/-/ready"
-    method: GET
+    url: "{{ alloy_server_tls_enabled | ansible.builtin.ternary('https', 'http') }}:\\{{ __alloy_server_http_listen_address }}:{{ __alloy_server_http_listen_port }}/-/ready"
+    method: HEAD
   register: __alloy_verify_url_status_code
   retries: 5
   delay: 8
