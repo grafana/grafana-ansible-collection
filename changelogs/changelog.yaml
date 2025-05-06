@@ -370,3 +370,7 @@ releases:
       - integrate sles legacy init-script support by @floerica in https://github.com/grafana/grafana-ansible-collection/pull/184
       - feat: add user module to create/update/delete grafana users by @mvalois in https://github.com/grafana/grafana-ansible-collection/pull/178
       - management of the config.river with the conversion of the config.yaml by @lbrule in https://github.com/grafana/grafana-ansible-collection/pull/149
+  6.0.1:
+    changes:
+      minor_changes:
+      - Remove Node modules from Ansible Collection build
