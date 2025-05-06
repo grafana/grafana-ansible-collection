@@ -129,4 +129,4 @@
         - grafana_configure
         - grafana_dashboards
         - grafana_run
-  when: "grafana_dashboards | length > 0 or __found_dashboards | length > 0"
+  when: "grafana_dashboards | length > 0 or __found_dashboards['files'] | length > 0"
