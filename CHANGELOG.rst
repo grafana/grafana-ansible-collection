@@ -4,6 +4,13 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v6.0.1
+======
+
+Minor Changes
+-------------
+- Remove Node modules from Ansible Collection build
+
 v6.0.0
 ======
 
