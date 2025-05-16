@@ -15,6 +15,7 @@
     - path: "/etc/grafana/provisioning/notifiers"
     - path: "/etc/grafana/provisioning/notification"
     - path: "/etc/grafana/provisioning/plugins"
+    - path: "/etc/grafana/provisioning/alerting"
     - path: "{{ grafana_ini.paths.logs }}"
       owner: grafana
     - path: "{{ grafana_ini.paths.data }}"
