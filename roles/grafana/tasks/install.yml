@@ -13,7 +13,7 @@
 
 - name: "Prepare zypper"
   when:
-    - "ansible_pkg_mgr == 'zypper'"
+    - "ansible_facts['pkg_mgr'] == 'zypper'"
     - "(grafana_manage_repo)"
   environment: "{{ grafana_environment }}"
   block:
