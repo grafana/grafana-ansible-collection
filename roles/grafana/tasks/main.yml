@@ -119,6 +119,7 @@
     recurse: true
     patterns: "*.json"
   delegate_to: localhost
+  become: false
   register: __found_dashboards
 
 - name: Dashboards
