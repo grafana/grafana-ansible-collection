@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-yamllint = "==1.35.1"
+yamllint = "==1.37.1"
 ansible-lint = ">=6.13.1,<25.0.0"
 pylint = ">=2.16.2,<4.0.0"
 
