@@ -78,3 +78,18 @@ mimir_alertmanager.fallback_config_file|str|/etc/alertmanager-fallback-config.ya
 mimir_alertmanager.external_url|str|http://localhost:9009/alertmanager|Used to specify the external URL or address at which the Mimir Alertmanager component of the Grafana Agent can be accessed.|
 mimir_server.log_level|str|warn|Used to specify the log level of the server. Possible configurations error, warn, info, debug|
 mimir_memberlist.join_members|[]| List of members for the Mimir cluster|
+
+## **Additional Config Variables for `/etc/mimir/config.yml`**
+(not set by default)
+
+Below variables allow you to extend Mimir configuration to fit your needs. Always refer to official [Loki configuration](https://grafana.com/docs/loki/latest/configuration/) to obtain possible configuration parameters.
+
+-----
+| Name | Description
+-----
+| `mimir_blocks_storage ` | Configures the `blocks_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#blocks_storage)
+| `mimir_ruler_storage ` | Configures the `ruler_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ruler_storage)
+| `mimir_alertmanager_storage ` | Configures the `alertmanager_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#alertmanager_storage)
+| `mimir_distributor ` | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)
+| `mimir_ingester` | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)
+| `mimir_querier` | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)
