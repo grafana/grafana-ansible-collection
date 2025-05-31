@@ -133,10 +133,11 @@
       ansible.builtin.find:
         paths: "{{ grafana_ini.paths.data }}/dashboards"
         hidden: true
+        recurse: true
         patterns:
           - "*.json"
       register: __dashboards_present
-      when: grafana_provisioning_synced
+      when: grafana_provisioning_synced | bool
 
     - name: "Import grafana.net dashboards"
       ansible.builtin.copy:
@@ -159,6 +160,13 @@
       become: false
       register: __grafana_custom_dashboards_dir
 
+    # __dashboards_copied_custom is not used when copying a full directory,
+    # as the 'copy' module does not provide detailed results per file in that case.
+    # This must be addressed. Currently, if custom dashboards are provided from a local
+    # directory, the variable `grafana_provisioning_synced` must be set to `false`.
+    # Otherwise, running the role multiple times may result in previously imported
+    # dashboards being removed.
+    # This regression was introduced in version v6.0.0.
     - name: "Import custom grafana dashboards"
       ansible.builtin.copy:
         src: "{{ grafana_dashboards_dir }}"
@@ -167,7 +175,7 @@
         group: grafana
         mode: "0640"
       become: true
-      register: __dashboards_copied
+      register: __dashboards_copied_custom # Not used, placeholder only
       notify: "provisioned dashboards changed"
       when: 
         - not ansible_check_mode
@@ -185,4 +193,6 @@
         state: absent
       loop: "{{ __dashboards_present_list | difference(__dashboards_copied_list) }}"
       become: true
-      when: grafana_provisioning_synced and not ansible_check_mode
+      when: 
+        - grafana_provisioning_synced | bool
+        - not ansible_check_mode
