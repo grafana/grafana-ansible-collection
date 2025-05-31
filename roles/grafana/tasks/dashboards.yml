@@ -152,6 +152,13 @@
       notify: "provisioned dashboards changed"
       when: not ansible_check_mode
 
+    - name: "Verify if custom grafana dashboards dir exist"
+      ansible.builtin.stat:
+        path: "{{ grafana_dashboards_dir }}"
+      delegate_to: localhost
+      become: false
+      register: __grafana_custom_dashboards_dir
+
     - name: "Import custom grafana dashboards"
       ansible.builtin.copy:
         src: "{{ grafana_dashboards_dir }}"
