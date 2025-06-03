@@ -171,7 +171,7 @@
             file_type: directory
           register: __dashboards_subdirs
           delegate_to: localhost
-          become: true
+          become: false
 
         - name: "Create dashboard folders"
           ansible.builtin.file:
@@ -195,7 +195,7 @@
             mode: "0644"
           loop: "{{ __found_dashboards | json_query('files[*]') }}"
           become: true
-          register: __dashboards_copied
+          register: __dashboards_copied_custom
           notify: "provisioned dashboards changed"
           when: not ansible_check_mode
 
@@ -208,7 +208,12 @@
     - name: "Register present and copied dashboards list"
       ansible.builtin.set_fact:
         __dashboards_present_list: "{{ __dashboards_present | json_query('files[*].path') | default([]) }}"
-        __dashboards_copied_list: "{{ __dashboards_copied | json_query('results[*].dest') | default([]) }}"
+        __dashboards_copied_list: "{{
+          (
+            (__dashboards_copied | default([]) | json_query('results[*].dest')) +
+            (__dashboards_copied_custom | default([]) | json_query('results[*].dest'))
+          ) | default([])
+        }}"
       when: not ansible_check_mode
 
     - name: "Remove dashboards not present on deployer machine (synchronize)"
