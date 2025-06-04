@@ -136,17 +136,21 @@ def present_datasource(module):
 
     api_url = module.params['grafana_url'] + '/api/datasources'
 
-    result = requests.post(api_url, json=module.params['dataSource'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    headers = {
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
+    result = requests.post(api_url, json=module.params['dataSource'], headers=headers)
 
     if result.status_code == 200:
         return False, True, result.json()
     elif result.status_code == 409:
         get_id_url = requests.get(module.params['grafana_url'] + '/api/datasources/id/' + module.params['dataSource']['name'],
-                                  headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+                                  headers=headers)
 
         api_url = module.params['grafana_url'] + '/api/datasources/' + str(get_id_url.json()['id'])
 
-        result = requests.put(api_url, json=module.params['dataSource'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.put(api_url, json=module.params['dataSource'], headers=headers)
 
         if result.status_code == 200:
             return False, True, result.json()
@@ -163,7 +167,10 @@ def absent_datasource(module):
 
     api_url = module.params['grafana_url'] + '/api/datasources/name/' + module.params['dataSource']['name']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    result = requests.delete(api_url, headers={
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, {"status": result.status_code, 'response': result.json()['message']}

@@ -109,14 +109,18 @@ def present_cloud_plugin(module):
     }
 
     api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins'
+    headers = {
+        'Authorization': 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
 
-    result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.post(api_url, json=body, headers=headers)
 
     if result.status_code == 200:
         return False, True, result.json()
     elif result.status_code == 409:
         api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params['name']
-        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+        result = requests.get(api_url, headers=headers)
 
         if result.json()['pluginSlug'] == module.params['name'] and result.json()['version'] == module.params['version']:
             return False, False, result.json()
@@ -124,7 +128,7 @@ def present_cloud_plugin(module):
             api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params[
                 'name']
             result = requests.post(api_url, json={'version': module.params['version']},
-                                   headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+                                   headers=headers)
 
             return False, True, result.json()
     else:
@@ -134,7 +138,10 @@ def present_cloud_plugin(module):
 def absent_cloud_plugin(module):
     api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins/' + module.params['name']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['cloud_api_key']})
+    result = requests.delete(api_url, headers={
+        "Authorization": 'Bearer ' + module.params['cloud_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, result.json()

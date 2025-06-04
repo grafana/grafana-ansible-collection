@@ -174,7 +174,12 @@ def present_folder(module):
     }
     api_url = module.params['grafana_url'] + '/api/folders'
 
-    result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    headers = {
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
+
+    result = requests.post(api_url, json=body, headers=headers)
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -183,7 +188,7 @@ def present_folder(module):
         folderInfo = {}
 
         api_url = module.params['grafana_url'] + '/api/folders'
-        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.get(api_url, headers=headers)
 
         for folder in result.json():
             if folder['uid'] == module.params['uid'] and folder['title'] == module.params['title']:
@@ -200,7 +205,7 @@ def present_folder(module):
             }
             api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
 
-            result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+            result = requests.put(api_url, json=body, headers=headers)
 
             if result.status_code == 200:
                 return False, True, result.json()
@@ -217,7 +222,11 @@ def absent_folder(module):
     sameConfig = False
 
     api_url = module.params['grafana_url'] + '/api/folders'
-    result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    headers = {
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
+    result = requests.get(api_url, headers=headers)
 
     for folder in result.json():
         if folder['uid'] == module.params['uid'] and folder['title'] == module.params['title']:
@@ -225,7 +234,7 @@ def absent_folder(module):
     if sameConfig is True:
         api_url = module.params['grafana_url'] + '/api/folders/' + module.params['uid']
 
-        result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.delete(api_url, headers=headers)
 
         if result.status_code == 200:
             return False, True, {"status": result.status_code, 'response': "Folder has been succesfuly deleted"}

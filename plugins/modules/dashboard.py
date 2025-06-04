@@ -125,7 +125,10 @@ def present_dashboard(module):
 
     api_url = module.params['grafana_url'] + '/api/dashboards/db'
 
-    result = requests.post(api_url, json=module.params['dashboard'], headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    result = requests.post(api_url, json=module.params['dashboard'], headers={
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -142,7 +145,10 @@ def absent_dashboard(module):
 
     api_url = api_url = module.params['grafana_url'] + '/api/dashboards/uid/' + module.params['dashboard']['dashboard']['uid']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    result = requests.delete(api_url, headers={
+        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, result.json()
