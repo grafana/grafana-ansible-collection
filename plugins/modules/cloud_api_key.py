@@ -89,8 +89,10 @@ def present_cloud_api_key(module):
 
     api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/api-keys'
 
-    result = requests.post(api_url, json=body,
-                           headers={"Authorization": 'Bearer ' + module.params['existing_cloud_api_key']})
+    result = requests.post(api_url, json=body, headers={
+        "Authorization": 'Bearer ' + module.params['existing_cloud_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, result.json()
@@ -103,7 +105,10 @@ def present_cloud_api_key(module):
 def absent_cloud_api_key(module):
     api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/api-keys/' + module.params['name']
 
-    result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['existing_cloud_api_key']})
+    result = requests.delete(api_url, headers={
+        "Authorization": 'Bearer ' + module.params['existing_cloud_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    })
 
     if result.status_code == 200:
         return False, True, "Cloud API key is deleted"

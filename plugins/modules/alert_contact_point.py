@@ -145,7 +145,11 @@ def present_alert_contact_point(module):
 
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
-    result = requests.post(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    headers = {
+        'Authorization': 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
+    result = requests.post(api_url, json=body, headers=headers)
 
     if result.status_code == 202:
         return False, True, result.json()
@@ -155,7 +159,7 @@ def present_alert_contact_point(module):
 
         api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
-        result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.get(api_url, headers=headers)
 
         for contact_points in result.json():
             if contact_points['uid'] == module.params['uid']:
@@ -170,12 +174,12 @@ def present_alert_contact_point(module):
         else:
             api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
 
-            result = requests.put(api_url, json=body, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+            result = requests.put(api_url, json=body, headers=headers)
 
             if result.status_code == 202:
                 api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
 
-                result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+                result = requests.get(api_url, headers=headers)
 
                 for contact_points in result.json():
                     if contact_points['uid'] == module.params['uid']:
@@ -193,8 +197,12 @@ def absent_alert_contact_point(module):
         module.params['grafana_url'] = module.params['grafana_url'][:-1]
 
     api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points'
+    headers = {
+        'Authorization': 'Bearer ' + module.params['grafana_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
 
-    result = requests.get(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+    result = requests.get(api_url, headers=headers)
 
     for contact_points in result.json():
         if contact_points['uid'] == module.params['uid']:
@@ -202,7 +210,7 @@ def absent_alert_contact_point(module):
     if already_exists:
         api_url = module.params['grafana_url'] + '/api/v1/provisioning/contact-points/' + module.params['uid']
 
-        result = requests.delete(api_url, headers={"Authorization": 'Bearer ' + module.params['grafana_api_key']})
+        result = requests.delete(api_url, headers=headers)
 
         if result.status_code == 202:
             return False, True, result.json()
