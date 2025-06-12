@@ -14,7 +14,7 @@
     recurse: true
     owner: "grafana"
     group: "grafana"
-    mode: "0640"
+    mode: "u=rwX,g=rX,o=rX"
   become: true
   listen: "provisioned dashboards changed"
 
