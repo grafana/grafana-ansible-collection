@@ -7,9 +7,31 @@ Grafana.Grafana Release Notes
 v6.0.1
 ======
 
+Major Changes
+-------------
+- Update when statement to test for dashboard files found by @hal58th in https://github.com/grafana/grafana-ansible-collection/pull/363
+- Fix Mimir URL verify task by @parcimonic in https://github.com/grafana/grafana-ansible-collection/pull/358
+- fix(otel-collector): properly validate config by @pieterlexis-tomtom in https://github.com/grafana/grafana-ansible-collection/pull/354
+- alloy_readiness_check_use_https by @piotr-g in https://github.com/grafana/grafana-ansible-collection/pull/359
+- fix: use ansible_facts instead of ansible_- variables by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/365
+- Use become false in find task by @santilococo in https://github.com/grafana/grafana-ansible-collection/pull/368
+- feat: Don't use a proxy when doing Alloy readiness check by @benoitc-croesus in https://github.com/grafana/grafana-ansible-collection/pull/375
+- fix(otel-collector): mark configuration deployment task with `no_log` by @kkantonop in https://github.com/grafana/grafana-ansible-collection/pull/380
+- Mimir: Don't override defaults by @56quarters in https://github.com/grafana/grafana-ansible-collection/pull/382
+- Add delete protection by @KucicM in https://github.com/grafana/grafana-ansible-collection/pull/381
+- fix: declare collection dependencies by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/386
+- Fix some regression introduced by v6 by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/376
+- Mimir: template ingester and querier section by @Gufderald in https://github.com/grafana/grafana-ansible-collection/pull/371
+- grafana role: ensure alerting provisioning directory exists by @derhuerst in https://github.com/grafana/grafana-ansible-collection/pull/364
+
+
+v6.0.1
+======
+
 Minor Changes
 -------------
 - Remove Node modules from Ansible Collection build
+
 
 v6.0.0
 ======
