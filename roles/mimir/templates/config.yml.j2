@@ -55,3 +55,13 @@ limits:
 distributor:
   {{ mimir_distributor | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
 {% endif %}
+
+{% if mimir_ingester is defined %}
+ingester:
+  {{ mimir_ingester | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
+
+{% if mimir_querier is defined %}
+querier:
+  {{ mimir_querier | to_nice_yaml(indent=2, sort_keys=False) | indent(2, False)}}
+{% endif %}
