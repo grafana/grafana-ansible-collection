@@ -17,3 +17,4 @@
     validate: '{{ otel_collector_installation_dir }}/{{ otel_collector_executable }} --config=%s validate'
   notify: Restart OpenTelemetry Collector
   become: true
+  no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
