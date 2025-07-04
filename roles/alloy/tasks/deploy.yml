@@ -4,7 +4,7 @@
   block:
     - name: Scrape Github API endpoint to obtain latest Alloy version
       ansible.builtin.uri:
-        url: "https://api.github.com/repos/grafana/alloy/releases/latest"
+        url: "{{ alloy_github_api_url }}"
         method: GET
         body_format: json
       become: false
