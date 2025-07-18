@@ -10,7 +10,7 @@ grafana_rhsm_repo: ""
 
 grafana_apt_release_channel: stable
 grafana_apt_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
-grafana_apt_repo: "deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main"
+grafana_apt_repo: "deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.asc] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main"
 grafana_apt_key: "https://apt.grafana.com/gpg.key"
 
 # Should we use the provisioning capability when possible (provisioning require grafana >= 5.0)
