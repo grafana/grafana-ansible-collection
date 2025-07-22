@@ -94,7 +94,7 @@
     - name: "Import Grafana apt gpg key"
       ansible.builtin.get_url:
         url: "{{ grafana_apt_key }}"
-        dest: /usr/share/keyrings/grafana.key
+        dest: /usr/share/keyrings/grafana.asc
         mode: "0644"
 
     - name: "Add Grafana apt repository"
