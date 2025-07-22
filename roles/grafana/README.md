@@ -29,7 +29,7 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_rhsm_repo` | | rhsm repository name (redhat subscription-manager) |
 | `grafana_apt_release_channel` | stable | Apt release chanel (stable or beta) |
 | `grafana_apt_arch` | {{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }} | Apt architecture | 
-| `grafana_apt_repo` | deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main | Apt repository string |
+| `grafana_apt_repo` | deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.asc] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main | Apt repository string |
 | `grafana_apt_key` | https://apt.grafana.com/gpg.key | Apt repository gpg key |
 | `grafana_ini.instance_name` | {{ ansible_facts['fqdn'] \| default(ansible_host) \| default(inventory_hostname) }} | Grafana instance name |
 | `grafana_ini.paths.logs` | /var/log/grafana | Path to logs directory |

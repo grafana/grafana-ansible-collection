@@ -1,7 +1,7 @@
 ---
 namespace: grafana
 name: grafana
-version: 6.0.1
+version: 6.0.2
 readme: README.md
 authors:
   - Grafana Labs <grafana.com>
@@ -12,9 +12,9 @@ license:
   - GPL-3.0-or-later
 tags: [grafana, observability, monitoring]
 dependencies:
-  community.general: '8.2.0'
-  community.grafana: '1.5.4'
-  ansible.posix: '1.5.4'
+  community.general: '>=8.2.0'
+  community.grafana: '>=1.5.4'
+  ansible.posix: '>=1.5.4'
 repository: https://github.com/grafana/grafana-ansible-collection
 issues: https://github.com/grafana/grafana-ansible-collection/issues
 documentation: https://docs.ansible.com/ansible/latest/collections/grafana/grafana/index.html
