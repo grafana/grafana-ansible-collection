@@ -1,10 +1,11 @@
 # ansible-role-mimir
-Grafana Mimir
-=========
+
+# Grafana Mimir
 
 This role installs and configures a Mimir standalone application.
 
 ## Testing with Molecule
+
 To be able to test this collection locally, we use Molecule. Molecule is an Ansible test tool that enable us to run our roles inside containers. In our case, we are using Podman as a container runtime. To be able to run the Molecule test, you need to have the following installed on your machine:
 
 - Podman
@@ -12,6 +13,7 @@ To be able to test this collection locally, we use Molecule. Molecule is an Ansi
 - Python3
 
 ### First Time Setup
+
 To install all the dependencies, use the following commands:
 
 ```sh
@@ -32,6 +34,7 @@ docker network create molecule
 ```
 
 ### Run Minio for local S3
+
 To be able to run Mimir using an object store backend, run the following command
 
 ```sh
@@ -47,12 +50,16 @@ docker run -d \
 ```
 
 ### Testing the changes
+
 To test the changes in a role run:
+
 ```sh
 molecule converge
 ## example: molecule converge
 ```
+
 When Ansible has succesfully ran, you can run assertions against your infrastructure using.
+
 ```sh
 molecule verify
 ## example: `molecule verify`
@@ -61,35 +68,37 @@ molecule verify
 You can also run commands like `molecule destroy`, `molecule prepare`, and `molecule test`. See Molecule documentation for more information
 
 ## Role Variables
---------------
-| Name | Type | Default | Description |
-|---|---|---|---|
-mimir_working_path|str|/usr/share/mimir|Used to specify the directory path where Mimir, a component of the Grafana Agent, stores its working files and temporary data.|
-mimir_uninstall|bool|false|If set to `true` will perfom uninstall instead of deployment.|
-mimir_ruler_alert_path|str|/data/ruler|Used to specify the directory path where the Mimir ruler component of the Grafana Agent stores its alert files.|
-mimir_http_listen_port|str|8080|Used to specify the port number on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.|
-mimir_http_listen_address|str|0.0.0.0|Used to specify the network address on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.|
-mimir_ruler.rule_path|str|/data/ruler|Used to specify the directory path where the Mimir ruler component of the Grafana Agent looks for rule files.|
-mimir_ruler.alertmanager_url|str|http://127.0.0.1:8080/alertmanager|Used to specify the URL or address of the Alertmanager API that the Mimir ruler component of the Grafana Agent should communicate with.|
-mimir_ruler.ring.heartbeat_period|str|2s|Used to specify the interval at which the Mimir ruler component of the Grafana Agent sends heartbeat signals to the ring.|
-mimir_ruler.heartbeat_timeout|str|10s|Used to specify the maximum duration of time that the Mimir ruler component of the Grafana Agent will wait for a heartbeat signal from other components in the ring.|
-mimir_alertmanager.data_dir|str|/data/alertmanager|sed to specify the directory path where the Mimir Alertmanager component of the Grafana Agent stores its data files.|
-mimir_alertmanager.fallback_config_file|str|/etc/alertmanager-fallback-config.yaml|Used to specify the path to a fallback configuration file for the Mimir Alertmanager component of the Grafana Agent.|
-mimir_alertmanager.external_url|str|http://localhost:9009/alertmanager|Used to specify the external URL or address at which the Mimir Alertmanager component of the Grafana Agent can be accessed.|
-mimir_server.log_level|str|warn|Used to specify the log level of the server. Possible configurations error, warn, info, debug|
-mimir_memberlist.join_members|[]| List of members for the Mimir cluster|
+
+---
+
+| Name                                    | Type | Default                                | Description                                                                                                                                                          |
+| --------------------------------------- | ---- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| mimir_working_path                      | str  | /usr/share/mimir                       | Used to specify the directory path where Mimir, a component of the Grafana Agent, stores its working files and temporary data.                                       |
+| mimir_uninstall                         | bool | false                                  | If set to `true` will perfom uninstall instead of deployment.                                                                                                        |
+| mimir_ruler_alert_path                  | str  | /data/ruler                            | Used to specify the directory path where the Mimir ruler component of the Grafana Agent stores its alert files.                                                      |
+| mimir_http_listen_port                  | str  | 8080                                   | Used to specify the port number on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.                                                |
+| mimir_http_listen_address               | str  | 0.0.0.0                                | Used to specify the network address on which the Mimir component of the Grafana Agent listens for incoming HTTP requests.                                            |
+| mimir_ruler.rule_path                   | str  | /data/ruler                            | Used to specify the directory path where the Mimir ruler component of the Grafana Agent looks for rule files.                                                        |
+| mimir_ruler.alertmanager_url            | str  | http://127.0.0.1:8080/alertmanager     | Used to specify the URL or address of the Alertmanager API that the Mimir ruler component of the Grafana Agent should communicate with.                              |
+| mimir_ruler.ring.heartbeat_period       | str  | 2s                                     | Used to specify the interval at which the Mimir ruler component of the Grafana Agent sends heartbeat signals to the ring.                                            |
+| mimir_ruler.heartbeat_timeout           | str  | 10s                                    | Used to specify the maximum duration of time that the Mimir ruler component of the Grafana Agent will wait for a heartbeat signal from other components in the ring. |
+| mimir_alertmanager.data_dir             | str  | /data/alertmanager                     | sed to specify the directory path where the Mimir Alertmanager component of the Grafana Agent stores its data files.                                                 |
+| mimir_alertmanager.fallback_config_file | str  | /etc/alertmanager-fallback-config.yaml | Used to specify the path to a fallback configuration file for the Mimir Alertmanager component of the Grafana Agent.                                                 |
+| mimir_alertmanager.external_url         | str  | http://localhost:9009/alertmanager     | Used to specify the external URL or address at which the Mimir Alertmanager component of the Grafana Agent can be accessed.                                          |
+| mimir_server.log_level                  | str  | warn                                   | Used to specify the log level of the server. Possible configurations error, warn, info, debug                                                                        |
+| mimir_memberlist.join_members           | []   | List of members for the Mimir cluster  |
 
 ## **Additional Config Variables for `/etc/mimir/config.yml`**
+
 (not set by default)
 
 Below variables allow you to extend Mimir configuration to fit your needs. Always refer to official [Loki configuration](https://grafana.com/docs/loki/latest/configuration/) to obtain possible configuration parameters.
 
------
-| Name | Description
------
-| `mimir_blocks_storage ` | Configures the `blocks_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#blocks_storage)
-| `mimir_ruler_storage ` | Configures the `ruler_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ruler_storage)
-| `mimir_alertmanager_storage ` | Configures the `alertmanager_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#alertmanager_storage)
-| `mimir_distributor ` | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)
-| `mimir_ingester` | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)
-| `mimir_querier` | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)
+| Name                          | Description                                                                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mimir_blocks_storage `       | Configures the `blocks_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#blocks_storage)             |
+| `mimir_ruler_storage `        | Configures the `ruler_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ruler_storage)               |
+| `mimir_alertmanager_storage ` | Configures the `alertmanager_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#alertmanager_storage) |
+| `mimir_distributor `          | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)                   |
+| `mimir_ingester`              | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)                         |
+| `mimir_querier`               | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)                           |
