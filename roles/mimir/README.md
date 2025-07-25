@@ -91,10 +91,12 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 
 ## **Additional Config Variables for `/etc/mimir/config.yml`**
 
-Below variables allow you to extend Mimir configuration to fit your needs. Always refer to official [Loki configuration](https://grafana.com/docs/loki/latest/configuration/) to obtain possible configuration parameters.
+Below variables allow you to extend Mimir configuration to fit your needs.
+Always refer to official [Mimir configuration](https://grafana.com/docs/mimir/latest/configure/about-configurations/)
+to obtain possible configuration parameters.
 
 > [!NOTE]
-> These variables are not set by default
+> These variables are not set by default.
 
 | Name                         | Description                                                                                                                                                         |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
