@@ -106,3 +106,5 @@ to obtain possible configuration parameters.
 | `mimir_distributor`          | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)                   |
 | `mimir_ingester`             | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)                         |
 | `mimir_querier`              | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)                           |
+
+For extra configuration samples refer to [`examples` directory](../../examples).
