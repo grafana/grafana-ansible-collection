@@ -93,7 +93,7 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 
 Below variables allow you to extend Mimir configuration to fit your needs. Always refer to official [Loki configuration](https://grafana.com/docs/loki/latest/configuration/) to obtain possible configuration parameters.
 
-> [!Info]
+> [!NOTE]
 > This variables are not set by default
 
 | Name                         | Description                                                                                                                                                         |
