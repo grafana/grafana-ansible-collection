@@ -1,8 +1,9 @@
-# ansible-role-mimir
+# Ansible role - Mimir
 
-# Grafana Mimir
+[![License](https://img.shields.io/github/license/grafana/grafana-ansible-collection)](LICENSE)
 
-This role installs and configures a Mimir standalone application.
+This role installs and configures a [Mimir](https://grafana.com/docs/mimir/latest/)
+standalone application.
 
 ## Testing with Molecule
 
@@ -90,15 +91,16 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 
 ## **Additional Config Variables for `/etc/mimir/config.yml`**
 
-(not set by default)
-
 Below variables allow you to extend Mimir configuration to fit your needs. Always refer to official [Loki configuration](https://grafana.com/docs/loki/latest/configuration/) to obtain possible configuration parameters.
 
-| Name                          | Description                                                                                                                                                         |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mimir_blocks_storage `       | Configures the `blocks_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#blocks_storage)             |
-| `mimir_ruler_storage `        | Configures the `ruler_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ruler_storage)               |
-| `mimir_alertmanager_storage ` | Configures the `alertmanager_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#alertmanager_storage) |
-| `mimir_distributor `          | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)                   |
-| `mimir_ingester`              | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)                         |
-| `mimir_querier`               | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)                           |
+> [!Info]
+> This variables are not set by default
+
+| Name                         | Description                                                                                                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mimir_blocks_storage`       | Configures the `blocks_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#blocks_storage)             |
+| `mimir_ruler_storage`        | Configures the `ruler_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ruler_storage)               |
+| `mimir_alertmanager_storage` | Configures the `alertmanager_storage` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#alertmanager_storage) |
+| `mimir_distributor`          | Configures the `distributor` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#distributor)                   |
+| `mimir_ingester`             | Configures the `ingester` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#ingester)                         |
+| `mimir_querier`              | Configures the `querier` component. 📚 [documentation](https://grafana.com/docs/mimir/latest/configure/configuration-parameters/#querier)                           |
