@@ -4,7 +4,24 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
-v6.0.1
+v6.0.3
+======
+
+Major Changes
+-------------
+
+- Revert "fix: declare collection dependencies" by @ishanjainn in https://github.com/grafana/grafana-ansible-collection/pull/390
+- [doc] improve mimir/alloy examples playbook by @smCloudInTheSky in https://github.com/grafana/grafana-ansible-collection/pull/369
+- Changes for issue #383. Added alloy_github_api_url varaible. by @ILikePhysics in https://github.com/grafana/grafana-ansible-collection/pull/393
+- fix: store APT key with .asc extension by @derhuerst in https://github.com/grafana/grafana-ansible-collection/pull/394
+- fix: declare collection dependencies by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/392
+- Bump ansible-lint from 24.9.2 to 25.6.1 by @dependabot[bot] in https://github.com/grafana/grafana-ansible-collection/pull/391
+- Bump brace-expansion from 1.1.11 to 1.1.12 in the npm_and_yarn group across 1 directory by @dependabot[bot] in https://github.com/grafana/grafana-ansible-collection/pull/396
+- fix: ensure IP assert returns boolean result by @aardbol in https://github.com/grafana/grafana-ansible-collection/pull/398
+- Update Mimir README.md by @Gufderald in https://github.com/grafana/grafana-ansible-collection/pull/397
+
+
+v6.0.2
 ======
 
 Major Changes
