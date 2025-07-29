@@ -22,5 +22,5 @@
 
     - name: Assert that extracted IP address is valid
       ansible.builtin.assert:
-        that: __alloy_server_http_listen_address | ansible.utils.ipaddr
+        that: (__alloy_server_http_listen_address | ansible.utils.ipaddr) != ""
       when: __alloy_server_http_listen_addr_regex | length > 0
