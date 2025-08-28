@@ -2,8 +2,8 @@
 grafana_version: latest
 grafana_manage_repo: true
 
-grafana_yum_repo: "https://packages.grafana.com/oss/rpm"
-grafana_yum_key: "https://packages.grafana.com/gpg.key"
+grafana_yum_repo: "https://rpm.grafana.com"
+grafana_yum_key: "https://rpm.grafana.com/gpg.key"
 
 grafana_rhsm_subscription: ""
 grafana_rhsm_repo: ""
