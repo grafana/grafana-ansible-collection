@@ -9,7 +9,7 @@
     name: "{{ _grafana_dependencies }}"
     state: present
     update_cache: true
-  when: "(_grafana_dependencies | default())"
+  when: "_grafana_dependencies is defined and _grafana_dependencies | length > 0"
 
 - name: "Prepare zypper"
   when:
@@ -28,7 +28,7 @@
         description: grafana
         repo: "{{ grafana_yum_repo }}"
         enabled: true
-        disable_gpg_check : "{{ false if (grafana_yum_key) else omit }}"
+        disable_gpg_check: "{{ false if (grafana_yum_key) else omit }}"
         runrefresh: true
       when: "(not grafana_rhsm_repo)"
 
