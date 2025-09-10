@@ -1,0 +1,106 @@
+---
+- name: Check if Homebrew is installed
+  ansible.builtin.command: which brew
+  register: brew_check
+  changed_when: false
+  failed_when: false
+
+- name: Fail if Homebrew is not installed
+  ansible.builtin.fail:
+    msg: "Homebrew is required but not installed"
+  when: brew_check.rc != 0
+
+- name: Get Homebrew prefix
+  ansible.builtin.command: brew --prefix
+  register: brew_prefix
+  changed_when: false
+
+- name: Set Alloy config directory path
+  ansible.builtin.set_fact:
+    alloy_config_path: "{{ __alloy_config_path_default }}"
+
+- name: Add Grafana tap to Homebrew
+  community.general.homebrew_tap:
+    name: "{{ __alloy_brew_tap }}"
+    state: present
+
+- name: Install Alloy via Homebrew
+  community.general.homebrew:
+    name: "{{ __alloy_brew_package }}"
+    state: present
+    update_homebrew: true
+
+- name: Ensure Alloy config directory exists
+  ansible.builtin.file:
+    path: "{{ alloy_config_path }}"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '0755'
+
+- name: Template Alloy config
+  ansible.builtin.template:
+    src: "config.alloy.j2"
+    dest: "{{ alloy_config_path }}/config.alloy"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+    mode: '0644'
+    backup: true
+  when: alloy_config | length > 0
+  notify: restart alloy macos
+
+- name: Check if Alloy service is loaded
+  ansible.builtin.command: brew services list
+  register: brew_services
+  changed_when: false
+
+- name: Stop Alloy service if it exists (to clean up any issues)
+  ansible.builtin.command: "brew services stop {{ __alloy_brew_package }}"
+  register: stop_result
+  failed_when: false
+  changed_when: "'Successfully stopped' in stop_result.stdout"
+  when: "'alloy' in brew_services.stdout"
+
+- name: Start Alloy service with sudo (for first-time setup)
+  ansible.builtin.command: "sudo brew services start {{ __alloy_brew_package }}"
+  become: true
+  when:
+    - "'alloy' not in brew_services.stdout or 'none' in brew_services.stdout"
+  register: service_start_sudo
+  failed_when: false
+
+- name: Start Alloy service without sudo (for user-level service)
+  ansible.builtin.command: "brew services start {{ __alloy_brew_package }}"
+  when:
+    - service_start_sudo is not defined or service_start_sudo.rc != 0
+    - "'alloy' not in brew_services.stdout or 'started' not in brew_services.stdout"
+  register: service_start
+  failed_when: false
+
+- name: Restart Alloy service if already running
+  ansible.builtin.command: "brew services restart {{ __alloy_brew_package }}"
+  when:
+    - "'alloy' in brew_services.stdout and 'started' in brew_services.stdout"
+    - service_start is not defined or not service_start.changed
+  register: service_restart
+  failed_when: false
+
+- name: Check final service status
+  ansible.builtin.command: brew services list
+  register: final_brew_services
+  changed_when: false
+
+- name: Verify Alloy installation
+  ansible.builtin.command: alloy --version
+  register: alloy_version_output
+  changed_when: false
+  failed_when: false
+
+- name: Display Alloy version
+  ansible.builtin.debug:
+    msg: "Alloy version: {{ alloy_version_output.stdout }}"
+  when: alloy_version_output.rc == 0
+
+- name: Display service status
+  ansible.builtin.debug:
+    msg: "Alloy service status: {{ final_brew_services.stdout_lines | select('match', '.*alloy.*') | list }}"
