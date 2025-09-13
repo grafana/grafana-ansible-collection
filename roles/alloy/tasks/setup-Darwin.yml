@@ -61,29 +61,19 @@
   changed_when: "'Successfully stopped' in __stop_result.stdout"
   when: "'alloy' in __brew_services.stdout"
 
-- name: Start Alloy service with sudo (for first-time setup)
-  ansible.builtin.command: "sudo brew services start {{ __alloy_brew_package }}"
-  become: true
-  when:
-    - "'alloy' not in __brew_services.stdout or 'none' in __brew_services.stdout"
-  register: __service_start_sudo
-  failed_when: false
-
-- name: Start Alloy service without sudo (for user-level service)
+- name: Start Alloy service
   ansible.builtin.command: "brew services start {{ __alloy_brew_package }}"
   when:
-    - __service_start_sudo is not defined or __service_start_sudo.rc != 0
     - "'alloy' not in __brew_services.stdout or 'started' not in __brew_services.stdout"
   register: __service_start
-  failed_when: false
+  failed_when: __service_start.rc != 0
 
 - name: Restart Alloy service if already running
   ansible.builtin.command: "brew services restart {{ __alloy_brew_package }}"
   when:
     - "'alloy' in __brew_services.stdout and 'started' in __brew_services.stdout"
-    - __service_start is not defined or not __service_start.changed
   register: __service_restart
-  failed_when: false
+  failed_when: __service_restart.rc != 0
 
 - name: Check final service status
   ansible.builtin.command: brew services list
