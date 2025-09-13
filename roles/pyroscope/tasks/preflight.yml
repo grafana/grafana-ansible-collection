@@ -1,0 +1,60 @@
+---
+- name: Check that all required variables are defined
+  ansible.builtin.assert:
+    that:
+      - pyroscope_version is defined
+      - pyroscope_config_dir is defined
+      - pyroscope_data_dir is defined
+      - pyroscope_log_dir is defined
+    fail_msg: "One or more required variables are not defined"
+    success_msg: "All required variables are defined"
+
+- name: Check supported operating systems
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['os_family'] in ['RedHat', 'Debian', 'Suse']
+    fail_msg: "{{ ansible_facts['os_family'] }} is not a supported operating system"
+    success_msg: "{{ ansible_facts['os_family'] }} is a supported operating system"
+
+- name: Check architecture
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['architecture'] in ['x86_64', 'aarch64']
+    fail_msg: "{{ ansible_facts['architecture'] }} is not a supported architecture"
+    success_msg: "{{ ansible_facts['architecture'] }} is a supported architecture"
+
+- name: Validate storage backend configuration
+  ansible.builtin.assert:
+    that:
+      - pyroscope_final_config.storage.backend in ['filesystem', 's3', 'gcs', 'azure', 'swift']
+    fail_msg: "{{ pyroscope_final_config.storage.backend }} is not a valid storage backend"
+    success_msg: "Storage backend {{ pyroscope_final_config.storage.backend }} is valid"
+
+- name: Validate filesystem storage configuration
+  ansible.builtin.assert:
+    that:
+      - pyroscope_final_config.storage.filesystem.directory is defined
+    fail_msg: "Filesystem storage directory must be defined when using filesystem backend"
+    success_msg: "Filesystem storage configuration is valid"
+  when: pyroscope_final_config.storage.backend == 'filesystem'
+
+- name: Validate S3 storage configuration
+  ansible.builtin.assert:
+    that:
+      - pyroscope_final_config.storage.s3.bucket_name is defined
+    fail_msg: "S3 bucket name must be defined when using S3 backend"
+    success_msg: "S3 storage configuration is valid"
+  when: pyroscope_final_config.storage.backend == 's3'
+
+- name: Check if pyroscope is already installed
+  ansible.builtin.stat:
+    path: /usr/bin/pyroscope
+  register: pyroscope_binary
+
+- name: Get installed pyroscope version
+  ansible.builtin.command:
+    cmd: pyroscope --version
+  register: installed_version
+  changed_when: false
+  failed_when: false
+  when: pyroscope_binary.stat.exists

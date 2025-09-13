@@ -1,0 +1,122 @@
+---
+pyroscope_version: latest
+pyroscope_manage_repo: true
+
+pyroscope_yum_repo: "https://packages.grafana.com/oss/rpm"
+pyroscope_yum_key: "https://packages.grafana.com/gpg.key"
+
+pyroscope_rhsm_subscription: ""
+pyroscope_rhsm_repo: ""
+
+pyroscope_apt_release_channel: stable
+pyroscope_apt_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
+pyroscope_apt_repo: "deb [arch={{ pyroscope_apt_arch }} signed-by=/usr/share/keyrings/grafana.asc] https://apt.grafana.com/ {{ pyroscope_apt_release_channel }} main"
+pyroscope_apt_key: "https://apt.grafana.com/gpg.key"
+
+# Installation paths
+pyroscope_config_dir: /etc/pyroscope
+pyroscope_data_dir: /var/lib/pyroscope
+pyroscope_log_dir: /var/log/pyroscope
+pyroscope_pid_file: /var/run/pyroscope/pyroscope.pid
+
+# Service configuration
+pyroscope_service_name: pyroscope
+pyroscope_user: pyroscope
+pyroscope_group: pyroscope
+
+# Enable capability to bind to ports below 1024
+pyroscope_cap_net_bind_service: false
+
+# Main configuration
+pyroscope_config:
+  # Target modules to load
+  target: all
+
+  # Server configuration
+  server:
+    http_listen_address: "0.0.0.0"
+    http_listen_port: 4040
+    grpc_listen_address: "0.0.0.0"
+    grpc_listen_port: 4041
+    log_level: info
+    log_format: logfmt
+    graceful_shutdown_timeout: 30s
+
+  # Storage configuration
+  storage:
+    backend: filesystem
+    filesystem:
+      dir: "{{ pyroscope_data_dir }}/data"
+    # For object storage backends, uncomment and configure:
+    # s3:
+    #   bucket_name: ""
+    #   endpoint: ""
+    #   access_key_id: ""
+    #   secret_access_key: ""
+    #   insecure: false
+    # gcs:
+    #   bucket_name: ""
+    #   service_account: ""
+    # azure:
+    #   container_name: ""
+    #   account_name: ""
+    #   account_key: ""
+
+  # Distributor configuration
+  distributor:
+    pushtimeout: 30s
+
+  # Ingester configuration
+  ingester:
+    lifecycler:
+      address: 127.0.0.1
+      ring:
+        kvstore:
+          store: inmemory
+        replication_factor: 1
+
+  # Querier configuration
+  querier:
+    query_store_after: 0s
+
+  # Query scheduler configuration
+  query_scheduler:
+    max_outstanding_requests_per_tenant: 100
+
+  # Compactor configuration
+  compactor:
+    compaction_interval: 10m
+
+  # Store gateway configuration (for object storage)
+  store_gateway: {}
+
+  # Memberlist configuration (for clustering)
+  memberlist:
+    bind_port: 7946
+    join_members: []
+
+  # Limits configuration
+  limits:
+    max_label_name_length: 1024
+    max_label_value_length: 2048
+    max_label_names_per_series: 30
+
+  # Multi-tenancy configuration
+  multitenancy_enabled: false
+
+  # Analytics configuration
+  analytics:
+    reporting_enabled: true
+
+  # API configuration
+  api:
+    base_url: ""
+
+# Additional configuration options (will be merged with pyroscope_config)
+pyroscope_config_overrides: {}
+
+# Systemd service configuration
+pyroscope_systemd_service_overrides: {}
+
+# Environment variables for the service
+pyroscope_environment_variables: {}

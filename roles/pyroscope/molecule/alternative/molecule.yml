@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: ubuntu-22.04-alt
+    image: ubuntu:22.04
+    pre_build_image: false
+    dockerfile: ../resources/Dockerfile.j2
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /lib/systemd/systemd
+provisioner:
+  name: ansible
+  playbooks:
+    prepare: ../resources/prepare.yml
+    converge: converge.yml
+  inventory:
+    host_vars:
+      ubuntu-22.04-alt:
+        ansible_python_interpreter: /usr/bin/python3
+verifier:
+  name: ansible
