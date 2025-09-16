@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/grafana/grafana-ansible-collection)](LICENSE)
 
 This Ansible role to install and configure [Alloy](https://grafana.com/docs/alloy/latest/), which can be used to collect traces, metrics, and logs.
-This role is tailored for operating systems such as **RedHat**, **Rocky Linux**, **AlmaLinux**, **Ubuntu**, and **Debian**.
+This role is tailored for operating systems such as **RedHat**, **Rocky Linux**, **AlmaLinux**, **Ubuntu**, **Debian**, and **macOS**.
 
 ## Table of Content
 
@@ -15,6 +15,8 @@ This role is tailored for operating systems such as **RedHat**, **Rocky Linux**,
 
 - Ansible 2.13+
 - `ansible.utils` collection is required. Additionally, you must install the `netaddr` Python library on the host where you are running Ansible (not on the target remote host) if is not present.
+- `community.general` collection is required for macOS support
+- **macOS**: Homebrew must be installed
 
 ## Role Variables
 
