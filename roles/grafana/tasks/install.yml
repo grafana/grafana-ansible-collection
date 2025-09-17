@@ -9,7 +9,9 @@
     name: "{{ _grafana_dependencies }}"
     state: present
     update_cache: true
-  when: "(_grafana_dependencies | default())"
+  when:
+   - _grafana_dependencies is defined
+   - _grafana_dependencies | length > 0
 
 - name: "Prepare zypper"
   when:
