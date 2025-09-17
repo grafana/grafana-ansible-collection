@@ -94,8 +94,8 @@
 - name: "Import grafana dashboards via api"
   community.grafana.grafana_dashboard:
     grafana_url: "{{ grafana_api_url }}"
-    grafana_user: "{{ grafana_security.admin_user }}"
-    grafana_password: "{{ grafana_security.admin_password }}"
+    grafana_user: "{{ grafana_ini.security.admin_user }}"
+    grafana_password: "{{ grafana_ini.security.admin_password }}"
     path: "{{ item }}"
     commit_message: "Updated by ansible role {{ ansible_role_name }}"
     state: present
