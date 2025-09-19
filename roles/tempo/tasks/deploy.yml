@@ -12,6 +12,7 @@
       delegate_to: localhost
       run_once: true
       register: __github_latest_version
+      check_mode: false
 
     - name: Latest available Tempo version
       ansible.builtin.set_fact:
