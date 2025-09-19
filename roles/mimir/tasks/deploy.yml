@@ -86,6 +86,8 @@
     group: "mimir"
     mode: "0644"
     validate: "mimir -modules --config.file=%s"
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
   notify:
     - Restart mimir
 
