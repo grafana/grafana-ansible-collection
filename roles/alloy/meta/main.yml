@@ -22,6 +22,9 @@ galaxy_info:
     - name: macOS
       versions:
         - all
+    - name: opensuse
+      versions:
+        - all
   galaxy_tags:
     - alloy
     - grafana
