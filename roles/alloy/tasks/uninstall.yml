@@ -5,6 +5,11 @@
     state: stopped
   ignore_errors: true
 
+- name: Stop Alloy service on macOS
+  ansible.builtin.command: "brew services stop {{ __alloy_brew_package }}"
+  when: ansible_facts['os_family'] == 'Darwin'
+  failed_when: false
+
 - name: Uninstall Alloy rpm package
   ansible.builtin.dnf:
     name: "alloy"
@@ -18,6 +23,18 @@
     state: absent
     purge: true
   when: ansible_facts['os_family'] == 'Debian'
+
+- name: Uninstall Alloy via Homebrew
+  community.general.homebrew:
+    name: "{{ __alloy_brew_package }}"
+    state: absent
+  when: ansible_facts['os_family'] == 'Darwin'
+
+- name: Uninstall Alloy rpm package (SUSE)
+  community.general.zypper:
+    name: "alloy"
+    state: absent
+  when: ansible_facts['os_family'] == 'Suse'
 
 - name: Ensure that Alloy firewalld rule is not present - tcp port {{ __alloy_server_http_listen_port }}
   ansible.posix.firewalld:  # noqa ignore-errors
@@ -39,6 +56,12 @@
     - "/etc/default/alloy"
   loop_control:
     loop_var: remove_me
+
+- name: Remove Alloy config directory on macOS
+  ansible.builtin.file:
+    path: "{{ __alloy_config_path_default }}"
+    state: absent
+  when: ansible_facts['os_family'] == 'Darwin'
 
 - name: Remove the Alloy system user
   ansible.builtin.user:

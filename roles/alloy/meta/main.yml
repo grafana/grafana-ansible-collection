@@ -19,7 +19,14 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - all
+    - name: macOS
+      versions:
+        - all
+    - name: opensuse
+      versions:
+        - all
   galaxy_tags:
+    - alloy
     - grafana
     - observability
     - monitoring
