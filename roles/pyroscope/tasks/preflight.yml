@@ -33,7 +33,7 @@
 - name: Validate filesystem storage configuration
   ansible.builtin.assert:
     that:
-      - pyroscope_final_config.storage.filesystem.directory is defined
+      - pyroscope_final_config.storage.filesystem.dir is defined
     fail_msg: "Filesystem storage directory must be defined when using filesystem backend"
     success_msg: "Filesystem storage configuration is valid"
   when: pyroscope_final_config.storage.backend == 'filesystem'

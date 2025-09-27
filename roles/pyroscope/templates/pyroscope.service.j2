@@ -1,43 +1,17 @@
 [Unit]
-Description=Pyroscope continuous profiling platform
-Documentation=https://grafana.com/docs/pyroscope/
-After=network-online.target
-Wants=network-online.target
+Description=Pyroscope service
+After=network.target
 
 [Service]
 Type=simple
 User={{ pyroscope_user }}
 Group={{ pyroscope_group }}
-ExecStart=/usr/bin/pyroscope \
-  --config.file={{ pyroscope_config_dir }}/config.yaml \
-  --runtime-config.file={{ pyroscope_config_dir }}/runtime.yaml
-ExecReload=/bin/kill -HUP $MAINPID
-Restart=on-failure
-RestartSec=5s
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=pyroscope
-
-# Security hardening
-NoNewPrivileges=true
-PrivateTmp=true
-ProtectSystem=strict
-ProtectHome=true
-ReadWritePaths={{ pyroscope_data_dir }} {{ pyroscope_log_dir }} {{ pyroscope_config_dir }}
-ProtectKernelTunables=true
-ProtectKernelModules=true
-ProtectControlGroups=true
-RestrictRealtime=true
-RestrictNamespaces=true
-LockPersonality=true
-MemoryDenyWriteExecute=true
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
-SystemCallFilter=@system-service
-SystemCallErrorNumber=EPERM
-
-{% if pyroscope_cap_net_bind_service %}
-AmbientCapabilities=CAP_NET_BIND_SERVICE
-{% endif %}
+WorkingDirectory=/var/lib/pyroscope
+ExecStart=/usr/bin/pyroscope -config.file /etc/pyroscope/config.yml
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec = 120
+Restart = on-failure
+RestartSec = 2
 
 [Install]
 WantedBy=multi-user.target

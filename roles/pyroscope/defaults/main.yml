@@ -93,7 +93,11 @@ pyroscope_config:
   # Memberlist configuration (for clustering)
   memberlist:
     bind_port: 7946
-    join_members: []
+    advertise_addr: "{{ ansible_default_ipv4.address }}"
+    advertise_port: 7946
+    join_members:
+      - 127.0.0.1
+      - "{{ ansible_default_ipv4.address }}"
 
   # Limits configuration
   limits:

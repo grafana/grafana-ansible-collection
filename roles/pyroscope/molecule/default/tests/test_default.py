@@ -20,7 +20,7 @@ def test_pyroscope_service_running(host):
 
 def test_pyroscope_config_file_exists(host):
     """Check if pyroscope configuration file exists."""
-    config_file = host.file("/etc/pyroscope/config.yaml")
+    config_file = host.file("/etc/pyroscope/config.yml")
     assert config_file.exists
     assert config_file.is_file
     assert config_file.user == "pyroscope"

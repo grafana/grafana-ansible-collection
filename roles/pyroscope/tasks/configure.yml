@@ -1,8 +1,8 @@
 ---
 - name: Create pyroscope configuration file
   ansible.builtin.template:
-    src: pyroscope.yaml.j2
-    dest: "{{ pyroscope_config_dir }}/config.yaml"
+    src: pyroscope.yml.j2
+    dest: "{{ pyroscope_config_dir }}/config.yml"
     owner: "{{ pyroscope_user }}"
     group: "{{ pyroscope_group }}"
     mode: '0640'

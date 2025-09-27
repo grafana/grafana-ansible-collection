@@ -186,7 +186,12 @@ For running Pyroscope in clustered mode:
 pyroscope_config:
   memberlist:
     bind_port: 7946
-    join_members: []  # List of cluster members to join
+    advertise_addr: "{{ ansible_default_ipv4.address }}"  # IP address to advertise to other cluster members
+    advertise_port: 7946  # Port to advertise to other cluster members
+    join_members:  # List of cluster members to join (defaults to local addresses)
+      - 127.0.0.1
+      - "{{ ansible_default_ipv4.address }}"
+      # Additional members can be added:
       # - pyroscope-1.example.com
       # - pyroscope-2.example.com
 ```
