@@ -170,6 +170,7 @@
       register: __grafana_custom_dashboards_dir
 
     - name: "Import custom grafana dashboards"
+      when: __grafana_custom_dashboards_dir.stat.exists
       block:
         - name: "Find which directories to create"
           ansible.builtin.find:
