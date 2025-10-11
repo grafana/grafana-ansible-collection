@@ -230,6 +230,8 @@
       loop: "{{ __dashboards_present_list | difference(__dashboards_copied_list) }}"
       become: true
       when: 
+        - __dashboards_present_list is defined and __dashboards_present_list
+        - __dashboards_copied_list is defined and __dashboards_copied_list
         - grafana_provisioning_synced | bool
         - not ansible_check_mode
 
