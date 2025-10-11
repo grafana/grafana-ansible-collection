@@ -11,7 +11,7 @@
   failed_when: false
 
 - name: Uninstall Alloy rpm package
-  ansible.builtin.dnf:
+  ansible.builtin.package:
     name: "alloy"
     state: absent
     autoremove: true
