@@ -1,6 +1,6 @@
 ---
-- name: DNF - Install Alloy from remote URL
-  ansible.builtin.package:
+- name: Zypper - Install Alloy from remote URL
+  community.general.zypper:
     name: "{{ alloy_download_url_rpm }}"
     state: present
     disable_gpg_check: true
