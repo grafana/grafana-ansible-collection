@@ -4,6 +4,24 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v6.0.5
+======
+
+Major Changes
+-------------
+
+- Fallback to empty dict in case grafana_ini is undefined by @root-expert in https://github.com/grafana/grafana-ansible-collection/pull/403
+- Fix Mimir config file validation task by @Windos in https://github.com/grafana/grafana-ansible-collection/pull/428
+- Fixes issue by @digiserg in https://github.com/grafana/grafana-ansible-collection/pull/421
+- Import custom dashboards only when directory exists by @mahendrapaipuri in https://github.com/grafana/grafana-ansible-collection/pull/430
+- Updated YUM repo urls from `packages.grafana.com` to `rpm.grafana.com` by @DejfCold in https://github.com/grafana/grafana-ansible-collection/pull/414
+- Use credentials from grafana_ini when importing dashboards by @root-expert in https://github.com/grafana/grafana-ansible-collection/pull/402
+- do not skip scrape latest github version even in check_mode by @cmehat in https://github.com/grafana/grafana-ansible-collection/pull/408
+- fix datasource documentation by @jeremad in https://github.com/grafana/grafana-ansible-collection/pull/437
+- fix mimir_download_url_deb & mimir_download_url_rpm by @germebl in https://github.com/grafana/grafana-ansible-collection/pull/400
+- update catalog info by @Duologic in https://github.com/grafana/grafana-ansible-collection/pull/434
+- use deb822 for newer debian versions by @Lukas-Heindl in https://github.com/grafana/grafana-ansible-collection/pull/440
+
 v6.0.4
 ======
 
