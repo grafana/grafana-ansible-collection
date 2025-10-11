@@ -11,7 +11,7 @@
   failed_when: false
 
 - name: Uninstall Alloy rpm package
-  ansible.builtin.dnf:
+  ansible.builtin.package:
     name: "alloy"
     state: absent
     autoremove: true
@@ -29,6 +29,12 @@
     name: "{{ __alloy_brew_package }}"
     state: absent
   when: ansible_facts['os_family'] == 'Darwin'
+
+- name: Uninstall Alloy rpm package (SUSE)
+  community.general.zypper:
+    name: "alloy"
+    state: absent
+  when: ansible_facts['os_family'] == 'Suse'
 
 - name: Ensure that Alloy firewalld rule is not present - tcp port {{ __alloy_server_http_listen_port }}
   ansible.posix.firewalld:  # noqa ignore-errors

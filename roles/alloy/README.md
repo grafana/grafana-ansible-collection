@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/grafana/grafana-ansible-collection)](LICENSE)
 
 This Ansible role to install and configure [Alloy](https://grafana.com/docs/alloy/latest/), which can be used to collect traces, metrics, and logs.
-This role is tailored for operating systems such as **RedHat**, **Rocky Linux**, **AlmaLinux**, **Ubuntu**, **Debian**, and **macOS**.
+This role is tailored for operating systems such as **RedHat**, **Rocky Linux**, **AlmaLinux**, **Ubuntu**, **Debian**, **macOS**, and **openSUSE**.
 
 ## Table of Content
 
