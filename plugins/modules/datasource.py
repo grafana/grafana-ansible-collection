@@ -46,26 +46,23 @@ options:
 EXAMPLES = '''
 - name: Create/Update Data sources
   grafana.grafana.datasource:
-    dataSource: |
-      {
-        "name": "Prometheus",
-        "type": "prometheus",
-        "access": "proxy",
-        "url": "http://localhost:9090",
-        "jsonData": {
-          "httpMethod": "POST",
-          "manageAlerts": true,
-          "prometheusType": "Prometheus",
-          "cacheLevel": "High"
-        }
-      }
+    dataSource:
+      name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://localhost:9090
+      jsonData:
+        httpMethod: POST
+        manageAlerts: true
+        prometheusType: Prometheus
+        cacheLevel: High
     grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: present
 
 - name: Delete Data sources
   grafana.grafana.datasource:
-    dataSource: "{{ lookup('ansible.builtin.file', 'datasource.json') }}"
+    dataSource: "{{ lookup('ansible.builtin.file', 'datasource.json') | to_yaml }}"
     grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
