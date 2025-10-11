@@ -1,6 +1,6 @@
 ---
 - name: DNF - Install Alloy from remote URL
-  ansible.builtin.dnf:
+  ansible.builtin.package:
     name: "{{ alloy_download_url_rpm }}"
     state: present
     disable_gpg_check: true

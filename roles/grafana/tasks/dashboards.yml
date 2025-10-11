@@ -170,6 +170,7 @@
       register: __grafana_custom_dashboards_dir
 
     - name: "Import custom grafana dashboards"
+      when: __grafana_custom_dashboards_dir.stat.exists
       block:
         - name: "Find which directories to create"
           ansible.builtin.find:
@@ -230,6 +231,8 @@
       loop: "{{ __dashboards_present_list | difference(__dashboards_copied_list) }}"
       become: true
       when: 
+        - __dashboards_present_list is defined and __dashboards_present_list
+        - __dashboards_copied_list is defined and __dashboards_copied_list
         - grafana_provisioning_synced | bool
         - not ansible_check_mode
 
