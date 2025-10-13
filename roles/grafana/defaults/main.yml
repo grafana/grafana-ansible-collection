@@ -2,16 +2,18 @@
 grafana_version: latest
 grafana_manage_repo: true
 
-grafana_yum_repo: "https://packages.grafana.com/oss/rpm"
-grafana_yum_key: "https://packages.grafana.com/gpg.key"
+grafana_yum_repo: "https://rpm.grafana.com"
+grafana_yum_key: "https://rpm.grafana.com/gpg.key"
 
 grafana_rhsm_subscription: ""
 grafana_rhsm_repo: ""
 
 grafana_apt_release_channel: stable
 grafana_apt_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
-grafana_apt_repo: "deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.asc] https://apt.grafana.com/ {{ grafana_apt_release_channel }} main"
+grafana_apt_repo_uri: "https://apt.grafana.com/"
+grafana_apt_repo: "deb [arch={{ grafana_apt_arch }} signed-by=/usr/share/keyrings/grafana.asc] {{ grafana_apt_repo_uri }} {{ grafana_apt_release_channel }} main"
 grafana_apt_key: "https://apt.grafana.com/gpg.key"
+grafana_apt_name: "grafana"
 
 # Should we use the provisioning capability when possible (provisioning require grafana >= 5.0)
 grafana_use_provisioning: true
