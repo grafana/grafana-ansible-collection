@@ -100,13 +100,13 @@
         mode: "0644"
 
     - name: "Add Grafana apt repository"
-      when: not (ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] | version('12', '>')))
+      when: not (ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] is version('12', '>')))
       ansible.builtin.apt_repository:
         repo: "{{ grafana_apt_repo }}"
         state: present
         update_cache: true
     - name: "Add Grafana apt repository"
-      when: ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] | version('12', '>'))
+      when: ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] is version('12', '>'))
       ansible.builtin.deb822_repository:
         name: "{{ grafana_apt_name }}"
         types: deb
