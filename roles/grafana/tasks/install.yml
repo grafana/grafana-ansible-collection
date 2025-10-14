@@ -120,13 +120,15 @@
         signed_by: /usr/share/keyrings/grafana.asc
         repo: "{{ grafana_apt_repo }}"
         state: present
-
+        register: __deb822_update
         # see https://manpages.debian.org/trixie/apt/sources.list.5.en.html
         # for more detailed explanation
         check_date: true
         enabled: true
-        # TODO
-        # update_cache: true # This module will not automatically update caches, call the ansible.builtin.apt module based on the changed state.
+    - name: "Update apt cache"
+      ansible.builtin.apt:
+        update_cache: true
+      when: __deb822_update is defined and __deb822_update.changed
 
 - name: "Install Grafana"
   ansible.builtin.package:
