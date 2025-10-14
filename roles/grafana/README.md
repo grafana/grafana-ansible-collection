@@ -23,8 +23,8 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_provisioning_synced` | false | Ensure no previously provisioned dashboards are kept if not referenced anymore. |
 | `grafana_version` | latest | Grafana package version |
 | `grafana_manage_repo` | true | Manage package repository (or don't) |
-| `grafana_yum_repo` | https://packages.grafana.com/oss/rpm | Yum repository URL |
-| `grafana_yum_key` | https://packages.grafana.com/gpg.key | Yum repository gpg key |
+| `grafana_yum_repo` | https://rpm.grafana.com | Yum repository URL |
+| `grafana_yum_key` | https://rpm.grafana.com/gpg.key | Yum repository gpg key |
 | `grafana_rhsm_subscription` | | rhsm subscription name (redhat subscription-manager) |
 | `grafana_rhsm_repo` | | rhsm repository name (redhat subscription-manager) |
 | `grafana_apt_release_channel` | stable | Apt release chanel (stable or beta) |

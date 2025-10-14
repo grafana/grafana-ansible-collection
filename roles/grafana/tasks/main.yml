@@ -1,7 +1,7 @@
 ---
 - name: Inherit default vars
   ansible.builtin.set_fact:
-    grafana_ini: "{{ grafana_ini_default | ansible.builtin.combine(grafana_ini, recursive=true) }}"
+    grafana_ini: "{{ grafana_ini_default | ansible.builtin.combine(grafana_ini | default({}), recursive=true) }}"
   no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
   tags:
     - always
