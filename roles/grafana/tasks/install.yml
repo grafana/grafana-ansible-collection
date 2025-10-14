@@ -121,11 +121,8 @@
         repo: "{{ grafana_apt_repo }}"
         state: present
 
-        # maybe too restrictive
-        check_valid_until: true
-        allow_downgrade_to_insecure: false
-        allow_insecure: false
-        allow_weak: false
+        # see https://manpages.debian.org/trixie/apt/sources.list.5.en.html
+        # for more detailed explanation
         check_date: true
         enabled: true
         # TODO
