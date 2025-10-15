@@ -110,7 +110,7 @@
       ansible.builtin.deb822_repository:
         name: "{{ grafana_apt_name }}"
         types: deb
-        uri: "{{ grafana_apt_repo_uri }}"
+        uris: "{{ grafana_apt_repo_uri }}"
         suites: "{{ grafana_apt_release_channel }}"
         components:
           - main
