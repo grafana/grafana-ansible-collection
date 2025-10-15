@@ -118,13 +118,12 @@
           - "{{ grafana_apt_arch }}"
         # could also be inlined or we can specify the url directly here
         signed_by: /usr/share/keyrings/grafana.asc
-        repo: "{{ grafana_apt_repo }}"
         state: present
-        register: __deb822_update
         # see https://manpages.debian.org/trixie/apt/sources.list.5.en.html
         # for more detailed explanation
         check_date: true
         enabled: true
+      register: __deb822_update
     - name: "Update apt cache"
       ansible.builtin.apt:
         update_cache: true
