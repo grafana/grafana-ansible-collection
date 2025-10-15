@@ -174,3 +174,4 @@
   when:
     - not ansible_check_mode
     - ansible_facts['os_family'] in ['RedHat', 'Debian', 'Suse']
+    - alloy_expose_port | bool
