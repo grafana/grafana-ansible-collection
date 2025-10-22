@@ -5,9 +5,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'roles/alloy/**'
   pull_request:
     branches:
       - main
+    paths:
+      - 'roles/alloy/**'
 
 defaults:
   run:
