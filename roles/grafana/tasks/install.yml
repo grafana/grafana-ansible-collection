@@ -93,43 +93,38 @@
     - "(grafana_manage_repo)"
   environment: "{{ grafana_environment }}"
   block:
+    - name: "Use deb822 format?"
+      ansible.builtin.set_fact:
+        __use_deb822: "{{ (ansible_facts['distribution'] == 'Debian' and (ansible_facts['distribution_major_version'] | int) >= 12) or
+                          (ansible_facts['distribution'] == 'Ubuntu' and (ansible_facts['distribution_major_version'] | int) >= 24) }}"
     - name: "Import Grafana apt gpg key"
       ansible.builtin.get_url:
         url: "{{ grafana_apt_key }}"
         dest: /usr/share/keyrings/grafana.asc
         mode: "0644"
-
+      when: not __use_deb822
     - name: "Add Grafana apt repository"
-      when: not (ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] | version('12', '>')))
+      when: not __use_deb822
       ansible.builtin.apt_repository:
         repo: "{{ grafana_apt_repo }}"
-        state: present
         update_cache: true
     - name: "Add Grafana apt repository"
-      when: ansible_facts['os_family'] == 'Debian' and (ansible_facts['distribution_version'] | version('12', '>'))
+      when: __use_deb822
       ansible.builtin.deb822_repository:
         name: "{{ grafana_apt_name }}"
         types: deb
-        uri: "{{ grafana_apt_repo_uri }}"
+        uris: "{{ grafana_apt_repo_uri }}"
         suites: "{{ grafana_apt_release_channel }}"
         components:
           - main
         architectures:
           - "{{ grafana_apt_arch }}"
-        # could also be inlined or we can specify the url directly here
-        signed_by: /usr/share/keyrings/grafana.asc
-        repo: "{{ grafana_apt_repo }}"
-        state: present
-
-        # maybe too restrictive
-        check_valid_until: true
-        allow_downgrade_to_insecure: false
-        allow_insecure: false
-        allow_weak: false
-        check_date: true
-        enabled: true
-        # TODO
-        # update_cache: true # This module will not automatically update caches, call the ansible.builtin.apt module based on the changed state.
+        signed_by: "{{ grafana_apt_key }}"
+      register: __update_cache
+    - name: "Update apt cache"
+      ansible.builtin.apt:
+        update_cache: true
+      when: __update_cache is defined and __update_cache.changed
 
 - name: "Install Grafana"
   ansible.builtin.package:
