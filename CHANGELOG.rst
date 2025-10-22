@@ -4,6 +4,15 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v6.0.6
+======
+
+Major Changes
+-------------
+
+- Restore default listen address and port in Mimir by @56quarters in https://github.com/grafana/grafana-ansible-collection/pull/456
+- fix broken Grafana apt repository addition by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/454
+
 v6.0.5
 ======
 
