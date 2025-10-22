@@ -86,7 +86,6 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 | mimir_alertmanager.data_dir             | str  | /data/alertmanager                     | sed to specify the directory path where the Mimir Alertmanager component of the Grafana Agent stores its data files.                                                 |
 | mimir_alertmanager.fallback_config_file | str  | /etc/alertmanager-fallback-config.yaml | Used to specify the path to a fallback configuration file for the Mimir Alertmanager component of the Grafana Agent.                                                 |
 | mimir_alertmanager.external_url         | str  | http://localhost:9009/alertmanager     | Used to specify the external URL or address at which the Mimir Alertmanager component of the Grafana Agent can be accessed.                                          |
-| mimir_server.log_level                  | str  | warn                                   | Used to specify the log level of the server. Possible configurations error, warn, info, debug                                                                        |
 | mimir_memberlist.join_members           | []   | List of members for the Mimir cluster  |
 
 ## **Additional Config Variables for `/etc/mimir/config.yml`**
