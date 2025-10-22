@@ -135,7 +135,7 @@ Releasing the current major version on GitHub happens from the `main` branch by 
 Before the [GitHub Release Workflow](https://github.com/grafana/grafana-ansible-collection/blob/main/.github/workflows/release.yml)
 is run, Contributors should push the new version on Ansible Galaxy Manually.
 
-To generate changelogs for a new release, Refer [Generating Changelogs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs)
+To generate changelogs for a new release, Refer [Generating Changelogs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_changelogs.html#generating-changelogs) or run `antsibull-changelog generate`and `antsibull-changelog lint-changelog-yaml changelogs/changelog.yaml` to validate the YAML file.
 
 To generate the tarball to be uploaded on Ansible Galaxy, Refer [Building collection tarball](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_distributing.html#building-your-collection-tarball)
 
