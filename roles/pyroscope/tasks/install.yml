@@ -1,0 +1,115 @@
+---
+- name: Install dependencies for RedHat family
+  ansible.builtin.yum:
+    name:
+      - tar
+      - unzip
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install dependencies for Debian family
+  ansible.builtin.apt:
+    name:
+      - tar
+      - unzip
+      - apt-transport-https
+      - software-properties-common
+      - gnupg2
+    state: present
+    update_cache: true
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Create pyroscope system group
+  ansible.builtin.group:
+    name: "{{ pyroscope_group }}"
+    system: true
+    state: present
+
+- name: Create pyroscope system user
+  ansible.builtin.user:
+    name: "{{ pyroscope_user }}"
+    group: "{{ pyroscope_group }}"
+    system: true
+    shell: /usr/sbin/nologin
+    home: "{{ pyroscope_data_dir }}"
+    createhome: false
+    state: present
+
+- name: Create pyroscope directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ pyroscope_user }}"
+    group: "{{ pyroscope_group }}"
+    mode: '0755'
+  loop:
+    - "{{ pyroscope_config_dir }}"
+    - "{{ pyroscope_data_dir }}"
+    - "{{ pyroscope_log_dir }}"
+    - "{{ pyroscope_data_dir }}/data"
+    - /var/run/pyroscope
+
+- name: Configure package repositories for RedHat family
+  when:
+    - ansible_facts['os_family'] == 'RedHat'
+    - pyroscope_manage_repo | bool
+  block:
+    - name: Import Pyroscope GPG key (RedHat)
+      ansible.builtin.rpm_key:
+        key: "{{ pyroscope_yum_key }}"
+        state: present
+
+    - name: Add Pyroscope repository (RedHat)
+      ansible.builtin.yum_repository:
+        name: pyroscope
+        description: Pyroscope repository
+        baseurl: "{{ pyroscope_yum_repo }}"
+        gpgcheck: true
+        gpgkey: "{{ pyroscope_yum_key }}"
+        enabled: true
+
+- name: Configure package repositories for Debian family
+  when:
+    - ansible_facts['os_family'] == 'Debian'
+    - pyroscope_manage_repo | bool
+  block:
+    - name: Import Pyroscope GPG key (Debian)
+      ansible.builtin.get_url:
+        url: "{{ pyroscope_apt_key }}"
+        dest: /usr/share/keyrings/grafana.asc
+        mode: '0644'
+
+    - name: Add Pyroscope repository (Debian)
+      ansible.builtin.apt_repository:
+        repo: "{{ pyroscope_apt_repo }}"
+        state: present
+        filename: pyroscope
+        update_cache: true
+
+- name: Install Pyroscope package (RedHat)
+  ansible.builtin.yum:
+    name: "pyroscope{% if pyroscope_version != 'latest' %}-{{ pyroscope_version }}{% endif %}"
+    state: "{{ 'present' if pyroscope_version != 'latest' else 'latest' }}"
+  notify: restart pyroscope
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install Pyroscope package (Debian)
+  ansible.builtin.apt:
+    name: "pyroscope{% if pyroscope_version != 'latest' %}={{ pyroscope_version }}{% endif %}"
+    state: "{{ 'present' if pyroscope_version != 'latest' else 'latest' }}"
+    update_cache: true
+  notify: restart pyroscope
+  when: ansible_facts['os_family'] == 'Debian'
+
+- name: Set capabilities for pyroscope binary
+  community.general.capabilities:
+    path: /usr/bin/pyroscope
+    capability: CAP_NET_BIND_SERVICE=+ep
+    state: present
+  when: pyroscope_cap_net_bind_service | bool
+
+- name: Ensure pyroscope service is enabled
+  ansible.builtin.systemd:
+    name: "{{ pyroscope_service_name }}"
+    enabled: true
+    daemon_reload: true
