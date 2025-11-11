@@ -13,7 +13,6 @@
       - tar
       - unzip
       - apt-transport-https
-      - software-properties-common
       - gnupg2
     state: present
     update_cache: true
@@ -61,7 +60,7 @@
 
     - name: Add Pyroscope repository (RedHat)
       ansible.builtin.yum_repository:
-        name: pyroscope
+        name: grafana
         description: Pyroscope repository
         baseurl: "{{ pyroscope_yum_repo }}"
         gpgcheck: true
@@ -83,7 +82,7 @@
       ansible.builtin.apt_repository:
         repo: "{{ pyroscope_apt_repo }}"
         state: present
-        filename: pyroscope
+        filename: grafana
         update_cache: true
 
 - name: Install Pyroscope package (RedHat)
