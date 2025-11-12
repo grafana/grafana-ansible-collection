@@ -1,5 +1,6 @@
 # Run Mimir in single process mode, with all components running in 1 process.
 target: all,alertmanager,overrides-exporter
+target: {{ mimir_targets | join(',') }}
 
 # Configure Mimir to use Minio as object storage backend.
 common:
