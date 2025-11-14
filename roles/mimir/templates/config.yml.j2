@@ -1,6 +1,9 @@
 # Run Mimir in single process mode, with all components running in 1 process.
 target: all,alertmanager,overrides-exporter
 
+# Distinguish Requests based on X-Scope-OrgId Header
+multitenancy_enabled: {{ mimir_multitenancy | bool }}
+
 # Configure Mimir to use Minio as object storage backend.
 common:
 {% if mimir_storage is defined %}
