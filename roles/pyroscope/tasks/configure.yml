@@ -1,0 +1,60 @@
+---
+- name: Create pyroscope configuration file
+  ansible.builtin.template:
+    src: pyroscope.yml.j2
+    dest: "{{ pyroscope_config_dir }}/config.yml"
+    owner: "{{ pyroscope_user }}"
+    group: "{{ pyroscope_group }}"
+    mode: '0640'
+    backup: true
+  notify: restart pyroscope
+
+- name: Create systemd service override directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/{{ pyroscope_service_name }}.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  when: pyroscope_systemd_service_overrides | length > 0 or pyroscope_environment_variables | length > 0
+
+- name: Create systemd service override file
+  ansible.builtin.template:
+    src: systemd-override.conf.j2
+    dest: /etc/systemd/system/{{ pyroscope_service_name }}.service.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart pyroscope
+  when: pyroscope_systemd_service_overrides | length > 0 or pyroscope_environment_variables | length > 0
+
+- name: Create pyroscope systemd service file
+  ansible.builtin.template:
+    src: pyroscope.service.j2
+    dest: /etc/systemd/system/{{ pyroscope_service_name }}.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - reload systemd
+    - restart pyroscope
+
+- name: Set ownership of pyroscope directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ pyroscope_user }}"
+    group: "{{ pyroscope_group }}"
+    recurse: true
+  loop:
+    - "{{ pyroscope_data_dir }}"
+    - "{{ pyroscope_log_dir }}"
+
+- name: Start and enable pyroscope service
+  ansible.builtin.systemd:
+    name: "{{ pyroscope_service_name }}"
+    state: started
+    enabled: true
+    daemon_reload: true
