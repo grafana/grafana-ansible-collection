@@ -14,6 +14,7 @@
     database: "{{ item.database | default(omit) }}"
     user: "{{ item.user | default(omit) }}"
     password: "{{ item.password | default(omit) }}"
+    time_interval: "{{ item.time_interval | default(omit) }}"
     aws_auth_type: "{{ item.aws_auth_type | default(omit) }}"
     aws_default_region: "{{ item.aws_default_region | default(omit) }}"
     aws_access_key: "{{ item.aws_access_key | default(omit) }}"
