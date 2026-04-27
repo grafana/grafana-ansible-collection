@@ -154,6 +154,6 @@ jobs:
         run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana-${{ github.event.inputs.version }}.tar.gz
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3
         with:
           tag_name: ${{ github.event.inputs.version }}
