@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/grafana/grafana-ansible-collection#readme",
   "dependencies": {
-    "editorconfig-checker": "^5.0.1",
+    "editorconfig-checker": "^6.0.0",
     "markdownlint-cli2": "^0.6.0",
     "textlint": "^12.5.1",
     "textlint-rule-common-misspellings": "^1.0.1",
