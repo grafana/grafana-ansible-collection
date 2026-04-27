@@ -40,10 +40,10 @@
   resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-12.6.1.tgz#35ecefe74e701d7f632c083d4fda89cab1b89012"
   integrity sha512-uzlJ+ZsCAyJm+lBi7j0UeBbj+Oy6w/VWoGJ3iHRHE5eZ8Z4iK66mq+PG/spupmbllLtz77OJbY89BYqgFyjXmA==
 
-"@textlint/ast-node-types@^13.0.2":
-  version "13.3.1"
-  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-13.3.1.tgz#469cab986e43f4ffb39aa5c31d148888a36d2286"
-  integrity sha512-/qeEjW3hIFpGwESsCkJRroja7mBOlo9wqyx8G4fwayq4FZRvJMm/9DhIo77jd/4wm/VSJcVVr+fs+rVa4jrY5A==
+"@textlint/ast-node-types@^15.2.1":
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-15.6.0.tgz#6a60c1119f97fec1189671c5b8a07315a093ec57"
+  integrity sha512-CxZHFbYAU7J0A4izz31wV2ZZfySR6aVj2OSR6/3tppZm7VV6hM7nA7sutsLwIiBL/v4lsB1RM79l4Dc/VrH4qw==
 
 "@textlint/ast-tester@^12.6.1":
   version "12.6.1"
@@ -795,7 +795,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.truncate/-/lodash.truncate-4.4.2.tgz#5a350da0b1113b837ecfffd5812cbe58d6eae193"
   integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
 
-lodash@^4.17.15, lodash@^4.17.21:
+lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -1447,10 +1447,10 @@ strip-json-comments@5.0.0:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-5.0.0.tgz#ec101b766476a703031bc607e3c712569de2aa06"
   integrity sha512-V1LGY4UUo0jgwC+ELQ2BNWfPa17TIuwBLg+j1AA/9RPzKINl1lhxVEu2r+ZTTO8aetIsUzE5Qj6LMSBkoGYKKw==
 
-strip-json-comments@^3.0.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
-  integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+strip-json-comments@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-5.0.3.tgz#b7304249dd402ee67fd518ada993ab3593458bcf"
+  integrity sha512-1tB5mhVo7U+ETBKNf92xT4hrQa3pm0MZ0PQvuDnWgAAGHDsfp4lPSpiS6psrSiet87wyGPh9ft6wmhOMQ0hDiw==
 
 structured-source@^4.0.0:
   version "4.0.0"
@@ -1502,12 +1502,12 @@ textlint-rule-helper@^1.1.5:
   dependencies:
     unist-util-visit "^1.1.0"
 
-textlint-rule-helper@^2.0.0, textlint-rule-helper@^2.1.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/textlint-rule-helper/-/textlint-rule-helper-2.3.0.tgz#5ab84db686d42fd2e39a63b40310501bb336520d"
-  integrity sha512-Ug78Saahb/qVImttL0NSFyT5/JJ5wXvOPepR2pYAjNi54BsQAAz/hAyyEgKuYeR0+yjFb0KPhby4f880X5vqHA==
+textlint-rule-helper@^2.0.0, textlint-rule-helper@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-helper/-/textlint-rule-helper-2.5.0.tgz#d31ff25a6de66ccb9d1a473a114f5d411f305b90"
+  integrity sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==
   dependencies:
-    "@textlint/ast-node-types" "^13.0.2"
+    "@textlint/ast-node-types" "^15.2.1"
     structured-source "^4.0.0"
     unist-util-visit "^2.0.3"
 
@@ -1518,14 +1518,13 @@ textlint-rule-no-todo@^2.0.1:
   dependencies:
     textlint-rule-helper "^2.0.0"
 
-textlint-rule-terminology@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/textlint-rule-terminology/-/textlint-rule-terminology-3.0.4.tgz#5e51fffe4dc5d1f82c2fa0482137e5c75a7eaaae"
-  integrity sha512-obQ3y0hqX6OWCrM8K5K6WSJGE4BOyNfGF6hUGPet56taTm/xzkRu8XA6vpn2GFr4zom/oMa0sBJ3OtDWCgrS/g==
+textlint-rule-terminology@^5.0.0:
+  version "5.2.16"
+  resolved "https://registry.yarnpkg.com/textlint-rule-terminology/-/textlint-rule-terminology-5.2.16.tgz#455bfa75e1068bb44b6216327d0d9e18fce7a009"
+  integrity sha512-1HQotOLJb6kGAgmRYEA9KiIU+fQupZcOVpZEEhFwmRempvpNnhKowa7Zfpss2v6sbp8Ya+iXRs9xKGw+xheCbQ==
   dependencies:
-    lodash "^4.17.15"
-    strip-json-comments "^3.0.1"
-    textlint-rule-helper "^2.1.1"
+    strip-json-comments "^5.0.3"
+    textlint-rule-helper "^2.5.0"
 
 textlint@^12.5.1:
   version "12.6.1"
