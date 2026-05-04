@@ -95,6 +95,7 @@ loki_analytics:
 # loki_frontend:
 # loki_ingester_client:
 # loki_ingester:
+# loki_pattern_ingester:
 # loki_index_gateway:
 # loki_storage_config:
 # loki_chunk_store_config:
