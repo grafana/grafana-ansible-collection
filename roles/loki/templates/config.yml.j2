@@ -17,6 +17,10 @@ distributor:
 querier:
   {{ loki_querier | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
 {% endif %}
+{% if loki_ui is defined %}
+ui:
+  {{ loki_ui | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
+{% endif %}
 {% if loki_query_scheduler is defined %}
 query_scheduler:
   {{ loki_query_scheduler | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
