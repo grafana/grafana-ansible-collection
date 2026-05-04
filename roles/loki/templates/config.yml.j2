@@ -29,6 +29,10 @@ frontend:
 query_range:
   {{ loki_query_range | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
 {% endif %}
+{% if loki_query_engine is defined %}
+query_engine:
+  {{ loki_query_engine | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}
+{% endif %}
 {% if loki_ruler is defined %}
 ruler:
   {{ loki_ruler | to_nice_yaml(indent=2,sort_keys=False) | indent(2, False) }}

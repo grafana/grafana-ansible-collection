@@ -91,6 +91,7 @@ loki_analytics:
 # Additional Config Variables for /etc/loki/config.yml
 # loki_distributor:
 # loki_querier:
+# loki_query_engine:
 # loki_query_scheduler:
 # loki_frontend:
 # loki_ingester_client:
