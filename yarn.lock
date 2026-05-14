@@ -40,10 +40,10 @@
   resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-12.6.1.tgz#35ecefe74e701d7f632c083d4fda89cab1b89012"
   integrity sha512-uzlJ+ZsCAyJm+lBi7j0UeBbj+Oy6w/VWoGJ3iHRHE5eZ8Z4iK66mq+PG/spupmbllLtz77OJbY89BYqgFyjXmA==
 
-"@textlint/ast-node-types@^13.0.2":
-  version "13.3.1"
-  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-13.3.1.tgz#469cab986e43f4ffb39aa5c31d148888a36d2286"
-  integrity sha512-/qeEjW3hIFpGwESsCkJRroja7mBOlo9wqyx8G4fwayq4FZRvJMm/9DhIo77jd/4wm/VSJcVVr+fs+rVa4jrY5A==
+"@textlint/ast-node-types@^15.2.1":
+  version "15.7.0"
+  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-15.7.0.tgz#23fe5b4ef31025a70dbb6a82f2212d2f3bf58b9d"
+  integrity sha512-wZILFXsRf2gGK9k0Fr69GUdfuZV9CrtByga8Qkw0CLyKBBfZXdNQlJF2XdZ2Ju9ggrTbAWehGo0RjCsAHSBWtA==
 
 "@textlint/ast-tester@^12.6.1":
   version "12.6.1"
@@ -201,9 +201,9 @@
     "@types/unist" "*"
 
 "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2":
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.6.tgz#250a7b16c3b91f672a24552ec64678eeb1d3a08d"
-  integrity sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/@types/unist/-/unist-2.0.11.tgz#11af57b127e32487774841f7a4e54eab166d03c4"
+  integrity sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==
 
 ajv@^8.0.1:
   version "8.12.0"
@@ -796,9 +796,9 @@ lodash.truncate@^4.4.2:
   integrity sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw==
 
 lodash@^4.17.15, lodash@^4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
-  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+  version "4.18.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.18.1.tgz#ff2b66c1f6326d59513de2407bf881439812771c"
+  integrity sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
 
 longest-streak@^2.0.0:
   version "2.0.4"
@@ -1503,11 +1503,11 @@ textlint-rule-helper@^1.1.5:
     unist-util-visit "^1.1.0"
 
 textlint-rule-helper@^2.0.0, textlint-rule-helper@^2.1.1:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/textlint-rule-helper/-/textlint-rule-helper-2.3.0.tgz#5ab84db686d42fd2e39a63b40310501bb336520d"
-  integrity sha512-Ug78Saahb/qVImttL0NSFyT5/JJ5wXvOPepR2pYAjNi54BsQAAz/hAyyEgKuYeR0+yjFb0KPhby4f880X5vqHA==
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-helper/-/textlint-rule-helper-2.5.0.tgz#d31ff25a6de66ccb9d1a473a114f5d411f305b90"
+  integrity sha512-QIbFPtyqLy0g5BJn8mryk9iHzGYicNaFIpLFPiEnb4RXxrEGeQ2W2aARQ9yEXLIAqo+OwK4ndWBAWkbgJEPzTQ==
   dependencies:
-    "@textlint/ast-node-types" "^13.0.2"
+    "@textlint/ast-node-types" "^15.2.1"
     structured-source "^4.0.0"
     unist-util-visit "^2.0.3"
 
@@ -1519,9 +1519,9 @@ textlint-rule-no-todo@^2.0.1:
     textlint-rule-helper "^2.0.0"
 
 textlint-rule-terminology@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/textlint-rule-terminology/-/textlint-rule-terminology-3.0.4.tgz#5e51fffe4dc5d1f82c2fa0482137e5c75a7eaaae"
-  integrity sha512-obQ3y0hqX6OWCrM8K5K6WSJGE4BOyNfGF6hUGPet56taTm/xzkRu8XA6vpn2GFr4zom/oMa0sBJ3OtDWCgrS/g==
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/textlint-rule-terminology/-/textlint-rule-terminology-3.0.5.tgz#0b8343e7e95e5ed43b237d4bf5147571bf9d426e"
+  integrity sha512-IZw8byc4GjyccNjGwSMfy5OSxvjwTGk3IK3qMw2rJ0fsgCYQVlx5JThEQrs4CbWNQN6k2hAinIlxTzxgR00Hmw==
   dependencies:
     lodash "^4.17.15"
     strip-json-comments "^3.0.1"
