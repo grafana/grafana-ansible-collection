@@ -10,6 +10,7 @@
   become: true
   ansible.builtin.command:
     cmd: "grafana-cli --pluginsDir {{ grafana_ini.paths.data }}/plugins plugins install {{ item }}"
+    chdir: /usr/share/grafana
     creates: "{{ grafana_ini.paths.data }}/plugins/{{ item }}"
   loop: "{{ grafana_plugins | difference(__installed_plugins.files) }}"
   register: __plugin_install
