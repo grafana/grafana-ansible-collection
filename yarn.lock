@@ -382,9 +382,9 @@ dir-glob@^3.0.1:
     path-type "^4.0.0"
 
 editorconfig-checker@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/editorconfig-checker/-/editorconfig-checker-5.0.1.tgz#cb4bf7a9b80f1b63b141b8897d7cc326fce0d3ae"
-  integrity sha512-6hXq9VVDkyCxVYKdGtIj+yhVR1fi/6W6Ykz/+kItLPARulJvr2/VXgWZ5OGWx1UYm2RD6XOzWyx1JF6DLgQ/8Q==
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/editorconfig-checker/-/editorconfig-checker-5.1.9.tgz#6edf46da8362069c6edab10c7e9318ee8b10d533"
+  integrity sha512-p1XFFxEkhY9Nl+kuMLZA6PzzZ6s+dvy4yBmJD68tC4BwBQdjUh2p1VxA6IbtN5beaX6i7WtHeEsvTK5LF+W+OQ==
 
 emoji-regex@^8.0.0:
   version "8.0.0"
