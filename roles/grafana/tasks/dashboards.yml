@@ -189,7 +189,7 @@
             owner: "grafana"
             group: "grafana"
             mode: "0755"
-          loop: "{{ __dashboards_subdirs.files | map(attribute='path') | sort | regex_replace(grafana_dashboards_dir + '/*', '') }}"
+          loop:  "{{ __dashboards_subdirs.files | map(attribute='path') | sort | map('regex_replace', grafana_dashboards_dir + '/(.*)', '\\1') | list }}"
           become: true
           register: __dashboards_dir_created
           when: not ansible_check_mode
