@@ -83,10 +83,11 @@ You can also run commands like `molecule destroy`, `molecule prepare`, and `mole
 | mimir_ruler.alertmanager_url            | str  | http://127.0.0.1:8080/alertmanager     | Used to specify the URL or address of the Alertmanager API that the Mimir ruler component of the Grafana Agent should communicate with.                              |
 | mimir_ruler.ring.heartbeat_period       | str  | 2s                                     | Used to specify the interval at which the Mimir ruler component of the Grafana Agent sends heartbeat signals to the ring.                                            |
 | mimir_ruler.heartbeat_timeout           | str  | 10s                                    | Used to specify the maximum duration of time that the Mimir ruler component of the Grafana Agent will wait for a heartbeat signal from other components in the ring. |
-| mimir_alertmanager.data_dir             | str  | /data/alertmanager                     | sed to specify the directory path where the Mimir Alertmanager component of the Grafana Agent stores its data files.                                                 |
+| mimir_alertmanager.data_dir             | str  | /data/alertmanager                     | Used to specify the directory path where the Mimir Alertmanager component of the Grafana Agent stores its data files.                                                |
 | mimir_alertmanager.fallback_config_file | str  | /etc/alertmanager-fallback-config.yaml | Used to specify the path to a fallback configuration file for the Mimir Alertmanager component of the Grafana Agent.                                                 |
 | mimir_alertmanager.external_url         | str  | http://localhost:9009/alertmanager     | Used to specify the external URL or address at which the Mimir Alertmanager component of the Grafana Agent can be accessed.                                          |
 | mimir_memberlist.join_members           | []   | List of members for the Mimir cluster  |
+| mimir_targets                           | []   | [all,alertmanager,overrides-exporter]  | Used to specify the list of Mimir components | 
 
 ## **Additional Config Variables for `/etc/mimir/config.yml`**
 
