@@ -1,0 +1,14 @@
+[Service]
+{% if pyroscope_environment_variables | length > 0 %}
+# Environment variables
+{% for key, value in pyroscope_environment_variables.items() %}
+Environment="{{ key }}={{ value }}"
+{% endfor %}
+{% endif %}
+
+{% if pyroscope_systemd_service_overrides | length > 0 %}
+# Service overrides
+{% for key, value in pyroscope_systemd_service_overrides.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+{% endif %}

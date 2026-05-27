@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: Include pyroscope role
+      ansible.builtin.include_role:
+        name: pyroscope
+      vars:
+        pyroscope_config_overrides:
+          server:
+            http_listen_port: 4040
+          storage:
+            backend: filesystem
+            filesystem:
+              directory: /var/lib/pyroscope/data
+          limits:
+            ingestion_rate: 10000
+            ingestion_burst_size: 20000

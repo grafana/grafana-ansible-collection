@@ -1,0 +1,68 @@
+---
+- name: Merge configuration with overrides
+  ansible.builtin.set_fact:
+    pyroscope_final_config: "{{ pyroscope_config | ansible.builtin.combine(pyroscope_config_overrides, recursive=true) }}"
+  no_log: "{{ 'false' if lookup('env', 'CI') else 'true' }}"
+  tags:
+    - always
+
+- name: Gather variables for each operating system
+  ansible.builtin.include_vars: "{{ distrovars }}"
+  vars:
+    distrovars: "{{ lookup('first_found', params, errors='ignore') }}"
+    params:
+      skip: true
+      files:
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+      paths:
+        - "vars/distro"
+  tags:
+    - pyroscope_install
+    - pyroscope_configure
+
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+    apply:
+      tags:
+        - pyroscope_install
+        - pyroscope_configure
+
+- name: Install
+  ansible.builtin.include_tasks:
+    file: install.yml
+    apply:
+      become: true
+      tags:
+        - pyroscope_install
+
+- name: Configure
+  ansible.builtin.include_tasks:
+    file: configure.yml
+    apply:
+      become: true
+      tags:
+        - pyroscope_configure
+
+- name: Restart pyroscope if needed
+  ansible.builtin.meta: flush_handlers
+  tags:
+    - pyroscope_install
+    - pyroscope_configure
+    - pyroscope_run
+
+- name: Wait for pyroscope to start
+  ansible.builtin.wait_for:
+    host: "{{ pyroscope_final_config.server.http_listen_address }}"
+    port: "{{ pyroscope_final_config.server.http_listen_port }}"
+    delay: 5
+    timeout: 60
+  tags:
+    - pyroscope_install
+    - pyroscope_configure
+    - pyroscope_run
+
