@@ -49,6 +49,7 @@
         gpgkey: "{{ grafana_yum_key | default(omit) }}"
         repo_gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
         gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
+        module_hotfixes: true
       when: "(not grafana_rhsm_repo)"
 
     - name: "Attach RHSM subscription"
