@@ -189,7 +189,12 @@ grafana_datasources: []
 #    url: "http://prometheus.mydomain"
 #    basicAuth: true
 #    basicAuthUser: "admin"
-#    basicAuthPassword: "password"
+#    secureJsonData:
+#      tlsCACert: '...'
+#      tlsClientCert: '...'
+#      tlsClientKey: '...'
+#      password: "password"
+#      basicAuthPassword: "password"
 #    isDefault: true
 #    jsonData:
 #      tlsAuth: false
