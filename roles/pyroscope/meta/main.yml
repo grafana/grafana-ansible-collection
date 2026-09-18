@@ -1,0 +1,43 @@
+---
+galaxy_info:
+  author: Grafana Labs
+  description: Deploy and manage Grafana Pyroscope
+  company: Grafana Labs
+  license: Apache-2.0
+  min_ansible_version: "2.12"
+  namespace: grafana
+  role_name: pyroscope
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "38"
+        - "39"
+        - "40"
+
+  galaxy_tags:
+    - monitoring
+    - observability
+    - profiling
+    - pyroscope
+    - grafana
+    - performance
+    - continuous-profiling
+    - flamegraph
+    - metrics
+    - telemetry
+
+dependencies: []
