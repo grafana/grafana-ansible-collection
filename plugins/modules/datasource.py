@@ -4,9 +4,9 @@
 # Copyright: (c) 2021, Ishan Jain (@ishanjainn)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: datasource
 author:
@@ -41,9 +41,9 @@ options:
     choices: [ present, absent ]
     default: present
     type: str
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create/Update Data sources
   grafana.grafana.datasource:
     dataSource:
@@ -66,9 +66,9 @@ EXAMPLES = '''
     grafana_url: "{{ grafana_url }}"
     grafana_api_key: "{{ grafana_api_key }}"
     state: absent
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
 output:
   description: Dict object containing Data source information.
   returned: On success
@@ -115,11 +115,13 @@ output:
       returned: on success
       type: str
       sample: "Datasource added"
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+
 try:
     import requests
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -127,77 +129,104 @@ except ImportError:
 __metaclass__ = type
 
 
-def present_datasource(module):
-    if module.params['grafana_url'][-1] == '/':
-        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+def _grafana_url(module):
+    return module.params["grafana_url"].rstrip("/")
 
-    api_url = module.params['grafana_url'] + '/api/datasources'
 
-    headers = {
-        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
-        'User-Agent': 'grafana-ansible-collection',
+def _headers(module):
+    return {
+        "Authorization": "Bearer " + module.params["grafana_api_key"],
+        "User-Agent": "grafana-ansible-collection",
     }
-    result = requests.post(api_url, json=module.params['dataSource'], headers=headers)
+
+
+def _error_result(result):
+    return (
+        True,
+        False,
+        {"status": result.status_code, "response": result.json()["message"]},
+    )
+
+
+def present_datasource(module):
+    grafana_url = _grafana_url(module)
+    headers = _headers(module)
+
+    api_url = grafana_url + "/api/datasources"
+    result = requests.post(api_url, json=module.params["dataSource"], headers=headers)
 
     if result.status_code == 200:
         return False, True, result.json()
     elif result.status_code == 409:
-        get_id_url = requests.get(module.params['grafana_url'] + '/api/datasources/id/' + module.params['dataSource']['name'],
-                                  headers=headers)
+        get_datasource_url = requests.get(
+            grafana_url
+            + "/api/datasources/name/"
+            + module.params["dataSource"]["name"],
+            headers=headers,
+        )
 
-        api_url = module.params['grafana_url'] + '/api/datasources/' + str(get_id_url.json()['id'])
-
-        result = requests.put(api_url, json=module.params['dataSource'], headers=headers)
+        api_url = (
+            grafana_url
+            + "/api/datasources/uid/"
+            + str(get_datasource_url.json()["uid"])
+        )
+        result = requests.put(
+            api_url, json=module.params["dataSource"], headers=headers
+        )
 
         if result.status_code == 200:
             return False, True, result.json()
         else:
-            return True, False, {"status": result.status_code, 'response': result.json()['message']}
+            return _error_result(result)
 
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return _error_result(result)
 
 
 def absent_datasource(module):
-    if module.params['grafana_url'][-1] == '/':
-        module.params['grafana_url'] = module.params['grafana_url'][:-1]
+    grafana_url = _grafana_url(module)
+    headers = _headers(module)
 
-    api_url = module.params['grafana_url'] + '/api/datasources/name/' + module.params['dataSource']['name']
-
-    result = requests.delete(api_url, headers={
-        "Authorization": 'Bearer ' + module.params['grafana_api_key'],
-        'User-Agent': 'grafana-ansible-collection',
-    })
+    api_url = (
+        grafana_url + "/api/datasources/name/" + module.params["dataSource"]["name"]
+    )
+    result = requests.delete(api_url, headers=headers)
 
     if result.status_code == 200:
-        return False, True, {"status": result.status_code, 'response': result.json()['message']}
+        return (
+            False,
+            True,
+            {"status": result.status_code, "response": result.json()["message"]},
+        )
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return _error_result(result)
 
 
 def main():
 
-    module_args = dict(
-        dataSource=dict(type='dict', required=True),
-        grafana_url=dict(type='str', required=True),
-        grafana_api_key=dict(type='str', required=True, no_log=True),
-        state=dict(type='str', required=False, default='present', choices=['present', 'absent'])
-    )
+    module_args = {
+        "dataSource": {"type": "dict", "required": True},
+        "grafana_url": {"type": "str", "required": True},
+        "grafana_api_key": {"type": "str", "required": True, "no_log": True},
+        "state": {
+            "type": "str",
+            "required": False,
+            "default": "present",
+            "choices": ["present", "absent"],
+        },
+    }
 
     choice_map = {
         "present": present_datasource,
         "absent": absent_datasource,
     }
 
-    module = AnsibleModule(
-        argument_spec=module_args
-    )
+    module = AnsibleModule(argument_spec=module_args)
 
     if not HAS_REQUESTS:
-        module.fail_json(msg=missing_required_lib('requests'))
+        module.fail_json(msg=missing_required_lib("requests"))
 
-    is_error, has_changed, result = choice_map.get(
-        module.params['state'])(module)
+    is_error, has_changed, result = choice_map.get(module.params["state"])(module)
 
     if not is_error:
         module.exit_json(changed=has_changed, output=result)
@@ -205,5 +234,5 @@ def main():
         module.fail_json(msg=result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
