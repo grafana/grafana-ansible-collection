@@ -51,6 +51,26 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | `grafana_datasources` | [] | List of datasources which should be configured |
 | `grafana_environment` | {} | Optional Environment param for Grafana installation, useful ie for setting http_proxy |
 | `grafana_plugins` | [] |  List of Grafana plugins which should be installed |
+| `grafana_offline_package_install` | false | Install Grafana from a local package instead of a repository |
+| `grafana_offline_package_path` | | Path to the Grafana `.deb`/`.rpm` package on the Ansible control node |
+| `grafana_offline_package_download` | false | Download the Grafana package on the Ansible control node |
+| `grafana_offline_package_url` | | URL used to download the Grafana package (derived from `grafana_version` when empty) |
+| `grafana_offline_package_checksum` | | Optional checksum for the downloaded package, e.g. `sha256:...` |
+| `grafana_offline_package_gpg_check` | true | Verify the GPG signature of the local package |
+| `grafana_offline_package_allow_downgrade` | false | Allow installing an older Grafana package version |
+| `grafana_offline_plugins_install` | false | Install Grafana plugins from local ZIP archives |
+| `grafana_offline_plugins_dir` | | Directory on the Ansible control node containing `<plugin-name>.zip` archives |
+| `grafana_offline_plugins_download` | false | Download plugin archives on the Ansible control node |
+| `grafana_offline_plugins_url` | https://grafana.com/api/plugins | Base URL used to download plugin archives |
+| `grafana_offline_plugins_versions` | {} | Optional plugin version pins, e.g. `{grafana-clock-panel: "3.2.5"}` |
+| `grafana_offline_plugins_checksums` | {} | Optional plugin archive checksums, keyed by plugin id |
+| `grafana_offline_plugins_force` | false | Reinstall offline plugins even if their directory already exists |
+| `grafana_offline_cache_dir` | `~/.cache/grafana-offline` | Cache directory on the control node for downloaded artifacts |
+| `grafana_offline_staging_dir` | /var/tmp/grafana-offline | Staging directory on the managed host used while installing |
+| `grafana_offline_download_force` | false | Re-download artifacts even when they already exist (artifacts tracking `latest` are always refreshed) |
+| `grafana_offline_http_proxy` | `$http_proxy` | HTTP proxy used for downloads on the control node |
+| `grafana_offline_https_proxy` | `$https_proxy` | HTTPS proxy used for downloads on the control node |
+| `grafana_offline_no_proxy` | `$no_proxy` | Hosts that bypass the proxy used for downloads |
 | `grafana_alert_notifications` | [] | List of alert notification channels to be created, updated, or deleted |
 
 Data source example:
@@ -95,6 +115,107 @@ grafana_alert_notifications:
     - name: Channel 2
       uid: channel2
 ```
+
+## Offline installation
+
+The role supports air-gapped installations. Installing the Grafana package and
+installing plugins offline are controlled independently:
+
+- `grafana_offline_package_install: true` installs Grafana from a local `.deb`
+  package on Debian/Ubuntu or a local `.rpm` package on RHEL, Fedora and
+  openSUSE. Repository setup and dependency installation are skipped, so any OS
+  dependencies must already be installed on the managed host.
+  `grafana_manage_repo` is ignored while package installation is offline.
+- `grafana_offline_plugins_install: true` installs plugins from local ZIP
+  archives instead of calling `grafana-cli` on the managed host.
+
+Artifacts can be prepared manually on the Ansible control node or downloaded by
+the role on the control node. Downloads happen on the controller, so the managed
+host never needs internet access. When `http_proxy`, `https_proxy` or `no_proxy`
+are set in the controller environment they are used automatically; the
+`grafana_offline_http_proxy`, `grafana_offline_https_proxy` and
+`grafana_offline_no_proxy` variables can be used to set them explicitly.
+
+The local package is staged in `grafana_offline_staging_dir` with root-only
+permissions and the directory is removed after the installation attempt. On
+RPM-based systems, signature verification follows
+`grafana_offline_package_gpg_check`; disable it only when the artifact is trusted
+out-of-band and the host does not already trust the Grafana key.
+`grafana_offline_package_allow_downgrade` enables rollbacks on apt, dnf/yum and
+zypper.
+
+### Using local artifacts
+
+Requirements on the control node:
+
+- A Grafana package such as `grafana_11.1.0_amd64.deb` or
+  `grafana-11.1.0-1.x86_64.rpm` from <https://grafana.com/grafana/download>.
+- For each plugin, a ZIP archive named after the plugin, e.g.
+  `grafana-clock-panel.zip`, obtained from
+  `https://grafana.com/api/plugins/<plugin-id>/versions/<version>/download`.
+  Plugin archives are extracted with `ansible.builtin.unarchive`, so the
+  `unzip`/`zipinfo` utilities must already be installed on the managed host.
+
+```yaml
+- hosts: all
+  roles:
+    - role: grafana.grafana.grafana
+      vars:
+        grafana_offline_package_install: true
+        grafana_offline_package_path: /opt/grafana-offline/grafana_11.1.0_amd64.deb
+        grafana_offline_plugins_install: true
+        grafana_offline_plugins_dir: /opt/grafana-offline/plugins
+        grafana_plugins:
+          - grafana-clock-panel
+          - grafana-piechart-panel
+        grafana_ini:
+          security:
+            admin_user: admin
+            admin_password: enter_your_secure_password
+```
+
+### Downloading artifacts on the control node
+
+Set the matching `*_download` flag to have the role fetch the artifacts on the
+Ansible control node. When no path is supplied, artifacts are cached under
+`grafana_offline_cache_dir` (`~/.cache/grafana-offline` by default).
+
+```yaml
+- hosts: all
+  roles:
+    - role: grafana.grafana.grafana
+      vars:
+        grafana_offline_package_install: true
+        grafana_offline_package_download: true
+        grafana_offline_plugins_install: true
+        grafana_offline_plugins_download: true
+        grafana_plugins:
+          - grafana-clock-panel
+        grafana_offline_plugins_versions:
+          grafana-clock-panel: "3.2.5"
+        grafana_ini:
+          security:
+            admin_user: admin
+            admin_password: enter_your_secure_password
+```
+
+Package URLs are derived from `grafana_version` and the target package manager.
+Set `grafana_offline_package_url` to use a custom mirror or a package that
+cannot be derived automatically (for example a non-x86_64 "latest" RPM).
+
+Downloads that track `latest` are refreshed on every run. Pinned package
+versions and pinned plugin versions use version-specific cache filenames; set
+`grafana_offline_download_force: true` to refresh pinned artifacts explicitly.
+Use `grafana_offline_package_checksum` and `grafana_offline_plugins_checksums`
+to verify downloaded artifacts. `grafana_offline_plugins_versions` only affects
+downloaded archives; local archives must use the `<plugin-name>.zip` layout.
+
+Offline plugin installation is idempotent: an existing plugin directory is left
+untouched, even when its archive changes. Set
+`grafana_offline_plugins_force: true` to remove and reinstall plugin
+directories. Unsigned or custom plugin builds also require
+`grafana_ini.plugins.allow_loading_unsigned_plugins` in the Grafana
+configuration.
 
 ## Supported CPU Architectures
 
