@@ -4,6 +4,15 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v6.1.0
+======
+
+Major Changes
+-------------
+
+- Run molecule only when required by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/441
+- migrate stack create/update/delete to stacks-api by @KucicM in https://github.com/grafana/grafana-ansible-collection/pull/494
+
 v6.0.6
 ======
 
