@@ -89,12 +89,15 @@ loki_analytics:
 #         summary: "{% raw %}SSH authentication failure (instance {{ $labels.instance }}).{% endraw %}"
 
 # Additional Config Variables for /etc/loki/config.yml
+# loki_ui:
 # loki_distributor:
 # loki_querier:
+# loki_query_engine:
 # loki_query_scheduler:
 # loki_frontend:
 # loki_ingester_client:
 # loki_ingester:
+# loki_pattern_ingester:
 # loki_index_gateway:
 # loki_storage_config:
 # loki_chunk_store_config:
