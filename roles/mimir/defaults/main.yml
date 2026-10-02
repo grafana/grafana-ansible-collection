@@ -9,6 +9,10 @@ mimir_working_path: "/var/lib/mimir"
 mimir_ruler_alert_path: "{{ mimir_working_path }}/ruler"
 mimir_http_listen_port: 8080
 mimir_http_listen_address: "0.0.0.0"
+mimir_targets:
+  - 'all'
+  - 'alertmanager'
+  - 'overrides-exporter'
 
 arch_mapping:
   x86_64: amd64
