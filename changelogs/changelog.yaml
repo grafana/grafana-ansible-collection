@@ -440,3 +440,9 @@ releases:
       - Restore default listen address and port in Mimir by @56quarters in https://github.com/grafana/grafana-ansible-collection/pull/456
       - fix broken Grafana apt repository addition by @kleini in https://github.com/grafana/grafana-ansible-collection/pull/454
     release_date: '2025-10-22'
+  6.1.0:
+    changes:
+      major_changes:
+      - Run molecule only when required by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/441
+      - migrate stack create/update/delete to stacks-api by @KucicM in https://github.com/grafana/grafana-ansible-collection/pull/494
+    release_date: '2026-04-27'

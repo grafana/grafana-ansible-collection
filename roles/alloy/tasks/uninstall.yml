@@ -36,13 +36,23 @@
     state: absent
   when: ansible_facts['os_family'] == 'Suse'
 
+- name: Get firewalld state
+  ansible.builtin.systemd:
+    name: "firewalld"
+  register: __firewalld_service_state
+  when: ansible_facts['os_family'] in ['RedHat', 'Debian', 'Suse']
+
+# Uninstall should mirror Deploy conditions
 - name: Ensure that Alloy firewalld rule is not present - tcp port {{ __alloy_server_http_listen_port }}
-  ansible.posix.firewalld:  # noqa ignore-errors
+  ansible.posix.firewalld:
     immediate: true
     permanent: true
     port: "{{ __alloy_server_http_listen_port }}/tcp"
     state: disabled
-  ignore_errors: true
+  when:
+    - ansible_facts['os_family'] in ['RedHat', 'Debian', 'Suse']
+    - __firewalld_service_state.status.ActiveState == "active"
+    - alloy_expose_port | bool
 
 - name: Remove Alloy directories
   ansible.builtin.file:

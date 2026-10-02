@@ -150,6 +150,25 @@ except ImportError:
 __metaclass__ = type
 
 
+STACKS_API_BASE = 'https://grafana.com/api/v1/stacks'
+GCOM_API_BASE = 'https://grafana.com/api/instances'
+
+
+def get_headers(module):
+    return {
+        "Authorization": 'Bearer ' + module.params['cloud_api_key'],
+        'User-Agent': 'grafana-ansible-collection',
+    }
+
+
+def get_stack_details_from_gcom(module, stack_id):
+    api_url = f'{GCOM_API_BASE}/{stack_id}'
+    result = requests.get(api_url, headers=get_headers(module))
+    if result.status_code == 200:
+        return result.json()
+    return None
+
+
 def present_cloud_stack(module):
     if not module.params['url']:
         module.params['url'] = 'https://' + module.params['stack_slug'] + '.grafana.net'
@@ -158,35 +177,45 @@ def present_cloud_stack(module):
         'name': module.params['name'],
         'slug': module.params['stack_slug'],
         'region': module.params['region'],
+        'org': module.params['org_slug'],
         'url': module.params['url'],
-        'deleteProtection': module.params.get('delete_protection', True),
+        'deleteProtection': module.params['delete_protection'],
     }
-    api_url = 'https://grafana.com/api/instances'
-    headers = {
-        "Authorization": 'Bearer ' + module.params['cloud_api_key'],
-        'User-Agent': 'grafana-ansible-collection',
-    }
+    headers = get_headers(module)
 
-    result = requests.post(api_url, json=body, headers=headers)
+    result = requests.post(STACKS_API_BASE, json=body, headers=headers)
     if result.status_code == 200:
-        return False, True, result.json()
+        stack = result.json()
+        full_details = get_stack_details_from_gcom(module, stack['id'])
+        if full_details:
+            return False, True, full_details
+        return False, True, stack
     elif result.status_code in [409, 403] and result.json()['message'] in ["That URL has already been taken, please try an alternate URL", "Hosted instance limit reached"]:
         stack_found = False
         if result.json()['message'] == "That URL has already been taken, please try an alternate URL":
-            api_url = 'https://grafana.com/api/orgs/' + module.params['org_slug'] + '/instances'
+            api_url = STACKS_API_BASE + '?org=' + module.params['org_slug']
             result = requests.get(api_url, headers=headers)
+            list_response = result.json()
+            if result.status_code != 200:
+                return True, False, {"status": result.status_code, 'response': list_response.get('message', str(list_response))}
             stackInfo = {}
-            for stack in result.json()['items']:
+            for stack in list_response.get('items', []):
                 if stack['slug'] == module.params['stack_slug']:
                     stack_found = True
                     stackInfo = stack
             if stack_found:
                 if body['deleteProtection'] == stackInfo['deleteProtection']:
+                    full_details = get_stack_details_from_gcom(module, stackInfo['id'])
+                    if full_details:
+                        return False, False, full_details
                     return False, False, stackInfo
-                api_url = f'https://grafana.com/api/instances/{stackInfo["id"]}'
+                api_url = f'{STACKS_API_BASE}/{stackInfo["id"]}'
                 result = requests.post(api_url, json={'deleteProtection': body['deleteProtection']}, headers=headers)
                 if result.status_code != 200:
                     return True, False, {"status": result.status_code, 'response': result.json()['message']}
+                full_details = get_stack_details_from_gcom(module, stackInfo['id'])
+                if full_details:
+                    return False, True, full_details
                 return False, True, result.json()
             else:
                 return True, False, "Stack is not found under your org"
@@ -197,14 +226,15 @@ def present_cloud_stack(module):
 
 
 def absent_cloud_stack(module):
-    api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug']
+    api_url = f"{STACKS_API_BASE}/{module.params['stack_slug']}"
 
-    result = requests.delete(api_url, headers={
-        "Authorization": 'Bearer ' + module.params['cloud_api_key'],
-        'User-Agent': 'grafana-ansible-collection',
-    })
+    gcom_details = get_stack_details_from_gcom(module, module.params['stack_slug'])
+
+    result = requests.delete(api_url, headers=get_headers(module))
 
     if result.status_code == 200:
+        if gcom_details:
+            return False, True, gcom_details
         return False, True, result.json()
     else:
         return True, False, {"status": result.status_code, 'response': result.json()['message']}
@@ -222,7 +252,7 @@ def main():
         url=dict(type='str', required=False),
         org_slug=dict(type='str', required=True),
         state=dict(type='str', required=False, default='present', choices=['present', 'absent']),
-        delete_protection=dict(type=bool, required=False),
+        delete_protection=dict(type='bool', required=False, default=True),
     )
 
     choice_map = {
