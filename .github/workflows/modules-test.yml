@@ -33,7 +33,7 @@ jobs:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: '3.10'
 
@@ -74,7 +74,7 @@ jobs:
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: ${{ matrix.python }}
 
