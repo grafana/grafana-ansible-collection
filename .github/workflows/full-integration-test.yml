@@ -4,17 +4,22 @@ name: Full Integration Test
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   integration:
     runs-on: ubuntu-20.04
     name: ${{ matrix.ansible }}-py${{ matrix.python }}
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: true
       max-parallel: 1
@@ -25,38 +30,53 @@ jobs:
           - stable-2.13
           - devel
         python:
-          - '2.7'
-          - '3.5'
-          - '3.6'
-          - '3.7'
-          - '3.8'
-          - '3.9'
-          - '3.10'
+          - "2.7"
+          - "3.5"
+          - "3.6"
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
         exclude:
           - ansible: stable-2.11
-            python: '3.10'
+            python: "3.10"
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
+
+      - name: Get secrets
+        id: secrets
+        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
+        with:
+          repo_secrets: |
+            ANSIBLE_TEST_CLOUD_API_KEY_KEY=grafana-com:access-token
+            ANSIBLE_TEST_GRAFANA_API_KEY=grafana-serviceaccount:token
 
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
+        env:
+          ANSIBLE_TEST_CLOUD_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_CLOUD_API_KEY }}
+          ANSIBLE_TEST_GRAFANA_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_GRAFANA_API_KEY }}
+          ANSIBLE_TEST_ORG_NAME: ${{ variables.ANSIBLE_TEST_ORG_NAME }}
+          ANSIBLE_TEST_STACK_NAME: ${{ variables.ANSIBLE_TEST_STACK_NAME }}
+          ANSIBLE_GRAFANA_URL: ${{ variables.ANSIBLE_GRAFANA_URL }}
         run: |
           cat <<EOF > integration_config.yml
-          stack_name: ${{ secrets.ANSIBLE_TEST_STACK_NAME }}
-          org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
-          grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
-          grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
-          test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
+          org_name: ${ ANSIBLE_TEST_ORG_NAME }
+          grafana_cloud_api_key: ${ ANSIBLE_TEST_CLOUD_API_KEY }
+          grafana_api_key: ${ ANSIBLE_TEST_GRAFANA_API_KEY }
+          grafana_url: ${ ANSIBLE_GRAFANA_URL }
+          test_stack_name: ${ ANSIBLE_TEST_STACK_NAME }
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
