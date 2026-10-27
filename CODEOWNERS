@@ -1,8 +1,7 @@
-./                             @ishanjainn
-/roles/grafana                 @gardar @ishanjainn
-/roles/grafana_agent           @ishanjainn @v-zhuravlev @gardar
-/roles/alloy                   @ishanjainn @v-zhuravlev @gardar @voidquark
-/roles/opentelemetry_collector @ishanjainn
-/roles/loki                    @voidquark @ishanjainn
-/roles/mimir                   @GVengelen @gardar @ishanjainn
-/roles/promtail                @voidquark @ishanjainn
+./                             @grafana/grafana-ansible-collection-maintainers
+/roles/grafana                 @grafana/grafana-ansible-collection-maintainers @gardar
+/roles/grafana_agent           @grafana/grafana-ansible-collection-maintainers @gardar
+/roles/alloy                   @grafana/grafana-ansible-collection-maintainers @gardar @voidquark
+/roles/loki                    @grafana/grafana-ansible-collection-maintainers @voidquark
+/roles/mimir                   @grafana/grafana-ansible-collection-maintainers @GVengelen @gardar
+/roles/promtail                @grafana/grafana-ansible-collection-maintainers @voidquark
