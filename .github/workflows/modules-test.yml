@@ -8,13 +8,15 @@ on:
       - "main"
   pull_request:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
@@ -26,16 +28,16 @@ jobs:
           - devel
     runs-on: ubuntu-20.04
     steps:
-
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -47,6 +49,9 @@ jobs:
   integration:
     runs-on: ubuntu-20.04
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: true
       max-parallel: 1
@@ -54,27 +59,42 @@ jobs:
         ansible:
           - stable-2.13
         python:
-          - '3.10'
+          - "3.10"
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
+
+      - name: Get secrets
+        id: secrets
+        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
+        with:
+          repo_secrets: |
+            ANSIBLE_TEST_CLOUD_API_KEY_KEY=grafana-com:access-token
+            ANSIBLE_TEST_GRAFANA_API_KEY=grafana-serviceaccount:token
 
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
+        env:
+          ANSIBLE_TEST_CLOUD_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_CLOUD_API_KEY }}
+          ANSIBLE_TEST_GRAFANA_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_GRAFANA_API_KEY }}
+          ANSIBLE_TEST_ORG_NAME: ${{ variables.ANSIBLE_TEST_ORG_NAME }}
+          ANSIBLE_TEST_STACK_NAME: ${{ variables.ANSIBLE_TEST_STACK_NAME }}
+          ANSIBLE_GRAFANA_URL: ${{ variables.ANSIBLE_GRAFANA_URL }}
         run: |
           cat <<EOF > integration_config.yml
-          org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
-          grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
-          grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
-          grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }}
-          test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
+          org_name: ${ ANSIBLE_TEST_ORG_NAME }
+          grafana_cloud_api_key: ${ ANSIBLE_TEST_CLOUD_API_KEY }
+          grafana_api_key: ${ ANSIBLE_TEST_GRAFANA_API_KEY }
+          grafana_url: ${ ANSIBLE_GRAFANA_URL }
+          test_stack_name: ${ ANSIBLE_TEST_STACK_NAME }
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
           python-version: ${{ matrix.python }}
 
