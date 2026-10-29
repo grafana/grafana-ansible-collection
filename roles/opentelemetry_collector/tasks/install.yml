@@ -74,6 +74,8 @@
     src: "/tmp/otelcol-{{ otel_collector_type }}-{{ otel_collector_version }}.tar.gz"
     dest: "{{ otel_collector_installation_dir }}"
     remote_src: yes
+    owner: "{{ otel_collector_service_user }}"
+    group: "{{ otel_collector_service_group }}"
   become: true
   register: extract_result
   when: not ansible_check_mode and otel_collector_installed_version is version(otel_collector_version, '!=')
