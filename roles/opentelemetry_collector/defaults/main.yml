@@ -21,6 +21,8 @@ otel_collector_config_file: "config.yaml"
 otel_collector_service_user: "otel"
 otel_collector_service_group: "otel"
 otel_collector_service_statedirectory: "otel-collector"
+# Extra arguments to pass to the otel-collector binary
+otel_collector_extra_args: ""
 
 otel_collector_receivers: ""
 otel_collector_exporters: ""
