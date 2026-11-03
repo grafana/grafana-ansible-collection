@@ -3,6 +3,7 @@
   ansible.builtin.service:
     name: grafana-server
     state: restarted
+  throttle: "{{ grafana_restart_throttle }}"
   become: true
   listen: "restart_grafana"
   tags:
