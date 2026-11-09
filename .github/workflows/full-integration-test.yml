@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   integration:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-26.04
     name: ${{ matrix.ansible }}-py${{ matrix.python }}
     permissions:
       contents: read
