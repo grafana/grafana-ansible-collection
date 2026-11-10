@@ -5,16 +5,82 @@
     recurse: false
     paths: "{{ grafana_ini.paths.data }}/plugins"
   register: __installed_plugins
+  when: "not (grafana_offline_plugins_install | bool)"
 
 - name: "Install plugins"
   become: true
   ansible.builtin.command:
     cmd: "grafana-cli --pluginsDir {{ grafana_ini.paths.data }}/plugins plugins install {{ item }}"
     creates: "{{ grafana_ini.paths.data }}/plugins/{{ item }}"
-  loop: "{{ grafana_plugins | difference(__installed_plugins.files) }}"
+  loop: "{{ grafana_plugins | difference(__installed_plugins.files | default([]) | map(attribute='path') | map('basename') | list) }}"
   register: __plugin_install
   until: "__plugin_install is succeeded"
   retries: 5
   delay: 2
   notify:
     - restart_grafana
+  when: "not (grafana_offline_plugins_install | bool)"
+
+- name: "Create cache directory for offline plugin archives on the control node"
+  ansible.builtin.file:
+    path: "{{ _grafana_offline_plugins_dir }}"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+  when:
+    - grafana_offline_plugins_install | bool
+    - grafana_offline_plugins_download | bool
+
+# Serialize controller-side downloads: throttle is ignored under strategy: free.
+- name: "Download Grafana plugins on the control node"
+  ansible.builtin.get_url:
+    url: "{{ grafana_offline_plugins_url }}/{{ item }}/versions/{{ _grafana_offline_plugin_version }}/download"
+    dest: "{{ _grafana_offline_plugins_dir }}/{{ _grafana_offline_plugin_archive }}"
+    mode: "0644"
+    force: "{{ grafana_offline_download_force | bool or _grafana_offline_plugin_version == 'latest' }}"
+    checksum: "{{ grafana_offline_plugins_checksums[item] | default(omit, true) }}"
+  delegate_to: localhost
+  become: false
+  loop: "{{ grafana_plugins }}"
+  vars:
+    _grafana_offline_plugin_version: "{{ grafana_offline_plugins_versions[item] | default('latest') }}"
+    _grafana_offline_plugin_archive: >-
+      {{ item ~ ('-' ~ _grafana_offline_plugin_version
+         if _grafana_offline_plugin_version != 'latest'
+         else '') ~ '.zip' }}
+  environment: "{{ _grafana_offline_download_environment }}"
+  throttle: 1
+  when:
+    - grafana_offline_plugins_install | bool
+    - grafana_offline_plugins_download | bool
+
+- name: "Remove existing plugins when forcing an offline reinstall"
+  become: true
+  ansible.builtin.file:
+    path: "{{ grafana_ini.paths.data }}/plugins/{{ item }}"
+    state: absent
+  loop: "{{ grafana_plugins }}"
+  notify:
+    - restart_grafana
+  when:
+    - grafana_offline_plugins_install | bool
+    - grafana_offline_plugins_force | bool
+
+- name: "Install plugins from local archives (offline)"
+  become: true
+  ansible.builtin.unarchive:
+    src: "{{ _grafana_offline_plugins_dir }}/{{ _grafana_offline_plugin_archive }}"
+    dest: "{{ grafana_ini.paths.data }}/plugins"
+    creates: "{{ grafana_ini.paths.data }}/plugins/{{ item }}"
+    remote_src: false
+  loop: "{{ grafana_plugins }}"
+  vars:
+    _grafana_offline_plugin_version: "{{ grafana_offline_plugins_versions[item] | default('latest') }}"
+    _grafana_offline_plugin_archive: >-
+      {{ item ~ ('-' ~ _grafana_offline_plugin_version
+         if (grafana_offline_plugins_download | bool and _grafana_offline_plugin_version != 'latest')
+         else '') ~ '.zip' }}
+  notify:
+    - restart_grafana
+  when: grafana_offline_plugins_install | bool

@@ -102,3 +102,62 @@
   when:
     - "grafana_ini.server.protocol is defined and grafana_ini.server.protocol == 'socket'"
     - "grafana_ini.server.socket is undefined or grafana_ini.server.socket == ''"
+
+- name: "Prepare offline installation"
+  when: grafana_offline_package_install | bool or grafana_offline_plugins_install | bool
+  block:
+    - name: "Validate offline package configuration"
+      when: grafana_offline_package_install | bool
+      block:
+        - name: "Assert offline package configuration"
+          ansible.builtin.assert:
+            that:
+              - ansible_facts['pkg_mgr'] in ['apt', 'yum', 'dnf', 'zypper']
+              - (grafana_offline_package_download | bool) or (grafana_offline_package_path | length > 0)
+              - (grafana_offline_package_download | bool) or (_grafana_offline_package_dest is exists)
+              - _grafana_offline_package_dest is search(_grafana_offline_package_extension, ignorecase=True)
+            fail_msg: >-
+              Offline package configuration is invalid for {{ inventory_hostname }}:
+              pkg_mgr={{ ansible_facts['pkg_mgr'] }}, dest={{ _grafana_offline_package_dest }}.
+              Set grafana_offline_package_path (or enable grafana_offline_package_download)
+              and make sure the package extension matches the package manager.
+            quiet: true
+          vars:
+            _grafana_offline_package_extension: "{{ '\\.deb$' if ansible_facts['pkg_mgr'] == 'apt' else '\\.rpm$' }}"
+
+        - name: "Assert that a latest package can be downloaded for this architecture"
+          ansible.builtin.assert:
+            that:
+              - (grafana_offline_package_url | length > 0) or (grafana_version != 'latest') or (_grafana_offline_latest_arch_supported | bool)
+            fail_msg: >-
+              Grafana only publishes "latest" packages for amd64 on Debian/Ubuntu
+              and x86_64 on RPM-based systems. Pin grafana_version or set
+              grafana_offline_package_url for {{ _grafana_offline_package_arch }}.
+            quiet: true
+          vars:
+            _grafana_offline_package_arch: "{{ grafana_apt_arch if ansible_facts['pkg_mgr'] == 'apt' else ansible_facts['architecture'] }}"
+            _grafana_offline_latest_arch_supported: >-
+              {{ (ansible_facts['pkg_mgr'] == 'apt' and grafana_apt_arch == 'amd64') or
+                 (ansible_facts['pkg_mgr'] != 'apt' and ansible_facts['architecture'] == 'x86_64') }}
+          when: grafana_offline_package_download | bool
+
+    - name: "Validate offline plugin configuration"
+      when:
+        - grafana_offline_plugins_install | bool
+        - grafana_plugins | length > 0
+      block:
+        - name: "Assert offline plugin configuration"
+          ansible.builtin.assert:
+            that:
+              - >-
+                (grafana_offline_plugins_download | bool) or
+                ((grafana_offline_plugins_dir | length > 0) and (_grafana_offline_plugin_archive is exists))
+            fail_msg: >-
+              Plugin archive not found on the control node:
+              {{ _grafana_offline_plugin_archive }}.
+              Set grafana_offline_plugins_dir or enable
+              grafana_offline_plugins_download.
+            quiet: true
+          loop: "{{ grafana_plugins }}"
+          vars:
+            _grafana_offline_plugin_archive: "{{ _grafana_offline_plugins_dir ~ '/' ~ item ~ '.zip' }}"

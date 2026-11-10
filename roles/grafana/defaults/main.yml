@@ -2,6 +2,86 @@
 grafana_version: latest
 grafana_manage_repo: true
 
+# Offline installation of the Grafana package itself. When enabled, Grafana is
+# installed from a local .deb (Debian/Ubuntu) or .rpm (RHEL, Fedora, openSUSE)
+# package instead of the configured repository.
+grafana_offline_package_install: false
+# Path to the Grafana package on the Ansible control node. When
+# grafana_offline_package_download is true this is the download destination; when
+# empty, the package is cached in grafana_offline_cache_dir.
+grafana_offline_package_path: ""
+# Download the Grafana package on the Ansible control node before installing it.
+grafana_offline_package_download: false
+# URL used to download the Grafana package. When empty, it is derived from
+# grafana_version and the target package manager.
+grafana_offline_package_url: ""
+# Optional checksum for the downloaded package, e.g. "sha256:...".
+grafana_offline_package_checksum: ""
+# Verify the GPG signature of the local package. Disable only when the artifact
+# is trusted out-of-band and the host does not already trust the Grafana key.
+grafana_offline_package_gpg_check: true
+# Allow installing an older Grafana package version (rollbacks).
+grafana_offline_package_allow_downgrade: false
+
+# Offline installation of Grafana plugins. When enabled, plugins are installed
+# from local ZIP archives instead of being fetched by grafana-cli on the managed
+# host. The archives can be provided locally or downloaded on the control node.
+grafana_offline_plugins_install: false
+# Directory on the Ansible control node containing local <plugin-name>.zip
+# archives. Downloaded pinned versions are stored as <plugin-name>-<version>.zip.
+# When empty and grafana_offline_plugins_download is true, archives are cached in
+# {{ grafana_offline_cache_dir }}/plugins.
+grafana_offline_plugins_dir: ""
+# Download plugin archives on the Ansible control node before installing them.
+grafana_offline_plugins_download: false
+# Base URL used to download plugin archives.
+grafana_offline_plugins_url: "https://grafana.com/api/plugins"
+# Optional plugin version pins, e.g. {grafana-clock-panel: "3.2.5"}.
+grafana_offline_plugins_versions: {}
+# Optional plugin archive checksums keyed by plugin id, e.g.
+# {grafana-clock-panel: "sha256:..."}.
+grafana_offline_plugins_checksums: {}
+# Reinstall offline plugins even when their directory already exists.
+grafana_offline_plugins_force: false
+
+# Cache directory on the Ansible control node for downloaded artifacts.
+grafana_offline_cache_dir: "{{ lookup('env', 'HOME') | default('/tmp', true) }}/.cache/grafana-offline"
+# Staging directory on the managed host, used while installing.
+grafana_offline_staging_dir: "/var/tmp/grafana-offline"
+# Force re-download of artifacts on the control node. Artifacts tracking
+# "latest" are always refreshed regardless of this setting.
+grafana_offline_download_force: false
+
+# Proxy settings used when downloading artifacts on the control node. They
+# default to the http_proxy/https_proxy/no_proxy environment variables of the
+# controller and can be overridden explicitly.
+grafana_offline_http_proxy: "{{ lookup('env', 'http_proxy') or lookup('env', 'HTTP_PROXY') }}"
+grafana_offline_https_proxy: "{{ lookup('env', 'https_proxy') or lookup('env', 'HTTPS_PROXY') }}"
+grafana_offline_no_proxy: "{{ lookup('env', 'no_proxy') or lookup('env', 'NO_PROXY') }}"
+
+# Internal derived values. They are lazy defaults so any task can consume them
+# without depending on preflight having run first.
+# Repository management is skipped when the Grafana package is installed offline.
+_grafana_manage_repo: "{{ grafana_manage_repo | bool and not (grafana_offline_package_install | bool) }}"
+_grafana_offline_package_url: >-
+  {{ grafana_offline_package_url
+     or ('https://dl.grafana.com/oss/release/grafana_' ~ grafana_version ~ '_' ~ grafana_apt_arch ~ '.deb'
+         if ansible_facts['pkg_mgr'] == 'apt'
+         else 'https://dl.grafana.com/oss/release/grafana-' ~ grafana_version ~ '-1.' ~ ansible_facts['architecture'] ~ '.rpm') }}
+_grafana_offline_package_dest: >-
+  {{ grafana_offline_package_path
+     if grafana_offline_package_path | length > 0
+     else (grafana_offline_cache_dir ~ '/' ~ (_grafana_offline_package_url | basename)) }}
+_grafana_offline_plugins_dir: >-
+  {{ grafana_offline_plugins_dir
+     if grafana_offline_plugins_dir | length > 0
+     else (grafana_offline_cache_dir ~ '/plugins') }}
+_grafana_offline_download_environment: >-
+  {{ {'http_proxy': grafana_offline_http_proxy,
+      'https_proxy': grafana_offline_https_proxy,
+      'no_proxy': grafana_offline_no_proxy}
+     | dict2items | rejectattr('value', 'equalto', '') | items2dict }}
+
 grafana_yum_repo: "https://rpm.grafana.com"
 grafana_yum_key: "https://rpm.grafana.com/gpg.key"
 

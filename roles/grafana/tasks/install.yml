@@ -10,16 +10,17 @@
     state: present
     update_cache: true
   when:
-   - _grafana_dependencies is defined
-   - _grafana_dependencies | length > 0
+    - _grafana_dependencies is defined
+    - _grafana_dependencies | length > 0
+    - "not (grafana_offline_package_install | bool)"
 
 - name: "Prepare zypper"
   when:
     - "ansible_facts['pkg_mgr'] == 'zypper'"
-    - "(grafana_manage_repo)"
+    - _grafana_manage_repo
   environment: "{{ grafana_environment }}"
   block:
-    - name: import Grafana RPM Key
+    - name: "Import Grafana RPM Key"
       ansible.builtin.rpm_key:
         state: present
         key: "{{ grafana_yum_key }}"
@@ -30,14 +31,14 @@
         description: grafana
         repo: "{{ grafana_yum_repo }}"
         enabled: true
-        disable_gpg_check : "{{ false if (grafana_yum_key) else omit }}"
+        disable_gpg_check: "{{ false if (grafana_yum_key) else omit }}"
         runrefresh: true
       when: "(not grafana_rhsm_repo)"
 
 - name: "Prepare yum/dnf"
   when:
     - "ansible_facts['pkg_mgr'] in ['yum', 'dnf']"
-    - "(grafana_manage_repo)"
+    - _grafana_manage_repo
   environment: "{{ grafana_environment }}"
   block:
     - name: "Add Grafana yum/dnf repository"
@@ -90,7 +91,7 @@
 - name: "Prepare apt"
   when:
     - "ansible_facts['pkg_mgr'] == 'apt'"
-    - "(grafana_manage_repo)"
+    - _grafana_manage_repo
   environment: "{{ grafana_environment }}"
   block:
     - name: "Use deb822 format?"
@@ -130,4 +131,91 @@
   ansible.builtin.package:
     name: "{{ grafana_package }}"
     state: "{{ (grafana_version == 'latest') | ternary('latest', 'present') }}"
+  when: "not (grafana_offline_package_install | bool)"
   notify: restart_grafana
+
+- name: "Create cache directory for offline artifacts on the control node"
+  ansible.builtin.file:
+    path: "{{ _grafana_offline_package_dest | dirname }}"
+    state: directory
+    mode: "0755"
+  delegate_to: localhost
+  become: false
+  when:
+    - grafana_offline_package_install | bool
+    - grafana_offline_package_download | bool
+
+# Serialize controller-side downloads: throttle is ignored under strategy: free.
+- name: "Download Grafana package on the control node"
+  ansible.builtin.get_url:
+    url: "{{ _grafana_offline_package_url }}"
+    dest: "{{ _grafana_offline_package_dest }}"
+    mode: "0644"
+    force: "{{ grafana_offline_download_force | bool or grafana_version == 'latest' }}"
+    checksum: "{{ grafana_offline_package_checksum | default(omit, true) }}"
+  delegate_to: localhost
+  become: false
+  environment: "{{ _grafana_offline_download_environment }}"
+  throttle: 1
+  when:
+    - grafana_offline_package_install | bool
+    - grafana_offline_package_download | bool
+
+- name: "Install Grafana from a local package (offline)"
+  when: grafana_offline_package_install | bool
+  block:
+    - name: "Create offline staging directory"
+      ansible.builtin.file:
+        path: "{{ grafana_offline_staging_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: "Copy Grafana package to the managed host"
+      ansible.builtin.copy:
+        src: "{{ _grafana_offline_package_dest }}"
+        dest: "{{ grafana_offline_staging_dir }}/{{ _grafana_offline_package_dest | basename }}"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: "Install Grafana package on Debian/Ubuntu"
+      ansible.builtin.apt:
+        deb: "{{ grafana_offline_staging_dir }}/{{ _grafana_offline_package_dest | basename }}"
+        state: present
+        allow_downgrade: "{{ grafana_offline_package_allow_downgrade | bool }}"
+      when: ansible_facts['pkg_mgr'] == 'apt'
+      notify: restart_grafana
+
+    - name: "Install Grafana package on RHEL/Fedora"
+      ansible.builtin.dnf:
+        name: "{{ grafana_offline_staging_dir }}/{{ _grafana_offline_package_dest | basename }}"
+        state: present
+        disable_gpg_check: "{{ not (grafana_offline_package_gpg_check | bool) }}"
+        allow_downgrade: "{{ grafana_offline_package_allow_downgrade | bool }}"
+      when: ansible_facts['pkg_mgr'] == 'dnf'
+      notify: restart_grafana
+
+    - name: "Install Grafana package on RHEL 7"
+      ansible.builtin.yum:
+        name: "{{ grafana_offline_staging_dir }}/{{ _grafana_offline_package_dest | basename }}"
+        state: present
+        disable_gpg_check: "{{ not (grafana_offline_package_gpg_check | bool) }}"
+        allow_downgrade: "{{ grafana_offline_package_allow_downgrade | bool }}"
+      when: ansible_facts['pkg_mgr'] == 'yum'
+      notify: restart_grafana
+
+    - name: "Install Grafana package on openSUSE"
+      community.general.zypper:
+        name: "{{ grafana_offline_staging_dir }}/{{ _grafana_offline_package_dest | basename }}"
+        state: present
+        disable_gpg_check: "{{ not (grafana_offline_package_gpg_check | bool) }}"
+        oldpackage: "{{ grafana_offline_package_allow_downgrade | bool }}"
+      when: ansible_facts['pkg_mgr'] == 'zypper'
+      notify: restart_grafana
+  always:
+    - name: "Remove offline staging directory"
+      ansible.builtin.file:
+        path: "{{ grafana_offline_staging_dir }}"
+        state: absent
