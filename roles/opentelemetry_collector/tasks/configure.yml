@@ -1,3 +1,4 @@
+---
 - name: Create OpenTelemetry Collector config directory
   ansible.builtin.file:
     path: "{{ otel_collector_config_dir }}"

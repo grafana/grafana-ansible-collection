@@ -1,3 +1,4 @@
+---
 - name: Copy OpenTelemetry Collector systemd unit file
   ansible.builtin.template:
     src: otel_collector.service.j2
@@ -8,13 +9,13 @@
 
 - name: Reload systemd daemon to pick up changes
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
   become: true
 
 - name: Ensure OpenTelemetry Collector service is enabled and running
   ansible.builtin.service:
     name: "{{ otel_collector_service_name }}"
-    enabled: yes
+    enabled: true
     state: started
   become: true
   ignore_errors: '{{ ansible_check_mode | bool }}'

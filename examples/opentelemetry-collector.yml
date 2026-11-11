@@ -1,3 +1,4 @@
+---
 - name: Install OpenTelemetry Collector
   hosts: all
   become: true

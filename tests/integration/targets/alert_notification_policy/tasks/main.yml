@@ -1,3 +1,4 @@
+---
 - name: Set Notification policy tree
   grafana.grafana.alert_notification_policy:
     grafana_ini:

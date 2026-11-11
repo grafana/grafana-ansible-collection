@@ -73,8 +73,11 @@
 
 - name: "Wait for grafana to start"
   ansible.builtin.wait_for:
+    # yamllint disable-line rule:line-length
     host: "{{ grafana_ini.server.http_addr if grafana_ini.server.protocol is undefined or grafana_ini.server.protocol in ['http', 'https'] else omit }}"
+    # yamllint disable-line rule:line-length
     port: "{{ grafana_ini.server.http_port if grafana_ini.server.protocol is undefined or grafana_ini.server.protocol in ['http', 'https'] else omit }}"
+    # yamllint disable-line rule:line-length
     path: "{{ grafana_ini.server.socket | default() if grafana_ini.server.protocol is defined and grafana_ini.server.protocol == 'socket' else omit }}"
   tags:
     - grafana_install

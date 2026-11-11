@@ -3,7 +3,9 @@
 tempo_version: "latest"
 tempo_uninstall: false
 __tempo_arch: "{{ arch_mapping[ansible_facts['architecture']] | default('amd64') }}"
+# yamllint disable-line rule:line-length
 tempo_download_url_rpm: "https://github.com/grafana/tempo/releases/download/v{{ tempo_version }}/tempo_{{ tempo_version }}_linux_{{ __tempo_arch }}.rpm"
+# yamllint disable-line rule:line-length
 tempo_download_url_deb: "https://github.com/grafana/tempo/releases/download/v{{ tempo_version }}/tempo_{{ tempo_version }}_linux_{{ __tempo_arch }}.deb"
 tempo_working_path: "/var/lib/tempo"
 tempo_http_listen_port: 3200
@@ -59,7 +61,7 @@ tempo_storage:
 tempo_overrides:
   defaults:
     metrics_generator:
-      processors: [service-graphs, span-metrics, local-blocks] # enables metrics generator
+      processors: [service-graphs, span-metrics, local-blocks]  # enables metrics generator
       generate_native_histograms: both
 
 # Additional Config Variables for /etc/tempo/config.yml
