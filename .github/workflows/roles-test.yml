@@ -8,13 +8,15 @@ on:
       - "main"
   pull_request:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
     strategy:
@@ -26,16 +28,16 @@ jobs:
           - devel
     runs-on: ubuntu-20.04
     steps:
-
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -54,13 +56,14 @@ jobs:
         ansible:
           - stable-2.13
         python:
-          - '3.10'
+          - "3.10"
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
 
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
@@ -75,7 +78,7 @@ jobs:
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
           python-version: ${{ matrix.python }}
 

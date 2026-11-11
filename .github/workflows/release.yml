@@ -6,15 +6,20 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version number to release'
+        description: "Version number to release"
         required: true
 env:
   NAMESPACE: grafana
   COLLECTION_NAME: grafana
 
+permissions: {}
+
 jobs:
   sanity:
     name: Sanity (Ⓐ${{ matrix.ansible }})
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       matrix:
         ansible:
@@ -24,16 +29,16 @@ jobs:
           - devel
     runs-on: ubuntu-20.04
     steps:
-
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -45,6 +50,9 @@ jobs:
   integration:
     runs-on: ubuntu-20.04
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
+    permissions:
+      contents: read
+      id-token: write
     strategy:
       fail-fast: true
       max-parallel: 1
@@ -52,27 +60,42 @@ jobs:
         ansible:
           - stable-2.13
         python:
-          - '3.10'
+          - "3.10"
 
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          persist-credentials: false
+
+      - name: Get secrets
+        id: secrets
+        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
+        with:
+          repo_secrets: |
+            ANSIBLE_TEST_CLOUD_API_KEY_KEY=grafana-com:access-token
+            ANSIBLE_TEST_GRAFANA_API_KEY=grafana-serviceaccount:token
 
       - name: create integration_config
         working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}/tests/integration
+        env:
+          ANSIBLE_TEST_CLOUD_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_CLOUD_API_KEY }}
+          ANSIBLE_TEST_GRAFANA_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_GRAFANA_API_KEY }}
+          ANSIBLE_TEST_ORG_NAME: ${{ variables.ANSIBLE_TEST_ORG_NAME }}
+          ANSIBLE_TEST_STACK_NAME: ${{ variables.ANSIBLE_TEST_STACK_NAME }}
+          ANSIBLE_GRAFANA_URL: ${{ variables.ANSIBLE_GRAFANA_URL }}
         run: |
           cat <<EOF > integration_config.yml
-          org_name: ${{ secrets.ANSIBLE_TEST_ORG_NAME }}
-          grafana_cloud_api_key: ${{ secrets.ANSIBLE_TEST_CLOUD_API_KEY }}
-          grafana_api_key: ${{ secrets.ANSIBLE_TEST_GRAFANA_API_KEY }}
-          grafana_url: ${{ secrets.ANSIBLE_GRAFANA_URL }}
-          test_stack_name: ${{ secrets.ANSIBLE_TEST_CI_STACK }}
+          org_name: ${ ANSIBLE_TEST_ORG_NAME }
+          grafana_cloud_api_key: ${ ANSIBLE_TEST_CLOUD_API_KEY }
+          grafana_api_key: ${ ANSIBLE_TEST_GRAFANA_API_KEY }
+          grafana_url: ${ ANSIBLE_GRAFANA_URL }
+          test_stack_name: ${ ANSIBLE_TEST_STACK_NAME }
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
           python-version: ${{ matrix.python }}
 
@@ -97,31 +120,39 @@ jobs:
 
   publish:
     name: Publish to Galaxy
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     runs-on: ubuntu-latest
     needs: [sanity, integration]
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install Ansible
         run: pip install ansible-core
-      
+
       - name: Install PyYaml
         run: pip install pyyaml
 
       - name: Validate version matches
         run: |
           VERSION=$(python -c "import yaml; print(yaml.safe_load(open('galaxy.yml'))['version'])")
-          if [ "$VERSION" != "${{ github.event.inputs.version }}" ]; then
-            echo "Error: Input version (${{ github.event.inputs.version }}) doesn't match galaxy.yml version ($VERSION)"
+          if [ "$VERSION" != "${GITHUB_EVENT_INPUTS_VERSION}" ]; then
+            echo "Error: Input version (${GITHUB_EVENT_INPUTS_VERSION}) doesn't match galaxy.yml version ($VERSION)"
             exit 1
           fi
+        env:
+          GITHUB_EVENT_INPUTS_VERSION: ${{ github.event.inputs.version }}
 
       - name: Build collection
         id: build
@@ -129,31 +160,47 @@ jobs:
           ansible-galaxy collection build
           echo "archive_path=$(ls *.tar.gz)" >> $GITHUB_OUTPUT
 
+      - name: Get secrets
+        id: secrets
+        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
+        with:
+          repo_secrets: |
+            ANSIBLE_GALAXY_API_KEY=ansible-galaxy:api-key
+
       - name: Publish collection to Galaxy
         env:
-          ANSIBLE_GALAXY_API_KEY: ${{ secrets.ANSIBLE_GALAXY_API_KEY }}
-        run: ansible-galaxy collection publish --api-key ${{ secrets.ANSIBLE_GALAXY_API_KEY }} ${{ steps.build.outputs.archive_path }}
+          ANSIBLE_GALAXY_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_GALAXY_API_KEY }}
+          ARCHIVE_PATH: ${{ steps.build.outputs.archive_path }}
+        run: ansible-galaxy collection publish --api-key ${ ANSIBLE_GALAXY_API_KEY } ${ARCHIVE_PATH}
 
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
     needs: [publish]
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install PyYaml
         run: pip install pyyaml
 
       - name: Validate version is published to Galaxy
-        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana-${{ github.event.inputs.version }}.tar.gz
+        run: curl --head -s -f -o /dev/null https://galaxy.ansible.com/download/grafana-grafana-${GITHUB_EVENT_INPUTS_VERSION}.tar.gz
+        env:
+          GITHUB_EVENT_INPUTS_VERSION: ${{ github.event.inputs.version }}
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
         with:
           tag_name: ${{ github.event.inputs.version }}
