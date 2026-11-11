@@ -29,13 +29,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Check out code
-        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
+        uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3.7.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
+        uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566  # v3.1.4
         with:
           python-version: "3.10"
 
@@ -63,14 +63,14 @@ jobs:
 
     steps:
       - name: Check out code
-        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e  # v2.8.0
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           persist-credentials: false
 
       - name: Get secrets
         id: secrets
-        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
+        uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3  # get-vault-secrets/v2.1
         with:
           repo_secrets: |
             ANSIBLE_TEST_CLOUD_API_KEY_KEY=grafana-com:access-token
@@ -94,7 +94,7 @@ jobs:
           EOF
 
       - name: Set up Python
-        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
+        uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e  # v2.3.4
         with:
           python-version: ${{ matrix.python }}
 
@@ -105,14 +105,17 @@ jobs:
         run: pip install requests
 
       - name: Create Test Stack
+        # yamllint disable-line rule:line-length
         run: ansible-test integration -v create_cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Test Modules
+        # yamllint disable-line rule:line-length
         run: ansible-test integration -v alert_contact_point alert_notification_policy cloud_api_key cloud_plugin dashboard datasource folder --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Delete Test Stack
         if: success() || failure()
+        # yamllint disable-line rule:line-length
         run: ansible-test integration -v delete_cloud_stack --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --coverage --docker
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

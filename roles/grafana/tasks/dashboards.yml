@@ -20,7 +20,7 @@
       ansible.builtin.uri:
         url: "https://grafana.com/api/dashboards/{{ item.dashboard_id }}"
         method: GET
-        return_content: yes
+        return_content: true
       register: __dashboard_info
       loop: "{{ grafana_dashboards }}"
       when: item.dashboard_url is not defined
@@ -142,7 +142,7 @@
     - name: "Register previously created folders"
       ansible.builtin.find:
         paths: "{{ grafana_ini.paths.data }}/dashboards/"
-        recurse: yes
+        recurse: true
         file_type: directory
       register: __dashboards_dir_present
       become: true
@@ -175,7 +175,7 @@
         - name: "Find which directories to create"
           ansible.builtin.find:
             paths: "{{ grafana_dashboards_dir }}/"
-            recurse: yes
+            recurse: true
             file_type: directory
           register: __dashboards_subdirs
           delegate_to: localhost

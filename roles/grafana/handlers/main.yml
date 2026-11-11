@@ -30,7 +30,7 @@
 - name: "Find dashboards subdirectories"
   ansible.builtin.find:
     paths: "{{ grafana_ini.paths.data }}/dashboards"
-    recurse: yes
+    recurse: true
     file_type: directory
   register: __dashboards_subdirs
   become: true
