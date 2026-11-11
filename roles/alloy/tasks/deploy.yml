@@ -1,6 +1,8 @@
 ---
 - name: Obtain the latest version from the GitHub repo
-  when: alloy_version == "latest"
+  when:
+    - alloy_version == "latest"
+    - alloy_install_method == "url"
   block:
     - name: Scrape Github API endpoint to obtain latest Alloy version
       ansible.builtin.uri:
