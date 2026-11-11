@@ -28,4 +28,3 @@ mimir_ruler:
 mimir_alertmanager:
   data_dir: "{{ mimir_working_path }}/alertmanager"
   external_url: "http://localhost:{{ mimir_http_listen_port }}/alertmanager"
-
