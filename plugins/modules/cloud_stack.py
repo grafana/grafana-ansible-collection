@@ -76,6 +76,21 @@ EXAMPLES = '''
     delete_protection: true
     state: present
 
+- name: Create a stack and use its OTLP endpoint instead of hardcoding it
+  grafana.grafana.cloud_stack:
+    name: stack_name
+    stack_slug: stack_name
+    cloud_api_key: "{{ grafana_cloud_api_key }}"
+    org_slug: org_name
+    state: present
+  register: stack
+
+- name: Show the connection details of the stack
+  ansible.builtin.debug:
+    msg:
+      - "OTLP endpoint: {{ stack.connections.otlp.url }}/otlp"
+      - "Prometheus private DNS: {{ stack.connections.tenants.prometheus.private_connectivity_info.private_dns }}"
+
 - name: Delete a Grafana Cloud stack
   grafana.grafana.cloud_stack:
     name: stack_name
@@ -138,7 +153,83 @@ RETURN = r'''
     returned: always
     type: bool
     sample: true
+  connections:
+    description:
+      - Connection details of the stack.
+      - Use these instead of hardcoding endpoints. A stack region can be made of several clusters,
+        so the endpoints can differ between stacks created in the same region.
+      - Only returned when O(state=present).
+    returned: when state is present
+    type: dict
+    contains:
+      otlp:
+        description: OTLP gateway of the stack.
+        type: dict
+        contains:
+          url:
+            description: Base URL of the OTLP gateway, or null if the API does not return one.
+            type: str
+            sample: "https://otlp-gateway-prod-eu-west-4.grafana.net"
+          private_connectivity_info:
+            description:
+              - AWS PrivateLink details. The fields are empty if the stack does not support PrivateLink.
+              - Every C(private_connectivity_info) in C(connections), and the C(pdc) endpoints, have this same structure.
+            type: dict
+            contains:
+              private_dns:
+                description: Private DNS name of the endpoint.
+                type: str
+                sample: "prod-eu-west-4-otlp-gateway.eu-west-2.vpce.grafana.net"
+              service_name:
+                description: Name of the VPC endpoint service.
+                type: str
+                sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
+              regions:
+                description: Regions the endpoint service is available in.
+                type: list
+                elements: str
+                sample: ["eu-west-2"]
+              availability_zones:
+                description: Availability zones of the endpoint service.
+                type: list
+                elements: str
+                sample: ["eu-west-2a", "eu-west-2b"]
+              availability_zone_ids:
+                description: Availability zone IDs of the endpoint service.
+                type: list
+                elements: str
+                sample: ["euw2-az1", "euw2-az2"]
+      pdc:
+        description: Private data source connect (PDC) endpoints.
+        type: dict
+        contains:
+          api:
+            description: PDC API endpoint. Has the same structure as C(private_connectivity_info).
+            type: dict
+          gateway:
+            description: PDC gateway endpoint. Has the same structure as C(private_connectivity_info).
+            type: dict
+      services:
+        description: URLs of other services.
+        type: dict
+        contains:
+          oncall_api_url:
+            description: URL of the OnCall API, or null if the API does not return one.
+            type: str
+            sample: "https://oncall-prod-eu-west-0.grafana.net/oncall"
+          influx_url:
+            description: URL of the InfluxDB endpoint, or null if the API does not return one.
+            type: str
+            sample: "https://prometheus-prod-01-eu-west-0.grafana.net"
+      tenants:
+        description:
+          - Connection details of the stack tenants, keyed by C(prometheus), C(logs), C(traces), C(profiles), C(graphite) and C(fleet_management).
+          - Each one has a C(private_connectivity_info) structure.
+          - All keys are always present, with empty values if the stack does not have that tenant.
+        type: dict
 '''
+
+import time
 
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
 try:
@@ -152,6 +243,20 @@ __metaclass__ = type
 
 STACKS_API_BASE = 'https://grafana.com/api/v1/stacks'
 GCOM_API_BASE = 'https://grafana.com/api/instances'
+
+# The connections of a new stack are not available straight away, so a 404 is retried.
+CONNECTIONS_RETRY_TIMEOUT = 120
+CONNECTIONS_RETRY_INTERVAL = 5
+
+# Tenant types returned by the API -> keys in the module result.
+CONNECTIONS_TENANTS = {
+    'prometheus': 'prometheus',
+    'logs': 'logs',
+    'traces': 'traces',
+    'profiles': 'profiles',
+    'graphite': 'graphite',
+    'agent-management': 'fleet_management',
+}
 
 
 def get_headers(module):
@@ -167,6 +272,66 @@ def get_stack_details_from_gcom(module, stack_id):
     if result.status_code == 200:
         return result.json()
     return None
+
+
+def flatten_private_connectivity_info(info):
+    info = info or {}
+    return {
+        'private_dns': info.get('privateDNS', ''),
+        'service_name': info.get('serviceName', ''),
+        'regions': info.get('regions') or [],
+        'availability_zones': info.get('availabilityZones') or [],
+        'availability_zone_ids': info.get('availabilityZoneIds') or [],
+    }
+
+
+def flatten_connections(connections):
+    otlp = connections.get('otlp') or {}
+    pdc = connections.get('pdc') or {}
+    services = connections.get('services') or {}
+
+    tenants = {name: {'private_connectivity_info': flatten_private_connectivity_info(None)}
+               for name in CONNECTIONS_TENANTS.values()}
+    seen = set()
+    for tenant in connections.get('tenants') or []:
+        name = CONNECTIONS_TENANTS.get(tenant.get('type'))
+        # Like the Terraform provider, only the first tenant of each type is used.
+        if name and name not in seen:
+            seen.add(name)
+            tenants[name] = {'private_connectivity_info': flatten_private_connectivity_info(tenant.get('privateConnectivityInfo'))}
+
+    return {
+        'otlp': {
+            'url': otlp.get('url'),
+            'private_connectivity_info': flatten_private_connectivity_info(otlp.get('privateConnectivityInfo')),
+        },
+        'pdc': {
+            'api': flatten_private_connectivity_info(pdc.get('api')),
+            'gateway': flatten_private_connectivity_info(pdc.get('gateway')),
+        },
+        'services': {
+            'oncall_api_url': services.get('oncallApiUrl'),
+            'influx_url': services.get('influxUrl'),
+        },
+        'tenants': tenants,
+    }
+
+
+def get_stack_connections(module, stack_id):
+    api_url = f'{STACKS_API_BASE}/{stack_id}/connections'
+    deadline = time.monotonic() + CONNECTIONS_RETRY_TIMEOUT
+
+    while True:
+        result = requests.get(api_url, headers=get_headers(module))
+        if result.status_code == 200:
+            return False, flatten_connections(result.json())
+        if result.status_code != 404 or time.monotonic() >= deadline:
+            try:
+                message = result.json()['message']
+            except (ValueError, KeyError, TypeError):
+                message = result.text
+            return True, {"status": result.status_code, 'response': message}
+        time.sleep(CONNECTIONS_RETRY_INTERVAL)
 
 
 def present_cloud_stack(module):
@@ -271,6 +436,13 @@ def main():
         module.params['state'])(module)
 
     if not is_error:
+        extra = {}
+        if module.params['state'] == 'present':
+            is_error, connections = get_stack_connections(module, result['id'])
+            if is_error:
+                module.fail_json(msg=connections)
+            extra['connections'] = connections
+
         module.exit_json(changed=has_changed,
                          alertmanager_name=result['amInstanceName'],
                          url=result['url'], id=result['id'],
@@ -280,7 +452,8 @@ def main():
                          prometheus_url=result['hmInstancePromUrl'],
                          tempo_url=result['htInstanceUrl'],
                          alertmanager_url=result['amInstanceUrl'],
-                         delete_protection=result['deleteProtection'])
+                         delete_protection=result['deleteProtection'],
+                         **extra)
     else:
         module.fail_json(msg=result)
 
