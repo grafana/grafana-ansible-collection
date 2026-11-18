@@ -29,6 +29,9 @@ grafana_provisioning_dashboards_from_file_structure: false
 # Get informed by reading: http://man7.org/linux/man-pages/man7/capabilities.7.html
 grafana_cap_net_bind_service: false
 
+# Give the ability to throttle restarts to avoid database migration lockout issues.
+grafana_restart_throttle: 100
+
 grafana_ini_default:
   instance_name: "{{ ansible_facts['fqdn'] | default(ansible_host) | default(inventory_hostname) }}"
 
