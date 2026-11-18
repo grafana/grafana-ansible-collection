@@ -4,9 +4,9 @@
 # Copyright: (c) 2021, Ishan Jain (@ishanjainn)
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
-DOCUMENTATION = '''
+DOCUMENTATION = """
 ---
 module: cloud_stack
 author:
@@ -39,7 +39,6 @@ options:
       - Sets the region for the Grafana Cloud stack.
     type: str
     default: us
-    choices: [ us, us-azure, eu, au, eu-azure, prod-ap-southeast-0, prod-gb-south-0, prod-eu-west-3]
   url:
     description:
       - If you use a custom domain for the instance, you can provide it here. If not provided, Will be set to C(https://stackslug.grafana.net).
@@ -62,9 +61,9 @@ options:
     type: str
     default: present
     choices: [ present, absent ]
-'''
+"""
 
-EXAMPLES = '''
+EXAMPLES = """
 - name: Create a Grafana Cloud stack
   grafana.grafana.cloud_stack:
     name: stack_name
@@ -83,9 +82,9 @@ EXAMPLES = '''
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: org_name
     state: absent
-'''
+"""
 
-RETURN = r'''
+RETURN = r"""
   alertmanager_name:
     description: Name of the alertmanager instance.
     returned: always
@@ -138,11 +137,13 @@ RETURN = r'''
     returned: always
     type: bool
     sample: true
-'''
+"""
 
 from ansible.module_utils.basic import AnsibleModule, missing_required_lib
+
 try:
     import requests
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -150,19 +151,19 @@ except ImportError:
 __metaclass__ = type
 
 
-STACKS_API_BASE = 'https://grafana.com/api/v1/stacks'
-GCOM_API_BASE = 'https://grafana.com/api/instances'
+STACKS_API_BASE = "https://grafana.com/api/v1/stacks"
+GCOM_API_BASE = "https://grafana.com/api/instances"
 
 
 def get_headers(module):
     return {
-        "Authorization": 'Bearer ' + module.params['cloud_api_key'],
-        'User-Agent': 'grafana-ansible-collection',
+        "Authorization": "Bearer " + module.params["cloud_api_key"],
+        "User-Agent": "grafana-ansible-collection",
     }
 
 
 def get_stack_details_from_gcom(module, stack_id):
-    api_url = f'{GCOM_API_BASE}/{stack_id}'
+    api_url = f"{GCOM_API_BASE}/{stack_id}"
     result = requests.get(api_url, headers=get_headers(module))
     if result.status_code == 200:
         return result.json()
@@ -170,65 +171,97 @@ def get_stack_details_from_gcom(module, stack_id):
 
 
 def present_cloud_stack(module):
-    if not module.params['url']:
-        module.params['url'] = 'https://' + module.params['stack_slug'] + '.grafana.net'
+    if not module.params["url"]:
+        module.params["url"] = "https://" + module.params["stack_slug"] + ".grafana.net"
 
     body = {
-        'name': module.params['name'],
-        'slug': module.params['stack_slug'],
-        'region': module.params['region'],
-        'org': module.params['org_slug'],
-        'url': module.params['url'],
-        'deleteProtection': module.params['delete_protection'],
+        "name": module.params["name"],
+        "slug": module.params["stack_slug"],
+        "region": module.params["region"],
+        "org": module.params["org_slug"],
+        "url": module.params["url"],
+        "deleteProtection": module.params["delete_protection"],
     }
     headers = get_headers(module)
 
     result = requests.post(STACKS_API_BASE, json=body, headers=headers)
     if result.status_code == 200:
         stack = result.json()
-        full_details = get_stack_details_from_gcom(module, stack['id'])
+        full_details = get_stack_details_from_gcom(module, stack["id"])
         if full_details:
             return False, True, full_details
         return False, True, stack
-    elif result.status_code in [409, 403] and result.json()['message'] in ["That URL has already been taken, please try an alternate URL", "Hosted instance limit reached"]:
+    elif result.status_code in [409, 403] and result.json()["message"] in [
+        "That URL has already been taken, please try an alternate URL",
+        "Hosted instance limit reached",
+    ]:
         stack_found = False
-        if result.json()['message'] == "That URL has already been taken, please try an alternate URL":
-            api_url = STACKS_API_BASE + '?org=' + module.params['org_slug']
+        if (
+            result.json()["message"]
+            == "That URL has already been taken, please try an alternate URL"
+        ):
+            api_url = STACKS_API_BASE + "?org=" + module.params["org_slug"]
             result = requests.get(api_url, headers=headers)
             list_response = result.json()
             if result.status_code != 200:
-                return True, False, {"status": result.status_code, 'response': list_response.get('message', str(list_response))}
+                return (
+                    True,
+                    False,
+                    {
+                        "status": result.status_code,
+                        "response": list_response.get("message", str(list_response)),
+                    },
+                )
             stackInfo = {}
-            for stack in list_response.get('items', []):
-                if stack['slug'] == module.params['stack_slug']:
+            for stack in list_response.get("items", []):
+                if stack["slug"] == module.params["stack_slug"]:
                     stack_found = True
                     stackInfo = stack
             if stack_found:
-                if body['deleteProtection'] == stackInfo['deleteProtection']:
-                    full_details = get_stack_details_from_gcom(module, stackInfo['id'])
+                if body["deleteProtection"] == stackInfo["deleteProtection"]:
+                    full_details = get_stack_details_from_gcom(module, stackInfo["id"])
                     if full_details:
                         return False, False, full_details
                     return False, False, stackInfo
                 api_url = f'{STACKS_API_BASE}/{stackInfo["id"]}'
-                result = requests.post(api_url, json={'deleteProtection': body['deleteProtection']}, headers=headers)
+                result = requests.post(
+                    api_url,
+                    json={"deleteProtection": body["deleteProtection"]},
+                    headers=headers,
+                )
                 if result.status_code != 200:
-                    return True, False, {"status": result.status_code, 'response': result.json()['message']}
-                full_details = get_stack_details_from_gcom(module, stackInfo['id'])
+                    return (
+                        True,
+                        False,
+                        {
+                            "status": result.status_code,
+                            "response": result.json()["message"],
+                        },
+                    )
+                full_details = get_stack_details_from_gcom(module, stackInfo["id"])
                 if full_details:
                     return False, True, full_details
                 return False, True, result.json()
             else:
                 return True, False, "Stack is not found under your org"
-        elif result.json()['message'] == "Hosted instance limit reached":
-            return True, False, "You have reached Maximum number of Cloud Stacks in your Org."
+        elif result.json()["message"] == "Hosted instance limit reached":
+            return (
+                True,
+                False,
+                "You have reached Maximum number of Cloud Stacks in your Org.",
+            )
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return (
+            True,
+            False,
+            {"status": result.status_code, "response": result.json()["message"]},
+        )
 
 
 def absent_cloud_stack(module):
     api_url = f"{STACKS_API_BASE}/{module.params['stack_slug']}"
 
-    gcom_details = get_stack_details_from_gcom(module, module.params['stack_slug'])
+    gcom_details = get_stack_details_from_gcom(module, module.params["stack_slug"])
 
     result = requests.delete(api_url, headers=get_headers(module))
 
@@ -237,20 +270,26 @@ def absent_cloud_stack(module):
             return False, True, gcom_details
         return False, True, result.json()
     else:
-        return True, False, {"status": result.status_code, 'response': result.json()['message']}
+        return (
+            True,
+            False,
+            {"status": result.status_code, "response": result.json()["message"]},
+        )
 
 
 def main():
 
     module_args = dict(
-        name=dict(type='str', required=True),
-        stack_slug=dict(type='str', required=True),
-        cloud_api_key=dict(type='str', required=True, no_log=True),
-        region=dict(type='str', required=False, default='us']),
-        url=dict(type='str', required=False),
-        org_slug=dict(type='str', required=True),
-        state=dict(type='str', required=False, default='present', choices=['present', 'absent']),
-        delete_protection=dict(type='bool', required=False, default=True),
+        name=dict(type="str", required=True),
+        stack_slug=dict(type="str", required=True),
+        cloud_api_key=dict(type="str", required=True, no_log=True),
+        region=dict(type="str", required=False, default="us"),
+        url=dict(type="str", required=False),
+        org_slug=dict(type="str", required=True),
+        state=dict(
+            type="str", required=False, default="present", choices=["present", "absent"]
+        ),
+        delete_protection=dict(type="bool", required=False, default=True),
     )
 
     choice_map = {
@@ -258,30 +297,30 @@ def main():
         "absent": absent_cloud_stack,
     }
 
-    module = AnsibleModule(
-        argument_spec=module_args
-    )
+    module = AnsibleModule(argument_spec=module_args)
 
     if not HAS_REQUESTS:
-        module.fail_json(msg=missing_required_lib('requests'))
+        module.fail_json(msg=missing_required_lib("requests"))
 
-    is_error, has_changed, result = choice_map.get(
-        module.params['state'])(module)
+    is_error, has_changed, result = choice_map.get(module.params["state"])(module)
 
     if not is_error:
-        module.exit_json(changed=has_changed,
-                         alertmanager_name=result['amInstanceName'],
-                         url=result['url'], id=result['id'],
-                         cluster_slug=result['clusterName'],
-                         orgID=result['orgId'],
-                         loki_url=result['hlInstanceUrl'],
-                         prometheus_url=result['hmInstancePromUrl'],
-                         tempo_url=result['htInstanceUrl'],
-                         alertmanager_url=result['amInstanceUrl'],
-                         delete_protection=result['deleteProtection'])
+        module.exit_json(
+            changed=has_changed,
+            alertmanager_name=result["amInstanceName"],
+            url=result["url"],
+            id=result["id"],
+            cluster_slug=result["clusterName"],
+            orgID=result["orgId"],
+            loki_url=result["hlInstanceUrl"],
+            prometheus_url=result["hmInstancePromUrl"],
+            tempo_url=result["htInstanceUrl"],
+            alertmanager_url=result["amInstanceUrl"],
+            delete_protection=result["deleteProtection"],
+        )
     else:
         module.fail_json(msg=result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

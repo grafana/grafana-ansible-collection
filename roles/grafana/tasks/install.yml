@@ -10,8 +10,8 @@
     state: present
     update_cache: true
   when:
-   - _grafana_dependencies is defined
-   - _grafana_dependencies | length > 0
+    - _grafana_dependencies is defined
+    - _grafana_dependencies | length > 0
 
 - name: "Prepare zypper"
   when:
@@ -30,7 +30,7 @@
         description: grafana
         repo: "{{ grafana_yum_repo }}"
         enabled: true
-        disable_gpg_check : "{{ false if (grafana_yum_key) else omit }}"
+        disable_gpg_check: "{{ false if (grafana_yum_key) else omit }}"
         runrefresh: true
       when: "(not grafana_rhsm_repo)"
 
@@ -95,8 +95,9 @@
   block:
     - name: "Use deb822 format?"
       ansible.builtin.set_fact:
-        __use_deb822: "{{ (ansible_facts['distribution'] == 'Debian' and (ansible_facts['distribution_major_version'] | int) >= 12) or
-                          (ansible_facts['distribution'] == 'Ubuntu' and (ansible_facts['distribution_major_version'] | int) >= 24) }}"
+        __use_deb822:
+          "{{ (ansible_facts['distribution'] == 'Debian' and (ansible_facts['distribution_major_version'] | int) >= 12) or
+          (ansible_facts['distribution'] == 'Ubuntu' and (ansible_facts['distribution_major_version'] | int) >= 24) }}"
     - name: "Import Grafana apt gpg key"
       ansible.builtin.get_url:
         url: "{{ grafana_apt_key }}"
