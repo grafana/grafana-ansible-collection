@@ -3,9 +3,17 @@
 alloy_version: "latest"
 alloy_uninstall: false
 alloy_expose_port: false
+alloy_install_method: "url"  # Supported "url" or "repo" (repo is currently only supported on Debian/Ubuntu)
 alloy_github_api_url: "https://api.github.com/repos/grafana/alloy/releases/latest"
 alloy_download_url_rpm: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.rpm"
 alloy_download_url_deb: "https://github.com/grafana/alloy/releases/download/v{{ alloy_version }}/alloy-{{ alloy_version }}-1.{{ __alloy_arch }}.deb"
+
+alloy_apt_release_channel: stable
+alloy_apt_arch: "{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}"
+alloy_apt_repo_uri: "https://apt.grafana.com/"
+alloy_apt_key: "https://apt.grafana.com/gpg.key"
+alloy_apt_name: "grafana"
+
 alloy_readiness_check_use_https: false
 alloy_readiness_check_use_proxy: true
 
