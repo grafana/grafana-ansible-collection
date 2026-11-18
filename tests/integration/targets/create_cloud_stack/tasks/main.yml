@@ -6,6 +6,8 @@
     cloud_api_key: "{{ grafana_cloud_api_key }}"
     org_slug: "{{ org_name }}"
     state: present
+    region: eu
+    delete_protection: false
   register: create_result
 
 - name: Create Check

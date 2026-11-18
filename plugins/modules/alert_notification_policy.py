@@ -42,7 +42,7 @@ options:
     description:
       - Sets the name of the contact point to be set as the default receiver.
     type: str
-    default: grafana-default-email
+    default: empty
   routes:
     description:
       - List of objects
@@ -216,7 +216,7 @@ def main():
     module_args = dict(Continue=dict(type='bool', required=False, default=False),
                        groupByStr=dict(type='list', required=False, default=[], elements='str'),
                        muteTimeIntervals=dict(type='list', required=False, default=[], elements='str'),
-                       rootPolicyReceiver=dict(type='str', required=False, default='grafana-default-email'),
+                       rootPolicyReceiver=dict(type='str', required=False, default='empty'),
                        routes=dict(type='list', required=True, elements='dict'),
                        groupInterval=dict(type='str', required=False, default='5m'),
                        groupWait=dict(type='str', required=False, default='30s'),
