@@ -105,3 +105,14 @@
     enabled: true
     state: started
     daemon_reload: true
+
+- name: Wait for DB migrations to complete
+  ansible.builtin.uri:
+    url: "{{ grafana_ini.server.protocol | default('http') }}/{{ grafana_ini.server.http_addr }}:{{ grafana_ini.server.http_port }}/api/health"
+    follow_redirects: none
+    register: grafana_health
+    retries: 10
+    delay: 5
+  until: grafana_health.json.database == 'ok'
+  when:
+    - grafana_ini.server.protocol is undefined or grafana_ini.server.protocol in ['http', 'https']
