@@ -571,8 +571,10 @@ STACKS_API_BASE = "https://grafana.com/api/v1/stacks"
 GCOM_API_BASE = "https://grafana.com/api/instances"
 
 # The connections of a new stack are not available straight away, so a 404 is retried.
-CONNECTIONS_RETRY_TIMEOUT = 120
+# Up to 24 attempts, 5 seconds apart (about 2 minutes, as in the Terraform provider).
+CONNECTIONS_MAX_ATTEMPTS = 24
 CONNECTIONS_RETRY_INTERVAL = 5
+CONNECTIONS_REQUEST_TIMEOUT = 30
 
 # Tenant types returned by the API -> result key prefixes (as in the Terraform provider).
 CONNECTIONS_TENANTS = {
@@ -645,13 +647,15 @@ def flatten_connections(connections):
 
 def get_stack_connections(module, stack_id):
     api_url = f"{STACKS_API_BASE}/{stack_id}/connections"
-    deadline = time.monotonic() + CONNECTIONS_RETRY_TIMEOUT
-
-    while True:
-        result = requests.get(api_url, headers=get_headers(module))
+    for attempt in range(1, CONNECTIONS_MAX_ATTEMPTS + 1):
+        result = requests.get(
+            api_url,
+            headers=get_headers(module),
+            timeout=CONNECTIONS_REQUEST_TIMEOUT,
+        )
         if result.status_code == 200:
             return False, flatten_connections(result.json())
-        if result.status_code != 404 or time.monotonic() >= deadline:
+        if result.status_code != 404 or attempt == CONNECTIONS_MAX_ATTEMPTS:
             try:
                 message = result.json()["message"]
             except (ValueError, KeyError, TypeError):
