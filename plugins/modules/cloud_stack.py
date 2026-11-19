@@ -170,75 +170,114 @@ RETURN = r"""
     type: str
     sample: "https://prometheus-prod-01-eu-west-0.grafana.net"
   fleet_management_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Fleet Management when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Fleet Management when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   fleet_management_private_connectivity_info_availability_zones:
-    description: Availability zones for Fleet Management when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Fleet Management when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   fleet_management_private_connectivity_info_private_dns:
-    description: Private DNS name for Fleet Management when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Fleet Management when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-fleet-management.eu-west-2.vpce.grafana.net"
   fleet_management_private_connectivity_info_regions:
-    description: Regions for Fleet Management when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for Fleet Management when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   fleet_management_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Fleet Management when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Fleet Management when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   graphite_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Graphite when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Graphite when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   graphite_private_connectivity_info_availability_zones:
-    description: Availability zones for Graphite when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Graphite when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   graphite_private_connectivity_info_private_dns:
-    description: Private DNS name for Graphite when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Graphite when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-graphite.eu-west-2.vpce.grafana.net"
   graphite_private_connectivity_info_regions:
-    description: Regions for Graphite when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for Graphite when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   graphite_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Graphite when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Graphite when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   logs_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Logs when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Logs when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   logs_private_connectivity_info_availability_zones:
-    description: Availability zones for Logs when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Logs when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   logs_private_connectivity_info_private_dns:
-    description: Private DNS name for Logs when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Logs when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-logs.eu-west-2.vpce.grafana.net"
@@ -249,24 +288,36 @@ RETURN = r"""
     elements: str
     sample: ["eu-west-2"]
   logs_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Logs when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Logs when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   otlp_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for OTLP when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for OTLP when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   otlp_private_connectivity_info_availability_zones:
-    description: Availability zones for OTLP when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for OTLP when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   otlp_private_connectivity_info_private_dns:
-    description: Private DNS name for OTLP when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for OTLP when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-otlp.eu-west-2.vpce.grafana.net"
@@ -277,136 +328,208 @@ RETURN = r"""
     elements: str
     sample: ["eu-west-2"]
   otlp_private_connectivity_info_service_name:
-    description: VPC endpoint service name for OTLP when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for OTLP when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   pdc_api_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for PDC API when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for PDC API when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   pdc_api_private_connectivity_info_availability_zones:
-    description: Availability zones for PDC API when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for PDC API when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   pdc_api_private_connectivity_info_private_dns:
-    description: Private DNS name for PDC API when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for PDC API when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-pdc-api.eu-west-2.vpce.grafana.net"
   pdc_api_private_connectivity_info_regions:
-    description: Regions for PDC API when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for PDC API when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   pdc_api_private_connectivity_info_service_name:
-    description: VPC endpoint service name for PDC API when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for PDC API when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   pdc_gateway_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for PDC gateway when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for PDC gateway when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   pdc_gateway_private_connectivity_info_availability_zones:
-    description: Availability zones for PDC gateway when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for PDC gateway when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   pdc_gateway_private_connectivity_info_private_dns:
-    description: Private DNS name for PDC gateway when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for PDC gateway when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-pdc-gateway.eu-west-2.vpce.grafana.net"
   pdc_gateway_private_connectivity_info_regions:
-    description: Regions for PDC gateway when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for PDC gateway when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   pdc_gateway_private_connectivity_info_service_name:
-    description: VPC endpoint service name for PDC gateway when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for PDC gateway when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   profiles_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Profiles when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Profiles when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   profiles_private_connectivity_info_availability_zones:
-    description: Availability zones for Profiles when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Profiles when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   profiles_private_connectivity_info_private_dns:
-    description: Private DNS name for Profiles when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Profiles when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-profiles.eu-west-2.vpce.grafana.net"
   profiles_private_connectivity_info_regions:
-    description: Regions for Profiles when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for Profiles when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   profiles_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Profiles when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Profiles when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   prometheus_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Prometheus when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Prometheus when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   prometheus_private_connectivity_info_availability_zones:
-    description: Availability zones for Prometheus when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Prometheus when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   prometheus_private_connectivity_info_private_dns:
-    description: Private DNS name for Prometheus when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Prometheus when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-prometheus.eu-west-2.vpce.grafana.net"
   prometheus_private_connectivity_info_regions:
-    description: Regions for Prometheus when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Regions for Prometheus when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2"]
   prometheus_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Prometheus when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Prometheus when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   traces_private_connectivity_info_availability_zone_ids:
-    description: Availability zone IDs for Traces when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zone IDs for Traces when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["euw2-az1"]
   traces_private_connectivity_info_availability_zones:
-    description: Availability zones for Traces when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Availability zones for Traces when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: list
     elements: str
     sample: ["eu-west-2a"]
   traces_private_connectivity_info_private_dns:
-    description: Private DNS name for Traces when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - Private DNS name for Traces when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "prod-eu-west-4-traces.eu-west-2.vpce.grafana.net"
@@ -417,7 +540,10 @@ RETURN = r"""
     elements: str
     sample: ["eu-west-2"]
   traces_private_connectivity_info_service_name:
-    description: VPC endpoint service name for Traces when using AWS PrivateLink. Empty if the stack does not support PrivateLink. Only returned when O(state=present).
+    description:
+      - VPC endpoint service name for Traces when using AWS PrivateLink.
+      - Empty if the stack does not support PrivateLink.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
