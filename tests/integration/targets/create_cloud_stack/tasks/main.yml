@@ -14,6 +14,9 @@
   ansible.builtin.assert:
     that:
       - create_result.url == "https://" + "{{ test_stack_name }}" + ".grafana.net"
+      - create_result.otlp_url is match("https://otlp-gateway-")
+      - create_result.prometheus_private_connectivity_info_private_dns is defined
+      - create_result.fleet_management_private_connectivity_info_regions is iterable
 
 - name: Sleep for 45 seconds
   ansible.builtin.wait_for:
