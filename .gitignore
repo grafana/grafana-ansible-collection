@@ -235,7 +235,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-# Ansible (created by ansible-lint / ansible-doc; see ansible.cfg collections_paths)
-.ansible/
-/ansible_collections/
