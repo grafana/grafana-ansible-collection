@@ -110,7 +110,7 @@ def present_cloud_plugin(module):
 
     api_url = 'https://grafana.com/api/instances/' + module.params['stack_slug'] + '/plugins'
     headers = {
-        'Authorization': 'Bearer ' + module.params['grafana_api_key'],
+        'Authorization': 'Bearer ' + module.params['cloud_api_key'],
         'User-Agent': 'grafana-ansible-collection',
     }
 

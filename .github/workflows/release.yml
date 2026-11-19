@@ -23,11 +23,11 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.12
-          - stable-2.13
-          - stable-2.14
+          - stable-2.20
+          - stable-2.21
+          - stable-2.22
           - devel
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
         with:
-          python-version: "3.10"
+          python-version: "3.15"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -48,7 +48,7 @@ jobs:
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
   integration:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: Integration (Ⓐ${{ matrix.ansible }}-py${{ matrix.python }})
     permissions:
       contents: read
@@ -74,7 +74,7 @@ jobs:
         uses: grafana/shared-workflows/actions/get-vault-secrets@2f1ddaf3ce1aa677356243d0dd584be33cfa35e3 # get-vault-secrets/v2.1
         with:
           repo_secrets: |
-            ANSIBLE_TEST_CLOUD_API_KEY_KEY=grafana-com:access-token
+            ANSIBLE_TEST_CLOUD_API_KEY=grafana-com:access-token
             ANSIBLE_TEST_GRAFANA_API_KEY=grafana-serviceaccount:token
 
       - name: create integration_config
@@ -82,9 +82,9 @@ jobs:
         env:
           ANSIBLE_TEST_CLOUD_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_CLOUD_API_KEY }}
           ANSIBLE_TEST_GRAFANA_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_TEST_GRAFANA_API_KEY }}
-          ANSIBLE_TEST_ORG_NAME: ${{ variables.ANSIBLE_TEST_ORG_NAME }}
-          ANSIBLE_TEST_STACK_NAME: ${{ variables.ANSIBLE_TEST_STACK_NAME }}
-          ANSIBLE_GRAFANA_URL: ${{ variables.ANSIBLE_GRAFANA_URL }}
+          ANSIBLE_TEST_ORG_NAME: ${{ vars.ANSIBLE_TEST_ORG_NAME }}
+          ANSIBLE_TEST_STACK_NAME: ${{ vars.ANSIBLE_TEST_STACK_NAME }}
+          ANSIBLE_GRAFANA_URL: ${{ vars.ANSIBLE_GRAFANA_URL }}
         run: |
           cat <<EOF > integration_config.yml
           org_name: ${ ANSIBLE_TEST_ORG_NAME }
