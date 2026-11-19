@@ -155,6 +155,7 @@ RETURN = r"""
   otlp_url:
     description:
       - Base URL of the OTLP gateway, or null if the API does not return one.
+      - The username is the stack ID, see the C(id) return value.
       - Only returned when O(state=present). Use this instead of hardcoding endpoints, a stack region can be made of several clusters.
     returned: when state is present
     type: str
@@ -165,7 +166,10 @@ RETURN = r"""
     type: str
     sample: "https://oncall-prod-eu-west-0.grafana.net/oncall"
   influx_url:
-    description: Base URL of the InfluxDB endpoint, or null if the API does not return one. Only returned when O(state=present).
+    description:
+      - Base URL of the InfluxDB endpoint, or null if the API does not return one.
+      - The username is the Prometheus user ID of the stack.
+      - Only returned when O(state=present).
     returned: when state is present
     type: str
     sample: "https://prometheus-prod-01-eu-west-0.grafana.net"
@@ -337,7 +341,7 @@ RETURN = r"""
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   pdc_api_private_connectivity_info_availability_zone_ids:
     description:
-      - Availability zone IDs for PDC API when using AWS PrivateLink.
+      - Availability zone IDs for PDC's API when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -346,7 +350,7 @@ RETURN = r"""
     sample: ["euw2-az1"]
   pdc_api_private_connectivity_info_availability_zones:
     description:
-      - Availability zones for PDC API when using AWS PrivateLink.
+      - Availability zones for PDC's API when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -355,7 +359,7 @@ RETURN = r"""
     sample: ["eu-west-2a"]
   pdc_api_private_connectivity_info_private_dns:
     description:
-      - Private DNS name for PDC API when using AWS PrivateLink.
+      - Private DNS name for PDC's API when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -363,7 +367,7 @@ RETURN = r"""
     sample: "prod-eu-west-4-pdc-api.eu-west-2.vpce.grafana.net"
   pdc_api_private_connectivity_info_regions:
     description:
-      - Regions for PDC API when using AWS PrivateLink.
+      - Regions for PDC's API when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -372,7 +376,7 @@ RETURN = r"""
     sample: ["eu-west-2"]
   pdc_api_private_connectivity_info_service_name:
     description:
-      - VPC endpoint service name for PDC API when using AWS PrivateLink.
+      - VPC endpoint service name for PDC's API when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -380,7 +384,7 @@ RETURN = r"""
     sample: "com.amazonaws.vpce.eu-west-2.vpce-svc-0123456789abcdef0"
   pdc_gateway_private_connectivity_info_availability_zone_ids:
     description:
-      - Availability zone IDs for PDC gateway when using AWS PrivateLink.
+      - Availability zone IDs for PDC's Gateway when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -389,7 +393,7 @@ RETURN = r"""
     sample: ["euw2-az1"]
   pdc_gateway_private_connectivity_info_availability_zones:
     description:
-      - Availability zones for PDC gateway when using AWS PrivateLink.
+      - Availability zones for PDC's Gateway when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -398,7 +402,7 @@ RETURN = r"""
     sample: ["eu-west-2a"]
   pdc_gateway_private_connectivity_info_private_dns:
     description:
-      - Private DNS name for PDC gateway when using AWS PrivateLink.
+      - Private DNS name for PDC's Gateway when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -406,7 +410,7 @@ RETURN = r"""
     sample: "prod-eu-west-4-pdc-gateway.eu-west-2.vpce.grafana.net"
   pdc_gateway_private_connectivity_info_regions:
     description:
-      - Regions for PDC gateway when using AWS PrivateLink.
+      - Regions for PDC's Gateway when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
@@ -415,7 +419,7 @@ RETURN = r"""
     sample: ["eu-west-2"]
   pdc_gateway_private_connectivity_info_service_name:
     description:
-      - VPC endpoint service name for PDC gateway when using AWS PrivateLink.
+      - VPC endpoint service name for PDC's Gateway when using AWS PrivateLink.
       - Empty if the stack does not support PrivateLink.
       - Only returned when O(state=present).
     returned: when state is present
