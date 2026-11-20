@@ -22,11 +22,15 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        ansible:
-          - stable-2.20
-          - stable-2.21
-          - stable-2.22
-          - devel
+        include:
+          - python: "3.14"
+            ansible: "stable-2.20"
+          - python: "3.14"
+            ansible: "stable-2.21"
+          - python: "3.15"
+            ansible: "stable-2.22"
+          - python: "3.15"
+            ansible: "devel"
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -38,7 +42,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@3542bca2639a428e1796aaa6a2ffef0c0f575566 # v3.1.4
         with:
-          python-version: "3.15"
+          python-version: "${{ matrix.python }}"
 
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
@@ -58,9 +62,9 @@ jobs:
       max-parallel: 1
       matrix:
         ansible:
-          - stable-2.13
+          - stable-2.22
         python:
-          - "3.10"
+          - "3.15"
 
     steps:
       - name: Check out code
