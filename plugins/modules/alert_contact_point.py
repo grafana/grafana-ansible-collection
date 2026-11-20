@@ -153,7 +153,7 @@ def present_alert_contact_point(module):
 
     if result.status_code == 202:
         return False, True, result.json()
-    elif result.status_code == 500:
+    elif result.status_code == 500 or result.status_code == 409:
         sameConfig = False
         contactPointInfo = {}
 

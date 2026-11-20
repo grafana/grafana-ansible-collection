@@ -12,12 +12,13 @@ platforms:
     cgroupns_mode: host
     privileged: true
     pre_build_image: true
-    network: molecule
+    networks:
+      - name: molecule
     network_mode: "molecule"
     published_ports:
-      - 7946
-      - 9019:9009
-      - 9096
+      - "7946"
+      - "9019:9009"
+      - "9096"
   - name: molecule-grafana-mimir02
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-rockylinux8}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-"/sbin/init"}
@@ -26,12 +27,13 @@ platforms:
     cgroupns_mode: host
     privileged: true
     pre_build_image: true
-    network: molecule
+    networks:
+      - name: molecule
     network_mode: "molecule"
     published_ports:
-      - 7946
-      - 9029:9009
-      - 9096
+      - "7946"
+      - "9029:9009"
+      - "9096"
   - name: molecule-grafana-mimir03
     image: "geerlingguy/docker-${MOLECULE_DISTRO:-rockylinux8}-ansible:latest"
     command: ${MOLECULE_DOCKER_COMMAND:-"/sbin/init"}
@@ -40,12 +42,13 @@ platforms:
     cgroupns_mode: host
     privileged: true
     pre_build_image: true
-    network: molecule
+    networks:
+      - name: molecule
     network_mode: "molecule"
     published_ports:
-      - 7946
-      - 9039:9009
-      - 9096
+      - "7946"
+      - "9039:9009"
+      - "9096"
 
 provisioner:
   name: ansible

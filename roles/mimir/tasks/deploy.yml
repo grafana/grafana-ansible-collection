@@ -15,7 +15,7 @@
 
     - name: Latest available Mimir version
       ansible.builtin.set_fact:
-        mimir_version: "{{ __github_latest_version.json.tag_name | regex_replace('^v?(\\d+\\.\\d+\\.\\d+)$', '\\1') }}"
+        mimir_version: "{{ __github_latest_version.json.tag_name | regex_replace('^v?(\\d+\\.\\d+\\.\\d+)$', '\\1') | replace('mimir-','') }}"
 
 - name: Verify current deployed version
   block:
@@ -99,7 +99,6 @@
     name: mimir.service
     state: started
     enabled: true
-
 
 - name: Verify that Mimir URL is responding
   ansible.builtin.uri:

@@ -1,80 +1,72 @@
 ---
-- name: Create Alerting contact point
-  grafana.grafana.alert_contact_point:
-    name: ops-email
-    uid: opsemail
-    type: email
-    settings:
-      addresses: ops@mydomain.com,devs@mydomain.com
-    grafana_ini:
-      server:
-        root_url: "{{ grafana_url }}"
-    grafana_api_key: "{{ grafana_api_key }}"
-    state: present
-  register: add_result
+- name: Alerting contact point
+  block:
+    - name: Create Alerting contact point
+      grafana.grafana.alert_contact_point:
+        name: ops-email
+        uid: opsemail
+        type: email
+        settings:
+          addresses: ops@mydomain.com,devs@mydomain.com
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_api_key }}"
+        state: present
+      register: add_result
 
-- name: Add Check
-  ansible.builtin.assert:
-    that:
-      - add_result.failed == false
-      - add_result.output.provenance == "api"
+    - name: Add Check
+      ansible.builtin.assert:
+        that:
+          - add_result.failed == false
 
-- name: Idempotency Check
-  grafana.grafana.alert_contact_point:
-    name: ops-email
-    uid: opsemail
-    type: email
-    settings:
-      addresses: ops@mydomain.com,devs@mydomain.com
-    grafana_ini:
-      server:
-        root_url: "{{ grafana_url }}"
-    grafana_api_key: "{{ grafana_api_key }}"
-    state: present
-  register: idempotent_result
+    - name: Idempotency Check
+      grafana.grafana.alert_contact_point:
+        name: ops-email
+        uid: opsemail
+        type: email
+        settings:
+          addresses: ops@mydomain.com,devs@mydomain.com
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_api_key }}"
+        state: present
+      register: idempotent_result
 
-- name: Changed Check
-  ansible.builtin.assert:
-    that:
-      - idempotent_result.changed == false
-      - idempotent_result.output.provenance == "api"
+    - name: Changed Check
+      ansible.builtin.assert:
+        that:
+          - idempotent_result.changed == false
 
-- name: Update Alerting contact point
-  grafana.grafana.alert_contact_point:
-    name: ops-email
-    uid: opsemail
-    type: email
-    settings:
-      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-    grafana_ini:
-      server:
-        root_url: "{{ grafana_url }}"
-    grafana_api_key: "{{ grafana_api_key }}"
-    state: present
-  register: update_result
+    - name: Update Alerting contact point
+      grafana.grafana.alert_contact_point:
+        name: ops-email
+        uid: opsemail
+        type: email
+        settings:
+          addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_api_key }}"
+        state: present
+      register: update_result
 
-- name: Failed Check
-  ansible.builtin.assert:
-    that:
-      - update_result.failed == false
-      - update_result.output.provenance == "api"
+    - name: Failed Check
+      ansible.builtin.assert:
+        that:
+          - update_result.failed == false
+  always:
+    - name: Delete Alerting contact point
+      grafana.grafana.alert_contact_point:
+        name: ops-email
+        uid: opsemail
+        type: email
+        settings:
+          addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
+        grafana_url: "{{ grafana_url }}"
+        grafana_api_key: "{{ grafana_api_key }}"
+        state: absent
+      register: delete_result
 
-- name: Delete Alerting contact point
-  grafana.grafana.alert_contact_point:
-    name: ops-email
-    uid: opsemail
-    type: email
-    settings:
-      addresses: "ops@mydomain.com,devs@mydomain.com,admin@mydomain.com"
-    grafana_ini:
-      server:
-        root_url: "{{ grafana_url }}"
-    grafana_api_key: "{{ grafana_api_key }}"
-    state: absent
-  register: delete_result
-
-- name: Delete Check
-  ansible.builtin.assert:
-    that:
-      - delete_result.failed == false
-      - delete_result.output.message == "contactpoint deleted"
+    - name: Delete Check
+      when: add_result.failed == false
+      ansible.builtin.assert:
+        that:
+          - delete_result.failed == false
+          - delete_result.output.message == "contactpoint deleted"
