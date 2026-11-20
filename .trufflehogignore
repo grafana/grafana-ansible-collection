@@ -1,0 +1,4 @@
+# https://github.com/grafana/security-docs/blob/main/docs/appsec/security-tools/trufflehog.md#per-repo-exclusions-trufflehogignore
+
+# The spec contains an example (invalid) token coming from the auth API spec.
+openapi/gcom.openapi.json

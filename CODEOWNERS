@@ -8,3 +8,6 @@
 /plugins/modules/cloud_stack.py                   @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
 /tests/integration/targets/create_cloud_stack     @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
 /tests/integration/targets/delete_cloud_stack     @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
+/.github/workflows/sync-gcom-openapi.yml          @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
+/openapi/gcom.openapi.json                        @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
+/tools/check-gcom-openapi-drift.sh                @grafana/grafana-ansible-collection-maintainers @grafana/appcore-stacks
