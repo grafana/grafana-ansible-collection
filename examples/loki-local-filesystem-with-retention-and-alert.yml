@@ -59,12 +59,12 @@
     loki_ruler_alerts:
       - name: Logs.sshd
         rules:
-        - alert: SshLoginFailed
-          expr: |
-            count_over_time({job=~"secure"} |="sshd[" |~": Failed|: Invalid|: Connection closed by authenticating user" | __error__="" [15m]) > 6
-          for: 0m
-          labels:
-            severity: critical
-          annotations:
-            summary: "{% raw %}SSH authentication failure (instance {{ $labels.instance }}).{% endraw %}"
-            description: "{% raw %}Increase of SSH authentication failures in last 15 minutes\\n VALUE = {{ $value }}{% endraw %}"
+          - alert: SshLoginFailed
+            expr: |
+              count_over_time({job=~"secure"} |="sshd[" |~": Failed|: Invalid|: Connection closed by authenticating user" | __error__="" [15m]) > 6
+            for: 0m
+            labels:
+              severity: critical
+            annotations:
+              summary: "{% raw %}SSH authentication failure (instance {{ $labels.instance }}).{% endraw %}"
+              description: "{% raw %}Increase of SSH authentication failures in last 15 minutes\\n VALUE = {{ $value }}{% endraw %}"

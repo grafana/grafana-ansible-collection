@@ -1,3 +1,4 @@
+---
 - name: Deploy Tempo service
   ansible.builtin.include_tasks:
     file: "deploy.yml"

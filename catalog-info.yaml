@@ -1,10 +1,13 @@
+---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: grafana-ansible-collection
   title: grafana-ansible-collection
+  # yamllint disable rule:line-length
   description: |
     This collection (grafana.grafana) contains modules and roles to assist in automating the management of resources in Grafana, Grafana Agent, OpenTelemetry Collector, Loki, Mimir, Alloy, and Promtail with Ansible.
+  # yamllint enable rule:line-length
   tags:
     - gitops
   links:
