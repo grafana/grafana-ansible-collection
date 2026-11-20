@@ -446,3 +446,12 @@ releases:
       - Run molecule only when required by @voidquark in https://github.com/grafana/grafana-ansible-collection/pull/441
       - migrate stack create/update/delete to stacks-api by @KucicM in https://github.com/grafana/grafana-ansible-collection/pull/494
     release_date: '2026-04-27'
+  6.2.0:
+    changes:
+      bugfixes:
+      - 'Corrects usage of regex_replace on a list by @mtraynham in https://github.com/grafana/grafana-ansible-collection/pull/439'
+      - 'Skip firewalld rule removal when service is inactive by @elminster-aom in https://github.com/grafana/grafana-ansible-collection/pull/539'
+      minor_changes:
+      - 'Add more configuration options by @Luatan in https://github.com/grafana/grafana-ansible-collection/pull/506'
+      - 'cloud_stack: return stack connection details by @j-dumbell in https://github.com/grafana/grafana-ansible-collection/pull/558'
+    release_date: '2026-11-19'
