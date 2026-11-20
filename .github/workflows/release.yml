@@ -87,11 +87,11 @@ jobs:
           ANSIBLE_GRAFANA_URL: ${{ vars.ANSIBLE_GRAFANA_URL }}
         run: |
           cat <<EOF > integration_config.yml
-          org_name: ${ ANSIBLE_TEST_ORG_NAME }
-          grafana_cloud_api_key: ${ ANSIBLE_TEST_CLOUD_API_KEY }
-          grafana_api_key: ${ ANSIBLE_TEST_GRAFANA_API_KEY }
-          grafana_url: ${ ANSIBLE_GRAFANA_URL }
-          test_stack_name: ${ ANSIBLE_TEST_STACK_NAME }
+          org_name: ${ANSIBLE_TEST_ORG_NAME}
+          grafana_cloud_api_key: ${ANSIBLE_TEST_CLOUD_API_KEY}
+          grafana_api_key: ${ANSIBLE_TEST_GRAFANA_API_KEY}
+          grafana_url: ${ANSIBLE_GRAFANA_URL}
+          test_stack_name: ${ANSIBLE_TEST_STACK_NAME}
           EOF
 
       - name: Set up Python
