@@ -7,6 +7,14 @@
     - alloy_env_file_vars.CONFIG_FILE is not defined
     - not alloy_uninstall
 
+- name: Assert that alloy_install_method is supported
+  ansible.builtin.assert:
+    that:
+      - alloy_install_method in ['url', 'repo']
+      - alloy_install_method == 'url' or ansible_facts['os_family'] == 'Debian'
+    fail_msg: "Variable alloy_install_method must be 'url' or 'repo'. 'repo' is currently only supported on Debian/Ubuntu."
+  when: not alloy_uninstall
+
 - name: Extract IP address and PORT from alloy_env_file_vars
   when: alloy_env_file_vars.CUSTOM_ARGS is defined and alloy_env_file_vars.CUSTOM_ARGS | length > 0
   block:
