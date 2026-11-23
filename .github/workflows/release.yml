@@ -175,7 +175,7 @@ jobs:
         env:
           ANSIBLE_GALAXY_API_KEY: ${{ fromJSON(steps.secrets.outputs.secrets || '{}').ANSIBLE_GALAXY_API_KEY }}
           ARCHIVE_PATH: ${{ steps.build.outputs.archive_path }}
-        run: ansible-galaxy collection publish --api-key ${ ANSIBLE_GALAXY_API_KEY } ${ARCHIVE_PATH}
+        run: ansible-galaxy collection publish --api-key ${ANSIBLE_GALAXY_API_KEY} ${ARCHIVE_PATH}
 
   release:
     name: Create GitHub Release
