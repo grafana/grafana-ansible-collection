@@ -20,3 +20,4 @@ issues: https://github.com/grafana/grafana-ansible-collection/issues
 documentation: https://docs.ansible.com/ansible/latest/collections/grafana/grafana/index.html
 build_ignore:
   - node_modules/*
+  - openapi/*

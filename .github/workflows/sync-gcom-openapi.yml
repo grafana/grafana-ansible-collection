@@ -1,0 +1,67 @@
+---
+name: Sync GCOM OpenAPI spec
+
+# yamllint disable-line rule:truthy
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync-openapi:
+    name: Sync public GCOM OpenAPI spec
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26  # v3.7.0
+        with:
+          persist-credentials: false
+
+      - name: Check for OpenAPI drift
+        id: drift
+        run: bash tools/check-gcom-openapi-drift.sh
+
+      - name: Ensure sync branch exists
+        if: steps.drift.outputs.drift == 'true'
+        run: |
+          branch=sync/gcom-openapi
+          if ! gh api "repos/${{ github.repository }}/git/ref/heads/${branch}" &>/dev/null; then
+            gh api "repos/${{ github.repository }}/git/refs" \
+              -f ref="refs/heads/${branch}" \
+              -f sha="$(git rev-parse HEAD)"
+          fi
+
+      - name: Prepare sync branch
+        if: steps.drift.outputs.drift == 'true'
+        run: |
+          branch=sync/gcom-openapi
+          git fetch origin "${branch}:${branch}"
+          git checkout "${branch}"
+          mkdir -p openapi
+          cp /tmp/gcom-openapi-fresh.json openapi/gcom.openapi.json
+
+      - name: Commit OpenAPI changes
+        if: steps.drift.outputs.drift == 'true'
+        uses: planetscale/ghcommit-action@a6b150b81dca5dd027baa898604418eec9e11465  # v0.2.22
+        with:
+          commit_message: Update GCOM OpenAPI spec from grafana.com API
+          repo: ${{ github.repository }}
+          branch: sync/gcom-openapi
+          file_pattern: openapi/gcom.openapi.json
+
+      - name: Create pull request
+        if: steps.drift.outputs.drift == 'true'
+        run: |
+          if [ "$(gh pr list --head sync/gcom-openapi --base main --state open --json number --jq length)" -eq 0 ]; then
+            gh pr create \
+              --head sync/gcom-openapi \
+              --base main \
+              --title "Update GCOM OpenAPI spec" \
+              --body 'Sync `openapi/gcom.openapi.json` with the latest public [GCOM OpenAPI spec](https://grafana.com/api/openapi.json).'
+          fi
