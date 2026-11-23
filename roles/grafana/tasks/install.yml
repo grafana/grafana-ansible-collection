@@ -32,7 +32,7 @@
         enabled: true
         disable_gpg_check: "{{ false if (grafana_yum_key) else omit }}"
         runrefresh: true
-      when: "(not grafana_rhsm_repo)"
+      when: grafana_rhsm_repo is not defined or grafana_rhsm_repo | length == 0
 
 - name: "Prepare yum/dnf"
   when:
@@ -49,26 +49,25 @@
         gpgkey: "{{ grafana_yum_key | default(omit) }}"
         repo_gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
         gpgcheck: "{{ true if (grafana_yum_key) else omit }}"
-      when: "(not grafana_rhsm_repo)"
+      when: grafana_rhsm_repo is not defined or grafana_rhsm_repo | length == 0
 
     - name: "Attach RHSM subscription"
-      when: "(grafana_rhsm_subscription)"
+      when:
+        - grafana_rhsm_subscription is defined
+        - grafana_rhsm_subscription | length > 0
       block:
         - name: "Check if Grafana RHSM subscription is enabled"
           ansible.builtin.command:
             cmd: "subscription-manager list --consumed --matches={{ grafana_rhsm_subscription | quote }} --pool-only"
           register: __subscription_manager_consumed
           changed_when: false
-          when: (grafana_rhsm_subscription)
 
         - name: "Find RHSM repo subscription pool id"
           ansible.builtin.command:
             cmd: "subscription-manager list --available --matches={{ grafana_rhsm_subscription | quote }} --pool-only"
           register: __subscription_manager_available
           changed_when: false
-          when:
-            - "(grafana_rhsm_subscription)"
-            - "__subscription_manager_consumed.stdout | length <= 0"
+          when: "__subscription_manager_consumed.stdout | length <= 0"
 
         - name: "Attach RHSM subscription"
           ansible.builtin.command:
@@ -77,7 +76,6 @@
           changed_when: "__subscription_manager_attach.stdout is search('Successfully attached a subscription')"
           failed_when: "__subscription_manager_attach.stdout is search('could not be found')"
           when:
-            - "(grafana_rhsm_subscription)"
             - "__subscription_manager_consumed.stdout | default() | length <= 0"
             - "__subscription_manager_available.stdout | default() | length > 0"
 
@@ -85,7 +83,9 @@
       community.general.rhsm_repository:
         name: "{{ grafana_rhsm_repo }}"
         state: enabled
-      when: (grafana_rhsm_repo)
+      when:
+        - grafana_rhsm_repo is defined
+        - grafana_rhsm_repo | length > 0
 
 - name: "Prepare apt"
   when:
