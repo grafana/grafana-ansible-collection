@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Ishan Jain
   description: Role to install and configure OpenTelemetry Collector

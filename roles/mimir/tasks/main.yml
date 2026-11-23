@@ -1,3 +1,4 @@
+---
 - name: Deploy Mimir service
   ansible.builtin.include_tasks:
     file: "deploy.yml"
