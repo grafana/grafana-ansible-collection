@@ -15,7 +15,9 @@ promtail_extra_flags: []
 promtail_user_append_groups:
   - "systemd-journal"
 
+# yamllint disable-line rule:line-length
 promtail_download_url_rpm: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-{{ promtail_version }}.{{ __promtail_arch }}.rpm"
+# yamllint disable-line rule:line-length
 promtail_download_url_deb: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail_{{ promtail_version }}_{{ __promtail_arch }}.deb"
 
 # default variables for /etc/promtail/config.yml

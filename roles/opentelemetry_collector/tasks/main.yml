@@ -1,3 +1,4 @@
+---
 - name: Install OpenTelemetry Collector
   include_tasks: install.yml
   tags: [install]
