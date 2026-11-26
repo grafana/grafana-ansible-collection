@@ -14,6 +14,22 @@
     that:
       - create_result.failed == false
 
+- name: Create Idempotency Check
+  grafana.grafana.folder:
+    title: Ansible Integration test
+    uid: test123
+    overwrite: true
+    grafana_url: "{{ grafana_url }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: present
+  register: create_result
+
+- name: Create Check
+  ansible.builtin.assert:
+    that:
+      - create_result.failed == false
+      - create_result.changed == false
+
 - name: Delete a folder
   grafana.grafana.folder:
     title: Ansible Integration test
