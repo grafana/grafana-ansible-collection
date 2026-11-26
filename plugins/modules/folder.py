@@ -183,7 +183,7 @@ def present_folder(module):
 
     if result.status_code == 200:
         return False, True, result.json()
-    elif result.status_code == 412:
+    elif result.status_code in (409, 412):
         sameConfig = False
         folderInfo = {}
 
