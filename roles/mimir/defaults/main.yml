@@ -3,7 +3,9 @@
 mimir_version: "latest"
 mimir_uninstall: false
 __mimir_arch: "{{ arch_mapping[ansible_facts['architecture']] | default('amd64') }}"
+# yamllint disable-line rule:line-length
 mimir_download_url_rpm: "https://github.com/grafana/mimir/releases/download/mimir-{{ mimir_version }}/mimir-{{ mimir_version }}_{{ __mimir_arch }}.rpm"
+# yamllint disable-line rule:line-length
 mimir_download_url_deb: "https://github.com/grafana/mimir/releases/download/mimir-{{ mimir_version }}/mimir-{{ mimir_version }}_{{ __mimir_arch }}.deb"
 mimir_working_path: "/var/lib/mimir"
 mimir_ruler_alert_path: "{{ mimir_working_path }}/ruler"
@@ -28,4 +30,3 @@ mimir_ruler:
 mimir_alertmanager:
   data_dir: "{{ mimir_working_path }}/alertmanager"
   external_url: "http://localhost:{{ mimir_http_listen_port }}/alertmanager"
-

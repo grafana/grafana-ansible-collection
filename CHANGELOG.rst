@@ -4,6 +4,21 @@ Grafana.Grafana Release Notes
 
 .. contents:: Topics
 
+v6.2.0
+======
+
+Minor Changes
+-------------
+
+- Add more configuration options by @Luatan in https://github.com/grafana/grafana-ansible-collection/pull/506
+- cloud_stack: return stack connection details by @j-dumbell in https://github.com/grafana/grafana-ansible-collection/pull/558
+
+Bugfixes
+--------
+
+- Corrects usage of regex_replace on a list by @mtraynham in https://github.com/grafana/grafana-ansible-collection/pull/439
+- Skip firewalld rule removal when service is inactive by @elminster-aom in https://github.com/grafana/grafana-ansible-collection/pull/539
+
 v6.1.0
 ======
 

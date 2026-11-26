@@ -10,6 +10,13 @@ ignore:
 extends: default
 
 rules:
+  # antsibull-changelog generates these files without a document start and
+  # with one long line per entry. Hand fixes would be undone on regeneration.
+  document-start:
+    ignore:
+      - changelogs/
   line-length:
     max: 150
     level: warning
+    ignore:
+      - changelogs/

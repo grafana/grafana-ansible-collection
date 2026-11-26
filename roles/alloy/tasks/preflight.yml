@@ -12,6 +12,7 @@
   block:
     - name: Search for server.http.listen-addr string
       ansible.builtin.set_fact:
+        # yamllint disable-line rule:line-length
         __alloy_server_http_listen_addr_regex: "{{ alloy_env_file_vars.CUSTOM_ARGS | regex_search('--server.http.listen-addr=([\\d\\.]+):(\\d+)', '\\1', '\\2') or [] }}"
 
     - name: Extract IP address and port
